@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080808;
+  --foreground: #f4f4f5;
+  --gold: #c9a962;
+  --gold-light: #e8d5a3;
+  --card: #111111;
+  --border: #27272a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-cormorant);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(201, 169, 98, 0.3);
+  color: white;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #c9a962 0%, #e8d5a3 50%, #c9a962 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.grid-pattern {
+  background-image: linear-gradient(
+      rgba(201, 169, 98, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
