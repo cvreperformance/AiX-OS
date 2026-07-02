@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#111111"/>
+  <rect x="120" y="80" width="160" height="140" rx="8" stroke="#3f3f46" stroke-width="2"/>
+  <path d="M120 180 L200 120 L280 180" stroke="#3f3f46" stroke-width="2" fill="none"/>
+  <rect x="170" y="150" width="60" height="70" rx="4" stroke="#3f3f46" stroke-width="2"/>
+  <text x="200" y="260" text-anchor="middle" fill="#52525b" font-family="system-ui,sans-serif" font-size="14">AiX OS</text>
+</svg>

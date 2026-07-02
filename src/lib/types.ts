@@ -50,7 +50,13 @@ export interface Developer {
   projects_count?: number;
   city?: string;
   status: string;
+  country?: string;
+  cities?: string[];
+  property_types?: string[];
+  projects_list?: string[];
+  sector?: string;
 }
+
 
 export interface Agency {
   id: string;
@@ -90,4 +96,6 @@ export interface MarketIndicator {
   value: string;
   change?: string;
   trend?: "up" | "down" | "neutral";
+  description?: string;
+  source?: string;
 }

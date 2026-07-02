@@ -1,106 +1,167 @@
-import type { Metadata } from "next";
-import { BarChart3, Shield, Target, TrendingUp } from "lucide-react";
-import { PageHeader } from "@/components/ui";
+"use client";
 
-export const metadata: Metadata = {
-  title: "AiX OS Score",
-  description:
-    "Sistemul proprietar de evaluare a oportunităților de investiții. Score 1.0 — 10.0.",
-};
+import { useState } from "react";
+import { BarChart3, Shield, Target, TrendingUp, Sparkles, Info, CheckCircle2 } from "lucide-react";
+import { PageHeader } from "@/components/ui";
+import { designSystem } from "@/styles/designSystem";
 
 const factors = [
-  { name: "Economic Impact", desc: "Impact macroeconomic și sectorial" },
-  { name: "Market Relevance", desc: "Relevanță pentru piața țintă" },
-  { name: "Investment Potential", desc: "Potențial de apreciere și yield" },
-  { name: "Supply vs Demand", desc: "Echilibrul ofertă-cerere" },
-  { name: "Capital Appreciation", desc: "Apreciere capital pe termen lung" },
-  { name: "Rental Potential", desc: "Potențial de închiriere" },
-  { name: "Liquidity", desc: "Ușurința de vânzare / exit" },
-  { name: "Risk Level", desc: "Evaluare risc multi-factor" },
-  { name: "Infrastructure", desc: "Infrastructură existentă și planificată" },
-  { name: "Geopolitical Importance", desc: "Stabilitate și context geopolitic" },
-  { name: "Market Sentiment", desc: "Sentimentul pieței și trenduri" },
-  { name: "Long-term Value", desc: "Valoare fundamentală pe termen lung" },
+  { id: 1, name: "Economic Impact", desc: "Impact macroeconomic și sectorial al pieței analizate", weight: 12 },
+  { id: 2, name: "Market Relevance", desc: "Relevanță pentru piața țintă și lichiditate", weight: 10 },
+  { id: 3, name: "Investment Potential", desc: "Potențial de apreciere și yield pe termen mediu", weight: 15 },
+  { id: 4, name: "Supply vs Demand", desc: "Echilibrul ofertă-cerere în segmentul evaluat", weight: 10 },
+  { id: 5, name: "Capital Appreciation", desc: "Apreciere capital pe termen lung vs. benchmark", weight: 12 },
+  { id: 6, name: "Rental Potential", desc: "Potențial de închiriere și randament net", weight: 10 },
+  { id: 7, name: "Liquidity", desc: "Ușurința de vânzare / exit în piață activă", weight: 8 },
+  { id: 8, name: "Risk Level", desc: "Evaluare risc multi-factor și macroeconomic", weight: 8 },
+  { id: 9, name: "Infrastructure", desc: "Infrastructură existentă și planificată în 5 ani", weight: 5 },
+  { id: 10, name: "Geopolitical Importance", desc: "Stabilitate și context geopolitic regional", weight: 5 },
+  { id: 11, name: "Market Sentiment", desc: "Sentimentul pieței, trenduri și volume", weight: 3 },
+  { id: 12, name: "Long-term Value", desc: "Valoare fundamentală pe termen lung 10Y+", weight: 2 },
 ];
 
 const scoreRanges = [
-  { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", desc: "Oportunitate rară. Factori favorabili simultan." },
-  { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", desc: "Fundamentale solide. Merită analiză detaliată." },
-  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", desc: "Relevanță medie. Context-dependent." },
-  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", desc: "Impact limitat. Filtrat automat din feed." },
+  { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", borderColor: "border-emerald-500/30", bgColor: "bg-emerald-500/5", desc: "Oportunitate rară. Factori favorabili simultan. Investiție prioritară." },
+  { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", borderColor: "border-amber-500/30", bgColor: "bg-amber-500/5", desc: "Fundamentale solide. Merită analiză detaliată și alocare semnificativă." },
+  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", borderColor: "border-zinc-700", bgColor: "bg-zinc-900/30", desc: "Relevanță medie. Evaluare context-dependent cu strategii de hedging." },
+  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", borderColor: "border-zinc-900", bgColor: "bg-zinc-950/40", desc: "Impact limitat. Filtrat automat din feed. Nu apare în recomandări." },
 ];
 
-export default function AixScorePage() {
+// Demo score calculator
+const DEMO_ASSETS = [
+  { name: "Penthouse Herăstrău", type: "Rezidențial Lux", score: 9.2, location: "București" },
+  { name: "One Lake District", type: "Rezidențial Off-plan", score: 8.7, location: "București" },
+  { name: "Dubai Marina Tower", type: "International Luxury", score: 9.5, location: "Dubai" },
+  { name: "Tour Odeon MCM", type: "Ultra-Luxury", score: 9.8, location: "Monaco" },
+  { name: "Apartament Cluj Tech Hub", type: "Rezidențial", score: 7.4, location: "Cluj-Napoca" },
+  { name: "Spațiu Comercial Pipera", type: "Comercial", score: 6.1, location: "București" },
+];
+
+function ScoreBadge({ score }: { score: number }) {
+  const color =
+    score >= 9 ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" :
+    score >= 7 ? "bg-amber-500/10 border-amber-500/30 text-amber-400" :
+    score >= 5 ? "bg-zinc-800 border-zinc-700 text-zinc-300" :
+    "bg-zinc-950 border-zinc-900 text-zinc-500";
+  
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+    <span className={`px-2.5 py-1 rounded-lg border text-xs font-bold font-mono ${color}`}>
+      {score.toFixed(1)}
+    </span>
+  );
+}
+
+export default function AixScorePage() {
+  const [selectedFactor, setSelectedFactor] = useState<typeof factors[0] | null>(null);
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
-        badge="Proprietary Rating"
-        title="AiX OS Score"
-        subtitle="Un rating proprietar de investment intelligence, conceput pentru a evalua oportunități pe baza a 12+ indicatori strategici."
+        badge="Proprietary Rating Engine"
+        title="AiX OS Score™"
+        subtitle="Sistemul proprietar de intelligence al platformei. Evaluează fiecare oportunitate pe baza a 12 indicatori strategici ponderați, generând un rating de investiție de la 1.0 la 10.0."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+      {/* How it works - 3 pillars */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {[
-          { icon: Target, title: "Nu e random", desc: "Generat algoritmic pe baza factorilor definitorii." },
-          { icon: BarChart3, title: "Scală completă", desc: "De la 1.0 la 10.0, cu distribuție realistă." },
-          { icon: Shield, title: "Cu explicație", desc: "Fiecare score vine cu Why și Investment Insight." },
+          { icon: Target, title: "Algoritmic, nu subiectiv", desc: "Generat pe baza factorilor macroeconomici și de piață. Nu conține bias editorial sau comercial." },
+          { icon: BarChart3, title: "Scală completă 1.0–10.0", desc: "Distribuție realistă bazată pe date comparabile. Scoruri >9.0 sunt rare și semnalează oportunitate excepțională." },
+          { icon: Shield, title: "Transparent cu explicație", desc: "Fiecare score vine cu breakdown pe factori, insight-uri și recomandare de strategie pentru investitor." },
         ].map((item) => (
-          <div
-            key={item.title}
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-3"
-          >
-            <item.icon className="h-6 w-6 text-amber-500/70" />
-            <h3 className="text-lg font-light text-white">{item.title}</h3>
-            <p className="text-sm text-zinc-400">{item.desc}</p>
+          <div key={item.title} className={`rounded-3xl ${designSystem.glass} p-6 space-y-3`}>
+            <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit">
+              <item.icon className="h-5 w-5" />
+            </div>
+            <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+            <p className="text-xs text-zinc-450 leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
 
-      <section className="mb-16">
-        <h2 className="text-2xl font-light text-white mb-8">Factori de Evaluare</h2>
+      {/* Score range interpretation */}
+      <section className="space-y-6">
+        <h2 className="text-lg font-light text-white">Interpretare Scor</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {scoreRanges.map((sr) => (
+            <div key={sr.range} className={`rounded-2xl border ${sr.borderColor} ${sr.bgColor} p-5 space-y-2`}>
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">{sr.range}</span>
+                <span className={`text-xs font-bold uppercase tracking-widest ${sr.color}`}>{sr.label}</span>
+              </div>
+              <p className="text-[11px] text-zinc-450 leading-relaxed">{sr.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 12 Factors Interactive Grid */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-light text-white">12 Factori de Evaluare</h2>
+          <span className="text-[10px] text-zinc-500 font-mono">Click pentru detalii</span>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {factors.map((f, i) => (
-            <div
-              key={f.name}
-              className="flex items-start gap-4 rounded-xl border border-zinc-800 p-4"
+          {factors.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setSelectedFactor(selectedFactor?.id === f.id ? null : f)}
+              className={`flex items-start gap-4 rounded-2xl border text-left p-4 transition-all duration-200 ${
+                selectedFactor?.id === f.id
+                  ? "border-amber-500/40 bg-amber-500/5"
+                  : "border-zinc-900 bg-zinc-950/40 hover:border-zinc-800 hover:bg-zinc-900/20"
+              }`}
             >
-              <span className="text-xs text-amber-500/60 font-mono mt-0.5">
-                {String(i + 1).padStart(2, "0")}
+              <span className="text-[10px] text-amber-500/60 font-mono mt-0.5 flex-shrink-0">
+                {String(f.id).padStart(2, "0")}
               </span>
-              <div>
-                <p className="text-sm font-medium text-zinc-200">{f.name}</p>
-                <p className="text-xs text-zinc-500 mt-0.5">{f.desc}</p>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-zinc-200">{f.name}</p>
+                  <span className="text-[9px] text-zinc-500 font-mono flex-shrink-0">{f.weight}%</span>
+                </div>
+                {selectedFactor?.id === f.id && (
+                  <p className="text-[10.5px] text-zinc-400 mt-1.5 leading-relaxed">{f.desc}</p>
+                )}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
 
-      <section className="mb-16">
-        <h2 className="text-2xl font-light text-white mb-8">Interpretare Score</h2>
-        <div className="space-y-4">
-          {scoreRanges.map((s) => (
+      {/* Demo Active Scores Table */}
+      <section className="space-y-6">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-amber-500/80" />
+          <h2 className="text-lg font-light text-white">Exemple Active Evaluate</h2>
+        </div>
+        
+        <div className={`rounded-3xl ${designSystem.glass} overflow-hidden`}>
+          <div className="grid grid-cols-12 px-5 py-3 text-[9px] uppercase tracking-widest text-zinc-600 border-b border-zinc-900 font-semibold">
+            <span className="col-span-4">Active</span>
+            <span className="col-span-3">Tip</span>
+            <span className="col-span-3">Locație</span>
+            <span className="col-span-2 text-right">AiX Score</span>
+          </div>
+          {DEMO_ASSETS.map((asset, idx) => (
             <div
-              key={s.range}
-              className="flex flex-col sm:flex-row sm:items-center gap-4 rounded-xl border border-zinc-800 p-5"
+              key={asset.name}
+              className={`grid grid-cols-12 px-5 py-4 text-xs items-center ${
+                idx < DEMO_ASSETS.length - 1 ? "border-b border-zinc-900/50" : ""
+              } hover:bg-zinc-900/20 transition-colors`}
             >
-              <div className="sm:w-32">
-                <p className={`text-lg font-light ${s.color}`}>{s.range}</p>
-                <p className="text-xs uppercase tracking-wider text-zinc-500">{s.label}</p>
-              </div>
-              <p className="text-sm text-zinc-400 flex-1">{s.desc}</p>
+              <span className="col-span-4 font-semibold text-white truncate pr-2">{asset.name}</span>
+              <span className="col-span-3 text-zinc-450">{asset.type}</span>
+              <span className="col-span-3 text-zinc-550 flex items-center gap-1.5">
+                <span className="text-zinc-650">{asset.location}</span>
+              </span>
+              <span className="col-span-2 flex justify-end">
+                <ScoreBadge score={asset.score} />
+              </span>
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-8 text-center space-y-4">
-        <TrendingUp className="h-8 w-8 text-amber-500/70 mx-auto" />
-        <p className="text-zinc-300 max-w-lg mx-auto">
-          Exemplu: Score <span className="text-emerald-400 font-medium">9.4</span> — Strong
-          long-term investment fundamentals supported by limited supply, increasing demand
-          and positive macroeconomic indicators.
-        </p>
       </section>
     </div>
   );

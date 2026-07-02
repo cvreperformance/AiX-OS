@@ -58,3 +58,52 @@ body {
     linear-gradient(90deg, rgba(201, 169, 98, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
+
+/* Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(201, 169, 98, 0.25);
+  border-radius: 99px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 98, 0.5);
+}
+
+/* Slide-in animation for floating CTA */
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: slideInFromBottom 0.2s ease-out forwards;
+}
+
+.slide-in-from-bottom-4 {
+  transform: translateY(16px);
+}
+
+/* Smooth focus rings */
+:focus-visible {
+  outline: 2px solid rgba(201, 169, 98, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Property gallery lightbox backdrop */
+.lightbox-open {
+  overflow: hidden;
+}
+

@@ -15,7 +15,7 @@ export default function AdminPropertiesPage() {
     <AdminTable
       title="Proprietăți"
       description="Gestionează anunțurile imobiliare"
-      basePath="/anunturi"
+      basePath="/proprietati"
       columns={[
         { key: "title", label: "Titlu" },
         { key: "location", label: "Locație" },
