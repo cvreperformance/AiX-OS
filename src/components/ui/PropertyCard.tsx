@@ -47,6 +47,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
           src={images.primary}
           alt={property.title}
           sizes="(max-width: 768px) 100vw, 33vw"
+          propertyType={property.property_type}
         />
         <div className="absolute top-3 right-3 z-10">
           <ScoreBadge score={property.aix_score} size="sm" />

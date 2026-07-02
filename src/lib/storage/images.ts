@@ -93,6 +93,44 @@ export interface PropertyImageSet {
   gallery: string[];
 }
 
+function isImageMatchingType(url: string, propertyType: string | null | undefined): boolean {
+  if (!propertyType) return true;
+  const typeLower = propertyType.toLowerCase();
+  const urlLower = url.toLowerCase();
+
+  // Yacht check
+  const isYachtCategory = typeLower.includes("yacht") || typeLower.includes("yaht") || typeLower.includes("boat") || typeLower.includes("ship") || typeLower.includes("marina") || typeLower.includes("maritime");
+  if (isYachtCategory) {
+    const hasYachtTerms = urlLower.includes("yacht") || urlLower.includes("boat") || urlLower.includes("ship") || urlLower.includes("marina") || urlLower.includes("sea") || urlLower.includes("ocean") || urlLower.includes("water") || urlLower.includes("benetti") || urlLower.includes("sunseeker") || urlLower.includes("oasis") || urlLower.includes("charter") || urlLower.includes("yachts");
+    const hasHouseTerms = urlLower.includes("house") || urlLower.includes("villa") || urlLower.includes("apartment") || urlLower.includes("penthouse") || urlLower.includes("room") || urlLower.includes("bedroom") || urlLower.includes("kitchen") || urlLower.includes("bathroom") || urlLower.includes("interior") || urlLower.includes("lobby") || urlLower.includes("facade");
+    if (!hasYachtTerms && hasHouseTerms) {
+      return false; // Mismatch: yacht showing houses
+    }
+  }
+
+  // Car check
+  const isCarCategory = typeLower.includes("car") || typeLower.includes("auto") || typeLower.includes("vehicle") || typeLower.includes("porsche") || typeLower.includes("rolls") || typeLower.includes("spectre") || typeLower.includes("supercar");
+  if (isCarCategory) {
+    const hasCarTerms = urlLower.includes("car") || urlLower.includes("vehicle") || urlLower.includes("auto") || urlLower.includes("porsche") || urlLower.includes("rolls") || urlLower.includes("spectre") || urlLower.includes("supercar") || urlLower.includes("gt3") || urlLower.includes("drive") || urlLower.includes("wheel") || urlLower.includes("road") || urlLower.includes("cars");
+    const hasHouseTerms = urlLower.includes("house") || urlLower.includes("villa") || urlLower.includes("apartment") || urlLower.includes("penthouse") || urlLower.includes("building") || urlLower.includes("office") || urlLower.includes("room") || urlLower.includes("interior") || urlLower.includes("lobby") || urlLower.includes("kitchen") || urlLower.includes("bathroom") || urlLower.includes("bed") || urlLower.includes("pool");
+    if (!hasCarTerms && hasHouseTerms) {
+      return false; // Mismatch: car showing real estate
+    }
+  }
+
+  // Real Estate check
+  const isRealEstateCategory = typeLower.includes("house") || typeLower.includes("villa") || typeLower.includes("penthouse") || typeLower.includes("apartment") || typeLower.includes("apartament") || typeLower.includes("studio") || typeLower.includes("comercial") || typeLower.includes("teren") || typeLower.includes("office") || typeLower.includes("birou") || typeLower.includes("retail") || typeLower.includes("residence");
+  if (isRealEstateCategory) {
+    const hasYachtTermsOnly = (urlLower.includes("yacht") || urlLower.includes("boat") || urlLower.includes("ship") || urlLower.includes("benetti") || urlLower.includes("sunseeker")) && !urlLower.includes("house") && !urlLower.includes("villa") && !urlLower.includes("apartment") && !urlLower.includes("penthouse") && !urlLower.includes("residence") && !urlLower.includes("building");
+    const hasCarTermsOnly = (urlLower.includes("car") || urlLower.includes("porsche") || urlLower.includes("rolls-royce") || urlLower.includes("spectre")) && !urlLower.includes("house") && !urlLower.includes("villa") && !urlLower.includes("apartment") && !urlLower.includes("penthouse") && !urlLower.includes("residence") && !urlLower.includes("building");
+    if (hasYachtTermsOnly || hasCarTermsOnly) {
+      return false; // Mismatch: real estate showing cars/yachts
+    }
+  }
+
+  return true;
+}
+
 /**
  * Builds the complete image set for a property record.
  * Priority: image_url → gallery[0] → gallery items
@@ -100,6 +138,7 @@ export interface PropertyImageSet {
 export function getPropertyImages(property: {
   image_url?: string | null;
   gallery?: unknown;
+  property_type?: string | null;
 }): PropertyImageSet {
   const rawGallery = parseGallery(property.gallery);
   const candidates: string[] = [];
@@ -112,6 +151,7 @@ export function getPropertyImages(property: {
   const gallery = candidates
     .map((c) => resolveStorageUrl(c))
     .filter((url): url is string => Boolean(url))
+    .filter((url) => isImageMatchingType(url, property.property_type))
     .filter((url, index, arr) => arr.indexOf(url) === index);
 
   return {

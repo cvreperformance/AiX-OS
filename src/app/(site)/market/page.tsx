@@ -147,10 +147,13 @@ export default function MarketPage() {
   useEffect(() => {
     const fetchLive = async () => {
       try {
-        const res = await getMarketIntelligence();
-        setMarketData(res);
+        const res = await fetch('/api/market');
+        if (res.ok) {
+          const data = await res.json();
+          setMarketData(data);
+        }
       } catch (e) {
-        console.warn("[AiX Market Page] Failed loading data provider feeds", e);
+        console.warn("[AiX Market Page] Failed loading API data provider feeds", e);
       }
     };
     fetchLive();

@@ -71,14 +71,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ro" className={`${dmSans.variable} ${cormorant.variable} h-full`}>
+    <html lang="ro" className={`${dmSans.variable} ${cormorant.variable} h-full`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-full antialiased bg-[#080808] text-zinc-100">
+      <body className="min-h-full antialiased bg-[#080808] text-zinc-100" suppressHydrationWarning>
         {children}
       </body>
     </html>

@@ -33,13 +33,16 @@ export default function WealthPage() {
   useEffect(() => {
     const fetchLive = async () => {
       try {
-        const res = await getMarketIntelligence();
-        setData({
-          billionaires: res.billionaires,
-          companies: res.companies,
-        });
+        const res = await fetch('/api/market');
+        if (res.ok) {
+          const json = await res.json();
+          setData({
+            billionaires: json.billionaires,
+            companies: json.companies,
+          });
+        }
       } catch (e) {
-        console.warn("[AiX Wealth Page] Failed loading wealth data feeds", e);
+        console.warn("[AiX Wealth Page] Failed loading API wealth data feeds", e);
       }
     };
     fetchLive();

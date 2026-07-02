@@ -71,6 +71,8 @@ export interface Agency {
   aix_score?: number;
   properties_count?: number;
   status: string;
+  specializations?: string[];
+  collaboration_info?: string;
 }
 
 export interface Opportunity {

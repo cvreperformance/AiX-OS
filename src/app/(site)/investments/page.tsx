@@ -311,7 +311,7 @@ export default function InvestmentsPage() {
       <section className="grid md:grid-cols-2 gap-5">
         {[
           {
-            href: "https://cristia nvaduva.com",
+            href: "https://cristianvaduva.com",
             title: "CristianVaduva.com",
             desc: "Consultanță imobiliară personalizată, buyer representation și market intelligence pentru investitori exigenți.",
             badge: "Real Estate · Consultanță",
@@ -332,6 +332,26 @@ export default function InvestmentsPage() {
             <p className="text-sm text-zinc-400 leading-relaxed">{p.desc}</p>
           </a>
         ))}
+      </section>
+
+      {/* FAQ */}
+      <section className="space-y-8 max-w-4xl mx-auto py-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <p className="text-zinc-400">Despre investițiile imobiliare internaționale.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "Care este suma minimă recomandată pentru a investi?", a: "Pentru piața din România (București/Cluj), recomandăm un capital de pornire de minim €50,000 (pentru credite ipotecare sau studiouri). Pentru piața din Dubai, proiectele off-plan permit intrarea cu aproximativ €80,000, eșalonat pe perioada construcției." },
+            { q: "Cum gestionez proprietățile aflate în străinătate (ex. Dubai)?", a: "Beneficiezi de un pachet complet, de la achiziție la gestionare. Dezvoltatorii parteneri și companiile locale de Property Management se ocupă de închiriere, colectarea chiriilor și mentenanță." },
+            { q: "Sunt profiturile din Dubai scutite de taxe?", a: "Da, la acest moment Dubai nu percepe impozit pe veniturile din chirii și nici pe câștigurile de capital din tranzacțiile imobiliare (0% taxe pe profit)." },
+          ].map((faq, i) => (
+            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
+              <h3 className="font-medium text-white">{faq.q}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Final CTA */}

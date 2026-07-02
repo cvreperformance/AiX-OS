@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Mail, Phone } from "lucide-react";
+import { ArrowLeft, Mail, Phone, Globe } from "lucide-react";
 import { ScoreCard } from "@/components/ui";
 import { getAgency } from "@/lib/data";
 
@@ -43,17 +43,45 @@ export default async function AgencyDetailPage({ params }: Props) {
 
         <ScoreCard score={agency.aix_score} />
 
-        <div className="rounded-xl border border-zinc-800 p-6 space-y-3">
-          <h3 className="text-sm uppercase tracking-wider text-zinc-500">Contact</h3>
-          {agency.email && (
-            <p className="flex items-center gap-2 text-zinc-300">
-              <Mail className="h-4 w-4 text-amber-500/70" /> {agency.email}
-            </p>
+        <div className="rounded-xl border border-zinc-800 p-6 space-y-4 bg-zinc-900/30">
+          <h3 className="text-sm uppercase tracking-wider text-zinc-500 font-medium">Contact & Detalii</h3>
+          
+          <div className="space-y-3">
+            {agency.email && (
+              <p className="flex items-center gap-3 text-zinc-300 text-sm">
+                <Mail className="h-4 w-4 text-amber-500/70" /> {agency.email}
+              </p>
+            )}
+            {agency.phone && (
+              <p className="flex items-center gap-3 text-zinc-300 text-sm">
+                <Phone className="h-4 w-4 text-amber-500/70" /> {agency.phone}
+              </p>
+            )}
+            {agency.website && (
+              <a href={agency.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-zinc-300 text-sm hover:text-amber-400 transition-colors w-fit">
+                <Globe className="h-4 w-4 text-amber-500/70" /> {agency.website.replace(/^https?:\/\//, '')}
+              </a>
+            )}
+          </div>
+
+          {agency.specializations && agency.specializations.length > 0 && (
+            <div className="pt-4 border-t border-zinc-800/50">
+              <h4 className="text-xs uppercase tracking-wider text-zinc-500 font-medium mb-3">Specializări</h4>
+              <div className="flex flex-wrap gap-2">
+                {agency.specializations.map(spec => (
+                  <span key={spec} className="px-2.5 py-1 rounded-full bg-zinc-800/50 border border-zinc-700/50 text-xs text-zinc-300">
+                    {spec}
+                  </span>
+                ))}
+              </div>
+            </div>
           )}
-          {agency.phone && (
-            <p className="flex items-center gap-2 text-zinc-300">
-              <Phone className="h-4 w-4 text-amber-500/70" /> {agency.phone}
-            </p>
+
+          {agency.collaboration_info && (
+            <div className="pt-4 border-t border-zinc-800/50">
+              <h4 className="text-xs uppercase tracking-wider text-zinc-500 font-medium mb-2">Colaborare</h4>
+              <p className="text-sm text-zinc-400 leading-relaxed">{agency.collaboration_info}</p>
+            </div>
           )}
         </div>
 

@@ -17,6 +17,7 @@ interface PropertyGalleryProps {
   className?: string;
   /** If provided, will attempt to auto-load additional images from storage */
   storageFolder?: string;
+  propertyType?: string | null;
 }
 
 export function PropertyGallery({
@@ -24,6 +25,7 @@ export function PropertyGallery({
   alt,
   className,
   storageFolder,
+  propertyType,
 }: PropertyGalleryProps) {
   const [images, setImages] = useState<string[]>(initialImages);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -131,7 +133,7 @@ export function PropertyGallery({
           className
         )}
       >
-        <PropertyImage src={null} alt={alt} />
+        <PropertyImage src={null} alt={alt} propertyType={propertyType} />
       </div>
     );
   }
@@ -159,6 +161,7 @@ export function PropertyGallery({
             alt={`${alt} — imagine ${activeIndex + 1}`}
             priority={activeIndex === 0}
             sizes="(max-width: 1024px) 100vw, 66vw"
+            propertyType={propertyType}
           />
 
           {/* Navigation arrows */}
@@ -230,6 +233,7 @@ export function PropertyGallery({
                   src={url}
                   alt={`${alt} thumbnail ${index + 1}`}
                   sizes="96px"
+                  propertyType={propertyType}
                 />
               </button>
             ))}
@@ -293,6 +297,7 @@ export function PropertyGallery({
                       src={url}
                       alt={`${alt} ${index + 1}`}
                       sizes="200px"
+                      propertyType={propertyType}
                     />
                   </button>
                 ))}
@@ -326,6 +331,7 @@ export function PropertyGallery({
                     priority
                     sizes="100vw"
                     className="object-contain"
+                    propertyType={propertyType}
                   />
                 </div>
               </div>
@@ -364,6 +370,7 @@ export function PropertyGallery({
                       src={url}
                       alt={`${alt} thumbnail ${index + 1}`}
                       sizes="80px"
+                      propertyType={propertyType}
                     />
                   </button>
                 ))}

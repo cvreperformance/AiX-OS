@@ -249,6 +249,26 @@ export default function InsurancePage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="space-y-8 max-w-4xl mx-auto pt-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <p className="text-zinc-400">Tot ce trebuie să știi despre asigurări.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "De ce să folosesc un broker și să nu merg direct la asigurător?", a: "Un broker (sau consultant AI) compară simultan toate ofertele din piață și negociază reduceri de volum, adesea obținând un preț mai mic decât dacă ai merge direct la compania de asigurări. De asemenea, te reprezentăm în cazul daunelor." },
+            { q: "Ce este polița PAD și este obligatorie?", a: "Polița PAD este asigurarea obligatorie a locuinței care acoperă riscurile catastrofale: cutremur, inundații și alunecări de teren. Da, este obligatorie prin lege." },
+            { q: "Pot asigura proprietăți premium la valoarea lor reală?", a: "Da, polițele standard au adesea limite mici. Pentru segmentul luxury, oferim polițe personalizate cu acoperiri specifice pentru artă, finisaje premium și daune de mare valoare." },
+          ].map((faq, i) => (
+            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
+              <h3 className="font-medium text-white">{faq.q}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 text-center space-y-5">
         <Shield className="h-10 w-10 text-amber-500/60 mx-auto" />

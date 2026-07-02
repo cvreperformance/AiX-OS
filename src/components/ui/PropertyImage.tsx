@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Building2 } from "lucide-react";
+import { Building2, Ship, Car } from "lucide-react";
 import { storageConfig } from "@/lib/storage/config";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +14,7 @@ interface PropertyImageProps {
   priority?: boolean;
   sizes?: string;
   aspectClassName?: string;
+  propertyType?: string | null;
 }
 
 function isOptimizableUrl(url: string): boolean {
@@ -37,13 +38,51 @@ export function PropertyImage({
   priority = false,
   sizes = "(max-width: 768px) 100vw, 33vw",
   aspectClassName,
+  propertyType,
 }: PropertyImageProps) {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  let isMismatched = false;
+  if (src && (propertyType || alt)) {
+    const typeLower = (propertyType || "").toLowerCase();
+    const altLower = (alt || "").toLowerCase();
+    const srcLower = src.toLowerCase();
+    const isYacht = typeLower.includes("yacht") || typeLower.includes("yaht") || typeLower.includes("boat") || typeLower.includes("ship") || typeLower.includes("marina") || typeLower.includes("maritime") || altLower.includes("yacht") || altLower.includes("yaht") || altLower.includes("boat") || altLower.includes("ship") || altLower.includes("marina");
+    if (isYacht) {
+      const hasYachtTerms = srcLower.includes("yacht") || srcLower.includes("boat") || srcLower.includes("ship") || srcLower.includes("marina") || srcLower.includes("sea") || srcLower.includes("ocean") || srcLower.includes("water") || srcLower.includes("benetti") || srcLower.includes("sunseeker") || srcLower.includes("oasis") || srcLower.includes("charter") || srcLower.includes("yachts");
+      const hasHouseTerms = srcLower.includes("house") || srcLower.includes("villa") || srcLower.includes("apartment") || srcLower.includes("penthouse") || srcLower.includes("room") || srcLower.includes("bedroom") || srcLower.includes("kitchen") || srcLower.includes("bathroom") || srcLower.includes("interior") || srcLower.includes("lobby") || srcLower.includes("facade");
+      if (!hasYachtTerms && hasHouseTerms) {
+        isMismatched = true;
+      }
+    }
+    const isCar = typeLower.includes("car") || typeLower.includes("auto") || typeLower.includes("vehicle") || typeLower.includes("porsche") || typeLower.includes("rolls") || typeLower.includes("spectre") || typeLower.includes("supercar") || altLower.includes("car") || altLower.includes("auto") || altLower.includes("vehicle") || altLower.includes("porsche") || altLower.includes("rolls") || altLower.includes("spectre") || altLower.includes("supercar");
+    if (isCar) {
+      const hasCarTerms = srcLower.includes("car") || srcLower.includes("vehicle") || srcLower.includes("auto") || srcLower.includes("porsche") || srcLower.includes("rolls") || srcLower.includes("spectre") || srcLower.includes("supercar") || srcLower.includes("gt3") || srcLower.includes("drive") || srcLower.includes("wheel") || srcLower.includes("road") || srcLower.includes("cars");
+      const hasHouseTerms = srcLower.includes("house") || srcLower.includes("villa") || srcLower.includes("apartment") || srcLower.includes("penthouse") || srcLower.includes("building") || srcLower.includes("office") || srcLower.includes("room") || srcLower.includes("interior") || srcLower.includes("lobby") || srcLower.includes("kitchen") || srcLower.includes("bathroom") || srcLower.includes("bed") || srcLower.includes("pool");
+      if (!hasCarTerms && hasHouseTerms) {
+        isMismatched = true;
+      }
+    }
+  }
 
-  const showFallback = !src || error;
+  const showFallback = !src || error || isMismatched;
 
   if (showFallback) {
+    const typeLower = (propertyType || "").toLowerCase();
+    const altLower = (alt || "").toLowerCase();
+    const isYacht = typeLower.includes("yacht") || typeLower.includes("yaht") || typeLower.includes("boat") || typeLower.includes("ship") || typeLower.includes("marina") || typeLower.includes("maritime") || altLower.includes("yacht") || altLower.includes("yaht") || altLower.includes("boat") || altLower.includes("ship") || altLower.includes("marina");
+    const isCar = typeLower.includes("car") || typeLower.includes("auto") || typeLower.includes("vehicle") || typeLower.includes("porsche") || typeLower.includes("rolls") || typeLower.includes("spectre") || typeLower.includes("supercar") || altLower.includes("car") || altLower.includes("auto") || altLower.includes("vehicle") || altLower.includes("porsche") || altLower.includes("rolls") || altLower.includes("spectre") || altLower.includes("supercar");
+
+    let FallbackIcon = Building2;
+    let label = "Imagine indisponibilă";
+    if (isYacht) {
+      FallbackIcon = Ship;
+      label = "Yaht indisponibil";
+    } else if (isCar) {
+      FallbackIcon = Car;
+      label = "Autovehicul indisponibil";
+    }
+
     return (
       <div
         className={cn(
@@ -53,8 +92,8 @@ export function PropertyImage({
           className
         )}
       >
-        <Building2 className="h-10 w-10 mb-2 opacity-40" />
-        <span className="text-xs uppercase tracking-wider opacity-60">Imagine indisponibilă</span>
+        <FallbackIcon className="h-10 w-10 mb-2 opacity-40" />
+        <span className="text-xs uppercase tracking-wider opacity-60">{label}</span>
       </div>
     );
   }

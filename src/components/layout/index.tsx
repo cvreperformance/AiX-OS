@@ -57,11 +57,28 @@ export function Header() {
 
   useEffect(() => {
     if (open) {
-      document.body.classList.add("overflow-hidden");
+      // iOS-safe scroll lock: use position fixed to prevent background scroll
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflowY = "scroll";
     } else {
-      document.body.classList.remove("overflow-hidden");
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflowY = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
     }
-    return () => document.body.classList.remove("overflow-hidden");
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflowY = "";
+    };
   }, [open]);
 
   return (
@@ -142,19 +159,21 @@ export function Header() {
           </a>
         </div>
 
-        {/* Mobile Menu Trigger Button */}
+        {/* Mobile Menu Trigger Button — 44px min touch target */}
         <button
-          onClick={() => setOpen(true)}
-          className="xl:hidden p-2 text-zinc-400 hover:text-white hover:bg-zinc-900/50 rounded-lg transition-colors"
-          aria-label="Deschide meniu"
+          onClick={() => setOpen((prev) => !prev)}
+          className="xl:hidden flex items-center justify-center min-w-[44px] min-h-[44px] text-zinc-400 hover:text-white hover:bg-zinc-900/50 rounded-xl transition-colors"
+          aria-label={open ? "Închide meniu" : "Deschide meniu"}
+          aria-expanded={open}
+          style={{ touchAction: "manipulation" }}
         >
-          <Menu size={24} />
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Modern Slide-out Mobile Menu Drawer */}
+      {/* Modern Slide-out Mobile Menu Drawer — z-[300] above popup z-[250] */}
       {open && (
-        <div className="fixed inset-0 z-[200] xl:hidden flex justify-end">
+        <div className="fixed inset-0 z-[300] xl:hidden flex justify-end">
           {/* Backdrop Blur Overlay */}
           <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"

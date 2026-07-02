@@ -32,7 +32,10 @@ export function StickyBottomCTA() {
   if (!mounted || !visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[150] flex items-center justify-between gap-3 border-t border-zinc-800/80 bg-[#0f0f0f]/95 backdrop-blur-md px-4 py-3 md:px-6 animate-in">
+    <div
+      className="fixed bottom-0 left-0 right-0 z-[150] flex items-center justify-between gap-3 border-t border-zinc-800/80 bg-[#0f0f0f]/95 backdrop-blur-md px-4 py-3 md:px-6 animate-in"
+      style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
+    >
       <div className="flex items-center gap-3">
         <div className="rounded-xl bg-amber-500/10 p-2 flex-shrink-0">
           <MessageCircle className="h-4 w-4 text-amber-400" />

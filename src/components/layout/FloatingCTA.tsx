@@ -17,10 +17,10 @@ export function FloatingCTA() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-16 right-4 z-[100] flex flex-col items-end gap-3 md:bottom-6">
+    <div className="fixed bottom-[72px] right-4 z-[100] flex flex-col items-end gap-3 md:bottom-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
       {/* Expanded menu */}
       {open && (
-        <div className="animate-in flex flex-col gap-2 items-end">
+        <div className="animate-in flex flex-col gap-2 items-end max-h-[60vh] overflow-y-auto">
           {/* WhatsApp */}
           <a
             href={brandContent.contact.whatsappText}

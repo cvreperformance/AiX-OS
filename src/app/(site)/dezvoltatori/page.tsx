@@ -11,10 +11,7 @@ import {
   Globe,
   Layers,
   Sparkles,
-  ShieldCheck,
   Briefcase,
-  SlidersHorizontal,
-  Compass,
   Building,
 } from "lucide-react";
 
@@ -108,7 +105,7 @@ const DEVELOPERS: Developer[] = [
     name: "Speedwell",
     description: "Dezvoltator belgian axat pe proiecte mixte sustenabile în principalele noduri economice din România.",
     aix_score: 8.8,
-    score_explanation: "Calitate europeană a designului, concepte urbane inovatoare și livrare conform calendarului.",
+    score_explanation: "Calitate europeană a designului, concecepte urbane inovatoare și livrare conform calendarului.",
     projects_count: 6,
     city: "București",
     status: "premium",
@@ -219,16 +216,6 @@ const DEVELOPERS: Developer[] = [
 export default function DevelopersPage() {
   const [selectedRegion, setSelectedRegion] = useState<"all" | "România" | "Europe" | "Dubai" | "Monaco">("all");
   const [selectedSector, setSelectedSector] = useState<"all" | "luxury" | "premium" | "mixed-use" | "commercial" | "mid">("all");
-  const [activeDev, setActiveDev] = useState<Developer | null>(null);
-  const [radarAngle, setRadarAngle] = useState(0);
-
-  // Radar sweep animation
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setRadarAngle((prev) => (prev + 2.5) % 360);
-    }, 40);
-    return () => clearInterval(timer);
-  }, []);
 
   // Filtering
   const filteredDevs = useMemo(() => {
@@ -250,112 +237,84 @@ export default function DevelopersPage() {
       {/* Grid: Map on Left, Filters & Cards on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Interactive GIS Vector Map Component */}
-        <div className="lg:col-span-5 rounded-3xl border border-zinc-800 bg-[#040404] p-4 relative overflow-hidden h-[480px] shadow-2xl flex flex-col justify-between">
-          {/* Repeating grid pattern */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle, rgba(251, 191, 36, 0.02) 1px, transparent 1px),
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
-              `,
-              backgroundSize: "20px 20px, 40px 40px, 40px 40px",
-            }}
-          />
-
-          {/* Coordinate grid tickers */}
-          <div className="absolute top-0 inset-x-0 h-6 border-b border-zinc-900/60 flex justify-between px-6 items-center text-[8px] font-mono text-zinc-600 pointer-events-none select-none">
-            <span>LNG 26.082°</span>
-            <span>LNG 26.105°</span>
-            <span>LNG 26.130°</span>
-          </div>
-
-          <div className="absolute left-0 inset-y-0 w-6 border-r border-zinc-900/60 flex flex-col justify-between py-6 items-center text-[8px] font-mono text-zinc-600 pointer-events-none select-none">
-            <span>LAT 44.455°</span>
-            <span>LAT 44.439°</span>
-            <span>LAT 44.421°</span>
-          </div>
-
-          {/* Golden Radar Lines & Concentric Target Circles */}
-          <svg viewBox="0 0 1000 600" className="absolute inset-0 w-full h-full object-cover select-none opacity-25 pointer-events-none">
-            <circle cx="500" cy="300" r="120" fill="none" stroke="rgba(251,191,36,0.12)" strokeWidth="1" />
-            <circle cx="500" cy="300" r="240" fill="none" stroke="rgba(251,191,36,0.06)" strokeWidth="0.75" strokeDasharray="6 6" />
-            <line
-              x1="500"
-              y1="300"
-              x2={500 + 400 * Math.cos((radarAngle * Math.PI) / 180)}
-              y2={300 + 400 * Math.sin((radarAngle * Math.PI) / 180)}
-              stroke="rgba(251, 191, 36, 0.08)"
-              strokeWidth="1.5"
-            />
-            <path d="M50 220 C250 140, 550 300, 950 120" fill="none" stroke="#2c2c2e" strokeWidth="1" />
-          </svg>
-
-          {/* Interactive GIS Pins */}
-          {filteredDevs.map((dev) => {
-            const isSelected = activeDev?.id === dev.id;
-            return (
-              <button
-                key={dev.id}
-                onClick={() => setActiveDev(dev)}
-                className="absolute group transition-all duration-300 z-10"
-                style={{
-                  left: `${dev.x}%`,
-                  top: `${dev.y}%`,
-                  transform: `translate(-50%, -50%) ${isSelected ? "scale(1.2)" : "scale(1)"}`,
-                }}
-              >
-                <span className={`absolute inset-0 rounded-full bg-amber-500 opacity-40 scale-150 animate-ping group-hover:block ${isSelected ? "block" : "hidden"}`} />
-                <div className={`flex items-center gap-1.5 rounded-full p-2.5 border transition-all duration-300 ${
-                  isSelected ? "bg-black border-amber-500 shadow-lg shadow-amber-500/20" : "bg-[#0e0e0e] border-zinc-800"
-                }`}>
-                  <Building className={`h-3.5 w-3.5 ${isSelected ? "text-amber-400" : "text-zinc-400 group-hover:text-white"}`} />
-                  <span className="text-[8px] font-bold text-zinc-400 font-mono px-1 bg-zinc-900 rounded border border-zinc-800">
-                    {dev.aix_score}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-
-          {/* Active Hover Detail Popup */}
-          {activeDev ? (
-            <div className={`m-3 rounded-2xl p-4 shadow-xl z-20 ${designSystem.glassSolid} animate-in fade-in slide-in-from-bottom-2 duration-200 mt-auto`}>
-              <div className="flex justify-between items-start">
-                <span className={designSystem.badgeElite}>
-                  {activeDev.sector}
-                </span>
-                <ScoreBadge score={activeDev.aix_score} size="sm" />
+        {/* Developer Intelligence Spotlight Card */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className={`rounded-3xl border border-zinc-800 bg-zinc-950/60 p-6 space-y-6 shadow-2xl relative overflow-hidden`}>
+            {/* Spotlight Header */}
+            <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+              <div className="rounded-xl bg-amber-500/10 p-2.5 border border-amber-500/20 text-amber-400">
+                <Sparkles className="h-5 w-5" />
               </div>
-              <h4 className="text-xs font-semibold text-white mt-2">{activeDev.name}</h4>
-              <p className="text-[10px] text-zinc-400 mt-1 leading-relaxed line-clamp-2">{activeDev.description}</p>
-              <div className="pt-3 border-t border-zinc-850 flex gap-2 mt-2">
+              <div>
+                <h2 className="text-sm font-semibold text-white uppercase tracking-wider">Spotlight: Top Developer</h2>
+                <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">Elite Rating Platform</p>
+              </div>
+            </div>
+
+            {/* Showcase Details */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h3 className="text-lg font-light text-white">Marzocco Group</h3>
+                  <p className="text-xs text-zinc-500 flex items-center gap-1 mt-1 font-mono">
+                    <MapPin className="h-3.5 w-3.5" /> Monaco
+                  </p>
+                </div>
+                <ScoreBadge score={9.8} size="sm" />
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Autorii celebrului turn rezidențial de lux Tour Odeon din Monaco, definind luxul absolut de pe Coastă. Constructor exclusiv de penthouse-uri ultra-scumpe, colaborări cu arhitecți reputați mondiali.
+              </p>
+              <div className="grid grid-cols-2 gap-3 py-3 border-t border-b border-zinc-900/60 text-xs">
+                <div>
+                  <p className="text-[10px] text-zinc-500">Active Projects</p>
+                  <p className="font-semibold text-zinc-350 mt-0.5">8 proiecte active</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-zinc-500">Sector</p>
+                  <p className="font-semibold text-zinc-350 mt-0.5 uppercase tracking-wide text-[10px] font-mono text-amber-400">Luxury Elite</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
                 <Link
-                  href={`/dezvoltatori/${activeDev.slug}`}
-                  className="flex-1 text-center py-2 rounded-xl bg-amber-500 text-black text-[10px] font-semibold hover:bg-amber-400 transition-colors"
+                  href="/dezvoltatori/marzocco-group"
+                  className="flex-1 text-center py-2.5 rounded-xl bg-amber-500 text-black text-xs font-semibold hover:bg-amber-400 transition-colors"
                 >
                   Analiză Completă
                 </Link>
-                {activeDev.website && (
-                  <a
-                    href={activeDev.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-2.5 py-2 rounded-xl border border-zinc-850 text-[10px] text-zinc-400 hover:text-white transition-colors flex items-center justify-center"
-                  >
-                    <Globe className="h-3.5 w-3.5" />
-                  </a>
-                )}
+                <a
+                  href="https://www.marzocco.mc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-2.5 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors flex items-center justify-center"
+                >
+                  <Globe className="h-4 w-4" />
+                </a>
               </div>
             </div>
-          ) : (
-            <div className="m-3 rounded-2xl p-4 text-center border border-zinc-900 bg-zinc-950/80 text-[10px] text-zinc-550 flex items-center justify-center gap-2 mt-auto">
-              <Compass className="h-4 w-4 text-amber-500/70 animate-spin" style={{ animationDuration: "8s" }} />
-              <span>Selectați un marker pe hartă pentru analiza rapidă a companiei.</span>
+          </div>
+
+          {/* Quick Stats Panel */}
+          <div className={`rounded-3xl border border-zinc-800 bg-zinc-950/20 p-6 space-y-4`}>
+            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-semibold">Distribuție Evaluări</h3>
+            <div className="space-y-3">
+              {[
+                { label: "Elite Developers (>9.0)", count: 8, pct: "72%", color: "bg-emerald-500" },
+                { label: "Premium (8.0 - 8.9)", count: 2, pct: "18%", color: "bg-amber-500" },
+                { label: "Active (7.0 - 7.9)", count: 1, pct: "10%", color: "bg-zinc-500" },
+              ].map((stat) => (
+                <div key={stat.label} className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-zinc-400">{stat.label}</span>
+                    <span className="font-semibold text-white">{stat.count} companii</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
+                    <div className={`h-full ${stat.color}`} style={{ width: stat.pct }} />
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Filters & Grid List on Right */}

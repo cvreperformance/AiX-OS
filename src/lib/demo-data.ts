@@ -162,8 +162,8 @@ export const newsArticles: NewsArticle[] = [
     slug: "bnr-dobanda-referinta-2026",
     title: "BNR menține dobânda de referință la 6.50% — Impact asupra pieței imobiliare",
     summary:
-      "Banca Națională a României a decis menținerea dobânzii de referință, semnalând stabilitate pe termen scurt pentru creditele ipotecare.",
-    category: "Macroeconomie",
+      "AiX Summary: Banca Națională a României a decis menținerea dobânzii de referință, semnalând stabilitate pe termen scurt pentru creditele ipotecare. Decizia favorizează pe moment stabilitatea pieței.",
+    category: "Finance",
     image_url: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
     aix_score: 8.5,
     score_explanation:
@@ -178,8 +178,8 @@ export const newsArticles: NewsArticle[] = [
     slug: "pipera-nord-dezvoltare-infrastructura",
     title: "Pipera Nord: Noi proiecte de infrastructură acceleratează aprecierea",
     summary:
-      "Primăria a aprobat extinderea rețelei de transport și noi legături cu DN1, ceea ce va reduce timpul de navetă cu 20%.",
-    category: "Infrastructură",
+      "AiX Summary: Primăria a aprobat extinderea rețelei de transport și noi legături cu DN1, ceea ce va reduce timpul de navetă cu 20% și va crește valoarea proprietăților din proximitate.",
+    category: "Construction",
     image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     aix_score: 7.8,
     score_explanation:
@@ -194,8 +194,8 @@ export const newsArticles: NewsArticle[] = [
     slug: "segment-luxury-bucuresti-q2-2026",
     title: "Segmentul luxury București: +12% YoY — Supply record de livrări în Q3",
     summary:
-      "Peste 800 de unități premium vor fi livrate în Q3 2026, dar cererea din segmentul €500K+ rămâne robustă.",
-    category: "Real Estate",
+      "AiX Summary: Peste 800 de unități premium vor fi livrate în Q3 2026. Cererea din segmentul €500K+ rămâne robustă, confirmând soliditatea acestui sector chiar și cu o ofertă în creștere.",
+    category: "Luxury",
     image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
     aix_score: 8.2,
     score_explanation:
@@ -210,8 +210,8 @@ export const newsArticles: NewsArticle[] = [
     slug: "robor-scade-usor-iunie",
     title: "ROBOR 3M scade ușor la 6.85% — Semnal pozitiv pentru piața creditelor",
     summary:
-      "Indicele ROBOR continuă tendința descendentă ușoară, oferind respiro cumpărătorilor cu credite variabile.",
-    category: "Dobânzi",
+      "AiX Summary: Indicele ROBOR continuă tendința descendentă ușoară, oferind respiro cumpărătorilor cu credite variabile și putând stimula ușor cererea de creditare ipotecară în perioada următoare.",
+    category: "Finance",
     image_url: "https://images.unsplash.com/photo-1554224311-9b9459a08667?w=800&q=80",
     aix_score: 7.5,
     score_explanation: "ROBOR influențează direct rata lunară a creditelor ipotecare.",
@@ -436,12 +436,15 @@ export const agencies: Agency[] = [
     name: "Cristian Vaduva Real Estate",
     description:
       "Buyer representation, luxury properties și market intelligence. Parte din ecosistemul AiX OS.",
-    phone: "+40 7XX XXX XXX",
+    website: "https://cristianvaduva.com",
+    phone: "+40 700 000 000",
     email: "contact@cristianvaduva.com",
     city: "București",
     aix_score: 9.5,
     properties_count: 45,
     status: "active",
+    specializations: ["Buyer Representation", "Market Intelligence", "Luxury Properties"],
+    collaboration_info: "Disponibil pentru co-exclusivitate și referral agreements."
   },
   {
     id: "2",
@@ -449,12 +452,15 @@ export const agencies: Agency[] = [
     name: "AiX Luxury Properties",
     description:
       "Specialiști în proprietăți premium, off-market deals și investiții internaționale.",
-    phone: "+40 7XX XXX XXX",
+    website: "https://aixluxury.com",
+    phone: "+40 700 000 000",
     email: "info@aixluxury.com",
     city: "București",
     aix_score: 9.2,
     properties_count: 38,
     status: "active",
+    specializations: ["Off-Market Deals", "Investiții Internaționale", "Proprietăți Premium"],
+    collaboration_info: "Colaborare exclusivă prin rețeaua AiX OS."
   },
   {
     id: "3",
@@ -462,10 +468,29 @@ export const agencies: Agency[] = [
     name: "Premium Estates Romania",
     description:
       "Agenție boutique focusată pe segmentul €300K+, cu rețea internațională de cumpărători.",
+    website: "https://premiumestates.ro",
     city: "București",
     aix_score: 8.3,
     properties_count: 22,
     status: "active",
+    specializations: ["Boutique Agency", "Segment €300K+", "Rețea Internațională"],
+    collaboration_info: "Deschis la colaborare pentru proprietăți listate exclusiv."
+  },
+  {
+    id: "4",
+    slug: "chestertons",
+    name: "Chestertons",
+    description:
+      "Lider global în real estate luxury cu peste 200 de ani de experiență și prezență pe 5 continente.",
+    website: "https://chestertons.com",
+    phone: "+44 20 7111 1111",
+    email: "info@chestertons.com",
+    city: "Londra",
+    aix_score: 9.7,
+    properties_count: 1500,
+    status: "active",
+    specializations: ["Ultra-Luxury", "Global Network", "Property Management"],
+    collaboration_info: "Partener oficial global pentru proprietăți ultra-luxury."
   },
 ];
 

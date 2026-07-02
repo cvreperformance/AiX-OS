@@ -15,48 +15,48 @@ const FALLBACK_NEWS = [
   {
     id: "f1", slug: "apartamente-vechi-mai-scumpe-noi",
     title: "Apartamentele vechi — 27% mai scumpe decât cele noi în București",
-    summary: "Un fenomen unic în România: TVA 21% pe construcții noi (aug 2025) a inversat piața. Apartamentele vechi central-conectate costă €2,653/mp față de €2,099/mp blocurile noi.",
-    category: "Analiză", image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
+    summary: "AiX Summary: Un fenomen atipic în piața românească, unde TVA-ul crescut pe construcții noi și cererea pentru zone centrale au împins prețurile la apartamentele vechi peste cele noi. Această anomalie creează oportunități de arbitraj.",
+    category: "Real Estate", image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
     aix_score: 9.0, published_at: "2026-06-28T09:00:00Z",
   },
   {
     id: "f2", slug: "robor-3m-scade-iulie-2026",
     title: "ROBOR 3M coboară la 6.85% — Cel mai mic nivel din 2024",
-    summary: "Indicele de referință pentru creditele variabile continuă tendința descendentă. Analiști prevăd o nouă reducere în Q3 2026 dacă BCE menține politica expansivă.",
-    category: "Dobânzi", image_url: "https://images.unsplash.com/photo-1554224311-9b9459a08667?w=800&q=80",
+    summary: "AiX Summary: Indicele de referință continuă tendința descendentă, aliniindu-se la politica BNR și BCE. Se anticipează o reducere suplimentară în Q3 2026, ceea ce va ieftini creditele variabile.",
+    category: "Finance", image_url: "https://images.unsplash.com/photo-1554224311-9b9459a08667?w=800&q=80",
     aix_score: 7.5, published_at: "2026-06-27T11:00:00Z",
   },
   {
     id: "f3", slug: "piata-luxury-bucuresti-q2-2026",
     title: "Segmentul luxury București: +12% YoY — Supply record în Q3",
-    summary: "Peste 800 unități premium vor fi livrate în Q3 2026, dar cererea din segmentul €500K+ rămâne robustă. Zonele Floreasca, Herăstrău și Primăverii concentrează cea mai mare cerere.",
-    category: "Real Estate", image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    summary: "AiX Summary: Cererea în segmentul €500K+ rămâne extrem de puternică. Zonele Floreasca, Herăstrău și Primăverii atrag capital semnificativ din partea investitorilor HNWI.",
+    category: "Luxury", image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
     aix_score: 8.2, published_at: "2026-06-25T09:00:00Z",
   },
   {
     id: "f4", slug: "dubai-real-estate-record-2026",
     title: "Dubai înregistrează cel mai mare volum de tranzacții din istorie în H1 2026",
-    summary: "Piața imobiliară din Dubai a atins un nivel record de 186 miliarde AED în H1 2026. Investitorii români alocă tot mai mult capital în UAE pentru diversificare și 0% impozit.",
-    category: "Dubai", image_url: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
+    summary: "AiX Summary: Piața imobiliară din Dubai a atins 186 miliarde AED în tranzacții în prima jumătate a anului. Investitorii globali continuă să aloce capital aici datorită politicilor pro-business și lipsei taxelor.",
+    category: "Investments", image_url: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
     aix_score: 8.8, published_at: "2026-06-24T14:00:00Z",
   },
   {
     id: "f5", slug: "convergenta-preturi-romania-ue",
     title: "România converge spre media UE — Prețuri imobiliare sub 50% din medie",
-    summary: "Cu un preț mediu de €2,200/mp, România rămâne la 50-55% din media UE (€4,500+/mp). Convergenței economice îi mai trebuie 8–12 ani — window oportunitate pentru investitori.",
-    category: "Macro", image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    summary: "AiX Summary: Prețurile pe metru pătrat în România sunt la jumătate din media europeană. Evaluăm că acest decalaj se va închide treptat în următorul deceniu, pe măsură ce PIB-ul pe cap de locuitor crește.",
+    category: "Markets", image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     aix_score: 8.6, published_at: "2026-06-22T10:00:00Z",
   },
   {
     id: "f6", slug: "pnrr-impact-imobiliar-romania",
     title: "PNRR: Investițiile în infrastructură stimulează prețurile în 15 zone",
-    summary: "Proiectele finanțate prin PNRR au generat o apreciere medie de 8–15% în zonele adiacente lucrărilor de infrastructură. Corbeanca, Voluntari și Otopeni — principalii beneficiari.",
-    category: "Infrastructură", image_url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80",
+    summary: "AiX Summary: Fondurile europene acționează ca un catalizator major pentru dezvoltarea imobiliară în zonele de infrastructură nouă, generând o apreciere medie semnificativă.",
+    category: "Construction", image_url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80",
     aix_score: 7.8, published_at: "2026-06-20T09:00:00Z",
   },
 ];
 
-const CATEGORIES = ["Toate", "Real Estate", "Dobânzi", "Macro", "Dubai", "Analiză", "Infrastructură", "Dobânzi"];
+const CATEGORIES = ["Toate", "Real Estate", "Finance", "Markets", "Insurance", "AI", "Luxury", "Construction", "Investments"];
 
 export default async function StiriPage() {
   let articles = await getNews();
@@ -105,7 +105,7 @@ export default async function StiriPage() {
 
       {/* Category filter (visual only — server component) */}
       <div className="mb-8 flex gap-2 flex-wrap">
-        {["Toate", "Real Estate", "Dobânzi", "Macro", "Dubai", "Analiză", "Infrastructură"].map((cat) => (
+        {CATEGORIES.map((cat) => (
           <span
             key={cat}
             className={`rounded-full px-4 py-1.5 text-xs border transition-colors ${

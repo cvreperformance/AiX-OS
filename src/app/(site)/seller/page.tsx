@@ -209,6 +209,26 @@ export default function SellerPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="space-y-8 max-w-4xl mx-auto">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <p className="text-zinc-400">Despre procesul de vânzare AiX OS.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "Trebuie să semnez un contract de exclusivitate?", a: "Recomandăm reprezentarea exclusivă pentru a putea investi masiv în marketing (foto, video, promovare) fără riscul ca altcineva să vândă proprietatea fără aceste materiale, însă oferim și opțiuni flexibile." },
+            { q: "Cum stabiliți prețul corect?", a: "Folosim algoritmul AiX Score, coroborat cu expertiza umană, analizând tranzacții similare recente din zonă, tendințele macroeconomice și dotările specifice ale proprietății." },
+            { q: "Cât durează procesul de vânzare?", a: "În medie, proprietățile evaluate și promovate prin AiX OS primesc o ofertă validă în 27 de zile de la lansarea campaniei de marketing." },
+          ].map((faq, i) => (
+            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
+              <h3 className="font-medium text-white">{faq.q}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-16 text-center space-y-6">
         <h2 className="text-3xl md:text-4xl font-light text-white">Evaluare gratuită, fără angajamente</h2>

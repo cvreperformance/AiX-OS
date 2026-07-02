@@ -202,7 +202,7 @@ export default function MapExperiencePage() {
   ];
 
   return (
-    <div className={`mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-10 animate-in ${isFullscreen ? "fixed inset-0 bg-[#060606] z-50 overflow-y-auto p-8" : ""}`}>
+    <div className={`mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-10 animate-in ${isFullscreen ? "fixed inset-0 bg-[#060606] z-[60] overflow-y-auto p-4 sm:p-8" : ""}`}>
       
       {/* Header Info */}
       <div className="flex justify-between items-start gap-4">
@@ -246,7 +246,7 @@ export default function MapExperiencePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Interactive Map Grid */}
-        <div className="lg:col-span-8 rounded-3xl border border-zinc-800 bg-[#040404] p-4 relative overflow-hidden h-[540px] shadow-2xl flex flex-col justify-between">
+        <div className="lg:col-span-8 rounded-3xl border border-zinc-800 bg-[#040404] p-4 relative overflow-hidden min-h-[320px] sm:min-h-[420px] lg:h-[540px] shadow-2xl flex flex-col justify-between">
           {/* Repeating Grid Pattern */}
           <div
             className="absolute inset-0 pointer-events-none"

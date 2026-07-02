@@ -91,9 +91,9 @@ export default async function DeveloperDetailPage({ params }: Props) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
-                { title: "Lobby Concept", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=300&q=80" },
-                { title: "Infinity Rooftop", img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=300&q=80" },
-                { title: "Facade Glass Structure", img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" },
+                { title: "Lobby Concept", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" },
+                { title: "Rooftop Terrace", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=300&q=80" },
+                { title: "Facade Glass Structure", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=300&q=80" },
               ].map((item, index) => (
                 <div key={index} className="group relative rounded-2xl overflow-hidden border border-zinc-900 bg-zinc-950 aspect-video">
                   <img

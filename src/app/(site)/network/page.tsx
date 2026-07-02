@@ -212,6 +212,26 @@ export default function NetworkPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="space-y-8 max-w-4xl mx-auto py-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <p className="text-zinc-400">Despre apartenența la AiX Luxury Network.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "Cum se face selecția membrilor?", a: "Toți membrii sunt validați (KYC) și trebuie să îndeplinească anumite criterii de portofoliu sau expertiză. Acest proces asigură un mediu de încredere pentru co-investiții și networking de înaltă calitate." },
+            { q: "Pot participa la deal-uri off-market chiar dacă nu am tot capitalul necesar?", a: "Da, avantajul principal al rețelei este posibilitatea de co-investiții (Joint Ventures) alături de alți membri, permițând accesul la active mari (ex: dezvoltări rezidențiale, clădiri de birouri) cu fracțiuni de capital." },
+            { q: "Ce fel de evenimente private se organizează?", a: "Organizăm vizionări private (property tours) pentru proprietăți luxury exclusive, întâlniri restrânse cu dezvoltatorii înainte de lansarea publică a proiectelor și evenimente anuale de networking în Monaco, Dubai sau București." },
+          ].map((faq, i) => (
+            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
+              <h3 className="font-medium text-white">{faq.q}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Invitation CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-14 text-center space-y-5">
         <Globe className="h-10 w-10 text-amber-500/60 mx-auto" />

@@ -242,6 +242,26 @@ export default function BuyerPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="space-y-8 max-w-4xl mx-auto">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <p className="text-zinc-400">Tot ce trebuie să știi despre reprezentarea exclusivă.</p>
+        </div>
+        <div className="space-y-4">
+          {[
+            { q: "Cât mă costă serviciul de reprezentare?", a: "Pentru cumpărător, serviciul este complet gratuit. Comisionul nostru este plătit din bugetul de marketing al dezvoltatorului sau al vânzătorului, însă negocierea o facem exclusiv în interesul tău." },
+            { q: "Cum mă ajută AiX Score?", a: "AiX Score este algoritmul nostru proprietar care analizează peste 12 indicatori (randament, infrastructură, istoric prețuri, risc legal) pentru a-ți oferi o evaluare obiectivă, dincolo de marketingul vânzătorului." },
+            { q: "Aveți acces la proprietăți care nu sunt online?", a: "Da, gestionăm un portofoliu semnificativ de proprietăți off-market din rețeaua noastră privată de investitori, accesibile doar clienților calificați." },
+          ].map((faq, i) => (
+            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
+              <h3 className="font-medium text-white">{faq.q}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-16 text-center space-y-6">
         <Shield className="h-10 w-10 text-amber-500/60 mx-auto" />

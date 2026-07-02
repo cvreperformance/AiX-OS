@@ -68,6 +68,7 @@ export default async function PropertyDetailPage({ params }: Props) {
             images={galleryImages}
             alt={property.title}
             storageFolder={slug}
+            propertyType={property.property_type}
           />
 
           <div className="space-y-6">

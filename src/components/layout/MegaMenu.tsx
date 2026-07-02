@@ -60,8 +60,8 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
   ],
   luxury: [
     { href: "/private-jets", label: "Private Jets", desc: "Charter aerian privat și asistență FBO", icon: Plane },
-    { href: "/concierge#cars", label: "Luxury Cars", desc: "Supercars și mobilitate terestră VIP", icon: Car },
-    { href: "/concierge#yachts", label: "Yachts", desc: "Charter yahturi de lux în Monaco & Dubai", icon: Ship },
+    { href: "/cars", label: "Luxury Cars", desc: "Supercars și mobilitate terestră VIP", icon: Car },
+    { href: "/yachts", label: "Yachts", desc: "Charter yahturi de lux în Monaco & Dubai", icon: Ship },
     { href: "/investments#monaco", label: "Monaco Elite", desc: "Proprietăți ultraluxoase pe Coastă", icon: Anchor },
     { href: "/investments#dubai", label: "Dubai Prime", desc: "Proiecte rezidențiale de top în Emirate", icon: Globe },
     { href: "/concierge", label: "Concierge", desc: "Lifestyle management și servicii post-vânzare", icon: Sparkles },
