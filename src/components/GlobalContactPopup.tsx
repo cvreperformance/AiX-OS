@@ -52,7 +52,7 @@ export function GlobalContactPopup() {
       document.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    // Scroll trigger — fires ONCE at 60% page depth, then removes itself
+    // Scroll trigger — fires ONCE at 60% page depth, then removes itself (desktop only)
     const handleScroll = () => {
       if (autoTriggeredRef.current) return;
       const scrolled = window.scrollY;
@@ -64,12 +64,19 @@ export function GlobalContactPopup() {
         window.removeEventListener("scroll", handleScroll);
       }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    
+    // Only attach scroll auto-trigger on non-touch devices
+    const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    if (!isTouch) {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }
 
     return () => {
       window.removeEventListener("open-contact-popup", handleOpen);
       document.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("scroll", handleScroll);
+      if (!isTouch) {
+        window.removeEventListener("scroll", handleScroll);
+      }
     };
   }, []);
 

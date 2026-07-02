@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Send,
   Calendar,
+  Brain,
 } from "lucide-react";
 import { brandContent } from "@/lib/content/brand";
 import Link from "next/link";
@@ -17,16 +18,16 @@ export function FloatingCTA() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-[72px] right-4 z-[100] flex flex-col items-end gap-3 md:bottom-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+    <div className="fixed bottom-20 right-4 z-[100] flex flex-col items-end gap-3 xl:bottom-6 xl:right-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
       {/* Expanded menu */}
       {open && (
-        <div className="animate-in flex flex-col gap-2 items-end max-h-[60vh] overflow-y-auto">
+        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-2 items-end max-h-[60vh] overflow-y-auto">
           {/* WhatsApp */}
           <a
             href={brandContent.contact.whatsappText}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-400 hover:bg-emerald-500/20 backdrop-blur-sm transition-all shadow-lg"
+            className="flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-[#0c0c0c]/90 text-emerald-400 hover:bg-emerald-500/10 backdrop-blur-md px-4 py-2.5 text-sm transition-all shadow-lg"
             onClick={() => setOpen(false)}
           >
             <MessageCircle className="h-4 w-4" />
@@ -37,7 +38,7 @@ export function FloatingCTA() {
           {/* Phone RO */}
           <a
             href={`tel:${brandContent.contact.phoneRORaw}`}
-            className="flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-sm transition-all shadow-lg"
+            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
             onClick={() => setOpen(false)}
           >
             <Phone className="h-4 w-4 text-amber-400" />
@@ -47,7 +48,7 @@ export function FloatingCTA() {
           {/* Email */}
           <a
             href={`mailto:${brandContent.contact.email}`}
-            className="flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-sm transition-all shadow-lg"
+            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
             onClick={() => setOpen(false)}
           >
             <Mail className="h-4 w-4 text-amber-400" />
@@ -55,12 +56,22 @@ export function FloatingCTA() {
             <span className="sm:hidden">Email</span>
           </a>
 
+          {/* AI Advisor */}
+          <Link
+            href="/money-advisor"
+            className="flex items-center gap-2.5 rounded-full border border-violet-500/30 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-violet-400 hover:border-violet-500/50 hover:text-white backdrop-blur-md transition-all shadow-lg"
+            onClick={() => setOpen(false)}
+          >
+            <Brain className="h-4 w-4 text-violet-400" />
+            <span>AI Advisor</span>
+          </Link>
+
           {/* Telegram */}
           <a
             href={brandContent.contact.telegram}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-sm transition-all shadow-lg"
+            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
             onClick={() => setOpen(false)}
           >
             <Send className="h-4 w-4 text-blue-400" />
@@ -72,7 +83,7 @@ export function FloatingCTA() {
             href={brandContent.urls.membershipForm}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm text-amber-400 hover:bg-amber-500/20 backdrop-blur-sm transition-all shadow-lg"
+            className="flex items-center gap-2.5 rounded-full border border-amber-500/30 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-amber-400 hover:bg-amber-500/10 backdrop-blur-md transition-all shadow-lg"
             onClick={() => setOpen(false)}
           >
             <Calendar className="h-4 w-4 text-amber-400" />
@@ -82,7 +93,7 @@ export function FloatingCTA() {
           {/* Contact form quick link */}
           <button
             type="button"
-            className="flex items-center gap-2.5 rounded-full border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-sm transition-all shadow-lg text-left"
+            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg text-left"
             onClick={() => {
               setOpen(false);
               window.dispatchEvent(new CustomEvent("open-contact-popup"));
