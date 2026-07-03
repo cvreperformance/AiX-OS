@@ -22,6 +22,7 @@ import { MegaMenu } from "./MegaMenu";
 const TOP_LINKS = [
   { href: "/", label: "Home" },
   { key: "services", label: "Platform Services", isPillar: true },
+  { href: "/services", label: "All Services" },
   { href: "/despre", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -226,7 +227,16 @@ export function Header() {
             </Link>
 
             <div className="pt-4 pb-2">
-              <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold px-3 mb-2">Toate Serviciile</p>
+              <div className="flex items-center justify-between px-3 mb-2">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">Toate Serviciile</p>
+                <Link
+                  href="/services"
+                  onClick={closeMenu}
+                  className="text-[10px] font-semibold text-amber-500/70 hover:text-amber-400 transition-colors uppercase tracking-wider"
+                >
+                  Director →
+                </Link>
+              </div>
             </div>
 
             {/* Accordion List for the 12 Categories */}
@@ -348,10 +358,12 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="border-t border-zinc-800 bg-[#060606] mt-auto">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 space-y-16">
+
+        {/* Top: Brand + Contact */}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-16 md:items-start">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1 space-y-4">
+          <div className="space-y-4 md:w-72 flex-shrink-0">
             <div className="flex items-center gap-1.5">
               <span className="text-2xl font-light tracking-[0.15em] text-white">AiX</span>
               <span className="text-2xl font-light tracking-[0.15em] text-amber-500/80">OS</span>
@@ -401,52 +413,43 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Platform */}
-          <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Platformă</h4>
-            <ul className="space-y-2.5">
-              {footerLinks.platform.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
-                    {l.label}
+          {/* Platform & Ecosystem links */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 flex-1">
+            <div>
+              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Platformă</h4>
+              <ul className="space-y-2.5">
+                {footerLinks.platform.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link href="/services" className="text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors">
+                    → All Services
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Selected Services (First 5 Categories for Footer) */}
-          <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Servicii Principale</h4>
-            <ul className="space-y-2.5">
-              {SERVICES_DIRECTORY.slice(0, 5).flatMap(c => c.items).slice(0, 8).map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Ecosystem */}
-          <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Ecosistem</h4>
-            <ul className="space-y-2.5">
-              {footerLinks.ecosystem.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    target={"external" in l && l.external ? "_blank" : undefined}
-                    rel={"external" in l && l.external ? "noopener noreferrer" : undefined}
-                    className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8 space-y-3 border-t border-zinc-800/60 pt-6">
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Ecosistem</h4>
+              <ul className="space-y-2.5">
+                {footerLinks.ecosystem.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      target={"external" in l && l.external ? "_blank" : undefined}
+                      rel={"external" in l && l.external ? "noopener noreferrer" : undefined}
+                      className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-3">
               <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">Parteneri Strategici</p>
               <a
                 href={brandContent.urls.personal}
@@ -468,7 +471,43 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-6">
+        {/* ALL SERVICES - Full Sitemap Grid */}
+        <div>
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-bold">Toate Serviciile</h3>
+            <Link href="/services" className="text-xs text-amber-500/70 hover:text-amber-400 transition-colors">
+              Director complet →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-8">
+            {SERVICES_DIRECTORY.map((category) => {
+              const Icon = category.icon;
+              return (
+                <div key={category.id} className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${category.color}`} />
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold leading-none">{category.title}</p>
+                  </div>
+                  <ul className="space-y-2">
+                    {category.items.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-[11px] text-zinc-500 hover:text-amber-400 transition-colors leading-snug block"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="text-center sm:text-left space-y-1.5">
             <p className="text-xs text-zinc-600">
               © {new Date().getFullYear()} AiX OS — Ecosistem Digital de Tranzacții Imobiliare
@@ -482,6 +521,7 @@ export function Footer() {
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <Link href="/despre" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Despre</Link>
+            <Link href="/services" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Servicii</Link>
             <Link href="/contact" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Contact</Link>
             <Link href="/privacy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Privacy</Link>
             <Link href="/cookie-policy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Cookies</Link>
