@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { PageHeader } from "@/components/ui";
-import { Brain, BarChart3, TrendingUp, MapPin, Building2, ArrowRight, Zap, Target, Clock, Star } from "lucide-react";
+import { Brain, BarChart3, TrendingUp, MapPin, Building2, Zap, Target, Clock, Star } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 
 const FACTORS = [
@@ -14,23 +14,11 @@ const FACTORS = [
   { icon: Zap, label: "Ajustare în Timp Real", desc: "Actualizare automată la noile tranzacții din zonă." },
 ];
 
-const REPORT_SECTIONS = [
-  "Valoare estimată de piață (interval confidență 90%)",
-  "Comparabile — top 5 tranzacții similare recente",
-  "Evaluare pe metru pătrat vs. zona",
-  "Tendința prețului în ultimele 12 luni",
-  "AiX Score — potențial de investiție",
-  "Prețul optim de listare pentru vânzare rapidă",
-  "Prețul maxim obtenabil cu marketing premium",
-  "Recomandare negociere și strategie",
-];
-
 export default function ValuationPage() {
   const [address, setAddress] = useState("");
   const [type, setType] = useState("");
   const [sqm, setSqm] = useState("");
   const [rooms, setRooms] = useState("");
-  const [year, setYear] = useState("");
   const [finishes, setFinishes] = useState("premium");
   
   const [result, setResult] = useState<{

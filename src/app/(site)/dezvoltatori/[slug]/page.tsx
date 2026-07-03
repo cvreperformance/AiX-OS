@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Globe, MapPin, Layers, CheckCircle2 } from "lucide-react";
@@ -38,7 +39,10 @@ export default async function DeveloperDetailPage({ params }: Props) {
           <div className="flex items-start gap-5">
             <div className="flex-shrink-0 h-16 w-16 rounded-2xl border border-zinc-800 bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
               {dev.logo_url ? (
+                <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={dev.logo_url} alt={dev.name} className="h-full w-full object-contain p-2" />
+                </>
               ) : (
                 <span className="text-xl font-light text-amber-400 font-mono">
                   {dev.name.slice(0, 2).toUpperCase()}
@@ -96,10 +100,12 @@ export default async function DeveloperDetailPage({ params }: Props) {
                 { title: "Facade Glass Structure", img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=300&q=80" },
               ].map((item, index) => (
                 <div key={index} className="group relative rounded-2xl overflow-hidden border border-zinc-900 bg-zinc-950 aspect-video">
-                  <img
+                  <Image
                     src={item.img}
                     alt={item.title}
-                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-[10px] text-white font-semibold uppercase tracking-wider">{item.title}</span>

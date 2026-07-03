@@ -3,7 +3,7 @@
  * Computes market sentiment and investment attractiveness from macro data.
  */
 
-import { macroIndicators, getKeyIndicators } from "./macroIndicators";
+import { getKeyIndicators } from "./macroIndicators";
 
 export type SentimentLabel = "Bearish" | "Cautious" | "Neutral" | "Optimistic" | "Bullish";
 

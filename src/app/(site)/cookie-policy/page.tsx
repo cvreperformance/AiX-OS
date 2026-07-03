@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui";
-import { brandContent } from "@/lib/content/brand";
 import { ShieldCheck, Info, ToggleLeft, Cookie } from "lucide-react";
 
 export const metadata: Metadata = {

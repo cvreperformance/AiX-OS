@@ -1,24 +1,19 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import { PageHeader } from "@/components/ui";
 import {
   MapPin,
   Building,
-  Briefcase,
   Compass,
   Sparkles,
   Maximize2,
   Minimize2,
-  Globe,
-  Plus,
-  Minus,
   Layers,
   Plane,
   Heart,
   BookOpen,
-  Anchor,
-  HelpCircle,
   Activity,
   Star,
 } from "lucide-react";
@@ -41,6 +36,8 @@ interface MapNode {
   investmentLevel: "low" | "mid" | "high";
   clusterId?: string;
 }
+
+type InvestmentFilter = "all" | "low" | "mid" | "high";
 
 interface MapDisplayItem {
   isCluster: boolean;
@@ -104,7 +101,7 @@ export default function MapExperiencePage() {
     hospital: true,
   });
 
-  const [investmentFilter, setInvestmentFilter] = useState<"all" | "low" | "mid" | "high">("all");
+  const [investmentFilter, setInvestmentFilter] = useState<InvestmentFilter>("all");
   const [isClustered, setIsClustered] = useState(true);
   const [activeNode, setActiveNode] = useState<MapNode | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -382,15 +379,15 @@ export default function MapExperiencePage() {
           <div className={`p-4 rounded-2xl ${designSystem.glass} flex items-center justify-between gap-2`}>
             <span className="text-[10px] uppercase tracking-wider text-zinc-550 font-semibold font-mono">Buget Tier:</span>
             <div className="flex gap-1.5">
-              {[
+              {([
                 { key: "all", label: "All" },
                 { key: "low", label: "<500k" },
                 { key: "mid", label: "500k-1.5M" },
                 { key: "high", label: "1.5M+" },
-              ].map((b) => (
+              ] satisfies Array<{ key: InvestmentFilter; label: string }>).map((b) => (
                 <button
                   key={b.key}
-                  onClick={() => setInvestmentFilter(b.key as any)}
+                  onClick={() => setInvestmentFilter(b.key)}
                   className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-all ${
                     investmentFilter === b.key
                       ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
@@ -427,11 +424,13 @@ export default function MapExperiencePage() {
               </div>
 
               {activeNode.image && (
-                <div className="h-32 w-full overflow-hidden rounded-xl bg-zinc-900">
-                  <img
+                <div className="relative h-32 w-full overflow-hidden rounded-xl bg-zinc-900">
+                  <Image
                     src={activeNode.image}
                     alt={activeNode.title}
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="320px"
+                    className="object-cover"
                   />
                 </div>
               )}

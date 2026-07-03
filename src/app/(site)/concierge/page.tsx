@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { Gem, Globe, Clock, Phone, Star, ArrowRight, MessageCircle, Shield, Car, Ship, ShieldCheck } from "lucide-react";
+import { Gem, Globe, Clock, Phone, Star, MessageCircle, Shield } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 
 const SERVICES = [

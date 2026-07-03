@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TrendingUp, TrendingDown, Minus, RefreshCw, Globe, Building2, BarChart2, Coins, ArrowUpRight, Percent, Layers } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, RefreshCw, Globe, Building2, BarChart2, Coins, ArrowUpRight, Percent, Layers, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { getMarketIntelligence, MarketItem } from "@/lib/market/dataProvider";
+import { MarketItem } from "@/lib/market/dataProvider";
 import { designSystem } from "@/styles/designSystem";
 
 // Baseline Data (used before real data compiles/loads)
@@ -113,7 +113,7 @@ function IndicatorCard({ ind }: { ind: MarketItem }) {
   );
 }
 
-function Section({ title, badge, icon: Icon, indicators }: { title: string; badge?: string; icon: any; indicators: MarketItem[] }) {
+function Section({ title, badge, icon: Icon, indicators }: { title: string; badge?: string; icon: LucideIcon; indicators: MarketItem[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">

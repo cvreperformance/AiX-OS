@@ -1,5 +1,5 @@
 import { storageConfig } from "./config";
-import { getPropertyImages, parseGallery, resolveStorageUrl } from "./images";
+import { getPropertyImages, parseGallery } from "./images";
 
 export { storageConfig, isStorageConfigured, getSupabaseHostname } from "./config";
 export {

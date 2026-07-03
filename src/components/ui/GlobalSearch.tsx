@@ -3,7 +3,6 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, ArrowRight, Building, Sparkles, Newspaper, Activity, Compass, Globe } from "lucide-react";
 import Link from "next/link";
-import { designSystem } from "@/styles/designSystem";
 
 interface SearchItem {
   title: string;
@@ -146,7 +145,7 @@ export function GlobalSearch() {
           ) : query ? (
             <div className="py-8 text-center text-xs text-zinc-550 flex flex-col gap-1.5 items-center">
               <Sparkles className="h-5 w-5 text-amber-500/40 animate-bounce" />
-              <span>Nu am găsit rezultate pentru "{query}". Încercați cu alte cuvinte cheie.</span>
+              <span>Nu am găsit rezultate pentru &ldquo;{query}&rdquo;. Încercați cu alte cuvinte cheie.</span>
             </div>
           ) : (
             <div className="p-3 space-y-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Ship, ArrowRight } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 
@@ -17,10 +18,17 @@ export function YachtsClient() {
     <>
       {/* Yachts Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {YACHTS.map((yacht) => (
+        {YACHTS.map((yacht, index) => (
           <div key={yacht.title} className={`rounded-3xl overflow-hidden ${designSystem.glass} ${designSystem.glassHover}`}>
-            <div className="h-64 w-full overflow-hidden bg-zinc-900">
-              <img src={yacht.img} alt={yacht.title} className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
+            <div className="relative h-64 w-full overflow-hidden bg-zinc-900">
+              <Image
+                src={yacht.img}
+                alt={yacht.title}
+                fill
+                priority={index < 2}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
             </div>
             <div className="p-6 space-y-4">
               <div className="flex justify-between items-start">

@@ -1,98 +1,49 @@
-"use client";
-
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import {
   ArrowUpRight,
-  TrendingUp,
   Brain,
   Building2,
-  Globe,
   Sparkles,
-  Plane,
   Shield,
   Activity,
   Coins,
   ChevronRight,
-  User,
-  Quote,
   Star,
   Users,
   Sliders,
+  Lock,
+  Plane,
+  Globe,
 } from "lucide-react";
-import { GlobalSearch } from "@/components/ui/GlobalSearch";
+import type { Metadata } from "next";
 import { designSystem } from "@/styles/designSystem";
-import { getMarketIntelligence, MarketItem } from "@/lib/market/dataProvider";
+import { getFeaturedProperties, getFeaturedNews } from "@/lib/data";
+import HomeClient, { HomeMarketTicker, HomeCTAButtons } from "./HomeClient";
+import { formatPrice } from "@/lib/format";
+
+export const metadata: Metadata = {
+  title: "AiX OS — Luxury Intelligence Platform",
+  description:
+    "Platforma de intelligence imobiliar, market data și AI advisory pentru investitori HNWI și fonduri de investiții. Monaco · Dubai · București.",
+};
+
+// ─── Static content ─────────────────────────────────────────────────────────
 
 const SERVICES_LIST = [
-  { title: "Buyer Representation", desc: "Reprezentare exclusivă pentru achiziții discrete off-market.", href: "/buyer", icon: Users },
-  { title: "Seller Representation", desc: "Strategii avansate de marketing și optimizare preț vânzare.", href: "/seller", icon: Building2 },
-  { title: "Real Estate Portfolios", desc: "Scanare și tranzacționare active imobiliare premium.", href: "/proprietati", icon: Sliders },
-  { title: "Insurance Desk", desc: "Polițe de asigurare complexe pentru bunuri HNWI / UHNW.", href: "/insurance", icon: Shield },
-  { title: "Investments Advisory", desc: "Management de portofoliu global bazat pe macro-date.", href: "/investments", icon: Coins },
-  { title: "Private Global Network", desc: "Ecosistem privat și de încredere pentru parteneri UHNW.", href: "/network", icon: Globe },
+  { title: "Buyer Representation", desc: "Reprezentare exclusivă pentru achiziții discrete off-market.", href: "/buyer", icon: Users, color: "text-amber-400" },
+  { title: "Seller Representation", desc: "Strategii avansate de marketing și optimizare preț vânzare.", href: "/seller", icon: Building2, color: "text-blue-400" },
+  { title: "Real Estate Portfolios", desc: "Scanare și tranzacționare active imobiliare premium.", href: "/proprietati", icon: Sliders, color: "text-emerald-400" },
+  { title: "Insurance Desk", desc: "Polițe complexe pentru bunuri HNWI / UHNW.", href: "/insurance", icon: Shield, color: "text-rose-400" },
+  { title: "Investments Advisory", desc: "Management de portofoliu global bazat pe macro-date.", href: "/investments", icon: Coins, color: "text-violet-400" },
+  { title: "Private Global Network", desc: "Ecosistem privat și de încredere pentru parteneri UHNW.", href: "/network", icon: Lock, color: "text-sky-400" },
+  { title: "Luxury Concierge", desc: "Relocare, servicii discrete și asistență personalizată HNWI.", href: "/concierge", icon: Sparkles, color: "text-amber-400" },
+  { title: "AI Advisory", desc: "Consilier financiar AI pentru structurare și optimizare.", href: "/money-advisor", icon: Brain, color: "text-violet-400" },
+  { title: "AI Valuation", desc: "Evaluare imobiliară instantă bazată pe 50K+ tranzacții.", href: "/valuation", icon: Activity, color: "text-emerald-400" },
+  { title: "AntiȚeapă AI", desc: "Scanare automată riscuri cadastrale și vicii ascunse.", href: "/anti-teapa", icon: Shield, color: "text-red-400" },
+  { title: "Private Jets & Charter", desc: "Zboruri private la comandă, acces terminale VIP FBO global.", href: "/private-jets", icon: Plane, color: "text-sky-400" },
+  { title: "Supercars & Mobility", desc: "Vehicule premium pe Riviera Franceză și Dubai.", href: "/cars", icon: Globe, color: "text-orange-400" },
 ];
 
-// Sample properties data
-const FEATURED_PROPERTIES = [
-  {
-    id: "p1",
-    title: "Penthouse Floreasca Lake",
-    price: "4.850.000 €",
-    location: "Floreasca, București",
-    aixScore: 9.1,
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
-    tags: ["penthouse", "lake-view"],
-    slug: "penthouse-floreasca-lake",
-  },
-  {
-    id: "p2",
-    title: "Vila Premium Pipera",
-    price: "2.100.000 €",
-    location: "Pipera, București",
-    aixScore: 8.9,
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
-    tags: ["villa", "swimming-pool"],
-    slug: "vila-premium-pipera",
-  },
-  {
-    id: "p3",
-    title: "Apartament Dorobanți Glass",
-    price: "1.450.000 €",
-    location: "Dorobanți, București",
-    aixScore: 9.2,
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
-    tags: ["apartment", "new-construction"],
-    slug: "apartament-dorobanti-glass",
-  },
-];
-
-const QUICK_ACCESS = [
-  { label: "Hartă GIS", href: "/map", icon: Globe },
-  { label: "Money Advisor", href: "/money-advisor", icon: Brain },
-  { label: "Piață & Macro", href: "/market", icon: Activity },
-  { label: "Aviație Privată", href: "/private-jets", icon: Plane },
-  { label: "Dezvoltatori", href: "/dezvoltatori", icon: Building2 },
-];
-
-const SPOTLIGHT_DEVELOPERS = [
-  {
-    name: "One United Properties",
-    country: "România",
-    city: "București",
-    aixScore: 9.1,
-    desc: "Liderul imobiliar sustenabil de lux. Proiecte verzi premiate și standarde superioare de viață urbană.",
-    slug: "one-united-properties",
-  },
-  {
-    name: "Emaar Properties",
-    country: "Emiratele Arabe",
-    city: "Dubai",
-    aixScore: 9.5,
-    desc: "Autorul celebrelor turnuri Burj Khalifa și Downtown Dubai, definind orizontul modern al emiratului.",
-    slug: "emaar-properties",
-  },
-];
 
 const AI_TOOLS = [
   { title: "Money Advisor", desc: "Consultant financiar personal pentru optimizare portofolii rezidențiale.", href: "/money-advisor", icon: Brain, label: "AI Advisor" },
@@ -102,13 +53,8 @@ const AI_TOOLS = [
 
 const LUXURY_SERVICES = [
   { title: "Private Jets & Charter", desc: "Zboruri private la comandă și acces la terminale VIP FBO în întreaga lume.", href: "/private-jets", icon: Plane },
-  { title: "Supercars & Mobility", desc: "Închirieri și achiziții de vehicule premium securizate pe Riviera Franceză și Dubai.", href: "/concierge", icon: Sparkles },
+  { title: "Supercars & Mobility", desc: "Vehicule premium pe Riviera Franceză, Monaco și Dubai.", href: "/cars", icon: Sparkles },
   { title: "Luxury Concierge", desc: "Servicii de relocare, achiziții discrete off-market și asistență juridică HNWI.", href: "/concierge", icon: Globe },
-];
-
-const NEWS = [
-  { title: "Standardele ESG devin obligatorii pentru piața de lux în 2026", date: "Astăzi · Imobiliare", desc: "Noile reglementări europene recompensează clădirile rezidențiale verzi cu reduceri de impozite." },
-  { title: "Capitalurile din Dubai migrează spre zonele de tip Safe Haven din Europa", date: "Ieri · Macro", desc: "Analiză macroeconomică asupra fluxurilor monetare direcționate spre Monaco și Elveția." },
 ];
 
 const TESTIMONIALS = [
@@ -116,33 +62,26 @@ const TESTIMONIALS = [
   { text: "Indicatorul AiX Score este singurul pe care îl consultăm înainte de a plasa capital în proprietăți în București. Extrem de precis pe ROI.", author: "Elena M. · Manager Fond Imobiliar", city: "London / București" },
 ];
 
-export default function HomePage() {
-  const [liveCrypto, setLiveCrypto] = useState<MarketItem[]>([]);
+// ─── Server Component (async) ─────────────────────────────────────────────────
 
-  useEffect(() => {
-    const fetchLive = async () => {
-      try {
-        const res = await getMarketIntelligence();
-        setLiveCrypto(res.crypto);
-      } catch (e) {
-        console.warn("HomePage failed loading live market data", e);
-      }
-    };
-    fetchLive();
-  }, []);
+export default async function HomePage() {
+  // Fetch real data from Supabase (falls back to demo data automatically)
+  const [featuredProperties, featuredNews] = await Promise.all([
+    getFeaturedProperties(),
+    getFeaturedNews(2),
+  ]);
 
   return (
     <div className="space-y-16 md:space-y-24 pb-20">
-      
-      {/* 1. Hero Section & Global Search */}
+
+      {/* 1. Hero Section */}
       <section className="relative pt-12 pb-12 sm:pt-20 sm:pb-16 overflow-hidden flex flex-col items-center justify-center min-h-[70svh] sm:min-h-[85vh] text-center px-4 sm:px-6">
-        {/* Background Gradients */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] bg-amber-500/[0.03] blur-3xl rounded-full" />
           <div className="absolute top-10 right-20 w-80 h-80 bg-blue-500/[0.02] blur-3xl rounded-full" />
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10 animate-in">
+        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 text-[9px] uppercase tracking-widest text-amber-400 font-mono">
             <Sparkles className="h-3.5 w-3.5" />
             Luxury Intelligence Platform · 2026 Edition
@@ -159,60 +98,44 @@ export default function HomePage() {
             AiX OS corelează tranzacțiile imobiliare premium cu indicii macroeconomici, analizele de risc AI și mobilitatea VIP. Platforma concepută exclusiv pentru investitori și fonduri UHNW.
           </p>
 
-          {/* 2. Global Search Component */}
-          <div className="pt-2 w-full max-w-lg mx-auto">
-            <GlobalSearch />
-          </div>
-
-          {/* 3. Quick Access */}
-          <div className="pt-2 flex flex-wrap justify-center gap-1.5 sm:gap-2">
-            {QUICK_ACCESS.map((qa) => (
-              <Link
-                key={qa.label}
-                href={qa.href}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl border border-zinc-850 bg-zinc-950/40 text-[10px] sm:text-xs font-semibold text-zinc-400 hover:text-white hover:border-zinc-750 hover:bg-zinc-900/35 transition-all shadow-md active:scale-95"
-              >
-                <qa.icon className="h-3.5 w-3.5 text-amber-500/60" />
-                {qa.label}
-              </Link>
-            ))}
-          </div>
+          {/* HomeClient handles interactive GlobalSearch + quick access pills */}
+          <HomeClient />
         </div>
       </section>
 
-      {/* 2. Premium Services Section */}
+      {/* 2. Premium Services Grid */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6 sm:space-y-8">
-        <div className="text-center md:text-left border-b border-zinc-900 pb-5">
-          <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Gama de Servicii</span>
-          <h2 className="text-2xl md:text-3xl font-light text-white mt-1">Servicii Imobiliare & Lifestyle</h2>
+        <div className="border-b border-zinc-900 pb-5">
+          <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Gama Completă de Servicii</span>
+          <h2 className="text-2xl md:text-3xl font-light text-white mt-1">Servicii Imobiliare, AI & Lifestyle</h2>
           <p className="text-xs text-zinc-500 mt-2">Soluții integrate, asistență AI dedicată și suport off-market la nivel global.</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
           {SERVICES_LIST.map((srv) => {
             const Icon = srv.icon;
             return (
               <Link
                 key={srv.title}
                 href={srv.href}
-                className={`group p-4 md:p-6 rounded-3xl flex flex-col justify-between min-h-[150px] md:min-h-[180px] transition-all duration-300 ${designSystem.glass} ${designSystem.glassHover} active:scale-98`}
+                className={`group p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[130px] md:min-h-[150px] transition-all duration-300 ${designSystem.glass} ${designSystem.glassHover} active:scale-[0.98]`}
               >
-                <div className="space-y-3">
-                  <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit group-hover:bg-amber-500/25 transition-colors">
-                    <Icon className="h-4 w-4 md:h-5 md:w-5" />
+                <div className="space-y-2.5">
+                  <div className={`rounded-xl bg-zinc-900/60 p-2 text-amber-400 w-fit group-hover:bg-amber-500/15 transition-colors`}>
+                    <Icon className={`h-4 w-4 md:h-4.5 md:w-4.5 ${srv.color}`} />
                   </div>
                   <div>
-                    <h3 className="text-xs md:text-sm font-semibold text-white group-hover:text-amber-400 transition-colors leading-tight">
+                    <h3 className="text-[11px] md:text-xs font-semibold text-white group-hover:text-amber-400 transition-colors leading-tight">
                       {srv.title}
                     </h3>
-                    <p className="text-[9px] md:text-xs text-zinc-500 leading-normal mt-1 line-clamp-2">
+                    <p className="text-[9px] md:text-[10px] text-zinc-500 leading-normal mt-1 line-clamp-2 hidden sm:block">
                       {srv.desc}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-[9px] md:text-[10px] font-semibold text-zinc-400 group-hover:text-white uppercase tracking-wider mt-4">
+                <div className="flex items-center gap-1 text-[9px] font-semibold text-zinc-500 group-hover:text-white uppercase tracking-wider mt-3">
                   Detalii
-                  <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  <ChevronRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                 </div>
               </Link>
             );
@@ -220,7 +143,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Featured Properties */}
+      {/* 3. Featured Properties — loaded from Supabase */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
         <div className="flex justify-between items-end border-b border-zinc-900 pb-5">
           <div>
@@ -236,134 +159,72 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Scroll snap on mobile, grids on desktop */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 md:grid md:grid-cols-3 md:overflow-visible md:pb-0 scrollbar-none scroll-smooth">
-          {FEATURED_PROPERTIES.map((prop) => (
-            <div
-              key={prop.id}
-              className={`group relative rounded-3xl overflow-hidden shrink-0 w-[85vw] md:w-auto snap-center ${designSystem.glass} ${designSystem.glassHover}`}
-            >
-              <div className="absolute top-4 left-4 z-10 rounded-xl bg-black/60 border border-zinc-850 px-2.5 py-1 text-[10px] font-mono font-bold text-amber-400 flex items-center gap-1.5 backdrop-blur-md">
-                <Star className="h-3.5 w-3.5 fill-current" />
-                Score: {prop.aixScore}
-              </div>
-              
-              {/* Image box */}
-              <div className="relative h-60 w-full overflow-hidden bg-zinc-900">
-                <img
-                  src={prop.image}
-                  alt={prop.title}
-                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
+        {featuredProperties.length > 0 ? (
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 md:grid md:grid-cols-3 md:overflow-visible md:pb-0 scrollbar-none scroll-smooth">
+            {featuredProperties.map((prop) => (
+              <div
+                key={prop.id}
+                className={`group relative rounded-3xl overflow-hidden shrink-0 w-[85vw] md:w-auto snap-center ${designSystem.glass} ${designSystem.glassHover}`}
+              >
+                {prop.aix_score && (
+                  <div className="absolute top-4 left-4 z-10 rounded-xl bg-black/60 border border-zinc-850 px-2.5 py-1 text-[10px] font-mono font-bold text-amber-400 flex items-center gap-1.5 backdrop-blur-md">
+                    <Star className="h-3.5 w-3.5 fill-current" />
+                    Score: {prop.aix_score}
+                  </div>
+                )}
 
-              {/* Detail Spacing */}
-              <div className={designSystem.cardSpacing}>
-                <div>
-                  <h3 className="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">
-                    {prop.title}
-                  </h3>
-                  <p className="text-[10.5px] text-zinc-500 mt-0.5">{prop.location}</p>
+                <div className="relative h-60 w-full overflow-hidden bg-zinc-900">
+                  {prop.resolved_image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={prop.resolved_image_url}
+                      alt={prop.title}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center">
+                      <Building2 className="h-10 w-10 text-zinc-700" />
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-zinc-900/60">
-                  <span className="text-xs font-bold text-amber-400 font-mono">{prop.price}</span>
-                  <Link
-                    href={`/proprietati/${prop.slug}`}
-                    className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 group-hover:text-white flex items-center gap-0.5"
-                  >
-                    Detalii
-                    <ArrowUpRight className="h-3.5 w-3.5 text-amber-500/50 group-hover:text-amber-500 transition-colors" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 5. Market Pulse Ticker */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className={`p-6 rounded-3xl ${designSystem.glass} grid grid-cols-1 md:grid-cols-4 gap-6 items-center`}>
-          <div>
-            <span className={designSystem.tickerText}>Live Market Data</span>
-            <h3 className="text-sm font-bold text-white mt-1">Cotații Active</h3>
-            <p className="text-[10px] text-zinc-500 mt-0.5">Alimentat live de CoinGecko și BNR</p>
-          </div>
-          
-          <div className="border-t border-zinc-900/80 pt-6 md:border-t-0 md:border-l md:pt-0 md:pl-6 md:col-span-3 grid grid-cols-3 gap-4">
-            {liveCrypto.length > 0 ? (
-              liveCrypto.map((c) => (
-                <div key={c.label}>
-                  <p className="text-[9px] uppercase tracking-widest text-zinc-500 font-mono">{c.label.split(" (")[0]}</p>
-                  <p className="text-xs font-bold text-white mt-0.5 font-mono">{c.value}</p>
-                  <span className="text-[10px] text-emerald-400 font-semibold">{c.change}</span>
-                </div>
-              ))
-            ) : (
-              [
-                { label: "Bitcoin (BTC)", value: "$67,890.00", change: "+3.40%" },
-                { label: "Ethereum (ETH)", value: "$3,480.20", change: "+2.15%" },
-                { label: "Solana (SOL)", value: "$148.50", change: "+5.80%" },
-              ].map((c) => (
-                <div key={c.label}>
-                  <p className="text-[9px] uppercase tracking-widest text-zinc-500 font-mono">{c.label.split(" (")[0]}</p>
-                  <p className="text-xs font-bold text-zinc-400 mt-0.5 font-mono">{c.value}</p>
-                  <span className="text-[10px] text-emerald-500/70 font-semibold">{c.change}</span>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Developer Spotlight */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
-        <div className="border-b border-zinc-900 pb-5">
-          <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Spotlight</span>
-          <h2 className="text-2xl font-light text-white mt-1">Dezvoltatori Recomandați</h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {SPOTLIGHT_DEVELOPERS.map((dev) => (
-            <div
-              key={dev.name}
-              className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} ${designSystem.glassHover} flex flex-col justify-between min-h-[220px]`}
-            >
-              <div className="space-y-4">
-                <div className="flex justify-between items-start">
+                <div className={designSystem.cardSpacing}>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{dev.name}</h3>
-                    <p className="text-[10.5px] text-zinc-550 font-mono">{dev.city}, {dev.country}</p>
+                    <h3 className="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">
+                      {prop.title}
+                    </h3>
+                    <p className="text-[10.5px] text-zinc-500 mt-0.5">{prop.location}{prop.city ? `, ${prop.city}` : ""}</p>
                   </div>
-                  <div className="text-[10px] font-mono font-bold text-amber-400 border border-amber-500/25 bg-amber-500/5 px-2 py-0.5 rounded-lg">
-                    AiX: {dev.aixScore}
+
+                  <div className="flex items-center justify-between pt-3 border-t border-zinc-900/60">
+                    <span className="text-xs font-bold text-amber-400 font-mono">{formatPrice(prop.price, prop.currency)}</span>
+                    <Link
+                      href={`/proprietati/${prop.slug}`}
+                      className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 group-hover:text-white flex items-center gap-0.5"
+                    >
+                      Detalii
+                      <ArrowUpRight className="h-3.5 w-3.5 text-amber-500/50 group-hover:text-amber-500 transition-colors" />
+                    </Link>
                   </div>
                 </div>
-                <p className="text-xs text-zinc-450 leading-relaxed">{dev.desc}</p>
               </div>
-
-              <div className="pt-6 border-t border-zinc-900/60 mt-6 flex justify-between items-center">
-                <Link
-                  href={`/dezvoltatori/${dev.slug}`}
-                  className="text-xs text-zinc-400 hover:text-white font-semibold flex items-center gap-1"
-                >
-                  Vezi Proiecte
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-                <a
-                  href="/map"
-                  className="text-[10px] text-zinc-550 hover:text-amber-400 font-mono uppercase tracking-wider"
-                >
-                  Locație Map GIS
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className={`p-8 rounded-3xl ${designSystem.glass} text-center space-y-3`}>
+            <Building2 className="h-8 w-8 text-zinc-700 mx-auto" />
+            <p className="text-sm text-zinc-400">Proprietăți în curs de actualizare.</p>
+            <Link href="/proprietati" className="text-xs text-amber-400 hover:underline">
+              Explorează catalogul complet →
+            </Link>
+          </div>
+        )}
       </section>
 
-      {/* 7. AI Tools */}
+      {/* 4. Market Pulse Ticker — Client */}
+      <HomeMarketTicker />
+
+      {/* 5. AI Tools */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
         <div className="border-b border-zinc-900 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Digital Suite</span>
@@ -386,9 +247,7 @@ export default function HomePage() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">
-                    {tool.title}
-                  </h3>
+                  <h3 className="text-sm font-semibold text-white">{tool.title}</h3>
                   <p className="text-xs text-zinc-450 leading-relaxed mt-1">{tool.desc}</p>
                 </div>
               </div>
@@ -407,7 +266,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. Luxury Services Hub */}
+      {/* 6. Luxury Services Hub */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
         <div className="border-b border-zinc-900 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Exclusive Mobility</span>
@@ -444,7 +303,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. Latest News */}
+      {/* 7. Latest News — from Supabase */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
         <div className="flex justify-between items-end border-b border-zinc-900 pb-5">
           <div>
@@ -461,31 +320,29 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {NEWS.map((n) => (
-            <div
-              key={n.title}
-              className={`p-6 rounded-3xl ${designSystem.glass} ${designSystem.glassHover} space-y-4`}
+          {featuredNews.map((n) => (
+            <Link
+              key={n.id}
+              href={`/stiri/${n.slug}`}
+              className={`p-6 rounded-3xl ${designSystem.glass} ${designSystem.glassHover} space-y-4 block`}
             >
               <div>
-                <span className="text-[9px] uppercase tracking-widest text-amber-500/80 font-mono">{n.date}</span>
-                <h3 className="text-sm font-semibold text-white mt-1.5 leading-snug">{n.title}</h3>
+                <span className="text-[9px] uppercase tracking-widest text-amber-500/80 font-mono">{n.category}{n.published_at ? ` · ${new Date(n.published_at).toLocaleDateString("ro-RO", { day: "numeric", month: "short" })}` : ""}</span>
+                <h3 className="text-sm font-semibold text-white mt-1.5 leading-snug group-hover:text-amber-400">{n.title}</h3>
               </div>
-              <p className="text-xs text-zinc-450 leading-relaxed">{n.desc}</p>
+              <p className="text-xs text-zinc-450 leading-relaxed line-clamp-2">{n.summary}</p>
               <div className="pt-3 border-t border-zinc-900/60">
-                <Link
-                  href="/stiri"
-                  className="text-[10.5px] uppercase tracking-widest font-mono text-zinc-500 hover:text-white flex items-center gap-1"
-                >
+                <span className="text-[10.5px] uppercase tracking-widest font-mono text-zinc-500 hover:text-white flex items-center gap-1">
                   Citește Articolul
                   <ChevronRight className="h-3.5 w-3.5" />
-                </Link>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* 10. Testimonials */}
+      {/* 8. Testimonials */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
         <div className="border-b border-zinc-900 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Credibilitate</span>
@@ -498,15 +355,11 @@ export default function HomePage() {
               key={idx}
               className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} flex flex-col justify-between relative min-h-[180px]`}
             >
-              <Quote className="absolute top-4 right-4 h-8 w-8 text-amber-500/[0.06] pointer-events-none" />
               <p className="text-xs text-zinc-350 leading-relaxed italic">
-                "{t.text}"
+                &ldquo;{t.text}&rdquo;
               </p>
               <div className="pt-6 border-t border-zinc-900/60 mt-6 flex justify-between items-center text-[10px] font-mono">
-                <span className="font-semibold text-zinc-450 flex items-center gap-1">
-                  <User className="h-3.5 w-3.5 text-zinc-650" />
-                  {t.author}
-                </span>
+                <span className="font-semibold text-zinc-450">{t.author}</span>
                 <span className="text-zinc-600">{t.city}</span>
               </div>
             </div>
@@ -514,7 +367,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 11. Call To Action */}
+      {/* 9. Final CTA */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className={`p-8 sm:p-12 rounded-3xl border border-amber-500/20 bg-[#080808]/70 backdrop-blur-xl text-center space-y-6 relative overflow-hidden shadow-2xl`}>
           <div className="absolute -right-20 -top-20 w-40 h-40 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
@@ -524,21 +377,7 @@ export default function HomePage() {
           <p className="text-xs text-zinc-450 max-w-lg mx-auto leading-relaxed">
             Consilierii noștri HNWI utilizează modulele avansate de pe AiX OS pentru a asigura randamente sigure pe portofolii imobiliare de lux.
           </p>
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
-              className="rounded-xl bg-amber-500 text-black px-6 py-2.5 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
-            >
-              Programează Întâlnire Advisor
-            </button>
-            <Link
-              href="/ai"
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-2.5 text-xs text-zinc-350 hover:text-white transition-all flex items-center gap-1"
-            >
-              AI Terminal
-              <ChevronRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+          <HomeCTAButtons />
         </div>
       </section>
 

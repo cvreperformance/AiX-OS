@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { PageHeader } from "@/components/ui";
 import { ScoreBadge } from "@/components/ui/ScoreBadge";
 import { designSystem } from "@/styles/designSystem";
-import { brandContent } from "@/lib/content/brand";
 import Link from "next/link";
 import {
   MapPin,
@@ -12,7 +11,6 @@ import {
   Layers,
   Sparkles,
   Briefcase,
-  Building,
 } from "lucide-react";
 
 // Mock developers dataset matching all requirements
@@ -33,6 +31,9 @@ interface Developer {
   x: number; // map coordinates
   y: number;
 }
+
+type DeveloperRegion = Developer["country"] | "all";
+type DeveloperSector = Developer["sector"] | "all";
 
 const DEVELOPERS: Developer[] = [
   {
@@ -214,8 +215,8 @@ const DEVELOPERS: Developer[] = [
 ];
 
 export default function DevelopersPage() {
-  const [selectedRegion, setSelectedRegion] = useState<"all" | "România" | "Europe" | "Dubai" | "Monaco">("all");
-  const [selectedSector, setSelectedSector] = useState<"all" | "luxury" | "premium" | "mixed-use" | "commercial" | "mid">("all");
+  const [selectedRegion, setSelectedRegion] = useState<DeveloperRegion>("all");
+  const [selectedSector, setSelectedSector] = useState<DeveloperSector>("all");
 
   // Filtering
   const filteredDevs = useMemo(() => {
@@ -326,7 +327,7 @@ export default function DevelopersPage() {
               <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-500">Regiune activă</p>
               <select
                 value={selectedRegion}
-                onChange={(e) => setSelectedRegion(e.target.value as any)}
+                onChange={(e) => setSelectedRegion(e.target.value as DeveloperRegion)}
                 className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500/50 appearance-none"
               >
                 <option value="all">Toate Țările</option>
@@ -342,7 +343,7 @@ export default function DevelopersPage() {
               <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-500">Sector principal</p>
               <select
                 value={selectedSector}
-                onChange={(e) => setSelectedSector(e.target.value as any)}
+                onChange={(e) => setSelectedSector(e.target.value as DeveloperSector)}
                 className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500/50 appearance-none"
               >
                 <option value="all">Toate Sectoarele</option>

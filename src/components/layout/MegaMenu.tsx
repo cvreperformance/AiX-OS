@@ -22,13 +22,17 @@ import {
   Users,
   Anchor,
   Globe,
+  Lock,
+  Cpu,
+  BookOpen,
+  type LucideIcon,
 } from "lucide-react";
 
 interface MenuItem {
   href: string;
   label: string;
   desc: string;
-  icon: any;
+  icon: LucideIcon;
 }
 
 export const PILLAR_MENUS: Record<string, MenuItem[]> = {
@@ -48,6 +52,7 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/wealth", label: "Wealth", desc: "Averi nete globale și indicatori bursieri", icon: DollarSign },
     { href: "/wealth#billionaires", label: "Forbes Billionaires", desc: "Clasamentul celor mai bogați oameni", icon: Sparkles },
     { href: "/stiri", label: "News", desc: "Analize economice și perspective de piață", icon: Newspaper },
+    { href: "/books", label: "Books Library", desc: "Cărți recomandate de consilierii AiX HNWI", icon: BookOpen },
   ],
   ai: [
     { href: "/money-advisor", label: "Money Advisor", desc: "Consilier financiar personal IA", icon: Brain },
@@ -57,6 +62,8 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/buyer", label: "Buyer AI", desc: "Asistență automatizată la achiziție", icon: Sparkles },
     { href: "/seller", label: "Seller AI", desc: "Strategii IA de marketing imobiliar", icon: Building2 },
     { href: "/insurance", label: "Insurance AI", desc: "Calculatoare și brokeraj de asigurare", icon: Coins },
+    { href: "/cybersecurity", label: "Cybersecurity", desc: "Protecție anti-fraudă și due diligence digital", icon: Lock },
+    { href: "/ai", label: "Technology Hub", desc: "AI, automatizare și platforme cloud pentru investitori", icon: Cpu },
   ],
   luxury: [
     { href: "/private-jets", label: "Private Jets", desc: "Charter aerian privat și asistență FBO", icon: Plane },
@@ -73,6 +80,8 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/proprietati", label: "Real Estate", desc: "Tranzacționare active rezidențiale de lux", icon: Building2 },
     { href: "/insurance", label: "Insurance Desk", desc: "Polițe de asigurare pentru active de mare valoare", icon: Shield },
     { href: "/investments", label: "Investments", desc: "Management de portofoliu imobiliar global", icon: Coins },
+    { href: "/cybersecurity", label: "Cybersecurity", desc: "Securitate digitală și prevenire fraude HNWI", icon: Lock },
+    { href: "/calculators", label: "Financial Calculators", desc: "ROI, ipotecă, yield, taxe notariale", icon: Coins },
   ],
 };
 

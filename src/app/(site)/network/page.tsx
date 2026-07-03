@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   Globe, Users, Lock, Handshake, Star, Building2, ArrowRight,
-  MessageCircle, ChevronRight, Activity, Award, Briefcase, MapPin
+  MessageCircle, ChevronRight, Activity, Award
 } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 

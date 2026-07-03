@@ -3,18 +3,13 @@
 import { useState } from "react";
 import {
   AlertTriangle,
-  CheckCircle2,
   Shield,
   Brain,
   Search,
   FileText,
   Building2,
-  ArrowRight,
   XCircle,
-  Activity,
-  Percent,
 } from "lucide-react";
-import Link from "next/link";
 import { designSystem } from "@/styles/designSystem";
 
 const RED_FLAGS = [

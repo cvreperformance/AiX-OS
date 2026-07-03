@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/ui";
 import { TrendingUp, TrendingDown, Trophy, Landmark, Activity } from "lucide-react";
-import { getMarketIntelligence, BillionaireItem, CompanyItem } from "@/lib/market/dataProvider";
+import { BillionaireItem, CompanyItem } from "@/lib/market/dataProvider";
 import { designSystem } from "@/styles/designSystem";
 
 const baselineBillionaires: BillionaireItem[] = [

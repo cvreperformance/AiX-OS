@@ -9,10 +9,8 @@ const DISMISS_DURATION = 3 * 24 * 60 * 60 * 1000; // 3 days
 
 export function StickyBottomCTA() {
   const [visible, setVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     try {
       const ts = localStorage.getItem(DISMISSED_KEY);
       if (ts && Date.now() - Number(ts) < DISMISS_DURATION) return;
@@ -29,7 +27,7 @@ export function StickyBottomCTA() {
     } catch {}
   }
 
-  if (!mounted || !visible) return null;
+  if (!visible) return null;
 
   return (
     <div

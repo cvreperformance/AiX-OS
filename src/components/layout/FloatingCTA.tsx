@@ -18,7 +18,7 @@ export function FloatingCTA() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-20 right-4 z-[100] flex flex-col items-end gap-3 xl:bottom-6 xl:right-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+    <div className="fixed bottom-6 right-4 z-[100] flex flex-col items-end gap-3 xl:right-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
       {/* Expanded menu */}
       {open && (
         <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-2 items-end max-h-[60vh] overflow-y-auto">

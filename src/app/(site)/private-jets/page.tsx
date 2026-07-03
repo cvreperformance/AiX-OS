@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { PageHeader } from "@/components/ui";
-import { brandContent } from "@/lib/content/brand";
 import {
   Plane,
   Calendar,
@@ -10,7 +10,6 @@ import {
   Search,
   Navigation,
   MapPin,
-  Clock,
   ArrowRight,
   ChevronRight,
   Shield,
@@ -368,11 +367,13 @@ export default function PrivateJetsPage() {
 
                 {/* Jet Image */}
                 <div className="relative w-full md:w-48 h-32 md:h-auto rounded-xl overflow-hidden flex-shrink-0 border border-zinc-800 bg-zinc-950">
-                  <img
-                    src={jet.image}
-                    alt={jet.name}
-                    className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
-                  />
+	                  <Image
+	                    src={jet.image}
+	                    alt={jet.name}
+	                    fill
+	                    sizes="(max-width: 768px) 100vw, 192px"
+	                    className="object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
+	                  />
                   <div className="absolute top-2 left-2 rounded-md bg-[#0c0c0c]/80 border border-zinc-800 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-amber-400">
                     {jet.class}
                   </div>

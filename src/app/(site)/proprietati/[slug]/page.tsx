@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, Ruler, BedDouble, Bath, Building2 } from "lucide-react";
 import { PropertyGallery } from "@/components/ui/PropertyGallery";
-import { PageHeader, ScoreCard } from "@/components/ui";
+import { ScoreCard } from "@/components/ui";
 import { getProperty } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
 import { buildPropertySchema } from "@/lib/seo";

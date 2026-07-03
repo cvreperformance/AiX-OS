@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import {
-  Menu,
   X,
   Phone,
   MessageCircle,
@@ -13,23 +12,15 @@ import {
   Building2,
   Sparkles,
   Users,
-  TrendingUp,
   Newspaper,
   Activity,
-  Award,
-  Globe,
   Sliders,
-  HelpCircle,
   Send,
-  Map,
-  Coins,
   Brain,
-  BookOpen,
 } from "lucide-react";
 import { siteConfig, footerLinks } from "@/lib/config";
 import { brandContent } from "@/lib/content/brand";
-import { designSystem } from "@/styles/designSystem";
-import { MegaMenu, PILLAR_MENUS } from "./MegaMenu";
+import { MegaMenu } from "./MegaMenu";
 
 const TOP_LINKS = [
   { href: "/", label: "Home" },
@@ -48,6 +39,7 @@ export function Header() {
   const [activePillar, setActivePillar] = useState<string | null>(null);
   const [expandedPillar, setExpandedPillar] = useState<string | null>(null);
   const pathname = usePathname();
+  const lastPathname = useRef(pathname);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -68,8 +60,13 @@ export function Header() {
 
   // Close menu on route change
   useEffect(() => {
-    setOpen(false);
-    setExpandedPillar(null);
+    if (lastPathname.current === pathname) return;
+    lastPathname.current = pathname;
+    const timer = window.setTimeout(() => {
+      setOpen(false);
+      setExpandedPillar(null);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   const closeMenu = () => {
@@ -104,6 +101,7 @@ export function Header() {
         { href: "/market#commodities", label: "Commodities", desc: "Aur, Petrol" },
         { href: "/wealth", label: "Wealth", desc: "Averi globale" },
         { href: "/stiri", label: "News", desc: "Analize piață" },
+        { href: "/books", label: "Books Library", desc: "Cărți recomandate AiX" },
       ],
     },
     {
@@ -118,6 +116,8 @@ export function Header() {
         { href: "/buyer", label: "Buyer AI", desc: "Asistență achiziție" },
         { href: "/seller", label: "Seller AI", desc: "Strategie vânzare" },
         { href: "/insurance", label: "Insurance AI", desc: "Brokeraj asigurare" },
+        { href: "/cybersecurity", label: "Cybersecurity", desc: "Securitate & Anti-fraudă" },
+        { href: "/ai", label: "Technology Hub", desc: "AI & Automatizare" },
       ],
     },
     {
@@ -144,6 +144,8 @@ export function Header() {
         { href: "/insurance", label: "Insurance Desk", desc: "Asigurări premium" },
         { href: "/investments", label: "Investments", desc: "Portofoliu global" },
         { href: "/network", label: "Private Network", desc: "Rețea UHNW" },
+        { href: "/cybersecurity", label: "Cybersecurity", desc: "Protecție anti-fraudă" },
+        { href: "/calculators", label: "Calculators", desc: "ROI, ipotecă, yield" },
       ],
     },
   ];
@@ -253,7 +255,7 @@ export function Header() {
           ───────────────────────────────────────── */}
       <div
         id="mobile-menu"
-        className={`xl:hidden fixed inset-0 z-[400] transition-all duration-300 ease-out ${
+        className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
           open ? "pointer-events-auto" : "pointer-events-none"
         }`}
         aria-hidden={!open}

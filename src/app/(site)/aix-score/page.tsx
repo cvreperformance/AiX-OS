@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BarChart3, Shield, Target, TrendingUp, Sparkles, Info, CheckCircle2 } from "lucide-react";
+import { BarChart3, Shield, Target, Sparkles } from "lucide-react";
 import { PageHeader } from "@/components/ui";
 import { designSystem } from "@/styles/designSystem";
 

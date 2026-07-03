@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  TrendingUp,
   Globe,
   Building2,
   ArrowRight,
   BarChart3,
-  Shield,
   Gem,
   MapPin,
   Star,

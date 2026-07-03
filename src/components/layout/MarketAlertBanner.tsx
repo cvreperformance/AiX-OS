@@ -39,20 +39,23 @@ const DISMISSED_KEY = "aix_banner_dismissed_ids";
 
 export function MarketAlertBanner() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dismissed, setDismissed] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [dismissed, setDismissed] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    try {
-      const ids = JSON.parse(localStorage.getItem(DISMISSED_KEY) ?? "[]") as string[];
-      // Only dismiss if ALL alerts were dismissed
-      if (ids.length >= ALERTS.length) setDismissed(true);
-    } catch {}
+    const timer = window.setTimeout(() => {
+      try {
+        const ids = JSON.parse(localStorage.getItem(DISMISSED_KEY) ?? "[]") as string[];
+        // Only dismiss if ALL alerts were dismissed
+        setDismissed(ids.length >= ALERTS.length);
+      } catch {
+        setDismissed(false);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (dismissed) return;
+    if (dismissed !== false) return;
     const interval = setInterval(() => {
       setCurrentIndex((i) => (i + 1) % ALERTS.length);
     }, 8000);
@@ -66,7 +69,7 @@ export function MarketAlertBanner() {
     } catch {}
   }
 
-  if (!mounted || dismissed) return null;
+  if (dismissed !== false) return null;
 
   const alert = ALERTS[currentIndex];
   const typeStyles = {
