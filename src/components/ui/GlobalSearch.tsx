@@ -33,6 +33,13 @@ const SEARCH_ITEMS: SearchItem[] = [
   { title: "AntiȚeapă AI", category: "AI Tool", desc: "Due diligence digital și scanare riscuri imobiliare", href: "/anti-teapa" },
   { title: "AI Valuation", category: "AI Tool", desc: "Evaluare instantă a valorii corecte pe metru pătrat", href: "/valuation" },
   { title: "Property Scanner", category: "AI Tool", desc: "Scanare și filtrare a ofertelor externe sub prețul pieței", href: "/proprietati" },
+  { title: "RO Law in Real Estate", category: "AI Tool", desc: "Ghid legal imobiliar românesc și Asistent Juridic IA", href: "/law" },
+  { title: "Convenience Tools Hub", category: "AI Tool", desc: "Generatoare, convertor valutar și instrumente de lucru zilnice", href: "/convenience" },
+  { title: "Open Source Apps", category: "AI Tool", desc: "Markdown editor, JSON formatter și viewer CSV", href: "/apps" },
+  { title: "OSINT Intelligence", category: "AI Tool", desc: "Căutare firme românești/europene, date WHOIS și DNS", href: "/osint" },
+  { title: "Learning Center", category: "AI Tool", desc: "Ghiduri practice și checklist-uri pentru tranzacții", href: "/learning" },
+  { title: "Off-Market Search", category: "AI Tool", desc: "Căutare confidențială proprietăți private", href: "/off-market" },
+  { title: "Alătură-te AiX OS (Join)", category: "AI Tool", desc: "Creează cont sau înscrie-te la newsletter", href: "/join" },
 
   // News
   { title: "Creșterea tranzacțiilor de lux", category: "News", desc: "Analiză imobiliară premium pe trimestrul 1 2026", href: "/stiri" },

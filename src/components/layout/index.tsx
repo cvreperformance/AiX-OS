@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { siteConfig, footerLinks } from "@/lib/config";
 import { brandContent } from "@/lib/content/brand";
-import { MegaMenu } from "./MegaMenu";
+import { MegaMenu, PILLAR_MENUS } from "./MegaMenu";
 
 const TOP_LINKS = [
   { href: "/", label: "Home" },
@@ -80,73 +80,35 @@ export function Header() {
       label: "Properties",
       icon: Building2,
       color: "text-blue-400",
-      items: [
-        { href: "/proprietati", label: "Properties", desc: "Catalog complet" },
-        { href: "/dezvoltatori", label: "Developers", desc: "Dezvoltatori premium" },
-        { href: "/agentii", label: "Agencies", desc: "Agenții partenere" },
-        { href: "/oportunitati", label: "Opportunities", desc: "Off-market deals" },
-        { href: "/map", label: "Map GIS", desc: "Hartă interactivă" },
-        { href: "/aix-score", label: "AiX Score", desc: "Rating activ" },
-      ],
+      items: PILLAR_MENUS.properties,
     },
     {
       key: "markets",
       label: "Markets",
       icon: Activity,
       color: "text-emerald-400",
-      items: [
-        { href: "/market", label: "Market Pulse", desc: "Dashboard macro" },
-        { href: "/market#stocks", label: "Stocks", desc: "S&P 500, Nasdaq" },
-        { href: "/market#crypto", label: "Crypto", desc: "BTC, ETH, SOL live" },
-        { href: "/market#commodities", label: "Commodities", desc: "Aur, Petrol" },
-        { href: "/wealth", label: "Wealth", desc: "Averi globale" },
-        { href: "/stiri", label: "News", desc: "Analize piață" },
-        { href: "/books", label: "Books Library", desc: "Cărți recomandate AiX" },
-      ],
+      items: PILLAR_MENUS.markets,
     },
     {
       key: "ai",
       label: "AI Tools",
       icon: Brain,
       color: "text-violet-400",
-      items: [
-        { href: "/money-advisor", label: "Money Advisor", desc: "Consilier AI" },
-        { href: "/anti-teapa", label: "AntiȚeapă AI", desc: "Risc cadastral" },
-        { href: "/valuation", label: "AI Valuation", desc: "Evaluare instant" },
-        { href: "/buyer", label: "Buyer AI", desc: "Asistență achiziție" },
-        { href: "/seller", label: "Seller AI", desc: "Strategie vânzare" },
-        { href: "/insurance", label: "Insurance AI", desc: "Brokeraj asigurare" },
-        { href: "/cybersecurity", label: "Cybersecurity", desc: "Securitate & Anti-fraudă" },
-        { href: "/ai", label: "Technology Hub", desc: "AI & Automatizare" },
-      ],
+      items: PILLAR_MENUS.ai,
     },
     {
       key: "luxury",
       label: "Luxury Hub",
       icon: Sparkles,
       color: "text-amber-400",
-      items: [
-        { href: "/private-jets", label: "Private Jets", desc: "Charter aerian" },
-        { href: "/cars", label: "Luxury Cars", desc: "Supercars VIP" },
-        { href: "/yachts", label: "Yachts", desc: "Charter mediteran" },
-        { href: "/concierge", label: "Concierge", desc: "Lifestyle management" },
-        { href: "/network", label: "Private Network", desc: "UHNW ecosystem" },
-      ],
+      items: PILLAR_MENUS.luxury,
     },
     {
       key: "services",
       label: "Services",
       icon: Sliders,
       color: "text-rose-400",
-      items: [
-        { href: "/buyer", label: "Buyer Representation", desc: "Reprezentare cumpărător" },
-        { href: "/seller", label: "Seller Representation", desc: "Strategie vânzare" },
-        { href: "/insurance", label: "Insurance Desk", desc: "Asigurări premium" },
-        { href: "/investments", label: "Investments", desc: "Portofoliu global" },
-        { href: "/network", label: "Private Network", desc: "Rețea UHNW" },
-        { href: "/cybersecurity", label: "Cybersecurity", desc: "Protecție anti-fraudă" },
-        { href: "/calculators", label: "Calculators", desc: "ROI, ipotecă, yield" },
-      ],
+      items: PILLAR_MENUS.services,
     },
   ];
 
@@ -217,6 +179,12 @@ export function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden xl:flex items-center gap-3">
+          <Link
+            href="/join"
+            className="rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/25 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
+          >
+            Alătură-te AiX
+          </Link>
           <a
             href={brandContent.contact.whatsappText}
             target="_blank"
@@ -542,7 +510,7 @@ export function Footer() {
           <div>
             <h4 className="text-xs uppercase tracking-widest text-zinc-500 mb-4">Servicii</h4>
             <ul className="space-y-2">
-              {footerLinks.services.map((l) => (
+              {PILLAR_MENUS.services.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-sm text-zinc-400 hover:text-amber-400 transition-colors">
                     {l.label}

@@ -14,6 +14,7 @@ import {
   Lock,
   Plane,
   Globe,
+  Scale,
 } from "lucide-react";
 import type { Metadata } from "next";
 import { designSystem } from "@/styles/designSystem";
@@ -22,26 +23,27 @@ import HomeClient, { HomeMarketTicker, HomeCTAButtons } from "./HomeClient";
 import { formatPrice } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "AiX OS — Luxury Intelligence Platform",
+  title: "AiX OS — Know what is worth buying before everyone else.",
   description:
-    "Platforma de intelligence imobiliar, market data și AI advisory pentru investitori HNWI și fonduri de investiții. Monaco · Dubai · București.",
+    "Economisește timp, bani și elimină riscul din tranzacțiile imobiliare. Analiză cadastrală AI, calculatoare financiare și asistență juridică.",
 };
 
 // ─── Static content ─────────────────────────────────────────────────────────
 
 const SERVICES_LIST = [
-  { title: "Buyer Representation", desc: "Reprezentare exclusivă pentru achiziții discrete off-market.", href: "/buyer", icon: Users, color: "text-amber-400" },
-  { title: "Seller Representation", desc: "Strategii avansate de marketing și optimizare preț vânzare.", href: "/seller", icon: Building2, color: "text-blue-400" },
-  { title: "Real Estate Portfolios", desc: "Scanare și tranzacționare active imobiliare premium.", href: "/proprietati", icon: Sliders, color: "text-emerald-400" },
-  { title: "Insurance Desk", desc: "Polițe complexe pentru bunuri HNWI / UHNW.", href: "/insurance", icon: Shield, color: "text-rose-400" },
-  { title: "Investments Advisory", desc: "Management de portofoliu global bazat pe macro-date.", href: "/investments", icon: Coins, color: "text-violet-400" },
-  { title: "Private Global Network", desc: "Ecosistem privat și de încredere pentru parteneri UHNW.", href: "/network", icon: Lock, color: "text-sky-400" },
-  { title: "Luxury Concierge", desc: "Relocare, servicii discrete și asistență personalizată HNWI.", href: "/concierge", icon: Sparkles, color: "text-amber-400" },
-  { title: "AI Advisory", desc: "Consilier financiar AI pentru structurare și optimizare.", href: "/money-advisor", icon: Brain, color: "text-violet-400" },
-  { title: "AI Valuation", desc: "Evaluare imobiliară instantă bazată pe 50K+ tranzacții.", href: "/valuation", icon: Activity, color: "text-emerald-400" },
-  { title: "AntiȚeapă AI", desc: "Scanare automată riscuri cadastrale și vicii ascunse.", href: "/anti-teapa", icon: Shield, color: "text-red-400" },
-  { title: "Private Jets & Charter", desc: "Zboruri private la comandă, acces terminale VIP FBO global.", href: "/private-jets", icon: Plane, color: "text-sky-400" },
-  { title: "Supercars & Mobility", desc: "Vehicule premium pe Riviera Franceză și Dubai.", href: "/cars", icon: Globe, color: "text-orange-400" },
+  { title: "Buyer Representation", desc: "Achiziționează proprietăți off-market evitând comisioanele ascunse și greșelile de due diligence.", href: "/buyer", icon: Users, color: "text-amber-400" },
+  { title: "Seller Representation", desc: "Vinde proprietatea la prețul maxim în cel mai scurt timp prin strategii de marketing bazate pe date.", href: "/seller", icon: Building2, color: "text-blue-400" },
+  { title: "RO Law in Real Estate", desc: "Protejează-ți investițiile. Înțelege clauzele precontractuale, taxele notariale și riscurile de publicitate imobiliară.", href: "/law", icon: Scale, color: "text-amber-400" },
+  { title: "Real Estate Portfolios", desc: "Maximizează randamentul portofoliului tău. Identifică oportunități sub-evaluate prin scanare continuă.", href: "/proprietati", icon: Sliders, color: "text-emerald-400" },
+  { title: "Insurance Desk", desc: "Redu expunerea la riscuri neprevăzute. Securizează-ți activele imobiliare de mare valoare cu polițe optimizate.", href: "/insurance", icon: Shield, color: "text-rose-400" },
+  { title: "Investments Advisory", desc: "Investește inteligent pe baza indicatorilor macroeconomici și a fluxurilor globale de capital.", href: "/investments", icon: Coins, color: "text-violet-400" },
+  { title: "Private Global Network", desc: "Conectează-te cu parteneri de afaceri verificați pentru tranzacții sigure și oportunități private.", href: "/network", icon: Lock, color: "text-sky-400" },
+  { title: "Luxury Concierge", desc: "Soluționează relocarea, administrarea activelor și asistența specializată dintr-o singură interfață.", href: "/concierge", icon: Sparkles, color: "text-amber-400" },
+  { title: "AI Advisory", desc: "Întreabă o singură dată. Analizează sute de pagini de legislație și rapoarte financiare în doar câteva secunde.", href: "/money-advisor", icon: Brain, color: "text-violet-400" },
+  { title: "AI Valuation", desc: "Află valoarea reală a oricărui metru pătrat instantaneu, eliminând speculațiile și incertitudinea.", href: "/valuation", icon: Activity, color: "text-emerald-400" },
+  { title: "AntiȚeapă AI", desc: "Scanează automat riscurile cadastrale și vicii ascunse ale oricărei proprietăți înainte de a semna.", href: "/anti-teapa", icon: Shield, color: "text-red-400" },
+  { title: "Private Jets & Charter", desc: "Călătorește rapid și fără bătăi de cap cu zboruri private planificate în câteva minute.", href: "/private-jets", icon: Plane, color: "text-sky-400" },
+  { title: "Supercars & Mobility", desc: "Asigură-ți mobilitatea sigură și rapidă pe Riviera Franceză, Monaco sau Dubai.", href: "/cars", icon: Globe, color: "text-orange-400" },
 ];
 
 
@@ -84,22 +86,63 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 text-[9px] uppercase tracking-widest text-amber-400 font-mono">
             <Sparkles className="h-3.5 w-3.5" />
-            Luxury Intelligence Platform · 2026 Edition
+            Outcome-Driven Real Estate Platform · 2026 Edition
           </span>
 
           <h1 className="text-3xl sm:text-6xl font-light tracking-tight text-white leading-tight">
-            Sistemul de Operare al <br />
+            Decizii Imobiliare Sigure, <br />
             <span className="bg-gradient-to-r from-amber-400 via-amber-200 to-white bg-clip-text text-transparent font-semibold">
-              Imobiliarelor de Lux
+              bazate pe Date și Tehnologie
             </span>
           </h1>
 
           <p className="text-xs sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            AiX OS corelează tranzacțiile imobiliare premium cu indicii macroeconomici, analizele de risc AI și mobilitatea VIP. Platforma concepută exclusiv pentru investitori și fonduri UHNW.
+            AiX OS elimină greșelile, riscurile și incertitudinea din tranzacțiile imobiliare. Corelăm datele de piață cu analizele juridice și financiare pentru a-ți proteja capitalul.
           </p>
 
           {/* HomeClient handles interactive GlobalSearch + quick access pills */}
           <HomeClient />
+        </div>
+      </section>
+
+      {/* 1.5 Solutions Section (Outcome-Driven Solutions) */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6 sm:space-y-8">
+        <div className="border-b border-zinc-900 pb-5">
+          <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Soluții Orientate pe Rezultate</span>
+          <h2 className="text-2xl md:text-3xl font-light text-white mt-1">Cum te ajută AiX OS să reușești</h2>
+          <p className="text-xs text-zinc-500 mt-2">Instrumente practice concepute pentru a elimina riscurile, greșelile de preț și pierderile de timp.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { title: "Economisește Timp", outcome: "Analizează proprietăți și rapoarte de piață în secunde.", action: "Folosește Evaluatorul AI", href: "/valuation" },
+            { title: "Economisește Bani", outcome: "Identifică proprietăți sub prețul pieței și obține cel mai bun randament.", action: "Explorează Oportunitățile", href: "/oportunitati" },
+            { title: "Redu Riscul", outcome: "Scanează automat viciile cadastrale, ipotecile și litigiile înainte de achiziție.", action: "Scanează cu AntiȚeapă AI", href: "/anti-teapa" },
+            { title: "Cumpără Inteligent", outcome: "Fii reprezentat exclusiv în negocieri și obține acces la active off-market.", action: "Vezi Reprezentare Cumpărător", href: "/buyer" },
+            { title: "Vinde Rapid", outcome: "Optimizează prețul de listare și expunerea pe baza tranzacțiilor reale.", action: "Vezi Reprezentare Vânzător", href: "/seller" },
+            { title: "Investește Mai Bine", outcome: "Gestionează-ți portofoliul global pe baza indicatorilor macroeconomici.", action: "Deschide Advisor Financiari", href: "/money-advisor" },
+            { title: "Protejează activele", outcome: "Securizează-ți portofoliul prin polițe HNWI și asistență juridică.", action: "Vezi Insurance Desk", href: "/insurance" },
+            { title: "Înțelege Înainte de Semnare", outcome: "Dezmiardă jargonul legal și taxele notariale prin audit juridic prealabil.", action: "Vezi Ghidul Legal RO", href: "/law" },
+          ].map((sol, index) => (
+            <Link
+              key={index}
+              href={sol.href}
+              className={`group p-5 rounded-2xl flex flex-col justify-between min-h-[160px] transition-all duration-300 ${designSystem.glass} ${designSystem.glassHover}`}
+            >
+              <div className="space-y-2">
+                <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">
+                  {sol.title}
+                </span>
+                <p className="text-xs text-zinc-300 leading-relaxed">
+                  {sol.outcome}
+                </p>
+              </div>
+              <div className="flex items-center gap-1 text-[10px] font-semibold text-zinc-400 group-hover:text-white uppercase tracking-wider pt-4 border-t border-zinc-900/60 mt-3">
+                {sol.action}
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -108,7 +151,7 @@ export default async function HomePage() {
         <div className="border-b border-zinc-900 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Gama Completă de Servicii</span>
           <h2 className="text-2xl md:text-3xl font-light text-white mt-1">Servicii Imobiliare, AI & Lifestyle</h2>
-          <p className="text-xs text-zinc-500 mt-2">Soluții integrate, asistență AI dedicată și suport off-market la nivel global.</p>
+          <p className="text-xs text-zinc-500 mt-2">Soluții complete pentru decizii de șase cifre: economisește timp și evită greșeli.</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">

@@ -25,6 +25,8 @@ import {
   Lock,
   Cpu,
   BookOpen,
+  Eye,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,6 +45,7 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/oportunitati", label: "Opportunities", desc: "Oportunități de investiție off-market", icon: TrendingUp },
     { href: "/map", label: "Map GIS", desc: "Scanare spațială și pin clustering", icon: Map },
     { href: "/aix-score", label: "AiX Score", desc: "Algoritm de rating al activelor", icon: Sparkles },
+    { href: "/off-market", label: "Off-Market Search", desc: "Căutare confidențială de proprietăți private", icon: Search },
   ],
   markets: [
     { href: "/market", label: "Market Pulse", desc: "Monitorizare macro, dobânzi și ROBOR", icon: Activity },
@@ -53,6 +56,8 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/wealth#billionaires", label: "Forbes Billionaires", desc: "Clasamentul celor mai bogați oameni", icon: Sparkles },
     { href: "/stiri", label: "News", desc: "Analize economice și perspective de piață", icon: Newspaper },
     { href: "/books", label: "Books Library", desc: "Cărți recomandate de consilierii AiX HNWI", icon: BookOpen },
+    { href: "/osint", label: "OSINT Intelligence", desc: "Căutare informații publice și firme", icon: Eye },
+    { href: "/learning", label: "Learning Center", desc: "Ghiduri practice și checklist-uri tranzacții", icon: BookOpen },
   ],
   ai: [
     { href: "/money-advisor", label: "Money Advisor", desc: "Consilier financiar personal IA", icon: Brain },
@@ -64,6 +69,8 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/insurance", label: "Insurance AI", desc: "Calculatoare și brokeraj de asigurare", icon: Coins },
     { href: "/cybersecurity", label: "Cybersecurity", desc: "Protecție anti-fraudă și due diligence digital", icon: Lock },
     { href: "/ai", label: "Technology Hub", desc: "AI, automatizare și platforme cloud pentru investitori", icon: Cpu },
+    { href: "/convenience", label: "Convenience Tools", desc: "Utilitare zilnice, QR, convertor valutar", icon: Cpu },
+    { href: "/apps", label: "Open Source Apps", desc: "Markdown editor, JSON formatter și viewer CSV", icon: FileText },
   ],
   luxury: [
     { href: "/private-jets", label: "Private Jets", desc: "Charter aerian privat și asistență FBO", icon: Plane },
@@ -82,6 +89,7 @@ export const PILLAR_MENUS: Record<string, MenuItem[]> = {
     { href: "/investments", label: "Investments", desc: "Management de portofoliu imobiliar global", icon: Coins },
     { href: "/cybersecurity", label: "Cybersecurity", desc: "Securitate digitală și prevenire fraude HNWI", icon: Lock },
     { href: "/calculators", label: "Financial Calculators", desc: "ROI, ipotecă, yield, taxe notariale", icon: Coins },
+    { href: "/law", label: "RO Law in Real Estate", desc: "Consultare cadru legal, notar, taxe, chirie și due diligence", icon: Scale },
   ],
 };
 
