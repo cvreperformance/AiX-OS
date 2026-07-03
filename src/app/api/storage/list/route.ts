@@ -46,7 +46,7 @@ export async function GET(request: Request) {
         },
         body: JSON.stringify({
           prefix: sanitized + "/",
-          limit: 200,
+          limit: 1000,
           offset: 0,
           sortBy: { column: "name", order: "asc" },
         }),

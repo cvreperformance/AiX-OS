@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, ArrowRight, Building, Sparkles, Newspaper, Activity, Compass, Globe } from "lucide-react";
+import { Search, ArrowRight, Building, Sparkles, Newspaper, Activity, Compass, Globe, Command } from "lucide-react";
 import Link from "next/link";
+import { ALL_SERVICES } from "@/lib/services";
 
 interface SearchItem {
   title: string;
-  category: "Property" | "Developer" | "City" | "AI Tool" | "News" | "Market Data";
+  category: "Property" | "Developer" | "City" | "Service" | "News" | "Market Data";
   desc: string;
   href: string;
+  icon?: any;
 }
 
-const SEARCH_ITEMS: SearchItem[] = [
+const STATIC_SEARCH_ITEMS: SearchItem[] = [
   // Properties
   { title: "Penthouse Floreasca Lake", category: "Property", desc: "Penthouse de lux cu vedere panoramică spre lacul Floreasca", href: "/proprietati/penthouse-floreasca-lake" },
   { title: "Vila Premium Pipera", category: "Property", desc: "Vilă cu design minimalist și piscină exterioară", href: "/proprietati/vila-premium-pipera" },
@@ -28,19 +30,6 @@ const SEARCH_ITEMS: SearchItem[] = [
   { title: "Monaco", category: "City", desc: "Safe haven absolut pentru capitaluri HNWI", href: "/map" },
   { title: "Dubai", category: "City", desc: "Metropolă globală cu randamente ridicate din chirii", href: "/map" },
 
-  // AI Tools
-  { title: "Money Advisor", category: "AI Tool", desc: "Consilier financiar personal pentru strategii de investiție", href: "/money-advisor" },
-  { title: "AntiȚeapă AI", category: "AI Tool", desc: "Due diligence digital și scanare riscuri imobiliare", href: "/anti-teapa" },
-  { title: "AI Valuation", category: "AI Tool", desc: "Evaluare instantă a valorii corecte pe metru pătrat", href: "/valuation" },
-  { title: "Property Scanner", category: "AI Tool", desc: "Scanare și filtrare a ofertelor externe sub prețul pieței", href: "/proprietati" },
-  { title: "RO Law in Real Estate", category: "AI Tool", desc: "Ghid legal imobiliar românesc și Asistent Juridic IA", href: "/law" },
-  { title: "Convenience Tools Hub", category: "AI Tool", desc: "Generatoare, convertor valutar și instrumente de lucru zilnice", href: "/convenience" },
-  { title: "Open Source Apps", category: "AI Tool", desc: "Markdown editor, JSON formatter și viewer CSV", href: "/apps" },
-  { title: "OSINT Intelligence", category: "AI Tool", desc: "Căutare firme românești/europene, date WHOIS și DNS", href: "/osint" },
-  { title: "Learning Center", category: "AI Tool", desc: "Ghiduri practice și checklist-uri pentru tranzacții", href: "/learning" },
-  { title: "Off-Market Search", category: "AI Tool", desc: "Căutare confidențială proprietăți private", href: "/off-market" },
-  { title: "Alătură-te AiX OS (Join)", category: "AI Tool", desc: "Creează cont sau înscrie-te la newsletter", href: "/join" },
-
   // News
   { title: "Creșterea tranzacțiilor de lux", category: "News", desc: "Analiză imobiliară premium pe trimestrul 1 2026", href: "/stiri" },
   { title: "Dezvoltări sustenabile în Europa", category: "News", desc: "Standardele verzi devin obligatorii pentru activele premium", href: "/stiri" },
@@ -55,6 +44,21 @@ export function GlobalSearch() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Combine static items with dynamically loaded ALL_SERVICES
+  const allItems = useMemo(() => {
+    const serviceItems: SearchItem[] = ALL_SERVICES.map(service => ({
+      title: service.label,
+      category: "Service",
+      desc: service.desc,
+      href: service.href,
+      icon: service.icon
+    }));
+    // Remove duplicates based on href if they exist in both
+    const uniqueServiceItems = serviceItems.filter(s => !STATIC_SEARCH_ITEMS.some(st => st.href === s.href));
+    return [...STATIC_SEARCH_ITEMS, ...uniqueServiceItems];
+  }, []);
 
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
@@ -66,22 +70,39 @@ export function GlobalSearch() {
     return () => document.removeEventListener("mousedown", clickOutside);
   }, []);
 
+  // Cmd+K shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
+        setFocused(true);
+      }
+      if (e.key === "Escape") {
+        setFocused(false);
+        inputRef.current?.blur();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const results = useMemo(() => {
     if (!query.trim()) return [];
     const lower = query.toLowerCase();
-    return SEARCH_ITEMS.filter(
+    return allItems.filter(
       (item) =>
         item.title.toLowerCase().includes(lower) ||
         item.category.toLowerCase().includes(lower) ||
         item.desc.toLowerCase().includes(lower)
     );
-  }, [query]);
+  }, [query, allItems]);
 
   const categoryIcons = {
     Property: Building,
     Developer: Compass,
     City: Globe,
-    "AI Tool": Sparkles,
+    Service: Sparkles,
     News: Newspaper,
     "Market Data": Activity,
   };
@@ -94,17 +115,27 @@ export function GlobalSearch() {
           ? "border-amber-500/40 bg-zinc-950 shadow-lg shadow-amber-500/[0.03]"
           : "border-zinc-800 bg-[#080808]/75"
       }`}>
-        <Search className="h-5 w-5 text-zinc-500 flex-shrink-0 animate-pulse" />
+        <Search className="h-5 w-5 text-zinc-500 flex-shrink-0" />
         <input
+          ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
-          placeholder="Caută proprietăți, dezvoltatori, orașe, indici bursieri sau instrumente AI..."
+          placeholder="Caută proprietăți, dezvoltatori sau servicii..."
           className="bg-transparent text-sm text-white placeholder-zinc-500 w-full focus:outline-none"
         />
+        {!query && !focused && (
+          <div className="hidden sm:flex items-center gap-1 text-[10px] text-zinc-500 bg-zinc-900/50 px-2 py-1 rounded-md border border-zinc-800">
+            <Command className="h-3 w-3" />
+            <span>K</span>
+          </div>
+        )}
         {query && (
           <button
-            onClick={() => setQuery("")}
+            onClick={() => {
+              setQuery("");
+              inputRef.current?.focus();
+            }}
             className="text-xs text-zinc-500 hover:text-white uppercase font-mono font-semibold"
           >
             Clear
@@ -114,15 +145,15 @@ export function GlobalSearch() {
 
       {/* Dropdown Results Box */}
       {focused && (
-        <div className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-850 bg-[#080808]/95 backdrop-blur-2xl shadow-2xl p-3 space-y-1 max-h-[360px] overflow-y-auto ${
+        <div className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-850 bg-[#080808]/95 backdrop-blur-2xl shadow-2xl p-3 space-y-1 max-h-[400px] overflow-y-auto ${
           query ? "animate-in fade-in slide-in-from-top-2 duration-150" : ""
         }`}>
           {results.length > 0 ? (
             results.map((item) => {
-              const IconComponent = categoryIcons[item.category] || Globe;
+              const IconComponent = item.icon || categoryIcons[item.category] || Globe;
               return (
                 <Link
-                  key={item.title}
+                  key={item.title + item.href}
                   href={item.href}
                   onClick={() => setFocused(false)}
                   className="flex items-center justify-between p-3.5 rounded-xl border border-transparent hover:border-zinc-850 hover:bg-zinc-900/30 transition-all group"
@@ -162,8 +193,8 @@ export function GlobalSearch() {
                   { label: "One United", href: "/dezvoltatori/one-united-properties" },
                   { label: "Penthouse", href: "/proprietati" },
                   { label: "Money Advisor", href: "/money-advisor" },
-                  { label: "Dubai", href: "/map" },
-                  { label: "Monaco", href: "/map" },
+                  { label: "Off-Market", href: "/off-market" },
+                  { label: "RO Law", href: "/law" },
                   { label: "Preț Aur", href: "/market" },
                 ].map((tag) => (
                   <Link
@@ -183,3 +214,4 @@ export function GlobalSearch() {
     </div>
   );
 }
+

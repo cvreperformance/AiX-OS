@@ -79,29 +79,40 @@ export default async function HomePage() {
       {/* 1. Hero Section */}
       <section className="relative pt-12 pb-12 sm:pt-20 sm:pb-16 overflow-hidden flex flex-col items-center justify-center min-h-[70svh] sm:min-h-[85vh] text-center px-4 sm:px-6">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] bg-amber-500/[0.03] blur-3xl rounded-full" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] bg-amber-500/[0.04] blur-3xl rounded-full" />
           <div className="absolute top-10 right-20 w-80 h-80 bg-blue-500/[0.02] blur-3xl rounded-full" />
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 px-3 py-1 text-[9px] uppercase tracking-widest text-amber-400 font-mono">
-            <Sparkles className="h-3.5 w-3.5" />
-            Outcome-Driven Real Estate Platform · 2026 Edition
-          </span>
-
-          <h1 className="text-3xl sm:text-6xl font-light tracking-tight text-white leading-tight">
-            Decizii Imobiliare Sigure, <br />
-            <span className="bg-gradient-to-r from-amber-400 via-amber-200 to-white bg-clip-text text-transparent font-semibold">
-              bazate pe Date și Tehnologie
-            </span>
+        <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 relative z-10 flex flex-col items-center">
+          <h1 className="text-5xl sm:text-8xl font-light tracking-widest text-white leading-tight uppercase">
+            AiX <span className="text-amber-500">OS</span>
           </h1>
 
-          <p className="text-xs sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            AiX OS elimină greșelile, riscurile și incertitudinea din tranzacțiile imobiliare. Corelăm datele de piață cu analizele juridice și financiare pentru a-ți proteja capitalul.
-          </p>
+          <div className="space-y-2">
+            <h2 className="text-2xl sm:text-4xl font-light text-zinc-300">
+              Your second brain.
+            </h2>
+            <h3 className="text-xl sm:text-3xl font-semibold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
+              Think faster.
+            </h3>
+          </div>
 
-          {/* HomeClient handles interactive GlobalSearch + quick access pills */}
-          <HomeClient />
+          <div className="pt-8 space-y-4 flex flex-col items-center">
+            <Link
+              href="/join"
+              className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 px-8 py-4 text-sm font-bold uppercase tracking-widest text-amber-400 transition-all duration-300 shadow-lg shadow-amber-500/10 active:scale-95"
+            >
+              🧠 Join the Waitlist
+            </Link>
+            <p className="text-xs uppercase tracking-widest text-zinc-500 font-mono">
+              Coming This Summer.
+            </p>
+          </div>
+
+          <div className="w-full max-w-2xl pt-12">
+            {/* HomeClient handles interactive GlobalSearch + quick access pills */}
+            <HomeClient />
+          </div>
         </div>
       </section>
 

@@ -9,26 +9,19 @@ import {
   MessageCircle,
   ChevronDown,
   Home,
-  Building2,
-  Sparkles,
+  Send,
   Users,
   Newspaper,
-  Activity,
-  Sliders,
-  Send,
-  Brain,
+  LayoutGrid
 } from "lucide-react";
 import { siteConfig, footerLinks } from "@/lib/config";
 import { brandContent } from "@/lib/content/brand";
-import { MegaMenu, PILLAR_MENUS } from "./MegaMenu";
+import { SERVICES_DIRECTORY } from "@/lib/services";
+import { MegaMenu } from "./MegaMenu";
 
 const TOP_LINKS = [
   { href: "/", label: "Home" },
-  { key: "properties", label: "Properties", isPillar: true },
-  { key: "markets", label: "Markets", isPillar: true },
-  { key: "ai", label: "AI", isPillar: true },
-  { key: "luxury", label: "Luxury", isPillar: true },
-  { key: "services", label: "Services", isPillar: true },
+  { key: "services", label: "Platform Services", isPillar: true },
   { href: "/despre", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -37,7 +30,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activePillar, setActivePillar] = useState<string | null>(null);
-  const [expandedPillar, setExpandedPillar] = useState<string | null>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const pathname = usePathname();
   const lastPathname = useRef(pathname);
 
@@ -47,7 +40,7 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll lock: toggle overflow-hidden on html element (no position:fixed hacks)
+  // Scroll lock for mobile drawer
   useEffect(() => {
     const html = document.documentElement;
     if (open) {
@@ -64,53 +57,15 @@ export function Header() {
     lastPathname.current = pathname;
     const timer = window.setTimeout(() => {
       setOpen(false);
-      setExpandedPillar(null);
+      setExpandedCategory(null);
     }, 0);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
   const closeMenu = () => {
     setOpen(false);
-    setExpandedPillar(null);
+    setExpandedCategory(null);
   };
-
-  const MOBILE_PILLARS = [
-    {
-      key: "properties",
-      label: "Properties",
-      icon: Building2,
-      color: "text-blue-400",
-      items: PILLAR_MENUS.properties,
-    },
-    {
-      key: "markets",
-      label: "Markets",
-      icon: Activity,
-      color: "text-emerald-400",
-      items: PILLAR_MENUS.markets,
-    },
-    {
-      key: "ai",
-      label: "AI Tools",
-      icon: Brain,
-      color: "text-violet-400",
-      items: PILLAR_MENUS.ai,
-    },
-    {
-      key: "luxury",
-      label: "Luxury Hub",
-      icon: Sparkles,
-      color: "text-amber-400",
-      items: PILLAR_MENUS.luxury,
-    },
-    {
-      key: "services",
-      label: "Services",
-      icon: Sliders,
-      color: "text-rose-400",
-      items: PILLAR_MENUS.services,
-    },
-  ];
 
   return (
     <header
@@ -145,15 +100,16 @@ export function Header() {
                 >
                   <button
                     type="button"
-                    className={`flex items-center gap-1 px-3 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
                       isHovered ? "text-amber-400" : "text-zinc-400 hover:text-white"
                     }`}
                   >
+                    <LayoutGrid className="h-3.5 w-3.5" />
                     {link.label}
                     <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />
                   </button>
                   {isHovered && (
-                    <MegaMenu pillar={link.key} onClose={() => setActivePillar(null)} />
+                    <MegaMenu onClose={() => setActivePillar(null)} />
                   )}
                 </div>
               );
@@ -196,9 +152,8 @@ export function Header() {
           </a>
         </div>
 
-        {/* Mobile: search hint + hamburger */}
+        {/* Mobile Hamburger */}
         <div className="xl:hidden flex items-center gap-2">
-          {/* Hamburger Toggle — 44×44 minimum touch target */}
           <button
             onClick={() => setOpen((prev) => !prev)}
             className="flex items-center justify-center w-11 h-11 text-zinc-300 hover:text-white hover:bg-zinc-800/60 rounded-xl transition-all duration-200 relative z-10"
@@ -207,7 +162,6 @@ export function Header() {
             aria-controls="mobile-menu"
             style={{ touchAction: "manipulation" }}
           >
-            {/* Animated bars */}
             <span className="flex flex-col gap-[5px] w-5">
               <span className={`h-[1.5px] bg-current rounded-full transition-all duration-300 origin-left ${open ? "rotate-45 translate-x-[3px] -translate-y-[1px] w-[20px]" : "w-full"}`} />
               <span className={`h-[1.5px] bg-current rounded-full transition-all duration-300 ${open ? "opacity-0 scale-x-0" : "w-4/5"}`} />
@@ -219,7 +173,6 @@ export function Header() {
 
       {/* ─────────────────────────────────────────
           MOBILE MENU DRAWER
-          Always in DOM, animated via transform
           ───────────────────────────────────────── */}
       <div
         id="mobile-menu"
@@ -228,7 +181,6 @@ export function Header() {
         }`}
         aria-hidden={!open}
       >
-        {/* Backdrop */}
         <div
           className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
             open ? "opacity-100" : "opacity-0"
@@ -236,124 +188,94 @@ export function Header() {
           onClick={closeMenu}
         />
 
-        {/* Drawer panel — slides in from right */}
         <div
-          className={`absolute top-0 right-0 bottom-0 w-full max-w-[320px] sm:max-w-sm flex flex-col bg-[#0a0a0a] border-l border-zinc-800/80 shadow-2xl transition-transform duration-300 ease-out overflow-hidden ${
+          className={`absolute top-0 right-0 bottom-0 w-full max-w-[340px] flex flex-col bg-[#0a0a0a] border-l border-zinc-800/80 shadow-2xl transition-transform duration-300 ease-out overflow-hidden ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
           style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
         >
-          {/* ── Drawer Header ── */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60 flex-shrink-0">
+          {/* Drawer Header */}
+          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60 flex-shrink-0 bg-[#0a0a0a] z-10">
             <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
               <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
               <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
             </Link>
             <button
               onClick={closeMenu}
-              className="flex items-center justify-center w-9 h-9 text-zinc-500 hover:text-white hover:bg-zinc-800/60 rounded-lg transition-all"
+              className="flex items-center justify-center w-11 h-11 text-zinc-500 hover:text-white hover:bg-zinc-800/60 rounded-xl transition-all"
               aria-label="Închide meniu"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
           </div>
 
-          {/* ── Quick Actions ── */}
-          <div className="px-4 pt-4 pb-3 flex-shrink-0">
-            <p className="text-[9px] uppercase tracking-[0.18em] text-zinc-600 font-semibold mb-2.5 px-1">Acces Rapid</p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { href: "/proprietati", label: "Properties", icon: Building2, color: "text-blue-400 border-blue-500/20 bg-blue-500/5" },
-                { href: "/market", label: "Markets", icon: Activity, color: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5" },
-                { href: "/money-advisor", label: "AI Advisor", icon: Brain, color: "text-violet-400 border-violet-500/20 bg-violet-500/5" },
-                { href: "/contact", label: "Contact", icon: Send, color: "text-amber-400 border-amber-500/20 bg-amber-500/5" },
-              ].map((qa) => {
-                const Icon = qa.icon;
-                return (
-                  <Link
-                    key={qa.href}
-                    href={qa.href}
-                    onClick={closeMenu}
-                    className={`flex items-center gap-2.5 px-3 py-3 rounded-xl border text-xs font-semibold transition-all active:scale-95 ${qa.color}`}
-                  >
-                    <Icon className="h-4 w-4 flex-shrink-0" />
-                    {qa.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ── Divider ── */}
-          <div className="mx-4 border-t border-zinc-800/60 flex-shrink-0" />
-
-          {/* ── Scrollable Nav Area ── */}
-          <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-0.5 overscroll-contain">
-            <p className="text-[9px] uppercase tracking-[0.18em] text-zinc-600 font-semibold mb-2 px-2">Navigație</p>
-
-            {/* Home link */}
+          {/* Scrollable Nav Area */}
+          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1 overscroll-contain">
+            
             <Link
               href="/"
               onClick={closeMenu}
-              className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all active:scale-98 ${
+              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
                 pathname === "/"
                   ? "bg-amber-500/10 text-amber-400"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900/40"
+                  : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
               }`}
             >
-              <Home className="h-4 w-4 flex-shrink-0" />
-              Home
+              <Home className="h-4.5 w-4.5 flex-shrink-0" />
+              Acasă
             </Link>
 
-            {/* Accordion Pillars */}
-            {MOBILE_PILLARS.map((pillar) => {
-              const isExpanded = expandedPillar === pillar.key;
-              const Icon = pillar.icon;
+            <div className="pt-4 pb-2">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold px-3 mb-2">Toate Serviciile</p>
+            </div>
+
+            {/* Accordion List for the 12 Categories */}
+            {SERVICES_DIRECTORY.map((category) => {
+              const isExpanded = expandedCategory === category.id;
+              const Icon = category.icon;
               return (
-                <div key={pillar.key}>
+                <div key={category.id} className="mb-1">
                   <button
                     type="button"
-                    onClick={() => setExpandedPillar(isExpanded ? null : pillar.key)}
-                    className={`w-full flex items-center justify-between px-3 py-3 rounded-xl text-sm font-medium transition-all active:scale-98 ${
+                    onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
+                    className={`w-full flex items-center justify-between px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
                       isExpanded
-                        ? "bg-zinc-900/60 text-white"
-                        : "text-zinc-400 hover:text-white hover:bg-zinc-900/40"
+                        ? "bg-zinc-900/80 text-white"
+                        : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
                     }`}
                     aria-expanded={isExpanded}
                   >
                     <span className="flex items-center gap-3">
-                      <Icon className={`h-4 w-4 flex-shrink-0 transition-colors ${isExpanded ? pillar.color : "text-zinc-600"}`} />
-                      {pillar.label}
+                      <div className={`p-1.5 rounded-lg border border-zinc-800/50 bg-zinc-900/50 flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-500"}`}>
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      {category.title}
                     </span>
                     <ChevronDown
-                      className={`h-3.5 w-3.5 flex-shrink-0 transition-transform duration-300 ${
-                        isExpanded ? "rotate-180 text-amber-400" : "text-zinc-700"
+                      className={`h-4 w-4 flex-shrink-0 transition-transform duration-300 ${
+                        isExpanded ? "rotate-180 text-amber-400" : "text-zinc-600"
                       }`}
                     />
                   </button>
 
-                  {/* Sub-items — animated height */}
                   <div
                     className={`overflow-hidden transition-all duration-300 ease-out ${
-                      isExpanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
+                      isExpanded ? "max-h-[800px] opacity-100 mt-1" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="ml-3 pl-4 border-l border-zinc-800/60 space-y-0.5 pt-1 pb-2">
-                      {pillar.items.map((sub) => (
+                    <div className="ml-5 pl-5 border-l-2 border-zinc-800/50 space-y-1 py-2">
+                      {category.items.map((sub) => (
                         <Link
                           key={sub.href}
                           href={sub.href}
                           onClick={closeMenu}
-                          className={`flex items-start gap-2.5 px-3 py-2.5 rounded-lg transition-all active:scale-98 group ${
-                            pathname === sub.href || pathname.startsWith(sub.href + "/")
-                              ? "bg-amber-500/8 text-amber-400"
-                              : "text-zinc-500 hover:text-white hover:bg-zinc-900/30"
+                          className={`block px-3 py-2.5 rounded-lg transition-all active:scale-98 ${
+                            pathname === sub.href
+                              ? "bg-amber-500/10 text-amber-400 font-semibold"
+                              : "text-zinc-400 font-medium hover:text-white hover:bg-zinc-900/50"
                           }`}
                         >
-                          <span className="flex flex-col gap-0">
-                            <span className="text-xs font-medium leading-tight">{sub.label}</span>
-                            <span className="text-[10px] text-zinc-700 group-hover:text-zinc-500 leading-tight">{sub.desc}</span>
-                          </span>
+                          <span className="text-xs">{sub.label}</span>
                         </Link>
                       ))}
                     </div>
@@ -362,12 +284,11 @@ export function Header() {
               );
             })}
 
-            {/* Separator + Aux links */}
-            <div className="pt-2 mt-2 border-t border-zinc-800/40 space-y-0.5">
+            <div className="pt-4 mt-2 border-t border-zinc-800/60 space-y-1">
               {[
-                { href: "/despre", label: "About", icon: Users },
+                { href: "/despre", label: "Despre AiX", icon: Users },
+                { href: "/stiri", label: "Analize Piață", icon: Newspaper },
                 { href: "/contact", label: "Contact", icon: Send },
-                { href: "/stiri", label: "News & Analize", icon: Newspaper },
               ].map((link) => {
                 const Icon = link.icon;
                 return (
@@ -375,13 +296,13 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all active:scale-98 ${
+                    className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
                       pathname === link.href
                         ? "bg-amber-500/10 text-amber-400"
-                        : "text-zinc-500 hover:text-white hover:bg-zinc-900/40"
+                        : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
                     }`}
                   >
-                    <Icon className="h-4 w-4 flex-shrink-0" />
+                    <Icon className="h-4.5 w-4.5 flex-shrink-0" />
                     {link.label}
                   </Link>
                 );
@@ -389,12 +310,12 @@ export function Header() {
             </div>
           </nav>
 
-          {/* ── Footer Actions ── */}
-          <div className="px-4 pb-4 pt-3 border-t border-zinc-800/60 space-y-2.5 flex-shrink-0">
-            <div className="grid grid-cols-2 gap-2">
+          {/* Footer Actions */}
+          <div className="px-4 pb-6 pt-4 border-t border-zinc-800/60 space-y-3 bg-[#0a0a0a] z-10 flex-shrink-0">
+            <div className="grid grid-cols-2 gap-3">
               <a
                 href={`tel:${brandContent.contact.phoneRORaw}`}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white hover:border-zinc-700 transition-all active:scale-95"
+                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl border border-zinc-800 text-[11px] uppercase tracking-wider font-bold text-zinc-300 hover:text-white hover:border-zinc-700 transition-all active:scale-95"
               >
                 <Phone className="h-4 w-4 text-amber-400" />
                 Sună
@@ -403,22 +324,19 @@ export function Header() {
                 href={brandContent.contact.whatsappText}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600/10 border border-emerald-500/30 text-xs font-semibold text-emerald-400 hover:bg-emerald-600/20 transition-all active:scale-95"
+                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-600/10 border border-emerald-500/30 text-[11px] uppercase tracking-wider font-bold text-emerald-400 hover:bg-emerald-600/20 transition-all active:scale-95"
               >
                 <MessageCircle className="h-4 w-4" />
                 WhatsApp
               </a>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                closeMenu();
-                window.dispatchEvent(new CustomEvent("open-contact-popup"));
-              }}
-              className="w-full py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-black bg-amber-500 hover:bg-amber-400 rounded-xl transition-all active:scale-98 shadow-lg shadow-amber-500/20"
+            <Link
+              href="/join"
+              onClick={closeMenu}
+              className="w-full flex items-center justify-center py-4 text-xs font-bold uppercase tracking-widest text-black bg-amber-500 hover:bg-amber-400 rounded-xl transition-all active:scale-95 shadow-lg shadow-amber-500/20"
             >
-              Solicită Consultanță Gratuită
-            </button>
+              Creează Cont AiX
+            </Link>
           </div>
         </div>
       </div>
@@ -461,18 +379,9 @@ export function Footer() {
                 <Phone className="h-3.5 w-3.5" />
                 {brandContent.contact.phoneRO}
               </a>
-              <a
-                href={brandContent.contact.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-amber-400 transition-colors"
-              >
-                <Send className="h-3.5 w-3.5" />
-                Telegram
-              </a>
             </div>
-            {/* Social icons row */}
-            <div className="flex gap-3 flex-wrap">
+            {/* Social icons */}
+            <div className="flex gap-3 flex-wrap pt-2">
               {[
                 { label: "LinkedIn", href: "https://www.linkedin.com/in/cristianv%C4%83duva" },
                 { label: "Instagram", href: "https://instagram.com/cristian_vaduva_cristianv" },
@@ -484,7 +393,7 @@ export function Footer() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-zinc-600 hover:text-amber-400 transition-colors"
+                  className="text-xs font-semibold text-zinc-600 hover:text-amber-400 transition-colors uppercase tracking-wider"
                 >
                   {s.label}
                 </a>
@@ -494,11 +403,11 @@ export function Footer() {
 
           {/* Platform */}
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 mb-4">Platformă</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Platformă</h4>
+            <ul className="space-y-2.5">
               {footerLinks.platform.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-zinc-400 hover:text-amber-400 transition-colors">
+                  <Link href={l.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -506,14 +415,14 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Selected Services (First 5 Categories for Footer) */}
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 mb-4">Servicii</h4>
-            <ul className="space-y-2">
-              {PILLAR_MENUS.services.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-sm text-zinc-400 hover:text-amber-400 transition-colors">
-                    {l.label}
+            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Servicii Principale</h4>
+            <ul className="space-y-2.5">
+              {SERVICES_DIRECTORY.slice(0, 5).flatMap(c => c.items).slice(0, 8).map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -522,28 +431,28 @@ export function Footer() {
 
           {/* Ecosystem */}
           <div>
-            <h4 className="text-xs uppercase tracking-widest text-zinc-500 mb-4">Ecosistem</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Ecosistem</h4>
+            <ul className="space-y-2.5">
               {footerLinks.ecosystem.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
                     target={"external" in l && l.external ? "_blank" : undefined}
                     rel={"external" in l && l.external ? "noopener noreferrer" : undefined}
-                    className="text-sm text-zinc-400 hover:text-amber-400 transition-colors"
+                    className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors"
                   >
                     {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div className="mt-6 space-y-2">
-              <p className="text-xs text-zinc-600 uppercase tracking-widest">Parteneri</p>
+            <div className="mt-8 space-y-3 border-t border-zinc-800/60 pt-6">
+              <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">Parteneri Strategici</p>
               <a
                 href={brandContent.urls.personal}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-sm text-amber-500/70 hover:text-amber-400 transition-colors"
+                className="block text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors"
               >
                 CristianVaduva.com ↗
               </a>
@@ -551,40 +460,35 @@ export function Footer() {
                 href={brandContent.urls.luxury}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-sm text-amber-500/70 hover:text-amber-400 transition-colors"
+                className="block text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors"
               >
                 AiXLuxury.com ↗
-              </a>
-              <a
-                href={brandContent.urls.linktree}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-sm text-zinc-600 hover:text-amber-400 transition-colors"
-              >
-                Linktree ↗
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="text-center sm:text-left">
+        <div className="mt-16 pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-6">
+          <div className="text-center sm:text-left space-y-1.5">
             <p className="text-xs text-zinc-600">
-              © {new Date().getFullYear()} AiX OS — Powered by CristianVaduva.com · AiXLuxury.com
+              © {new Date().getFullYear()} AiX OS — Ecosistem Digital de Tranzacții Imobiliare
             </p>
-            <p className="text-xs text-zinc-700 mt-0.5">
+            <p className="text-xs text-zinc-700 italic">
               {brandContent.about.short}
             </p>
+            <p className="text-[10px] uppercase tracking-widest font-semibold text-zinc-600/60 mt-4">
+              Proudly Powered by cristianvaduva.com
+            </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <Link href="/despre" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Despre</Link>
             <Link href="/contact" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Contact</Link>
-            <Link href="/privacy" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Politica de Confidențialitate</Link>
-            <Link href="/cookie-policy" className="text-xs text-zinc-700 hover:text-zinc-500 transition-colors">Politica de Cookie-uri</Link>
+            <Link href="/privacy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Privacy</Link>
+            <Link href="/cookie-policy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Cookies</Link>
           </div>
-
         </div>
       </div>
     </footer>
   );
 }
+
