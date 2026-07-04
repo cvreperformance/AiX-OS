@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import { usePathname } from "next/navigation";
 import {
   X,
@@ -44,9 +44,23 @@ export function Header() {
   const lastPathname = useRef(pathname);
 
   const [open, setOpen] = useState(false);
+  const [gestureDragging, setGestureDragging] = useState(false);
+  const [gestureProgress, setGestureProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [showDeskDropdown, setShowDeskDropdown] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const gestureProgressRef = useRef(0);
+  const gestureStartYRef = useRef(0);
+  const gestureMovedRef = useRef(false);
+  const gestureModeRef = useRef<"open" | "close" | null>(null);
+  const gesturePointerIdRef = useRef<number | null>(null);
+  const gestureRafRef = useRef<number | null>(null);
+
+  const openMenu = () => {
+    setOpen(true);
+    setGestureProgress(1);
+    gestureProgressRef.current = 1;
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15);
@@ -71,6 +85,10 @@ export function Header() {
     lastPathname.current = pathname;
     const timer = window.setTimeout(() => {
       setOpen(false);
+      setGestureDragging(false);
+      setGestureProgress(0);
+      gestureProgressRef.current = 0;
+      gestureModeRef.current = null;
       setShowDeskDropdown(false);
       setExpandedCategory(null);
     }, 0);
@@ -79,8 +97,112 @@ export function Header() {
 
   const closeMenu = () => {
     setOpen(false);
+    setGestureDragging(false);
+    setGestureProgress(0);
+    gestureProgressRef.current = 0;
+    gestureModeRef.current = null;
     setExpandedCategory(null);
   };
+
+  const scheduleGestureProgress = (next: number) => {
+    gestureProgressRef.current = Math.max(0, Math.min(1, next));
+    if (gestureRafRef.current != null) return;
+    gestureRafRef.current = window.requestAnimationFrame(() => {
+      gestureRafRef.current = null;
+      setGestureProgress(gestureProgressRef.current);
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (gestureRafRef.current != null) {
+        window.cancelAnimationFrame(gestureRafRef.current);
+      }
+    };
+  }, []);
+
+  const beginGesture = (
+    mode: "open" | "close",
+    e: ReactPointerEvent<HTMLButtonElement | HTMLDivElement>
+  ) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.preventDefault();
+    gestureModeRef.current = mode;
+    gesturePointerIdRef.current = e.pointerId;
+    gestureStartYRef.current = e.clientY;
+    gestureMovedRef.current = false;
+    setGestureDragging(true);
+    if (mode === "open") {
+      setOpen(true);
+      scheduleGestureProgress(0);
+    } else {
+      setOpen(true);
+      scheduleGestureProgress(1);
+    }
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+  };
+
+  const updateGesture = (e: ReactPointerEvent<HTMLButtonElement | HTMLDivElement>) => {
+    if (gesturePointerIdRef.current !== e.pointerId) return;
+    updateGestureFromClientY(e.clientY);
+  };
+
+  const updateGestureFromClientY = (clientY: number) => {
+    if (!gestureDragging || !gestureModeRef.current) return;
+    const deltaY = gestureStartYRef.current - clientY;
+    if (Math.abs(deltaY) > 3) gestureMovedRef.current = true;
+    const maxDrag = 220;
+    const nextProgress =
+      gestureModeRef.current === "open"
+        ? Math.max(0, Math.min(1, deltaY / maxDrag))
+        : Math.max(0, Math.min(1, 1 - Math.max(0, clientY - gestureStartYRef.current) / maxDrag));
+    scheduleGestureProgress(nextProgress);
+  };
+
+  const finishGesture = () => {
+    if (!gestureModeRef.current) return;
+    const shouldOpen = gestureMovedRef.current
+      ? gestureProgressRef.current > 0.5
+      : gestureModeRef.current === "open";
+    if (shouldOpen) {
+      setOpen(true);
+      scheduleGestureProgress(1);
+    } else {
+      setOpen(false);
+      scheduleGestureProgress(0);
+    }
+    setGestureDragging(false);
+    gestureModeRef.current = null;
+    gesturePointerIdRef.current = null;
+    gestureMovedRef.current = false;
+  };
+
+  useEffect(() => {
+    if (!gestureDragging || gesturePointerIdRef.current == null) return;
+
+    const handleMove = (event: PointerEvent) => {
+      if (event.pointerId !== gesturePointerIdRef.current) return;
+      updateGestureFromClientY(event.clientY);
+    };
+
+    const handleEnd = (event: PointerEvent) => {
+      if (event.pointerId !== gesturePointerIdRef.current) return;
+      finishGesture();
+    };
+
+    window.addEventListener("pointermove", handleMove, { passive: true });
+    window.addEventListener("pointerup", handleEnd);
+    window.addEventListener("pointercancel", handleEnd);
+
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener("pointerup", handleEnd);
+      window.removeEventListener("pointercancel", handleEnd);
+    };
+  }, [gestureDragging]);
+
+  const menuProgress = gestureDragging ? gestureProgress : open ? 1 : 0;
+  const menuVisible = open || gestureDragging || gestureProgress > 0;
 
   return (
     <>
@@ -209,14 +331,12 @@ export function Header() {
 
             {/* Mobile Menu Toggle Button (visible at all times next to toggle and alerts) */}
             <button
-              onClick={() => setOpen(!open)}
-              className="xl:hidden flex items-center gap-1.5 h-12 px-3.5 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md"
+              onClick={open ? closeMenu : openMenu}
+              className="xl:hidden flex items-center justify-center h-11 w-11 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md"
               aria-label={language === "ro" ? "Meniu" : "Menu"}
             >
               <Brain className="h-4.5 w-4.5 text-pink-500 fill-pink-500/10 drop-shadow-[0_0_6px_rgba(236,72,153,0.35)] shrink-0 animate-pulse" />
-              <span className="text-[10px] font-bold tracking-wider uppercase font-mono">
-                {language === "ro" ? "Meniu" : "Menu"}
-              </span>
+              <span className="sr-only">{language === "ro" ? "Meniu" : "Menu"}</span>
             </button>
           </div>
         </div>
@@ -261,25 +381,86 @@ export function Header() {
           MOBILE FULL SCREEN SYSTEM ACCORDION DRAWER
           ───────────────────────────────────────── */}
       <div
+        className={`xl:hidden fixed inset-x-0 bottom-0 z-[390] flex justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] transition-all duration-200 ${
+          menuVisible && !gestureDragging ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-100 translate-y-0"
+        }`}
+        aria-hidden={menuVisible}
+      >
+        <button
+          type="button"
+          onPointerDown={(e) => beginGesture("open", e)}
+          onPointerMove={updateGesture}
+          onPointerUp={finishGesture}
+          onPointerCancel={finishGesture}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!gestureDragging) openMenu();
+          }}
+          className="group flex w-full max-w-[280px] items-center gap-3 rounded-[22px] border border-zinc-800 bg-[#0a0a0a]/86 px-4 py-3 text-left shadow-2xl backdrop-blur-2xl touch-none select-none"
+          style={{ touchAction: "none" }}
+          aria-label={language === "ro" ? "Glisează pentru a deschide meniul" : "Slide to open menu"}
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-amber-500/20 bg-amber-500/10 text-amber-400 shadow-[0_0_24px_rgba(201,169,98,0.12)]">
+            <Brain className="h-5 w-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-400/90">
+              {language === "ro" ? "Glisează pentru meniu" : "Slide to open menu"}
+            </span>
+            <span className="block text-[11px] text-zinc-500 leading-tight mt-0.5">
+              {language === "ro"
+                ? "Ridică pentru hub-ul complet de servicii"
+                : "Lift to reveal the full service hub"}
+            </span>
+          </span>
+          <ArrowRight className="h-4.5 w-4.5 shrink-0 text-zinc-600 transition-transform duration-200 group-active:translate-y-0.5" />
+        </button>
+      </div>
+
+      <div
         id="mobile-menu"
         className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
-          open ? "pointer-events-auto" : "pointer-events-none"
+          menuVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
-        aria-hidden={!open}
+        aria-hidden={!menuVisible}
       >
         <div
           className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
-            open ? "opacity-100" : "opacity-0"
+            menuVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={closeMenu}
+          style={{ opacity: menuProgress * 0.75 }}
         />
 
         <div
-          className={`absolute top-0 right-0 bottom-0 w-full max-w-[340px] flex flex-col bg-[#080808] border-l border-zinc-900 shadow-2xl transition-transform duration-300 ease-out overflow-hidden ${
-            open ? "translate-x-0" : "translate-x-full"
+          className={`absolute inset-x-0 bottom-0 flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-900 bg-[#080808] shadow-2xl transition-transform duration-300 ease-out ${
+            menuVisible ? "translate-y-0" : "translate-y-full"
           }`}
-          style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 68px)" }}
+          style={{
+            paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 68px)",
+            transform: `translateY(${(1 - menuProgress) * 100}%)`,
+            transitionProperty: gestureDragging ? "none" : "transform",
+          }}
         >
+          <div
+            className="flex items-center justify-center px-5 pt-3 pb-2 flex-shrink-0 bg-[#080808] z-10"
+            onPointerDown={(e) => beginGesture("close", e)}
+            onPointerMove={updateGesture}
+            onPointerUp={finishGesture}
+            onPointerCancel={finishGesture}
+            style={{ touchAction: "none" }}
+          >
+            <button
+              type="button"
+              className="flex items-center gap-2 rounded-full border border-zinc-800/80 bg-zinc-950/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-zinc-500"
+              aria-label={language === "ro" ? "Glisează pentru a închide" : "Slide to close"}
+            >
+              <span className="h-1.5 w-10 rounded-full bg-zinc-700/80" />
+              <Brain className="h-3.5 w-3.5 text-amber-400" />
+              <span>{language === "ro" ? "Glisează pentru a închide" : "Slide to close"}</span>
+            </button>
+          </div>
+
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-850 flex-shrink-0 bg-[#080808] z-10">
             <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
               <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
