@@ -4,6 +4,7 @@ import { ConsultationPopup } from "@/components/layout/ConsultationPopup";
 import { MarketAlertBanner } from "@/components/layout/MarketAlertBanner";
 import { StickyBottomCTA } from "@/components/layout/StickyBottomCTA";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { SystemBackgroundLayer } from "@/components/layout/SystemBackgroundLayer";
 
 export default function SiteLayout({
   children,
@@ -12,7 +13,9 @@ export default function SiteLayout({
 }) {
   return (
     <LanguageProvider>
-      <div className="min-h-full flex flex-col">
+      <div className="min-h-full flex flex-col relative">
+        {/* Animated background data layer */}
+        <SystemBackgroundLayer />
       {/* Rotating market alert banner */}
       <MarketAlertBanner />
 

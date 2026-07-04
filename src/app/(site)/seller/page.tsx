@@ -93,7 +93,7 @@ export default function SellerPage() {
               Evaluare Gratuită
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <a href="https://wa.me/40000000000" target="_blank" rel="noopener noreferrer"
+            <a href="https://wa.me/436509536345" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-7 py-3.5 text-sm text-zinc-300 hover:border-amber-500/30 transition-all">
               <MessageCircle className="h-4 w-4 text-emerald-400" />
               WhatsApp

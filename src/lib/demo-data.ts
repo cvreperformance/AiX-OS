@@ -437,8 +437,8 @@ export const agencies: Agency[] = [
     description:
       "Buyer representation, luxury properties și market intelligence. Parte din ecosistemul AiX OS.",
     website: "https://cristianvaduva.com",
-    phone: "+40 700 000 000",
-    email: "contact@cristianvaduva.com",
+    phone: "+43 650 953 6345",
+    email: "cristianvaduva@duck.com",
     city: "București",
     aix_score: 9.5,
     properties_count: 45,

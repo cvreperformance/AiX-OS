@@ -122,7 +122,7 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
  */
 export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_EMAIL || "contact@cristianvaduva.com";
+  const toEmail = process.env.CONTACT_EMAIL || "cristianvaduva@duck.com";
 
   if (!apiKey) {
     console.warn(

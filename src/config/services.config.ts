@@ -577,8 +577,8 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
 ];
 
 export const CONNECT_CHANNELS = [
-  { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/40722334455", icon: MessageCircle },
-  { id: "email", label: "Email", href: "mailto:contact@cristianvaduva.com", icon: Mail },
+  { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/436509536345", icon: MessageCircle },
+  { id: "email", label: "Email", href: "mailto:cristianvaduva@duck.com", icon: Mail },
   { id: "telegram", label: "Telegram", href: "https://t.me/AiX_OS", icon: Send },
   { id: "personal-site", label: "CristianVaduva.com", href: "https://cristianvaduva.com", icon: Globe },
   { id: "luxury-site", label: "AiXLuxury.com", href: "https://aixluxury.com", icon: Gem }

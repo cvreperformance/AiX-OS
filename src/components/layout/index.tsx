@@ -98,6 +98,7 @@ export function Header() {
           {/* Top Brand & Actions line */}
           <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5">
             <Link href="/" className="flex items-center gap-1.5 group">
+              <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
               <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
               <span className="text-xl font-light tracking-[0.2em] text-amber-500">OS</span>
             </Link>
@@ -179,6 +180,7 @@ export function Header() {
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-1.5 group">
+            <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
             <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
             <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
           </Link>
@@ -211,6 +213,14 @@ export function Header() {
 
             {/* Notification Center */}
             <NotificationPopover />
+
+            {/* Global Language Toggle */}
+            <button
+              onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
+              className="flex items-center justify-center border border-zinc-850 bg-zinc-950/60 rounded-xl px-2.5 py-1.5 text-[9px] font-bold text-amber-400 hover:text-white uppercase font-mono transition-all duration-200"
+            >
+              {language === "ro" ? "EN" : "RO"}
+            </button>
 
             {/* Mobile hamburger - hidden, bottom nav replaces it */}
             <div className="xl:hidden flex items-center gap-1">
@@ -286,6 +296,7 @@ export function Header() {
         >
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-850 flex-shrink-0 bg-[#080808] z-10">
             <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
+              <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
               <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
               <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
             </Link>
@@ -494,10 +505,11 @@ export function Footer() {
 
           {/* Legal paths */}
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-zinc-550">
+            <a href="https://cristianvaduva.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">CristianVaduva.com</a>
+            <a href="https://aixluxury.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">AiXLuxury.com</a>
             <Link href="/sitemap" className="hover:text-amber-400 transition-colors">Sitemap</Link>
             <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
             <Link href="/cookie-policy" className="hover:text-amber-400 transition-colors">Cookie Policy</Link>
-            <Link href="/contact" className="hover:text-amber-400 transition-colors">Terms</Link>
           </div>
         </div>
 

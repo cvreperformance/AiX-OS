@@ -68,6 +68,11 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       
       {/* ─── HERO SECTION ─────────────────────────────────────────────────── */}
       <section className="space-y-6 max-w-2xl mx-auto py-6">
+        <div className="flex justify-center mb-4">
+          <div className="rounded-3xl bg-amber-500/10 p-5 border border-amber-500/25 w-fit shrink-0 animate-pulse">
+            <Brain className="h-12 w-12 text-amber-500" />
+          </div>
+        </div>
         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
           AiX OS &bull; Decision intelligence
         </span>

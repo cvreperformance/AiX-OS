@@ -139,7 +139,7 @@ export default function BrainClient() {
           : "No direct module matches found. We recommend using specific tags (e.g., 'buy', 'notary fees', 'insurance', 'BNR') or connecting directly with an advisor.";
         
         actionsList.push(
-          { label: language === "ro" ? "Consultanță WhatsApp" : "WhatsApp Support", href: "https://wa.me/40722334455" },
+          { label: language === "ro" ? "Consultanță WhatsApp" : "WhatsApp Support", href: "https://wa.me/436509536345" },
           { label: language === "ro" ? "Deschide Calculator Financiar" : "Open Financial Calculators", href: "/calculators" }
         );
       }
