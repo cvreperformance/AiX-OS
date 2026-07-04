@@ -32,4 +32,9 @@ export const footerColumns: FooterColumn[] = [
     titleEn: "AI System",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
   },
+  {
+    title: "Aviație & Transport",
+    titleEn: "Aviation & Travel",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LUXURY_TRAVEL"),
+  },
 ];
