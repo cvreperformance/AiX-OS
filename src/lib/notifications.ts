@@ -99,7 +99,7 @@ function buildTelegramMessage(lead: LeadData): string {
     `Service: ${service}`,
     `Message: ${message}`,
     `Page URL: ${page}`,
-    `Time: ${time}`,
+    `Timestamp: ${time}`,
   ].join("\n");
 }
 
