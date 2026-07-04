@@ -49,15 +49,7 @@ async function fetchWithTimeout(
   }
 }
 
-/**
- * Escape every character that MarkdownV2 treats as special.
- * Must be applied to ALL dynamic content before insertion into the message.
- * Ref: https://core.telegram.org/bots/api#markdownv2-style
- */
-function escMD(text: string): string {
-  // Characters that must be escaped in MarkdownV2
-  return String(text).replace(/[_*[\]()~`>#+=|{}.!\\-]/g, (c) => `\\${c}`);
-}
+
 
 /**
  * Format a UTC ISO timestamp to a human-readable local string.
@@ -90,33 +82,24 @@ function formatTime(iso: string): string {
  *   🕒 Timestamp
  */
 function buildTelegramMessage(lead: LeadData): string {
-  const service  = escMD(lead.service);
-  const name     = escMD(lead.name);
-  const phone    = escMD(lead.phone);
-  const email    = lead.email    ? escMD(lead.email)   : "N/A";
-  const message  = lead.message  ? escMD(lead.message) : "—";
-  const page     = escMD(lead.page);
-  const source   = escMD(lead.source);
-  const time     = escMD(formatTime(lead.created_at));
+  const service  = lead.service || "N/A";
+  const name     = lead.name || "N/A";
+  const phone    = lead.phone || "N/A";
+  const email    = lead.email || "N/A";
+  const message  = lead.message || "—";
+  const page     = lead.page || "N/A";
+  const time     = formatTime(lead.created_at);
 
   return [
-    `🔥 *NEW LEAD — AiX OS*`,
+    `🧠 AiX OS Lead`,
     ``,
-    `*Service:* ${service}`,
-    ``,
-    `👤 *Contact*`,
-    `• Name: ${name}`,
-    `• Phone: \`${phone}\``,
-    `• Email: ${email}`,
-    ``,
-    `📍 *Origin*`,
-    `• Page: \`${page}\``,
-    `• Source: \`${source}\``,
-    ``,
-    `💬 *Message / Details*`,
-    message,
-    ``,
-    `🕒 ${time}`,
+    `Name: ${name}`,
+    `Email: ${email}`,
+    `Phone: ${phone}`,
+    `Service: ${service}`,
+    `Message: ${message}`,
+    `Page URL: ${page}`,
+    `Time: ${time}`,
   ].join("\n");
 }
 
@@ -145,7 +128,6 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
   const body = JSON.stringify({
     chat_id:    chatId,
     text:       buildTelegramMessage(lead),
-    parse_mode: "MarkdownV2",
   });
 
   let attempt = 0;
