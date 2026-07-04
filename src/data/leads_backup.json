@@ -20,5 +20,27 @@
     "message": "Verifying retry loops and abort timeouts",
     "status": "new",
     "source": "qa-verify"
+  },
+  {
+    "created_at": "2026-07-04T23:29:21.258Z",
+    "service": "Test Service",
+    "page": "/",
+    "name": "Test Name",
+    "email": "test@example.com",
+    "phone": "+1234567890",
+    "message": "Test Message",
+    "status": "new",
+    "source": "curl"
+  },
+  {
+    "created_at": "2026-07-04T23:31:59.604Z",
+    "service": "Verification Check",
+    "page": "/",
+    "name": "System Verifier",
+    "email": "test@aixos.com",
+    "phone": "+40 700 000 000",
+    "message": "Final UI Test from curl",
+    "status": "new",
+    "source": "cli"
   }
 ]
