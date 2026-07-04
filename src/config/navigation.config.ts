@@ -5,7 +5,6 @@ import {
   BookOpen,
   Wrench,
   Brain,
-  Plane,
   type LucideIcon
 } from "lucide-react";
 
@@ -58,14 +57,6 @@ export const navigationCategories: NavigationCategory[] = [
     icon: Brain,
     color: "text-violet-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
-  },
-  {
-    id: "luxury-travel",
-    title: "Aviație & Transport",
-    titleEn: "Aviation & Travel",
-    icon: Plane,
-    color: "text-sky-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LUXURY_TRAVEL"),
   },
 ];
 

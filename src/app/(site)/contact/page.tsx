@@ -61,7 +61,7 @@ const CONTACT_ITEMS = [
   {
     icon: Clock,
     label: "Program",
-    value: "Luni–Vineri, 9:00–18:00",
+    value: "Non-stop disponibil",
     href: null,
   },
   {

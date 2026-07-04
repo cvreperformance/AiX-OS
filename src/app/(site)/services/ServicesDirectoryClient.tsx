@@ -88,27 +88,8 @@ export default function ServicesDirectoryClient() {
         </div>
       </section>
 
-      {/* Control panel: Search input + Category filters */}
+      {/* Control panel: Category filters */}
       <div className="space-y-4 max-w-4xl">
-        {/* Search Bar */}
-        <div className="max-w-xl relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-550" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={language === "ro" ? "Caută servicii, cuvinte cheie..." : "Search services, features, keywords..."}
-            className="w-full rounded-2xl border border-zinc-850 bg-[#080808]/60 py-3 pl-11 pr-10 text-xs text-white placeholder-zinc-550 focus:border-amber-500/40 focus:outline-none transition-colors backdrop-blur-md"
-          />
-          {query && (
-            <button
-              onClick={() => setQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-650 hover:text-white"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
 
         {/* Category Pills Filters */}
         <div className="flex flex-wrap gap-2 pt-2">

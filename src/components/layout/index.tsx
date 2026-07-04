@@ -24,7 +24,7 @@ import {
   Star,
   Activity,
   Heart,
-  Search,
+
   BookOpen,
   Wrench,
   Shield,
@@ -80,11 +80,6 @@ export function Header() {
   const closeMenu = () => {
     setOpen(false);
     setExpandedCategory(null);
-  };
-
-  const handleMobileSearchTrigger = () => {
-    closeMenu();
-    window.dispatchEvent(new CustomEvent("trigger-search-focus"));
   };
 
   return (
@@ -185,16 +180,6 @@ export function Header() {
             <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
           </Link>
 
-          {/* Search Trigger */}
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent("trigger-search-focus"))}
-            className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl border border-zinc-900 bg-zinc-950/60 hover:bg-zinc-900 text-zinc-500 hover:text-zinc-300 transition-all text-xs font-semibold w-64 max-w-sm ml-4"
-          >
-            <Search className="h-3.5 w-3.5" />
-            <span>Search Command...</span>
-            <kbd className="ml-auto font-mono text-[9px] text-zinc-600 bg-zinc-900 border border-zinc-800 px-1.5 rounded">⌘K</kbd>
-          </button>
-
           {/* Sistem Desk Dropdown Toggle & Language Toggle */}
           <div className="flex items-center gap-2.5">
             {/* Desktop Desk Toggle */}
@@ -222,16 +207,14 @@ export function Header() {
               {language === "ro" ? "EN" : "RO"}
             </button>
 
-            {/* Mobile hamburger - hidden, bottom nav replaces it */}
-            <div className="xl:hidden flex items-center gap-1">
-              <button
-                onClick={handleMobileSearchTrigger}
-                className="flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
-                aria-label="Căutare"
-              >
-                <Search className="h-4.5 w-4.5" />
-              </button>
-            </div>
+            {/* Mobile Menu Toggle Button (visible at all times next to toggle and alerts) */}
+            <button
+              onClick={() => setOpen(!open)}
+              className="xl:hidden flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
+              aria-label="Meniu"
+            >
+              <LayoutGrid className="h-4.5 w-4.5" />
+            </button>
           </div>
         </div>
 
@@ -394,62 +377,6 @@ export function Header() {
           </nav>
         </div>
       </div>
-
-      {/* ─── MOBILE BOTTOM 1-THUMB NAVIGATION BAR ────────────────────────── */}
-      <nav
-        className="fixed bottom-0 left-0 right-0 z-[450] xl:hidden border-t border-zinc-900 bg-[#080808]/95 backdrop-blur-xl shadow-2xl flex items-center justify-around h-16 pb-safe"
-        aria-label="Mobile Bottom Control"
-      >
-        {[
-          { href: "/", label: language === "ro" ? "Acasă" : "Home", icon: Home },
-          { href: "search", label: language === "ro" ? "Căutare" : "Search", icon: Search, action: handleMobileSearchTrigger },
-          { href: "/proprietati", label: language === "ro" ? "Imobile" : "Properties", icon: Building2 },
-          { href: "/stiri", label: language === "ro" ? "Piață" : "Market", icon: Activity },
-        ].map((item) => {
-          const active = item.href !== "search" && (item.href === "/" ? pathname === "/" : pathname.startsWith(item.href));
-          const Icon = item.icon;
-
-          if (item.action) {
-            return (
-              <button
-                key={item.label}
-                type="button"
-                onClick={item.action}
-                className="flex flex-col items-center justify-center gap-1.5 w-14 h-full text-zinc-500"
-              >
-                <Icon className="h-5 w-5 text-zinc-400" strokeWidth={1.75} />
-                <span className="text-[9px] font-bold uppercase tracking-wider leading-none text-zinc-550">{item.label}</span>
-              </button>
-            );
-          }
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-full transition-colors ${
-                active ? "text-amber-400" : "text-zinc-500"
-              }`}
-            >
-              <Icon className={`h-5 w-5 ${active ? "text-amber-400 scale-105" : "text-zinc-450"}`} strokeWidth={active ? 2 : 1.75} />
-              <span className={`text-[9px] font-bold uppercase tracking-wider leading-none ${active ? "text-amber-400" : "text-zinc-550"}`}>{item.label}</span>
-            </Link>
-          );
-        })}
-
-        <button
-          type="button"
-          onClick={() => setOpen((prev) => !prev)}
-          className={`flex flex-col items-center justify-center gap-1.5 w-14 h-full transition-colors ${
-            open ? "text-amber-400" : "text-zinc-500"
-          }`}
-        >
-          <LayoutGrid className="h-5 w-5 text-zinc-455 transition-all duration-300" strokeWidth={open ? 2 : 1.75} />
-          <span className="text-[9px] font-bold uppercase tracking-wider leading-none text-zinc-550">
-            {language === "ro" ? "Meniu" : "Menu"}
-          </span>
-        </button>
-      </nav>
     </>
   );
 }
@@ -458,7 +385,7 @@ export function Footer() {
   const { language, setLanguage, t } = useLanguage();
   
   return (
-    <footer className="border-t border-zinc-900 bg-[#050505] mt-auto pb-16 xl:pb-0">
+    <footer className="border-t border-zinc-900 bg-[#050505] mt-auto pb-0">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         
         {/* Minimized bottom indicators */}
