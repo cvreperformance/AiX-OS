@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Minus, RefreshCw, Globe, Building2, BarChart2
 import Link from "next/link";
 import { MarketItem } from "@/lib/market/dataProvider";
 import { designSystem } from "@/styles/designSystem";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Baseline Data (used before real data compiles/loads)
 const baselineStocks: MarketItem[] = [
@@ -137,6 +138,7 @@ function Section({ title, badge, icon: Icon, indicators }: { title: string; badg
 }
 
 export default function MarketPage() {
+  const { language } = useLanguage();
   const [marketData, setMarketData] = useState<{
     stocks: MarketItem[];
     commodities: MarketItem[];
@@ -177,39 +179,43 @@ export default function MarketPage() {
           Market Pulse Dashboard
         </h1>
         <p className="text-sm text-zinc-400 max-w-2xl leading-relaxed">
-          Monitorizare în timp real a indicatorilor bursieri, cotațiilor crypto (alimentată direct de CoinGecko), bondurilor guvernamentale și macro-economiei globale. Intelligence actualizat automat la fiecare 30 de secunde.
+          {language === "ro"
+            ? "Monitorizare în timp real a indicatorilor bursieri, cotațiilor crypto (alimentată direct de CoinGecko), bondurilor guvernamentale și macro-economiei globale. Intelligence actualizat automat la fiecare 30 de secunde."
+            : "Real-time monitoring of stock indices, crypto quotes (powered by CoinGecko), government bonds, and global macroeconomics. Intelligence auto-refreshed every 30 seconds."}
         </p>
         <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
           <RefreshCw className="h-3.5 w-3.5 text-amber-500/80 animate-spin" style={{ animationDuration: "10s" }} />
-          <span>Sincronizat securizat · Cotații la zi iulie 2026</span>
+          <span>
+            {language === "ro" ? "Sincronizat securizat · Cotații la zi iulie 2026" : "Securely synced · Quotes updated July 2026"}
+          </span>
         </div>
       </div>
 
       {/* Grid Dashboard Sectors */}
       <div className="space-y-12">
         {/* Indici Bursieri */}
-        <Section title="Indici Bursieri Globali (Stocks)" badge="Equities" icon={BarChart2} indicators={stocks} />
+        <Section title={language === "ro" ? "Indici Bursieri Globali (Stocks)" : "Global Stock Indices"} badge="Equities" icon={BarChart2} indicators={stocks} />
 
         {/* Commodities */}
-        <Section title="Mărfuri & Resurse (Commodities)" badge="Safe Haven" icon={Coins} indicators={commodities} />
+        <Section title={language === "ro" ? "Mărfuri & Resurse (Commodities)" : "Commodities & Resources"} badge="Safe Haven" icon={Coins} indicators={commodities} />
 
         {/* Crypto */}
-        <Section title="Active Digitale (Cryptocurrency)" badge="Crypto" icon={Globe} indicators={crypto} />
+        <Section title={language === "ro" ? "Active Digitale (Cryptocurrency)" : "Digital Assets (Cryptocurrency)"} badge="Crypto" icon={Globe} indicators={crypto} />
 
         {/* Currencies FX */}
-        <Section title="Schimb Valutar & FX (Currencies)" badge="Forex" icon={Coins} indicators={currenciesFX} />
+        <Section title={language === "ro" ? "Schimb Valutar & FX (Currencies)" : "Foreign Exchange (FX)"} badge="Forex" icon={Coins} indicators={currenciesFX} />
 
         {/* Bond Yields */}
-        <Section title="Randamente Titluri de Stat (Bond Yields)" badge="Debt Markets" icon={Percent} indicators={bondYields} />
+        <Section title={language === "ro" ? "Randamente Titluri de Stat (Bond Yields)" : "Government Bond Yields"} badge="Debt Markets" icon={Percent} indicators={bondYields} />
 
         {/* Macro Global */}
-        <Section title="Indicatori Macroeconomici Globali" badge="Macro" icon={Building2} indicators={macro} />
+        <Section title={language === "ro" ? "Indicatori Macroeconomici Globali" : "Global Macro Indicators"} badge="Macro" icon={Building2} indicators={macro} />
 
         {/* BNR Section */}
-        <Section title="Banca Națională a României (BNR)" badge="Interbank RO" icon={Building2} indicators={bnrIndicators} />
+        <Section title={language === "ro" ? "Banca Națională a României (BNR)" : "National Bank of Romania (BNR)"} badge="Interbank RO" icon={Building2} indicators={bnrIndicators} />
 
         {/* Imobiliare RO */}
-        <Section title="Piața Imobiliară România (Aix Indexes)" badge="Real Estate Index" icon={Building2} indicators={realEstateRO} />
+        <Section title={language === "ro" ? "Piața Imobiliară România (Aix Indexes)" : "Romanian Real Estate Market (AiX Indexes)"} badge="Real Estate Index" icon={Building2} indicators={realEstateRO} />
 
         {/* Performance Heat Map Section */}
         <div className="space-y-4">
@@ -217,7 +223,9 @@ export default function MarketPage() {
             <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/20 text-amber-400">
               <Layers className="h-4.5 w-4.5" />
             </div>
-            <h2 className="text-sm font-semibold text-white tracking-wide">Hartă Performanță Active (Heatmap)</h2>
+            <h2 className="text-sm font-semibold text-white tracking-wide">
+              {language === "ro" ? "Hartă Performanță Active (Heatmap)" : "Asset Performance Heatmap"}
+            </h2>
             <span className="text-[9px] uppercase tracking-widest text-zinc-500 border border-zinc-800 rounded-full px-2 py-0.5 ml-auto font-mono">
               Market Snapshot
             </span>
@@ -249,23 +257,25 @@ export default function MarketPage() {
         <div className="absolute -right-20 -top-20 w-40 h-40 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
         <Globe className="h-10 w-10 text-amber-500/60 mx-auto" />
         <h2 className="text-2xl font-light text-white tracking-wide">
-          Investește Asistat de Date
+          {language === "ro" ? "Investește Asistat de Date" : "Data-Assisted Investing"}
         </h2>
         <p className="text-xs text-zinc-450 max-w-lg mx-auto leading-relaxed">
-          Platforma AiX OS corelează acești indicatori de cotații bursiere în timp real, crypto și inflație pentru a evalua oportunitățile imobiliare calificate.
+          {language === "ro"
+            ? "Platforma AiX OS corelează acești indicatori de cotații bursiere în timp real, crypto și inflație pentru a evalua oportunitățile imobiliare calificate."
+            : "AiX OS correlates these real-time stock, crypto, and inflation indicators to evaluate qualified real estate opportunities."}
         </p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
           <button
             onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
             className="rounded-xl bg-amber-500 text-black px-6 py-2.5 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10"
           >
-            Programează Întâlnire Advisor
+            {language === "ro" ? "Programează Întâlnire Advisor" : "Schedule Advisor Meeting"}
           </button>
           <Link
             href="/calculators"
             className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-2.5 text-xs text-zinc-350 hover:text-white transition-all flex items-center gap-1"
           >
-            Calculatoare ROI
+            {language === "ro" ? "Calculatoare ROI" : "ROI Calculators"}
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
         </div>

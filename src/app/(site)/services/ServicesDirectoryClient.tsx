@@ -150,7 +150,7 @@ export default function ServicesDirectoryClient() {
                   <div>
                     <h2 className="text-xs uppercase font-bold tracking-widest text-white font-mono">{title}</h2>
                     <p className="text-[10px] text-zinc-550 font-medium">
-                      {category.items.length} {category.items.length === 1 ? "modul" : "module"}
+                      {category.items.length} {language === "ro" ? (category.items.length === 1 ? "modul" : "module") : (category.items.length === 1 ? "module" : "modules")}
                     </p>
                   </div>
                 </div>
@@ -196,8 +196,14 @@ export default function ServicesDirectoryClient() {
         </div>
       ) : (
         <div className="py-16 text-center text-xs text-zinc-550 border border-dashed border-zinc-800 rounded-3xl space-y-2 max-w-xl">
-          <p className="font-semibold text-white">Nu am găsit servicii potrivite</p>
-          <p>Reîncearcă folosind alți termeni sau resetează filtrul de căutare.</p>
+          <p className="font-semibold text-white">
+            {language === "ro" ? "Nu am găsit servicii potrivite" : "No matching services found"}
+          </p>
+          <p>
+            {language === "ro"
+              ? "Reîncearcă folosind alți termeni sau resetează filtrul de căutare."
+              : "Try different search terms or reset the category filter."}
+          </p>
           <button
             onClick={() => {
               setQuery("");
@@ -205,7 +211,7 @@ export default function ServicesDirectoryClient() {
             }}
             className="text-amber-400 font-bold hover:underline pt-2 block mx-auto text-[10px] uppercase tracking-wider"
           >
-            Resetează filtrele
+            {language === "ro" ? "Resetează filtrele" : "Reset filters"}
           </button>
         </div>
       )}

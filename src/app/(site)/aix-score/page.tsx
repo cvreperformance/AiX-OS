@@ -4,8 +4,9 @@ import { useState } from "react";
 import { BarChart3, Shield, Target, Sparkles } from "lucide-react";
 import { PageHeader } from "@/components/ui";
 import { designSystem } from "@/styles/designSystem";
+import { useLanguage } from "@/context/LanguageContext";
 
-const factors = [
+const FACTORS_RO = [
   { id: 1, name: "Economic Impact", desc: "Impact macroeconomic și sectorial al pieței analizate", weight: 12 },
   { id: 2, name: "Market Relevance", desc: "Relevanță pentru piața țintă și lichiditate", weight: 10 },
   { id: 3, name: "Investment Potential", desc: "Potențial de apreciere și yield pe termen mediu", weight: 15 },
@@ -20,21 +21,42 @@ const factors = [
   { id: 12, name: "Long-term Value", desc: "Valoare fundamentală pe termen lung 10Y+", weight: 2 },
 ];
 
-const scoreRanges = [
+const FACTORS_EN = [
+  { id: 1, name: "Economic Impact", desc: "Macro and sectoral economic impact of the analyzed market", weight: 12 },
+  { id: 2, name: "Market Relevance", desc: "Relevance for target market and overall liquidity", weight: 10 },
+  { id: 3, name: "Investment Potential", desc: "Appreciation potential and medium-term yield", weight: 15 },
+  { id: 4, name: "Supply vs Demand", desc: "Supply-demand equilibrium in the evaluated segment", weight: 10 },
+  { id: 5, name: "Capital Appreciation", desc: "Long-term capital appreciation vs. benchmark", weight: 12 },
+  { id: 6, name: "Rental Potential", desc: "Rental income potential and net yield", weight: 10 },
+  { id: 7, name: "Liquidity", desc: "Ease of sale / exit in an active market", weight: 8 },
+  { id: 8, name: "Risk Level", desc: "Multi-factor and macroeconomic risk assessment", weight: 8 },
+  { id: 9, name: "Infrastructure", desc: "Existing and planned infrastructure over 5 years", weight: 5 },
+  { id: 10, name: "Geopolitical Importance", desc: "Regional geopolitical stability and context", weight: 5 },
+  { id: 11, name: "Market Sentiment", desc: "Market sentiment, trends, and trading volumes", weight: 3 },
+  { id: 12, name: "Long-term Value", desc: "Fundamental long-term value over 10Y+ horizon", weight: 2 },
+];
+
+const SCORE_RANGES_RO = [
   { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", borderColor: "border-emerald-500/30", bgColor: "bg-emerald-500/5", desc: "Oportunitate rară. Factori favorabili simultan. Investiție prioritară." },
   { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", borderColor: "border-amber-500/30", bgColor: "bg-amber-500/5", desc: "Fundamentale solide. Merită analiză detaliată și alocare semnificativă." },
   { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", borderColor: "border-zinc-700", bgColor: "bg-zinc-900/30", desc: "Relevanță medie. Evaluare context-dependent cu strategii de hedging." },
   { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", borderColor: "border-zinc-900", bgColor: "bg-zinc-950/40", desc: "Impact limitat. Filtrat automat din feed. Nu apare în recomandări." },
 ];
 
-// Demo score calculator
+const SCORE_RANGES_EN = [
+  { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", borderColor: "border-emerald-500/30", bgColor: "bg-emerald-500/5", desc: "Rare opportunity. Favorable factors aligned simultaneously. Priority investment." },
+  { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", borderColor: "border-amber-500/30", bgColor: "bg-amber-500/5", desc: "Solid fundamentals. Deserves detailed analysis and significant allocation." },
+  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", borderColor: "border-zinc-700", bgColor: "bg-zinc-900/30", desc: "Average relevance. Context-dependent evaluation with hedging strategies." },
+  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", borderColor: "border-zinc-900", bgColor: "bg-zinc-950/40", desc: "Limited impact. Automatically filtered from feed. Does not appear in recommendations." },
+];
+
 const DEMO_ASSETS = [
-  { name: "Penthouse Herăstrău", type: "Rezidențial Lux", score: 9.2, location: "București" },
-  { name: "One Lake District", type: "Rezidențial Off-plan", score: 8.7, location: "București" },
-  { name: "Dubai Marina Tower", type: "International Luxury", score: 9.5, location: "Dubai" },
-  { name: "Tour Odeon MCM", type: "Ultra-Luxury", score: 9.8, location: "Monaco" },
-  { name: "Apartament Cluj Tech Hub", type: "Rezidențial", score: 7.4, location: "Cluj-Napoca" },
-  { name: "Spațiu Comercial Pipera", type: "Comercial", score: 6.1, location: "București" },
+  { name: "Penthouse Herăstrău", type: "Rezidențial Lux", typeEn: "Luxury Residential", score: 9.2, location: "București" },
+  { name: "One Lake District", type: "Rezidențial Off-plan", typeEn: "Off-plan Residential", score: 8.7, location: "București" },
+  { name: "Dubai Marina Tower", type: "International Luxury", typeEn: "International Luxury", score: 9.5, location: "Dubai" },
+  { name: "Tour Odeon MCM", type: "Ultra-Luxury", typeEn: "Ultra-Luxury", score: 9.8, location: "Monaco" },
+  { name: "Apartament Cluj Tech Hub", type: "Rezidențial", typeEn: "Residential", score: 7.4, location: "Cluj-Napoca" },
+  { name: "Spațiu Comercial Pipera", type: "Comercial", typeEn: "Commercial", score: 6.1, location: "București" },
 ];
 
 function ScoreBadge({ score }: { score: number }) {
@@ -52,23 +74,37 @@ function ScoreBadge({ score }: { score: number }) {
 }
 
 export default function AixScorePage() {
-  const [selectedFactor, setSelectedFactor] = useState<typeof factors[0] | null>(null);
+  const { language } = useLanguage();
+  const [selectedFactor, setSelectedFactor] = useState<typeof FACTORS_RO[0] | null>(null);
+
+  const factors = language === "ro" ? FACTORS_RO : FACTORS_EN;
+  const scoreRanges = language === "ro" ? SCORE_RANGES_RO : SCORE_RANGES_EN;
+
+  const pillars = language === "ro" ? [
+    { icon: Target, title: "Algoritmic, nu subiectiv", desc: "Generat pe baza factorilor macroeconomici și de piață. Nu conține bias editorial sau comercial." },
+    { icon: BarChart3, title: "Scală completă 1.0–10.0", desc: "Distribuție realistă bazată pe date comparabile. Scoruri >9.0 sunt rare și semnalează oportunitate excepțională." },
+    { icon: Shield, title: "Transparent cu explicație", desc: "Fiecare score vine cu breakdown pe factori, insight-uri și recomandare de strategie pentru investitor." },
+  ] : [
+    { icon: Target, title: "Algorithmic, not subjective", desc: "Generated based on macroeconomic and market factors. No editorial or commercial bias." },
+    { icon: BarChart3, title: "Full scale 1.0–10.0", desc: "Realistic distribution based on comparable data. Scores >9.0 are rare and signal exceptional opportunity." },
+    { icon: Shield, title: "Transparent with explanation", desc: "Every score comes with a factor breakdown, insights, and strategy recommendation for the investor." },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
         badge="Proprietary Rating Engine"
         title="AiX OS Score™"
-        subtitle="Sistemul proprietar de intelligence al platformei. Evaluează fiecare oportunitate pe baza a 12 indicatori strategici ponderați, generând un rating de investiție de la 1.0 la 10.0."
+        subtitle={
+          language === "ro"
+            ? "Sistemul proprietar de intelligence al platformei. Evaluează fiecare oportunitate pe baza a 12 indicatori strategici ponderați, generând un rating de investiție de la 1.0 la 10.0."
+            : "The platform's proprietary intelligence engine. Evaluates every opportunity across 12 weighted strategic indicators, generating an investment rating from 1.0 to 10.0."
+        }
       />
 
       {/* How it works - 3 pillars */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {[
-          { icon: Target, title: "Algoritmic, nu subiectiv", desc: "Generat pe baza factorilor macroeconomici și de piață. Nu conține bias editorial sau comercial." },
-          { icon: BarChart3, title: "Scală completă 1.0–10.0", desc: "Distribuție realistă bazată pe date comparabile. Scoruri >9.0 sunt rare și semnalează oportunitate excepțională." },
-          { icon: Shield, title: "Transparent cu explicație", desc: "Fiecare score vine cu breakdown pe factori, insight-uri și recomandare de strategie pentru investitor." },
-        ].map((item) => (
+        {pillars.map((item) => (
           <div key={item.title} className={`rounded-3xl ${designSystem.glass} p-6 space-y-3`}>
             <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit">
               <item.icon className="h-5 w-5" />
@@ -81,7 +117,9 @@ export default function AixScorePage() {
 
       {/* Score range interpretation */}
       <section className="space-y-6">
-        <h2 className="text-lg font-light text-white">Interpretare Scor</h2>
+        <h2 className="text-lg font-light text-white">
+          {language === "ro" ? "Interpretare Scor" : "Score Interpretation"}
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {scoreRanges.map((sr) => (
             <div key={sr.range} className={`rounded-2xl border ${sr.borderColor} ${sr.bgColor} p-5 space-y-2`}>
@@ -98,8 +136,12 @@ export default function AixScorePage() {
       {/* 12 Factors Interactive Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-light text-white">12 Factori de Evaluare</h2>
-          <span className="text-[10px] text-zinc-500 font-mono">Click pentru detalii</span>
+          <h2 className="text-lg font-light text-white">
+            {language === "ro" ? "12 Factori de Evaluare" : "12 Evaluation Factors"}
+          </h2>
+          <span className="text-[10px] text-zinc-500 font-mono">
+            {language === "ro" ? "Click pentru detalii" : "Click for details"}
+          </span>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -134,14 +176,16 @@ export default function AixScorePage() {
       <section className="space-y-6">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-amber-500/80" />
-          <h2 className="text-lg font-light text-white">Exemple Active Evaluate</h2>
+          <h2 className="text-lg font-light text-white">
+            {language === "ro" ? "Exemple Active Evaluate" : "Live Evaluated Examples"}
+          </h2>
         </div>
         
         <div className={`rounded-3xl ${designSystem.glass} overflow-hidden`}>
           <div className="grid grid-cols-12 px-5 py-3 text-[9px] uppercase tracking-widest text-zinc-600 border-b border-zinc-900 font-semibold">
-            <span className="col-span-4">Active</span>
-            <span className="col-span-3">Tip</span>
-            <span className="col-span-3">Locație</span>
+            <span className="col-span-4">{language === "ro" ? "Active" : "Asset"}</span>
+            <span className="col-span-3">{language === "ro" ? "Tip" : "Type"}</span>
+            <span className="col-span-3">{language === "ro" ? "Locație" : "Location"}</span>
             <span className="col-span-2 text-right">AiX Score</span>
           </div>
           {DEMO_ASSETS.map((asset, idx) => (
@@ -152,7 +196,7 @@ export default function AixScorePage() {
               } hover:bg-zinc-900/20 transition-colors`}
             >
               <span className="col-span-4 font-semibold text-white truncate pr-2">{asset.name}</span>
-              <span className="col-span-3 text-zinc-450">{asset.type}</span>
+              <span className="col-span-3 text-zinc-450">{language === "ro" ? asset.type : asset.typeEn}</span>
               <span className="col-span-3 text-zinc-550 flex items-center gap-1.5">
                 <span className="text-zinc-650">{asset.location}</span>
               </span>

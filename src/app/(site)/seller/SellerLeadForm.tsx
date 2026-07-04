@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { submitContactForm } from "@/lib/contactSubmit";
 import { CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function SellerLeadForm() {
+  const { language } = useLanguage();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -35,7 +37,7 @@ export default function SellerLeadForm() {
       });
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to submit lead");
+      setError(err.message || (language === "ro" ? "Eroare la trimitere." : "Submission error."));
     } finally {
       setLoading(false);
     }
@@ -45,8 +47,14 @@ export default function SellerLeadForm() {
     return (
       <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-2 animate-in fade-in duration-300">
         <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
-        <h4 className="text-sm font-semibold text-white">Solicitare Înregistrată!</h4>
-        <p className="text-xs text-zinc-400">Vă vom contacta telefonic pentru stabilirea evaluării gratuite în 24 de ore.</p>
+        <h4 className="text-sm font-semibold text-white">
+          {language === "ro" ? "Solicitare Înregistrată!" : "Request Submitted!"}
+        </h4>
+        <p className="text-xs text-zinc-400">
+          {language === "ro"
+            ? "Vă vom contacta telefonic pentru stabilirea evaluării gratuite în 24 de ore."
+            : "We will contact you by phone to schedule your free valuation within 24 hours."}
+        </p>
       </div>
     );
   }
@@ -76,7 +84,7 @@ export default function SellerLeadForm() {
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Numele tău"
+          placeholder={language === "ro" ? "Numele tău" : "Your name"}
           className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
         <input
@@ -84,7 +92,7 @@ export default function SellerLeadForm() {
           type="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="Telefon"
+          placeholder={language === "ro" ? "Telefon" : "Phone"}
           className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
       </div>
@@ -93,7 +101,7 @@ export default function SellerLeadForm() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="E-mail (opțional)"
+        placeholder={language === "ro" ? "E-mail (opțional)" : "E-mail (optional)"}
         className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
@@ -101,7 +109,7 @@ export default function SellerLeadForm() {
         required
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        placeholder="Adresa proprietății"
+        placeholder={language === "ro" ? "Adresa proprietății" : "Property address"}
         className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
@@ -111,17 +119,17 @@ export default function SellerLeadForm() {
           onChange={(e) => setPropertyType(e.target.value)}
           className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
         >
-          <option value="">Tipul proprietății</option>
-          <option value="Apartament">Apartament</option>
-          <option value="Casă / Vilă">Casă / Vilă</option>
+          <option value="">{language === "ro" ? "Tipul proprietății" : "Property type"}</option>
+          <option value="Apartament">{language === "ro" ? "Apartament" : "Apartment"}</option>
+          <option value="Casă / Vilă">{language === "ro" ? "Casă / Vilă" : "House / Villa"}</option>
           <option value="Penthouse">Penthouse</option>
-          <option value="Teren">Teren</option>
-          <option value="Comercial">Comercial</option>
+          <option value="Teren">{language === "ro" ? "Teren" : "Land"}</option>
+          <option value="Comercial">{language === "ro" ? "Comercial" : "Commercial"}</option>
         </select>
         <input
           value={estimatedPrice}
           onChange={(e) => setEstimatedPrice(e.target.value)}
-          placeholder="Preț estimat (€)"
+          placeholder={language === "ro" ? "Preț estimat (€)" : "Estimated price (€)"}
           type="number"
           className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
@@ -133,9 +141,13 @@ export default function SellerLeadForm() {
         className="w-full rounded-full bg-amber-500/90 py-3 text-sm font-medium text-black hover:bg-amber-400 transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95"
       >
         {loading && <RefreshCw className="h-4 w-4 animate-spin" />}
-        {loading ? "Se trimite..." : "Solicită Evaluare Gratuită"}
+        {loading
+          ? (language === "ro" ? "Se trimite..." : "Sending...")
+          : (language === "ro" ? "Solicită Evaluare Gratuită" : "Request Free Valuation")}
       </button>
-      <p className="text-xs text-zinc-650 text-center">Evaluare în 24h. Fără angajamente.</p>
+      <p className="text-xs text-zinc-650 text-center">
+        {language === "ro" ? "Evaluare în 24h. Fără angajamente." : "Valuation within 24h. No obligations."}
+      </p>
     </form>
   );
 }

@@ -132,8 +132,8 @@ export function Header() {
             </div>
           </div>
 
-          {/* 6-Column Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
-          <div className="grid grid-cols-6 gap-6 text-left">
+          {/* 5-Column Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
+          <div className="grid grid-cols-5 gap-6 text-left">
             {navigationCategories.map((cat) => {
               const Icon = cat.icon;
               const title = language === "ro" ? cat.title : cat.titleEn;
@@ -192,7 +192,7 @@ export function Header() {
               }`}
             >
               <LayoutGrid className="h-4 w-4" />
-              <span>Sistem Desk</span>
+              <span>{language === "ro" ? "Sistem Desk" : "System Desk"}</span>
               <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
             </button>
 
@@ -224,7 +224,7 @@ export function Header() {
         {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
         {showDeskDropdown && scrolled && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-6 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-5 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
             onMouseLeave={() => setShowDeskDropdown(false)}
           >
             {navigationCategories.map((cat) => {
@@ -397,13 +397,13 @@ export function Footer() {
             &copy; {new Date().getFullYear()} AiX OS &bull; {language === "ro" ? "Sistem Decizional de Intelligence Imobiliar" : "Decision Intelligence System"}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-3 gap-y-1 text-[10px] text-zinc-600 font-mono font-medium">
-            <span>Status: Online</span>
+            <span>Status: {language === "ro" ? "Activ" : "Online"}</span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>&bull;</span>
-            <span>Version: v5.1.0-prod</span>
+            <span>{language === "ro" ? "Versiune" : "Version"}: v5.2.0-prod</span>
             <span>&bull;</span>
             <span>
-              Powered by{" "}
+              {language === "ro" ? "Creat de" : "Powered by"}{" "}
               <a href="https://cristianvaduva.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-amber-400 underline transition-colors">
                 CristianVaduva.com
               </a>
@@ -438,8 +438,12 @@ export function Footer() {
             <a href="https://cristianvaduva.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">CristianVaduva.com</a>
             <a href="https://aixluxury.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">AiXLuxury.com</a>
             <Link href="/sitemap" className="hover:text-amber-400 transition-colors">Sitemap</Link>
-            <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
-            <Link href="/cookie-policy" className="hover:text-amber-400 transition-colors">Cookie Policy</Link>
+            <Link href="/privacy" className="hover:text-amber-400 transition-colors">
+              {language === "ro" ? "Politică de Confidențialitate" : "Privacy Policy"}
+            </Link>
+            <Link href="/cookie-policy" className="hover:text-amber-400 transition-colors">
+              {language === "ro" ? "Politică de Cookie" : "Cookie Policy"}
+            </Link>
           </div>
         </div>
 

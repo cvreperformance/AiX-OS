@@ -11,14 +11,14 @@ import {
   ArrowRight,
   RefreshCw
 } from "lucide-react";
-import Link from "next/link";
 import { brandContent } from "@/lib/content/brand";
-import { designSystem } from "@/styles/designSystem";
 import { submitContactForm } from "@/lib/contactSubmit";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SHOWN_KEY = "aix_global_popup_shown_v5";
 
 export function GlobalContactPopup() {
+  const { language } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [name, setName] = useState("");
@@ -107,7 +107,7 @@ export function GlobalContactPopup() {
       setSubmitted(true);
       setTimeout(dismiss, 3000);
     } catch (err: any) {
-      setError(err.message || "Eroare la trimitere.");
+      setError(err.message || (language === "ro" ? "Eroare la trimitere." : "Error sending inquiry."));
     } finally {
       setLoading(false);
     }
@@ -126,7 +126,7 @@ export function GlobalContactPopup() {
         type="button"
         onClick={dismiss}
         className="absolute top-3.5 right-3.5 rounded-lg p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-900/60 transition-all border border-transparent"
-        aria-label="Închide"
+        aria-label={language === "ro" ? "Închide" : "Close"}
       >
         <X className="h-3.5 w-3.5" />
       </button>
@@ -140,9 +140,13 @@ export function GlobalContactPopup() {
           <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-amber-500">
             AiX OS &bull; Intelligence
           </p>
-          <h2 className="text-sm font-semibold text-white mt-0.5">Asistență Premium</h2>
+          <h2 className="text-sm font-semibold text-white mt-0.5">
+            {language === "ro" ? "Asistență Premium" : "Premium Support"}
+          </h2>
           <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">
-            Consultanță imobiliară, asigurări active HNWI și sprijin direct.
+            {language === "ro"
+              ? "Consultanță imobiliară, asigurări active HNWI și sprijin direct."
+              : "Real estate consulting, HNWI active insurance, and support."}
           </p>
         </div>
       </div>
@@ -168,7 +172,9 @@ export function GlobalContactPopup() {
         >
           <Phone className="h-4.5 w-4.5 text-zinc-400 shrink-0" />
           <div className="min-w-0">
-            <p className="text-[10px] font-bold text-white">Apel VIP</p>
+            <p className="text-[10px] font-bold text-white">
+              {language === "ro" ? "Apel VIP" : "VIP Hotline"}
+            </p>
             <p className="text-[8.5px] text-zinc-500 truncate">{brandContent.contact.phone}</p>
           </div>
         </a>
@@ -189,7 +195,9 @@ export function GlobalContactPopup() {
       <div className="pt-2 border-t border-zinc-900 space-y-2">
         {submitted ? (
           <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-center">
-            <p className="text-emerald-400 text-[10px] font-bold">✓ Solicitare înregistrată!</p>
+            <p className="text-emerald-400 text-[10px] font-bold">
+              {language === "ro" ? "✓ Solicitare înregistrată!" : "✓ Request logged!"}
+            </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-2">
@@ -202,12 +210,17 @@ export function GlobalContactPopup() {
               tabIndex={-1}
               autoComplete="off"
             />
+            {error && (
+              <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-2 text-red-400 text-[9px] text-center">
+                {error}
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-2">
               <input
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Nume"
+                placeholder={language === "ro" ? "Nume" : "Name"}
                 className="rounded-lg border border-zinc-850 bg-zinc-950 px-2.5 py-2 text-[10px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
               />
               <input
@@ -215,7 +228,7 @@ export function GlobalContactPopup() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Telefon"
+                placeholder={language === "ro" ? "Telefon" : "Phone"}
                 className="rounded-lg border border-zinc-850 bg-zinc-950 px-2.5 py-2 text-[10px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
               />
             </div>
@@ -225,7 +238,11 @@ export function GlobalContactPopup() {
               className="w-full rounded-lg bg-amber-500 text-black py-2.5 text-[9.5px] font-bold uppercase tracking-wider hover:bg-amber-400 transition-all flex items-center justify-center gap-1 disabled:opacity-50"
             >
               {loading && <RefreshCw className="h-3 w-3 animate-spin" />}
-              <span>{loading ? "Se trimite..." : "Solicită Sunet"}</span>
+              <span>
+                {loading
+                  ? (language === "ro" ? "Se trimite..." : "Sending...")
+                  : (language === "ro" ? "Solicită Apel" : "Request Call")}
+              </span>
               {!loading && <ArrowRight className="h-3 w-3" />}
             </button>
           </form>
