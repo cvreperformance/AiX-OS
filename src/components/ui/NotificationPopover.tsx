@@ -63,8 +63,11 @@ export default function NotificationPopover() {
     <div ref={containerRef} className="relative z-45">
       {/* Bell Button */}
       <button
+        type="button"
         onClick={() => setOpen(!open)}
-        className="relative rounded-xl border border-zinc-850 p-2.5 bg-zinc-950/60 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all flex items-center justify-center shrink-0"
+        aria-label={language === "ro" ? "Alerte" : "Notifications"}
+        aria-expanded={open}
+        className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-850 bg-zinc-950/60 text-zinc-400 transition-all hover:border-zinc-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35 shrink-0"
       >
         <Bell className="h-4.5 w-4.5" />
         <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
@@ -81,7 +84,7 @@ export default function NotificationPopover() {
               onClick={() => setOpen(false)}
               className="text-[9px] text-zinc-650 hover:text-white uppercase font-mono font-semibold"
             >
-              Close
+              {language === "ro" ? "Închide" : "Close"}
             </button>
           </div>
 

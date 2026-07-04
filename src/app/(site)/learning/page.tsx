@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
+import { getWordOfDay } from "@/lib/wordOfDay";
 import {
   BookOpen,
   CheckCircle2,
@@ -25,6 +26,7 @@ import {
 export default function LearningPage() {
   const { language } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const wordOfDay = getWordOfDay();
 
   const guides = [
     {
@@ -342,6 +344,40 @@ export default function LearningPage() {
           ? "Ghiduri practice și checklist-uri esențiale structurate pe capitole. Redu riscul și optimizează deciziile financiare în mai puțin de 5 minute."
           : "Actionable step-by-step checklists, recommended tools, and mistakes to avoid. Secure your property and financial transactions."}
       />
+
+      <section
+        id="word-of-the-day"
+        className="rounded-3xl border border-amber-500/20 bg-[#080808]/70 p-6 sm:p-8 backdrop-blur-xl"
+      >
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="space-y-3 max-w-2xl text-left">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-amber-400 font-bold">
+              {language === "ro" ? "Word of the Day" : "Word of the Day"}
+            </p>
+            <div className="space-y-2">
+              <h2 className="text-2xl sm:text-3xl font-light text-white">
+                {wordOfDay.word}
+              </h2>
+              {wordOfDay.pronunciation && (
+                <p className="text-xs text-zinc-500 font-mono">
+                  / {wordOfDay.pronunciation} /
+                </p>
+              )}
+            </div>
+            <p className="text-sm leading-relaxed text-zinc-300">
+              {language === "ro" ? wordOfDay.explanationRo : wordOfDay.explanationEn}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-zinc-850 bg-zinc-950/40 p-4 text-left lg:max-w-md">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500 font-bold">
+              {language === "ro" ? "Exemplu practic" : "Practical example"}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-white">
+              {language === "ro" ? wordOfDay.exampleRo : wordOfDay.exampleEn}
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Categories Filter Tabs */}
       <div className="flex flex-wrap gap-2 pb-4 border-b border-zinc-900">

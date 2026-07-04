@@ -213,15 +213,15 @@ export function Header() {
           scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
         }`}>
           {/* Top Brand & Actions line */}
-          <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5">
-            <Link href="/" className="flex items-center gap-1.5 group">
-              <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
-              <span className="text-xl font-light tracking-[0.2em] text-amber-500">OS</span>
-            </Link>
+        <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5 gap-4">
+          <Link href="/" className="flex min-h-12 items-center gap-1.5 group">
+            <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
+            <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
+            <span className="text-xl font-light tracking-[0.2em] text-amber-500">OS</span>
+          </Link>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-3">
+          {/* Quick Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
               {/* Notification Center */}
               <NotificationPopover />
 
@@ -229,7 +229,7 @@ export function Header() {
               <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1 font-mono">
                 <button
                   onClick={() => setLanguage("ro")}
-                  className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                  className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
                     language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
                   }`}
                 >
@@ -237,7 +237,7 @@ export function Header() {
                 </button>
                 <button
                   onClick={() => setLanguage("en")}
-                  className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                  className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
                     language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
                   }`}
                 >
@@ -295,19 +295,19 @@ export function Header() {
           scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 pointer-events-none lg:absolute"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-1.5 group">
+        <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
+          <Link href="/" className="flex min-h-12 items-center gap-1.5 group">
             <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
             <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
             <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
           </Link>
 
           {/* Sistem Desk Dropdown Toggle & Language Toggle */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Desktop Desk Toggle */}
             <button
               onClick={() => setShowDeskDropdown(!showDeskDropdown)}
-              className={`hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
+              className={`hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
                 showDeskDropdown
                   ? "bg-amber-500/20 border-amber-500/35 text-amber-400"
                   : "border-zinc-800 text-zinc-300 hover:bg-zinc-900"
@@ -324,7 +324,7 @@ export function Header() {
             {/* Global Language Toggle */}
             <button
               onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
-              className="flex items-center justify-center border border-zinc-850 bg-zinc-950/60 rounded-xl px-2.5 py-1.5 text-[9px] font-bold text-amber-400 hover:text-white uppercase font-mono transition-all duration-200"
+              className="flex min-h-12 min-w-12 items-center justify-center border border-zinc-850 bg-zinc-950/60 rounded-xl px-3 py-2 text-[10px] font-bold text-amber-400 hover:text-white uppercase font-mono transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
             >
               {language === "ro" ? "EN" : "RO"}
             </button>
@@ -332,10 +332,10 @@ export function Header() {
             {/* Mobile Menu Toggle Button (visible at all times next to toggle and alerts) */}
             <button
               onClick={open ? closeMenu : openMenu}
-              className="xl:hidden flex items-center justify-center h-11 w-11 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md"
+              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
               aria-label={language === "ro" ? "Meniu" : "Menu"}
             >
-              <Brain className="h-4.5 w-4.5 text-pink-500 fill-pink-500/10 drop-shadow-[0_0_6px_rgba(236,72,153,0.35)] shrink-0 animate-pulse" />
+              <Brain className="h-5 w-5 text-pink-500 fill-pink-500/10 drop-shadow-[0_0_6px_rgba(236,72,153,0.35)] shrink-0 animate-pulse" />
               <span className="sr-only">{language === "ro" ? "Meniu" : "Menu"}</span>
             </button>
           </div>
@@ -470,8 +470,8 @@ export function Header() {
 
             <button
               onClick={closeMenu}
-              className="flex items-center justify-center w-10 h-10 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
-              aria-label="Închide meniu"
+              className="flex items-center justify-center w-12 h-12 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+              aria-label={language === "ro" ? "Închide meniu" : "Close menu"}
             >
               <X size={18} />
             </button>

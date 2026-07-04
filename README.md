@@ -48,6 +48,10 @@ Deschide [http://localhost:3000](http://localhost:3000)
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIs...
+TELEGRAM_BOT_TOKEN=123456:ABC...
+TELEGRAM_CHAT_ID=123456789
+RESEND_API_KEY=re_...
+ADMIN_EMAIL=admin@yourdomain.com
 ```
 
 4. Restart: `npm run dev`
@@ -65,7 +69,7 @@ UPDATE public.profiles SET role = 'admin' WHERE email = 'emailul-tau@exemplu.com
 
 1. Push pe GitHub
 2. [vercel.com](https://vercel.com) → Import project
-3. Adaugă env vars (SUPABASE_URL, SUPABASE_ANON_KEY)
+3. Adaugă env vars (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, RESEND_API_KEY, ADMIN_EMAIL)
 4. Deploy — primești URL live
 
 ## Structură proiect

@@ -1,131 +1,122 @@
 "use client";
 
 import { useState } from "react";
-import {
-  MessageCircle,
-  Phone,
-  Mail,
-  X,
-  ExternalLink,
-  Send,
-  Calendar,
-  Brain,
-} from "lucide-react";
-import { brandContent } from "@/lib/content/brand";
 import Link from "next/link";
+import { Brain, X, MessageCircle, Mail, Phone, ArrowRight } from "lucide-react";
+import { brandContent } from "@/lib/content/brand";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function FloatingCTA() {
+  const { language } = useLanguage();
   const [open, setOpen] = useState(false);
 
+  const items = [
+    {
+      href: brandContent.contact.whatsappText,
+      labelRo: "WhatsApp",
+      labelEn: "WhatsApp",
+      icon: MessageCircle,
+      external: true,
+      tone: "emerald",
+    },
+    {
+      href: `mailto:${brandContent.contact.email}`,
+      labelRo: "Email",
+      labelEn: "Email",
+      icon: Mail,
+      external: false,
+      tone: "amber",
+    },
+    {
+      href: `tel:${brandContent.contact.phoneRaw}`,
+      labelRo: "Telefon",
+      labelEn: "Phone",
+      icon: Phone,
+      external: false,
+      tone: "sky",
+    },
+    {
+      href: "/contact",
+      labelRo: "Contact",
+      labelEn: "Contact",
+      icon: ArrowRight,
+      external: false,
+      tone: "zinc",
+    },
+  ] as const;
+
   return (
-    <div className="fixed bottom-6 right-4 z-[100] flex flex-col items-end gap-3 xl:right-6" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
-      {/* Expanded menu */}
+    <div
+      className="fixed bottom-5 right-4 z-[120] flex flex-col items-end gap-3 xl:right-6"
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+    >
       {open && (
-        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-2 items-end max-h-[60vh] overflow-y-auto">
-          {/* WhatsApp */}
-          <a
-            href={brandContent.contact.whatsappText}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-[#0c0c0c]/90 text-emerald-400 hover:bg-emerald-500/10 backdrop-blur-md px-4 py-2.5 text-sm transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <MessageCircle className="h-4 w-4" />
-            <span className="font-medium">WhatsApp</span>
-            <span className="text-xs opacity-70">{brandContent.contact.phone}</span>
-          </a>
+        <div className="flex flex-col items-end gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
+          {items.map((item) => {
+            const Icon = item.icon;
+            const base = "flex min-h-12 items-center gap-3 rounded-full border px-4 py-3 text-sm backdrop-blur-xl shadow-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40";
+            const toneClass =
+              item.tone === "emerald"
+                ? "border-emerald-500/20 bg-[#090909]/95 text-emerald-400 hover:bg-emerald-500/10"
+                : item.tone === "amber"
+                  ? "border-amber-500/20 bg-[#090909]/95 text-amber-400 hover:bg-amber-500/10"
+                  : item.tone === "sky"
+                    ? "border-sky-500/20 bg-[#090909]/95 text-sky-400 hover:bg-sky-500/10"
+                    : "border-zinc-800 bg-[#090909]/95 text-zinc-200 hover:bg-zinc-900/90";
 
-          {/* Phone RO */}
-          <a
-            href={`tel:${brandContent.contact.phoneRORaw}`}
-            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <Phone className="h-4 w-4 text-amber-400" />
-            <span>{brandContent.contact.phoneRO}</span>
-          </a>
+            const content = (
+              <>
+                <Icon className="h-4.5 w-4.5 shrink-0" />
+                <span className="font-medium">{language === "ro" ? item.labelRo : item.labelEn}</span>
+              </>
+            );
 
-          {/* Email */}
-          <a
-            href={`mailto:${brandContent.contact.email}`}
-            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <Mail className="h-4 w-4 text-amber-400" />
-            <span className="hidden sm:inline">{brandContent.contact.email}</span>
-            <span className="sm:hidden">Email</span>
-          </a>
+            if (item.external) {
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className={`${base} ${toneClass}`}
+                >
+                  {content}
+                </a>
+              );
+            }
 
-          {/* AI Advisor */}
-          <Link
-            href="/money-advisor"
-            className="flex items-center gap-2.5 rounded-full border border-violet-500/30 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-violet-400 hover:border-violet-500/50 hover:text-white backdrop-blur-md transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <Brain className="h-4 w-4 text-violet-400" />
-            <span>AI Advisor</span>
-          </Link>
-
-          {/* Telegram */}
-          <a
-            href={brandContent.contact.telegram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <Send className="h-4 w-4 text-blue-400" />
-            Telegram Channel
-          </a>
-
-          {/* Schedule Meeting */}
-          <a
-            href={brandContent.urls.membershipForm}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2.5 rounded-full border border-amber-500/30 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-amber-400 hover:bg-amber-500/10 backdrop-blur-md transition-all shadow-lg"
-            onClick={() => setOpen(false)}
-          >
-            <Calendar className="h-4 w-4 text-amber-400" />
-            <span>Programare Meeting</span>
-          </a>
-
-          {/* Contact form quick link */}
-          <button
-            type="button"
-            className="flex items-center gap-2.5 rounded-full border border-zinc-800 bg-[#0c0c0c]/90 px-4 py-2.5 text-sm text-zinc-200 hover:border-amber-500/30 hover:text-white backdrop-blur-md transition-all shadow-lg text-left"
-            onClick={() => {
-              setOpen(false);
-              window.dispatchEvent(new CustomEvent("open-contact-popup"));
-            }}
-          >
-            <ExternalLink className="h-4 w-4 text-zinc-400" />
-            Consultanță gratuită
-          </button>
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={`${base} ${toneClass}`}
+              >
+                {content}
+              </Link>
+            );
+          })}
         </div>
       )}
 
-      {/* Toggle button */}
       <button
         type="button"
-        onClick={() => setOpen(!open)}
-        aria-label={open ? "Închide contacte" : "Deschide contacte"}
-        className={`relative flex h-14 w-14 items-center justify-center rounded-full shadow-2xl transition-all duration-300 ${
+        onClick={() => setOpen((prev) => !prev)}
+        aria-label={open ? (language === "ro" ? "Închide contact" : "Close contact") : (language === "ro" ? "Deschide contact" : "Open contact")}
+        aria-expanded={open}
+        className={`relative flex h-14 w-14 items-center justify-center rounded-full border shadow-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 ${
           open
-            ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-            : "bg-amber-500/90 text-black hover:bg-amber-400"
+            ? "border-zinc-800 bg-[#0a0a0a]/95 text-zinc-200"
+            : "border-amber-500/20 bg-amber-500/90 text-black hover:bg-amber-400"
         }`}
       >
-        {open ? (
-          <X className="h-5 w-5" />
-        ) : (
-          <>
-            <MessageCircle className="h-5 w-5" />
-            {/* Pulse */}
-            <span className="absolute inset-0 rounded-full bg-amber-400/40 animate-ping" />
-          </>
-        )}
+        {!open && <span className="absolute inset-0 rounded-full bg-amber-400/30 animate-ping" />}
+        <span className="absolute inset-0 rounded-full bg-amber-400/10 blur-md" />
+        {open ? <X className="h-5 w-5" /> : <Brain className="h-5 w-5" />}
       </button>
     </div>
   );
 }
+
+export default FloatingCTA;

@@ -141,12 +141,12 @@ export function GlobalContactPopup() {
             AiX OS &bull; Intelligence
           </p>
           <h2 className="text-sm font-semibold text-white mt-0.5">
-            {language === "ro" ? "Asistență Premium" : "Premium Support"}
+            {language === "ro" ? "Asistență Premium" : "Premium Assistance"}
           </h2>
           <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">
             {language === "ro"
-              ? "Consultanță imobiliară, asigurări active HNWI și sprijin direct."
-              : "Real estate consulting, HNWI active insurance, and support."}
+            ? "Consultanță imobiliară, asigurări active HNWI și sprijin direct."
+              : "Real estate consulting, HNWI active insurance, and direct assistance."}
           </p>
         </div>
       </div>

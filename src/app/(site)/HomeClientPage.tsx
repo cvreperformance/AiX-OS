@@ -42,7 +42,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       title: language === "ro" ? "Învață & Cercetează" : "Learn & Research",
-      desc: language === "ro" ? "Biblioteca de cărți de negociere, checklist-uri și cursuri practice." : "Business reading list, document templates, and investor guides.",
+      desc: language === "ro" ? "Biblioteca de cărți, checklist-uri, cursuri practice și cuvântul zilei." : "Business reading list, document templates, investor guides, and the daily word.",
       icon: BookOpen,
       color: "text-amber-400 border-amber-500/10 hover:bg-amber-500/[0.02]",
       href: "/learning"

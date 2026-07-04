@@ -122,11 +122,11 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
  */
 export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_EMAIL || "cristianvaduva@duck.com";
+  const toEmail = process.env.ADMIN_EMAIL;
 
-  if (!apiKey) {
+  if (!apiKey || !toEmail) {
     console.warn(
-      "[AiX Notification Hub] Resend API Key is missing. Skipping Email notification dispatch."
+      "[AiX Notification Hub] Email notification config is incomplete. Skipping Email notification dispatch."
     );
     return false;
   }

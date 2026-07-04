@@ -1,5 +1,6 @@
 import { Header, Footer } from "@/components/layout";
 import { ConsultationPopup } from "@/components/layout/ConsultationPopup";
+import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { MarketAlertBanner } from "@/components/layout/MarketAlertBanner";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SystemBackgroundLayer } from "@/components/layout/SystemBackgroundLayer";
@@ -25,6 +26,9 @@ export default function SiteLayout({
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating contact launcher */}
+      <FloatingCTA />
 
       {/* Consultation popup (shown after 15s on desktop) */}
       <ConsultationPopup />
