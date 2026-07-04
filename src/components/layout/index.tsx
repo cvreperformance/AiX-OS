@@ -23,7 +23,14 @@ import {
   Lock,
   Star,
   Activity,
-  Heart
+  Heart,
+  Search,
+  BookOpen,
+  Wrench,
+  Shield,
+  ArrowUpRight,
+  Brain,
+  Building2
 } from "lucide-react";
 import { brandContent } from "@/lib/content/brand";
 import { mainNavLinks, navigationCategories } from "@/config/navigation.config";
@@ -34,18 +41,18 @@ import NotificationPopover from "@/components/ui/NotificationPopover";
 
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
-  
-  const dynamicLinks = mainNavLinks.map((link) => ({
-    ...link,
-    label: language === "ro" ? link.label : link.labelEn,
-  }));
+  const pathname = usePathname();
+  const lastPathname = useRef(pathname);
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activePillar, setActivePillar] = useState<string | null>(null);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const pathname = usePathname();
-  const lastPathname = useRef(pathname);
+
+  const dynamicLinks = mainNavLinks.map((link) => ({
+    ...link,
+    label: language === "ro" ? link.label : link.labelEn,
+  }));
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -80,169 +87,89 @@ export function Header() {
     setExpandedCategory(null);
   };
 
+  const handleMobileSearchTrigger = () => {
+    closeMenu();
+    window.dispatchEvent(new CustomEvent("trigger-search-focus"));
+  };
+
   return (
-    <header
-      className={`sticky top-0 z-[300] border-b transition-all duration-500 ${
-        scrolled
-          ? "border-zinc-800 bg-[#080808]/90 backdrop-blur-xl shadow-2xl shadow-black/40"
-          : "border-zinc-800/40 bg-[#080808]/60 backdrop-blur-md"
-      }`}
-      onMouseLeave={() => setActivePillar(null)}
-    >
-      <div className="mx-auto flex h-16 sm:h-20 max-w-[90rem] items-center justify-between px-4 sm:px-6">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-1.5 group flex-shrink-0 z-10" aria-label="AiX OS - Acasă">
-          <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors duration-300">
-            AiX
-          </span>
-          <span className="text-xl font-light tracking-[0.2em] text-amber-500 group-hover:text-amber-400 transition-colors duration-300">
-            OS
-          </span>
-        </Link>
-
-        {/* Desktop Nav Items */}
-        <nav className="hidden xl:flex items-center gap-2 relative">
-          {dynamicLinks.map((link) => {
-            if (link.isPillar && link.key) {
-              const isHovered = activePillar === link.key;
-              return (
-                <div
-                  key={link.key}
-                  className="relative py-4"
-                  onMouseEnter={() => setActivePillar(link.key)}
-                >
-                  <button
-                    type="button"
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
-                      isHovered ? "text-amber-400" : "text-zinc-400 hover:text-white"
-                    }`}
-                  >
-                    <LayoutGrid className="h-3.5 w-3.5" />
-                    {link.label}
-                    <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />
-                  </button>
-                  {isHovered && (
-                    <MegaMenu onClose={() => setActivePillar(null)} />
-                  )}
-                </div>
-              );
-            }
-
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href || "/"}
-                className={`relative px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
-                  isActive ? "text-amber-400" : "text-zinc-400 hover:text-white"
-                }`}
-              >
-                {link.label}
-                {isActive && (
-                  <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-amber-500 to-amber-300 rounded-full" />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Desktop Actions */}
-        <div className="hidden xl:flex items-center gap-3">
-          {/* Notification Center */}
-          <NotificationPopover />
-
-          {/* Language Switcher */}
-          <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1">
-            <button
-              onClick={() => setLanguage("ro")}
-              className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
-                language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
-              }`}
-            >
-              RO
-            </button>
-            <button
-              onClick={() => setLanguage("en")}
-              className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
-                language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
-              }`}
-            >
-              EN
-            </button>
-          </div>
-
-          <Link
-            href="/join"
-            className="rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/25 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
-          >
-            {t("nav.join")}
-          </Link>
-          <a
-            href={brandContent.contact.whatsappText}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
-          >
-            <MessageCircle className="h-4 w-4" />
-            {t("nav.whatsapp")}
-          </a>
-        </div>
-
-        {/* Mobile Hamburger */}
-        <div className="xl:hidden flex items-center gap-2">
-          <button
-            onClick={() => setOpen((prev) => !prev)}
-            className="flex items-center justify-center w-11 h-11 text-zinc-300 hover:text-white hover:bg-zinc-800/60 rounded-xl transition-all duration-200 relative z-10"
-            aria-label={open ? "Închide meniu" : "Deschide meniu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            style={{ touchAction: "manipulation" }}
-          >
-            <span className="flex flex-col gap-[5px] w-5">
-              <span className={`h-[1.5px] bg-current rounded-full transition-all duration-300 origin-left ${open ? "rotate-45 translate-x-[3px] -translate-y-[1px] w-[20px]" : "w-full"}`} />
-              <span className={`h-[1.5px] bg-current rounded-full transition-all duration-300 ${open ? "opacity-0 scale-x-0" : "w-4/5"}`} />
-              <span className={`h-[1.5px] bg-current rounded-full transition-all duration-300 origin-left ${open ? "-rotate-45 translate-x-[3px] translate-y-[1px] w-[20px]" : "w-full"}`} />
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* ─────────────────────────────────────────
-          MOBILE MENU DRAWER
-          ───────────────────────────────────────── */}
-      <div
-        id="mobile-menu"
-        className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
-          open ? "pointer-events-auto" : "pointer-events-none"
+    <>
+      <header
+        className={`sticky top-0 z-[300] border-b transition-all duration-500 ${
+          scrolled
+            ? "border-zinc-800 bg-[#080808]/90 backdrop-blur-xl shadow-2xl shadow-black/40"
+            : "border-zinc-800/40 bg-[#080808]/60 backdrop-blur-md"
         }`}
-        aria-hidden={!open}
+        onMouseLeave={() => setActivePillar(null)}
       >
-        <div
-          className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
-            open ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={closeMenu}
-        />
+        <div className="mx-auto flex h-16 sm:h-20 max-w-[90rem] items-center justify-between px-4 sm:px-6">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1.5 group flex-shrink-0 z-10" aria-label="AiX OS - Acasă">
+            <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors duration-300">
+              AiX
+            </span>
+            <span className="text-xl font-light tracking-[0.2em] text-amber-500 group-hover:text-amber-400 transition-colors duration-300">
+              OS
+            </span>
+          </Link>
 
-        <div
-          className={`absolute top-0 right-0 bottom-0 w-full max-w-[340px] flex flex-col bg-[#0a0a0a] border-l border-zinc-800/80 shadow-2xl transition-transform duration-300 ease-out overflow-hidden ${
-            open ? "translate-x-0" : "translate-x-full"
-          }`}
-          style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-        >
-          {/* Drawer Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800/60 flex-shrink-0 bg-[#0a0a0a] z-10">
-            <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
-              <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
-              <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
-            </Link>
+          {/* Desktop Nav Items */}
+          <nav className="hidden xl:flex items-center gap-2 relative">
+            {dynamicLinks.map((link) => {
+              if (link.isPillar && link.key) {
+                const isHovered = activePillar === link.key;
+                return (
+                  <div
+                    key={link.key}
+                    className="relative py-4"
+                    onMouseEnter={() => setActivePillar(link.key)}
+                  >
+                    <button
+                      type="button"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-[10.5px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
+                        isHovered ? "text-amber-400" : "text-zinc-400 hover:text-white"
+                      }`}
+                    >
+                      <LayoutGrid className="h-3.5 w-3.5" />
+                      {link.label}
+                      <ChevronDown className={`h-3 w-3 transition-transform duration-300 ${isHovered ? "rotate-180" : ""}`} />
+                    </button>
+                    {isHovered && (
+                      <MegaMenu onClose={() => setActivePillar(null)} />
+                    )}
+                  </div>
+                );
+              }
 
-            {/* Mobile Language Switcher */}
-            <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5">
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href || "/"}
+                  className={`relative px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 rounded-lg hover:bg-zinc-900/45 ${
+                    isActive ? "text-amber-400" : "text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-gradient-to-r from-amber-500 to-amber-300 rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Desktop Actions */}
+          <div className="hidden xl:flex items-center gap-3">
+            {/* Notification Center */}
+            <NotificationPopover />
+
+            {/* Language Switcher */}
+            <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1">
               <button
                 onClick={() => setLanguage("ro")}
                 className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
-                  language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                  language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
                 }`}
               >
                 RO
@@ -250,180 +177,284 @@ export function Header() {
               <button
                 onClick={() => setLanguage("en")}
                 className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
-                  language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                  language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
                 }`}
               >
                 EN
               </button>
             </div>
 
-            <button
-              onClick={closeMenu}
-              className="flex items-center justify-center w-11 h-11 text-zinc-500 hover:text-white hover:bg-zinc-800/60 rounded-xl transition-all"
-              aria-label="Închide meniu"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          {/* Scrollable Nav Area */}
-          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1 overscroll-contain">
-            
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
-                pathname === "/"
-                  ? "bg-amber-500/10 text-amber-400"
-                  : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
-              }`}
-            >
-              <Home className="h-4.5 w-4.5 flex-shrink-0" />
-              {t("nav.home")}
-            </Link>
-
-            <div className="pt-4 pb-2">
-              <div className="flex items-center justify-between px-3 mb-2">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">
-                  {language === "ro" ? "Servicii & Module" : "Services & Modules"}
-                </p>
-                <Link
-                  href="/services"
-                  onClick={closeMenu}
-                  className="text-[10px] font-semibold text-amber-500/70 hover:text-amber-400 transition-colors uppercase tracking-wider"
-                >
-                  Director →
-                </Link>
-              </div>
-            </div>
-
-            {/* Accordion List for the 5 Categories */}
-            {navigationCategories.map((category) => {
-              const isExpanded = expandedCategory === category.id;
-              const Icon = category.icon;
-              const title = language === "ro" ? category.title : category.titleEn;
-
-              return (
-                <div key={category.id} className="mb-1">
-                  <button
-                    type="button"
-                    onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
-                    className={`w-full flex items-center justify-between px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
-                      isExpanded
-                        ? "bg-zinc-900/80 text-white"
-                        : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
-                    }`}
-                    aria-expanded={isExpanded}
-                  >
-                    <span className="flex items-center gap-3">
-                      <div className={`p-1.5 rounded-lg border border-zinc-800/50 bg-zinc-900/50 flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-500"}`}>
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      {title}
-                    </span>
-                    <ChevronDown
-                      className={`h-4 w-4 flex-shrink-0 transition-transform duration-300 ${
-                        isExpanded ? "rotate-180 text-amber-400" : "text-zinc-600"
-                      }`}
-                    />
-                  </button>
-
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-out ${
-                      isExpanded ? "max-h-[1400px] opacity-100 mt-1" : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <div className="ml-5 pl-4 border-l border-zinc-850 space-y-2 py-2">
-                      {category.items.map((sub) => {
-                        const SubIcon = sub.icon;
-                        const isSubActive = pathname === sub.href;
-                        const label = language === "ro" ? sub.label : sub.labelEn;
-                        const desc = language === "ro" ? sub.desc : sub.descEn;
-
-                        return (
-                          <Link
-                            key={sub.id}
-                            href={sub.href}
-                            onClick={closeMenu}
-                            className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-200 active:scale-98 border border-transparent ${
-                              isSubActive
-                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 font-semibold"
-                                : "text-zinc-400 hover:text-white hover:bg-zinc-900/40"
-                            }`}
-                          >
-                            <div className={`mt-0.5 p-1.5 rounded-lg border border-zinc-800/60 bg-zinc-900/60 flex-shrink-0 transition-colors ${isSubActive ? "text-amber-400" : "text-zinc-500"}`}>
-                              <SubIcon className="h-3.5 w-3.5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-semibold text-zinc-200 leading-tight">{label}</p>
-                              <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">{desc}</p>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-
-            <div className="pt-4 mt-2 border-t border-zinc-800/60 space-y-1">
-              {[
-                { href: "/despre", label: language === "ro" ? "Despre AiX" : "About AiX", icon: Users },
-                { href: "/stiri", label: language === "ro" ? "Analize Piață" : "Market Analysis", icon: Newspaper },
-                { href: "/contact", label: t("nav.contact"), icon: Send },
-              ].map((link) => {
-                const Icon = link.icon;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[13px] font-semibold transition-all active:scale-98 ${
-                      pathname === link.href
-                        ? "bg-amber-500/10 text-amber-400"
-                        : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
-                    }`}
-                  >
-                    <Icon className="h-4.5 w-4.5 flex-shrink-0" />
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </nav>
-
-          {/* Footer Actions */}
-          <div className="px-4 pb-6 pt-4 border-t border-zinc-800/60 space-y-3 bg-[#0a0a0a] z-10 flex-shrink-0">
-            <div className="grid grid-cols-2 gap-3">
-              <a
-                href={`tel:${brandContent.contact.phoneRORaw}`}
-                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl border border-zinc-800 text-[11px] uppercase tracking-wider font-bold text-zinc-300 hover:text-white hover:border-zinc-700 transition-all active:scale-95"
-              >
-                <Phone className="h-4 w-4 text-amber-400" />
-                {t("nav.call")}
-              </a>
-              <a
-                href={brandContent.contact.whatsappText}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-600/10 border border-emerald-500/30 text-[11px] uppercase tracking-wider font-bold text-emerald-400 hover:bg-emerald-600/20 transition-all active:scale-95"
-              >
-                <MessageCircle className="h-4 w-4" />
-                {t("nav.whatsapp")}
-              </a>
-            </div>
             <Link
               href="/join"
-              onClick={closeMenu}
-              className="w-full flex items-center justify-center py-4 text-xs font-bold uppercase tracking-widest text-black bg-amber-500 hover:bg-amber-400 rounded-xl transition-all active:scale-95 shadow-lg shadow-amber-500/20"
+              className="rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/25 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
             >
-              {t("nav.cta")}
+              {t("nav.join")}
             </Link>
+            <a
+              href={brandContent.contact.whatsappText}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {t("nav.whatsapp")}
+            </a>
+          </div>
+
+          {/* Mobile Header elements (Search Icon + Alerts) */}
+          <div className="xl:hidden flex items-center gap-3">
+            <button
+              onClick={handleMobileSearchTrigger}
+              className="flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
+              aria-label="Căutare"
+            >
+              <Search className="h-4.5 w-4.5" />
+            </button>
+            <NotificationPopover />
           </div>
         </div>
-      </div>
-    </header>
+
+        {/* ─────────────────────────────────────────
+            MOBILE MENU DRAWER (FULL SCREEN CATEGORIES)
+            ───────────────────────────────────────── */}
+        <div
+          id="mobile-menu"
+          className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
+            open ? "pointer-events-auto" : "pointer-events-none"
+          }`}
+          aria-hidden={!open}
+        >
+          <div
+            className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
+              open ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={closeMenu}
+          />
+
+          <div
+            className={`absolute top-0 right-0 bottom-0 w-full max-w-[340px] flex flex-col bg-[#080808] border-l border-zinc-800 shadow-2xl transition-transform duration-300 ease-out overflow-hidden ${
+              open ? "translate-x-0" : "translate-x-full"
+            }`}
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 68px)" }}
+          >
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-850 flex-shrink-0 bg-[#080808] z-10">
+              <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
+                <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
+                <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
+              </Link>
+
+              {/* Language Switcher */}
+              <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5">
+                <button
+                  onClick={() => setLanguage("ro")}
+                  className={`px-2.5 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                    language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                  }`}
+                >
+                  RO
+                </button>
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={`px-2.5 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                    language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
+
+              <button
+                onClick={closeMenu}
+                className="flex items-center justify-center w-10 h-10 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
+                aria-label="Închide meniu"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Scrollable category navigation - equivalent structure to desktop dropdowns */}
+            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 overscroll-contain">
+              
+              <Link
+                href="/"
+                onClick={closeMenu}
+                className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                  pathname === "/"
+                    ? "bg-amber-500/10 text-amber-400"
+                    : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
+                }`}
+              >
+                <Home className="h-4.5 w-4.5 flex-shrink-0" />
+                {t("nav.home")}
+              </Link>
+
+              <div className="pt-2 pb-1">
+                <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
+                  {language === "ro" ? "Categorii Decizionale" : "Decision Categories"}
+                </p>
+              </div>
+
+              {/* Dynamic Categories loop mapped from unified registry */}
+              {navigationCategories.map((category) => {
+                const isExpanded = expandedCategory === category.id;
+                const Icon = category.icon;
+                const title = language === "ro" ? category.title : category.titleEn;
+
+                return (
+                  <div key={category.id} className="mb-1">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
+                      className={`w-full flex items-center justify-between px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                        isExpanded
+                          ? "bg-zinc-900/80 text-white"
+                          : "text-zinc-350 hover:text-white hover:bg-zinc-900/45"
+                      }`}
+                      aria-expanded={isExpanded}
+                    >
+                      <span className="flex items-center gap-3">
+                        <div className={`p-1.5 rounded-lg border border-zinc-800 bg-zinc-950 flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-500"}`}>
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        {title}
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 flex-shrink-0 transition-transform duration-350 ${
+                          isExpanded ? "rotate-180 text-amber-400" : "text-zinc-650"
+                        }`}
+                      />
+                    </button>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-350 ease-out ${
+                        isExpanded ? "max-h-[1400px] opacity-100 mt-1" : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="ml-5 pl-4 border-l border-zinc-900 space-y-2 py-2 text-left">
+                        {category.items.map((sub) => {
+                          const SubIcon = sub.icon;
+                          const isSubActive = pathname === sub.href;
+                          const label = language === "ro" ? sub.label : sub.labelEn;
+                          const desc = language === "ro" ? sub.desc : sub.descEn;
+
+                          return (
+                            <Link
+                              key={sub.id}
+                              href={sub.href}
+                              onClick={closeMenu}
+                              className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-200 active:scale-98 border border-transparent ${
+                                isSubActive
+                                  ? "bg-amber-500/10 border-amber-500/20 text-amber-400 font-semibold"
+                                  : "text-zinc-450 hover:text-white hover:bg-zinc-900/40"
+                              }`}
+                            >
+                              <div className={`mt-0.5 p-1.5 rounded-lg border border-zinc-800 bg-zinc-950 flex-shrink-0 transition-colors ${isSubActive ? "text-amber-400" : "text-zinc-600"}`}>
+                                <SubIcon className="h-3.5 w-3.5" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold text-zinc-200 leading-tight">{label}</p>
+                                <p className="text-[10px] text-zinc-550 leading-normal mt-0.5 line-clamp-1">{desc}</p>
+                              </div>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="pt-4 mt-2 border-t border-zinc-850 space-y-1">
+                {[
+                  { href: "/brain", label: "AiX Brain Decision Engine", icon: Brain },
+                  { href: "/dashboard", label: "User Control Center", icon: Sliders },
+                  { href: "/leads", label: "Leads Dashboard", icon: Star },
+                ].map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                        isActive
+                          ? "bg-amber-500/10 text-amber-400"
+                          : "text-zinc-350 hover:text-white hover:bg-zinc-900/40"
+                      }`}
+                    >
+                      <Icon className="h-4.5 w-4.5 flex-shrink-0" />
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* ─────────────────────────────────────────
+          MOBILE BOTTOM NAVIGATION BAR
+          ───────────────────────────────────────── */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-[450] xl:hidden border-t border-zinc-850 bg-[#080808]/95 backdrop-blur-xl shadow-2xl flex items-center justify-around h-16 pb-safe"
+        aria-label="Mobile Core Control Menu"
+      >
+        {[
+          { href: "/", label: language === "ro" ? "Acasă" : "Home", icon: Home },
+          { href: "search", label: language === "ro" ? "Căutare" : "Search", icon: Search, action: handleMobileSearchTrigger },
+          { href: "/proprietati", label: language === "ro" ? "Imobile" : "Properties", icon: Building2 },
+          { href: "/stiri", label: language === "ro" ? "Piață" : "Market", icon: Activity },
+        ].map((item) => {
+          const active = item.href !== "search" && (item.href === "/" ? pathname === "/" : pathname.startsWith(item.href));
+          const Icon = item.icon;
+
+          if (item.action) {
+            return (
+              <button
+                key={item.label}
+                type="button"
+                onClick={item.action}
+                className="flex flex-col items-center justify-center gap-1.5 w-14 h-full text-zinc-500 hover:text-zinc-300"
+              >
+                <Icon className="h-5 w-5 text-zinc-400" strokeWidth={1.75} />
+                <span className="text-[9px] font-bold uppercase tracking-wider leading-none text-zinc-500">{item.label}</span>
+              </button>
+            );
+          }
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-full transition-colors ${
+                active ? "text-amber-400" : "text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              <Icon className={`h-5 w-5 ${active ? "text-amber-400 scale-105" : "text-zinc-450"}`} strokeWidth={active ? 2 : 1.75} />
+              <span className={`text-[9px] font-bold uppercase tracking-wider leading-none ${active ? "text-amber-400" : "text-zinc-550"}`}>{item.label}</span>
+            </Link>
+          );
+        })}
+
+        {/* Menu button toggles the categories drawer */}
+        <button
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          className={`flex flex-col items-center justify-center gap-1.5 w-14 h-full transition-colors ${
+            open ? "text-amber-400" : "text-zinc-500 hover:text-zinc-300"
+          }`}
+          aria-expanded={open}
+        >
+          <LayoutGrid className={`h-5 w-5 ${open ? "text-amber-400 scale-105 rotate-90" : "text-zinc-450"} transition-all duration-300`} strokeWidth={open ? 2 : 1.75} />
+          <span className={`text-[9px] font-bold uppercase tracking-wider leading-none ${open ? "text-amber-400" : "text-zinc-550"}`}>
+            {language === "ro" ? "Meniu" : "Menu"}
+          </span>
+        </button>
+      </nav>
+    </>
   );
 }
 
@@ -432,7 +463,7 @@ export function Footer() {
   const [expandedCol, setExpandedCol] = useState<string | null>(null);
   
   return (
-    <footer className="border-t border-zinc-800 bg-[#050505] mt-auto">
+    <footer className="border-t border-zinc-800 bg-[#050505] mt-auto pb-16 xl:pb-0">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 space-y-16">
 
         {/* ─── HERO FOOTER BANNER ─────────────────────────────────────────── */}
@@ -449,7 +480,7 @@ export function Footer() {
             </h3>
             <p className="text-xs text-zinc-500 leading-relaxed max-w-xl">
               {language === "ro"
-                ? "O platformă de intelligence decizional care ajută investitorii să facă alegeri informate în Imobiliare, Wealth, Asigurări, AI, Tehnologie și Investiții globale."
+                ? "O platformă de intelligence decizional care ajută oamenii să facă alegeri mai bune în Imobiliare, Wealth, Asigurări, AI, Tehnologie și Investiții."
                 : "A decision intelligence platform helping people make better decisions across Real Estate, Wealth, Insurance, AI, Technology and Investments."}
             </p>
           </div>
@@ -468,7 +499,7 @@ export function Footer() {
               {language === "ro" ? "Contact Support" : "Contact Support"}
             </Link>
             <Link
-              href="/money-advisor"
+              href="/brain"
               className="flex-1 sm:flex-none text-center px-6 py-3.5 rounded-xl border border-amber-500/25 bg-amber-500/5 hover:bg-amber-500/10 text-amber-400 text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-98 flex items-center justify-center gap-1.5"
             >
               <Sparkles className="h-3.5 w-3.5 animate-pulse" />
@@ -478,7 +509,7 @@ export function Footer() {
         </div>
 
         {/* ─── OUTCOME-BASED NAVIGATION COLUMNS GRID ──────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 border-t border-zinc-900 pt-12 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 border-t border-zinc-900 pt-12 text-left">
           {footerColumns.map((col) => {
             const isExpanded = expandedCol === col.title;
             return (
@@ -501,7 +532,7 @@ export function Footer() {
 
                 {/* Navigation lists collapsible on mobile drawers */}
                 <div
-                  className={`overflow-hidden transition-all duration-350 ease-out ${
+                  className={`overflow-hidden transition-all duration-355 ease-out ${
                     isExpanded ? "max-h-[850px] opacity-100" : "max-h-0 md:max-h-none opacity-0 md:opacity-100"
                   }`}
                 >
@@ -547,13 +578,13 @@ export function Footer() {
           {/* Copyrights, Author, Status, Version */}
           <div className="space-y-2">
             <p className="text-xs text-zinc-500">
-              &copy; {new Date().getFullYear()} AiX OS &bull; {language === "ro" ? "Ecosistem de Intelligence Imobiliar" : "Decision Intelligence Platform"}
+              &copy; {new Date().getFullYear()} AiX OS &bull; {language === "ro" ? "Ecosistem de Intelligence Imobiliar" : "Decision Intelligence Operating System"}
             </p>
             <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-1.5 text-[10px] text-zinc-600 font-mono font-medium">
               <span>{language === "ro" ? "Status: Online" : "Status: Online"}</span>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>&bull;</span>
-              <span>Version: v4.2.0-prod</span>
+              <span>Version: v5.0.0-prod</span>
               <span>&bull;</span>
               <span>
                 {language === "ro" ? "Creat de " : "Created by "}

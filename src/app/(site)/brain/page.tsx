@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import BrainClient from "./BrainClient";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function BrainPage() {
-  return <BrainClient />;
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-xs text-zinc-500 font-mono animate-pulse">Loading Decision Engine...</div>}>
+      <BrainClient />
+    </Suspense>
+  );
 }

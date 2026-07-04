@@ -8,28 +8,33 @@ export interface FooterColumn {
 
 export const footerColumns: FooterColumn[] = [
   {
-    title: "Cumpără • Vinde • Descoperă",
-    titleEn: "Buy • Sell • Discover",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL_DISCOVER"),
+    title: "Cumpără & Vinde",
+    titleEn: "BUY & SELL",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL"),
   },
   {
-    title: "Investește • Protejează",
-    titleEn: "Invest • Protect",
+    title: "Investește & Protejează",
+    titleEn: "INVEST & PROTECT",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST_PROTECT"),
   },
   {
-    title: "Învață • Cercetează",
-    titleEn: "Learn • Research",
+    title: "Învață & Cercetează",
+    titleEn: "LEARN & RESEARCH",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN_RESEARCH"),
   },
   {
     title: "Instrumente",
-    titleEn: "Tools",
+    titleEn: "TOOLS",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "TOOLS"),
   },
   {
+    title: "Piață & AI",
+    titleEn: "MARKET & AI",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "MARKET_AI"),
+  },
+  {
     title: "Conectare",
-    titleEn: "Connect",
+    titleEn: "CONNECT",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "CONNECT"),
   },
 ];

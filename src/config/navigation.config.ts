@@ -1,10 +1,10 @@
 import { ALL_SERVICES_REGISTRY, type ServiceItem } from "./services.config";
 import {
-  Brain,
   Building2,
-  Coins,
   Shield,
+  BookOpen,
   Wrench,
+  Brain,
   type LucideIcon
 } from "lucide-react";
 
@@ -19,54 +19,44 @@ export interface NavigationCategory {
 
 export const navigationCategories: NavigationCategory[] = [
   {
-    id: "ai",
-    title: "AI & Inteligență",
-    titleEn: "AI & Intelligence",
-    icon: Brain,
-    color: "text-violet-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) =>
-      ["money-advisor", "ai-valuation", "anti-teapa", "buyer-rep", "seller-rep"].includes(s.id)
-    ),
-  },
-  {
-    id: "real-estate",
-    title: "Imobiliare Premium",
-    titleEn: "Premium Real Estate",
+    id: "buy-sell",
+    title: "Cumpără & Vinde",
+    titleEn: "BUY & SELL",
     icon: Building2,
     color: "text-blue-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) =>
-      ["properties", "luxury-properties", "off-market", "developers", "agencies", "neighborhood-intel"].includes(s.id)
-    ),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL"),
   },
   {
-    id: "wealth",
-    title: "Portofoliu & Wealth",
-    titleEn: "Portfolio & Wealth",
-    icon: Coins,
-    color: "text-amber-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) =>
-      ["private-wealth", "investments", "market-intelligence"].includes(s.id)
-    ),
-  },
-  {
-    id: "protection",
-    title: "Protecție & Legal",
-    titleEn: "Protection & Legal",
+    id: "invest-protect",
+    title: "Investește & Protejează",
+    titleEn: "INVEST & PROTECT",
     icon: Shield,
     color: "text-rose-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) =>
-      ["insurance", "law", "cybersecurity"].includes(s.id)
-    ),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST_PROTECT"),
+  },
+  {
+    id: "learn-research",
+    title: "Învață & Cercetează",
+    titleEn: "LEARN & RESEARCH",
+    icon: BookOpen,
+    color: "text-amber-400",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN_RESEARCH"),
   },
   {
     id: "tools",
-    title: "Resurse & Instrumente",
-    titleEn: "Resources & Tools",
+    title: "Instrumente",
+    titleEn: "TOOLS",
     icon: Wrench,
     color: "text-teal-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) =>
-      ["books", "learning", "apps", "calculators", "document-tools", "government-resources"].includes(s.id)
-    ),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "TOOLS"),
+  },
+  {
+    id: "market-ai",
+    title: "Piață & AI",
+    titleEn: "MARKET & AI",
+    icon: Brain,
+    color: "text-violet-400",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "MARKET_AI"),
   },
 ];
 
