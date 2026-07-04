@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   AlertTriangle,
   Shield,
@@ -12,25 +13,8 @@ import {
 } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 
-const RED_FLAGS = [
-  { icon: AlertTriangle, title: "Preț suspect de mic", desc: "Proprietăți cu prețuri cu 20%+ sub piață sunt adesea semnale de probleme juridice sau vânzare forțată." },
-  { icon: XCircle, title: "Acte incomplete sau copii", desc: "Vânzătorul refuză să prezinte originale sau evită notarul. Semn că actele pot fi falsificate." },
-  { icon: AlertTriangle, title: "Urgență artificială", desc: "Presiunea de a semna rapid, fără timp de verificare. Tactică clasică pentru a ascunde probleme." },
-  { icon: XCircle, title: "Multiple agenții simultan", desc: "Proprietatea listată la multe agenții concomitent poate indica probleme de vânzare sau titlu neclar." },
-  { icon: AlertTriangle, title: "Renovare proaspătă", desc: "Renovare recentă poate ascunde vicii structurale sau inundații. Verificare tehnică obligatorie." },
-  { icon: XCircle, title: "Vânzător nervos sau evaziv", desc: "Refuză răspunsuri clare la întrebări despre vecini, calitatea clădirii sau istoricul proprietății." },
-];
-
-const CHECKS = [
-  { icon: FileText, title: "Verificare Titlu de Proprietate", desc: "Confirmăm proprietarul legal, istoricul transferurilor și că titlul este curat și necontestat." },
-  { icon: Shield, title: "Sarcini și Ipoteci", desc: "Verificăm în Cartea Funciară prezența ipotecilor, interdicțiilor de înstrăinare sau gajurilor." },
-  { icon: Search, title: "Litigii Active", desc: "Identificăm procese civile sau penale legate de proprietate sau de vânzător la instanțele locale." },
-  { icon: Brain, title: "Preț vs. Piață (AI)", desc: "AiX Score compară prețul cerut cu tranzacțiile similare și detectează deviații semnificative." },
-  { icon: Building2, title: "Stare Tehnică", desc: "Evaluare vizuală a stării structurale, instalații și finisaje. Alertă pentru vicii ascunse." },
-  { icon: AlertTriangle, title: "Istoricul Proprietarilor", desc: "Analizăm numărul de transferuri anterioare, moșteniri complexe și posibile dispute de proprietate." },
-];
-
 export default function AntiTeapaPage() {
+  const { language, t } = useLanguage();
   const [address, setAddress] = useState("");
   const [cadastru, setCadastru] = useState("");
   const [price, setPrice] = useState("");
@@ -45,6 +29,96 @@ export default function AntiTeapaPage() {
     recommendation: string;
   } | null>(null);
 
+  const RED_FLAGS = [
+    {
+      icon: AlertTriangle,
+      title: language === "ro" ? "Preț suspect de mic" : "Suspiciously Low Price",
+      desc: language === "ro"
+        ? "Proprietăți cu prețuri cu 20%+ sub piață sunt adesea semnale de probleme juridice sau vânzare forțată."
+        : "Properties priced 20%+ below market value are often flags for critical legal claims or forced fire sales.",
+    },
+    {
+      icon: XCircle,
+      title: language === "ro" ? "Acte incomplete sau copii" : "Incomplete Titles or Copies Only",
+      desc: language === "ro"
+        ? "Vânzătorul refuză să prezinte originale sau evită notarul. Semn că actele pot fi falsificate."
+        : "Seller refuses to present original titles or stalls notary validation. A potential indicator of fraud.",
+    },
+    {
+      icon: AlertTriangle,
+      title: language === "ro" ? "Urgență artificială" : "Artificial Urgency",
+      desc: language === "ro"
+        ? "Presiunea de a semna rapid, fără timp de verificare. Tactică clasică pentru a ascunde probleme."
+        : "Pressure to close quickly without allowing due diligence. A classic play to hide legal defects.",
+    },
+    {
+      icon: XCircle,
+      title: language === "ro" ? "Multiple agenții simultan" : "Multiple Agencies Simultaneously",
+      desc: language === "ro"
+        ? "Proprietatea listată la multe agenții concomitent poate indica probleme de vânzare sau titlu neclar."
+        : "Property listed with numerous agents at once can signal title ownership disputes or sale bottlenecks.",
+    },
+    {
+      icon: AlertTriangle,
+      title: language === "ro" ? "Renovare proaspătă" : "Fresh Refurbishments",
+      desc: language === "ro"
+        ? "Renovarea recentă poate ascunde vicii structurale sau inundații. Verificare tehnică obligatorie."
+        : "Recent paint jobs or repairs can mask structural faults or water damage. A physical inspect is recommended.",
+    },
+    {
+      icon: XCircle,
+      title: language === "ro" ? "Vânzător nervos sau evaziv" : "Evasive Seller",
+      desc: language === "ro"
+        ? "Refuză răspunsuri clare la întrebări despre vecini, calitatea clădirii sau istoricul proprietății."
+        : "Refusing direct replies regarding neighbors, structural integrity, or land history registries.",
+    },
+  ];
+
+  const CHECKS = [
+    {
+      icon: FileText,
+      title: language === "ro" ? "Verificare Titlu de Proprietate" : "Title Registry Verification",
+      desc: language === "ro"
+        ? "Confirmăm proprietarul legal, istoricul transferurilor și că titlul este curat și necontestat."
+        : "We trace legal owner lineages, past deeds, and verify that the title registry is clear of claims.",
+    },
+    {
+      icon: Shield,
+      title: language === "ro" ? "Sarcini și Ipoteci" : "Liens & Mortgages",
+      desc: language === "ro"
+        ? "Verificăm în Cartea Funciară prezența ipotecilor, interdicțiilor de înstrăinare sau gajurilor."
+        : "We cross-reference active commercial mortgages, bank constraints, or foreclosure notes.",
+    },
+    {
+      icon: Search,
+      title: language === "ro" ? "Litigii Active" : "Active Court Litigation",
+      desc: language === "ro"
+        ? "Identificăm procese civile sau penale legate de proprietate sau de vânzător la instanțele locale."
+        : "We lookup civil or corporate lawsuits filed against the seller or the target asset.",
+    },
+    {
+      icon: Brain,
+      title: language === "ro" ? "Preț vs. Piață (AI)" : "Price Target Model",
+      desc: language === "ro"
+        ? "AiX Score compară prețul cerut cu tranzacțiile similare și detectează deviații semnificative."
+        : "The AiX Score compares current listing targets with actual closed transactions.",
+    },
+    {
+      icon: Building2,
+      title: language === "ro" ? "Stare Tehnică" : "Technical Inspection",
+      desc: language === "ro"
+        ? "Evaluare vizuală a stării structurale, instalații și finisaje. Alertă pentru vicii ascunse."
+        : "Inspect structural elements, active plumbing systems, and electrical nodes.",
+    },
+    {
+      icon: AlertTriangle,
+      title: language === "ro" ? "Istoricul Proprietarilor" : "Owner Registry History",
+      desc: language === "ro"
+        ? "Analizăm numărul de transferuri anterioare, moșteniri complexe și posibile dispute de proprietate."
+        : "We study inheritance lines, partition disputes, and frequency of ownership swaps.",
+    },
+  ];
+
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
     if (!address || !cadastru) return;
@@ -53,19 +127,28 @@ export default function AntiTeapaPage() {
     setReport(null);
 
     setTimeout(() => {
-      // Simulate verification results
       const val = parseFloat(price);
       const isSuspectPrice = !isNaN(val) && val < 200000;
       
       setReport({
         score: isSuspectPrice ? 42 : 88,
         safetyLevel: isSuspectPrice ? "low" : "high",
-        litigii: isSuspectPrice ? "1 dosar civil activ identificat (rol litigiu titlu)" : "Niciun litigiu activ identificat pe adresa solicitată",
-        ipoteci: isSuspectPrice ? "Ipotecă activă (bancă comercială, nesalvată)" : "Liber de sarcini bancare active",
-        cadastruStatus: "Număr cadastru înregistrat, corespunde cu releveul depus",
+        litigii: isSuspectPrice 
+          ? (language === "ro" ? "1 dosar civil activ identificat (rol litigiu titlu)" : "1 active civil court claim found (title dispute)")
+          : (language === "ro" ? "Niciun litigiu activ identificat pe adresa solicitată" : "No active court disputes identified for this address"),
+        ipoteci: isSuspectPrice 
+          ? (language === "ro" ? "Ipotecă activă (bancă comercială, nesalvată)" : "Active mortgage (commercial lender, unresolved)")
+          : (language === "ro" ? "Liber de sarcini bancare active" : "Clear of active banking liens"),
+        cadastruStatus: language === "ro" 
+          ? "Număr cadastru înregistrat, corespunde cu releveul depus"
+          : "Registered cadastre ID matching official floor plans",
         recommendation: isSuspectPrice 
-          ? "AVERTISMENT: Prețul cerut este suspect de scăzut pentru zonă, iar prezența litigiului active impune asistență juridică înainte de plata oricărui avans."
-          : "VERDE: Proprietate curată din punct de vedere preliminar. Recomandăm due-diligence fizic complet înainte de semnare.",
+          ? (language === "ro" 
+              ? "AVERTISMENT: Prețul cerut este suspect de scăzut pentru zonă, iar prezența litigiului activ impune asistență juridică înainte de plata oricărui avans."
+              : "ALERT: Target price is abnormally low for this zone, and active title litigation requires legal assistance before writing deposits.")
+          : (language === "ro"
+              ? "VERDE: Proprietate curată din punct de vedere preliminar. Recomandăm due-diligence fizic complet înainte de semnare."
+              : "GREEN: Asset appears clean on preliminary checks. Complete a structural inspection before signing contracts."),
       });
       setLoading(false);
     }, 1500);
@@ -83,23 +166,27 @@ export default function AntiTeapaPage() {
         <div className="grid lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-6">
             <h1 className="text-3xl sm:text-5xl font-light text-white leading-tight">
-              Verifică Orice Proprietate<br />
-              <span className="text-red-400">Înainte de Semnare.</span>
+              {language === "ro" ? "Verifică Orice Proprietate" : "Audit Any Asset"} <br />
+              <span className="text-red-400">{language === "ro" ? "Înainte de Semnare." : "Before Signing."}</span>
             </h1>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              Analizăm automat titlurile de proprietate, sarcinile înregistrate în Cartea Funciară și istoricul litigiilor active pentru a te proteja de capcane imobiliare.
+              {language === "ro"
+                ? "Analizăm automat titlurile de proprietate, sarcinile înregistrate în Cartea Funciară și istoricul litigiilor active pentru a te proteja de capcane imobiliare."
+                : "We automatically audit title histories, land registry encumbrances, and local court disputes to isolate transaction vulnerabilities."}
             </p>
 
             {/* Quick Audit Form */}
             <div className={`p-6 sm:p-7 rounded-3xl ${designSystem.glass} space-y-4`}>
-              <h3 className="text-xs uppercase tracking-widest text-zinc-550 font-bold">Verificare rapidă securizată</h3>
+              <h3 className="text-xs uppercase tracking-widest text-zinc-550 font-bold">
+                {language === "ro" ? "Verificare rapidă securizată" : "Secure Preliminary Audit"}
+              </h3>
               
               <form onSubmit={handleVerify} className="space-y-4">
                 <input
                   required
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Adresa completă sau codul poștal"
+                  placeholder={language === "ro" ? "Adresa completă sau codul poștal" : "Full street address or postal code"}
                   className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                 />
 
@@ -108,14 +195,14 @@ export default function AntiTeapaPage() {
                     required
                     value={cadastru}
                     onChange={(e) => setCadastru(e.target.value)}
-                    placeholder="Număr cadastral / CF"
+                    placeholder={language === "ro" ? "Număr cadastral / CF" : "Cadastre ID / Land Registry CF"}
                     className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                   />
                   <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    placeholder="Preț solicitat (€)"
+                    placeholder={language === "ro" ? "Preț solicitat (€)" : "Asking Price (€)"}
                     className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                   />
                 </div>
@@ -125,7 +212,9 @@ export default function AntiTeapaPage() {
                   disabled={loading}
                   className="w-full rounded-xl bg-red-600 text-white py-3 text-xs font-semibold uppercase tracking-wider hover:bg-red-500 transition-all flex items-center justify-center gap-1.5"
                 >
-                  {loading ? "Scanare registre active..." : "Scanează Risc Active"}
+                  {loading 
+                    ? (language === "ro" ? "Scanare registre active..." : "Querying database registers...") 
+                    : (language === "ro" ? "Scanează Risc Proprietate" : "Scan Property Risk")}
                 </button>
               </form>
 
@@ -137,23 +226,23 @@ export default function AntiTeapaPage() {
                     <span className={`text-[10px] uppercase tracking-widest font-mono font-bold ${
                       report.safetyLevel === "high" ? "text-emerald-400" : "text-red-400 animate-pulse"
                     }`}>
-                      Siguranță: {report.score}%
+                      {language === "ro" ? "Siguranță: " : "Safety Score: "}{report.score}%
                     </span>
                   </div>
 
                   <div className="p-3.5 rounded-xl border border-zinc-900 bg-zinc-950/60 text-[10px] space-y-2 text-zinc-450 font-mono">
                     <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                      <span>Cartea Funciară:</span>
+                      <span>{language === "ro" ? "Cartea Funciară:" : "Registry Status:"}</span>
                       <span className="text-zinc-350">{report.cadastruStatus}</span>
                     </div>
                     <div className="flex justify-between border-b border-zinc-900 pb-1.5">
-                      <span>Ipoteci active:</span>
+                      <span>{language === "ro" ? "Ipoteci active:" : "Active Mortgages:"}</span>
                       <span className={report.safetyLevel === "low" ? "text-red-400 font-bold" : "text-zinc-350"}>
                         {report.ipoteci}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Litigii active:</span>
+                      <span>{language === "ro" ? "Litigii active:" : "Court Cases:"}</span>
                       <span className={report.safetyLevel === "low" ? "text-red-400 font-bold" : "text-zinc-350"}>
                         {report.litigii}
                       </span>
@@ -174,13 +263,20 @@ export default function AntiTeapaPage() {
 
           <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-7 space-y-4">
             <AlertTriangle className="h-8 w-8 text-red-400" />
-            <h3 className="text-lg font-light text-white">Informații Risc</h3>
+            <h3 className="text-lg font-light text-white">{language === "ro" ? "Statistici de Risc" : "Property Risk Stats"}</h3>
             <ul className="space-y-3">
-              {[
-                "1 din 5 proprietăți din România are cel puțin o problemă de cadastru",
-                "15% din tranzacțiile eșuate implică vicii juridice nedeclarate",
-                "Ipotecile nesalvate reprezintă o cauză principală a litigiilor active",
-              ].map((fact) => (
+              {(language === "ro" 
+                ? [
+                    "1 din 5 proprietăți din România are cel puțin o problemă de cadastru",
+                    "15% din tranzacțiile eșuate implică vicii juridice nedeclarate",
+                    "Ipotecile nesalvate reprezintă o cauză principală a litigiilor active",
+                  ]
+                : [
+                    "1 in 5 properties in Romania has an unresolved cadastral or map issue",
+                    "15% of failed property deals involve undisclosed litigation or boundary claims",
+                    "Unresolved historical mortgages are the leading cause of active title disputes",
+                  ]
+              ).map((fact) => (
                 <li key={fact} className="flex items-start gap-3 text-xs">
                   <span className="text-red-400 mt-0.5 flex-shrink-0">⚠</span>
                   <p className="text-zinc-300">{fact}</p>
@@ -196,9 +292,13 @@ export default function AntiTeapaPage() {
         <div className="space-y-2">
           <h2 className="text-xl font-light text-white flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-400" />
-            Semnale de alarmă (Red Flags)
+            {language === "ro" ? "Semnale de alarmă (Red Flags)" : "Property Red Flags"}
           </h2>
-          <p className="text-xs text-zinc-500">Dacă întâlnești aceste situații, oprește-te înainte de plata avansului.</p>
+          <p className="text-xs text-zinc-500">
+            {language === "ro" 
+              ? "Dacă întâlnești aceste situații, oprește-te înainte de plata avansului."
+              : "If you encounter any of these scenarios, halt the transaction before wiring deposits."}
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {RED_FLAGS.map((f) => {
@@ -219,8 +319,14 @@ export default function AntiTeapaPage() {
       {/* Checklist */}
       <section className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-light text-white">Ce acoperă auditul AntiȚeapă</h2>
-          <p className="text-xs text-zinc-500">Verificăm registre active și detalii cadastrale fizice.</p>
+          <h2 className="text-xl font-light text-white">
+            {language === "ro" ? "Ce acoperă auditul AntiȚeapă" : "What the Audit Inspects"}
+          </h2>
+          <p className="text-xs text-zinc-500">
+            {language === "ro" 
+              ? "Verificăm registre active și detalii cadastrale fizice."
+              : "We inspect active government registries and cadastral outlines."}
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {CHECKS.map((c) => {

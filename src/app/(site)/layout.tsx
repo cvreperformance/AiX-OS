@@ -3,6 +3,7 @@ import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { ConsultationPopup } from "@/components/layout/ConsultationPopup";
 import { MarketAlertBanner } from "@/components/layout/MarketAlertBanner";
 import { StickyBottomCTA } from "@/components/layout/StickyBottomCTA";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export default function SiteLayout({
   children,
@@ -10,7 +11,8 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-full flex flex-col">
+    <LanguageProvider>
+      <div className="min-h-full flex flex-col">
       {/* Rotating market alert banner */}
       <MarketAlertBanner />
 
@@ -31,6 +33,7 @@ export default function SiteLayout({
 
       {/* Consultation popup (shown after 15s on desktop) */}
       <ConsultationPopup />
-    </div>
+      </div>
+    </LanguageProvider>
   );
 }

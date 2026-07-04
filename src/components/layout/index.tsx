@@ -18,16 +18,19 @@ import { siteConfig, footerLinks } from "@/lib/config";
 import { brandContent } from "@/lib/content/brand";
 import { SERVICES_DIRECTORY } from "@/lib/services";
 import { MegaMenu } from "./MegaMenu";
-
-const TOP_LINKS = [
-  { href: "/", label: "Home" },
-  { key: "services", label: "Platform Services", isPillar: true },
-  { href: "/services", label: "All Services" },
-  { href: "/despre", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Header() {
+  const { language, setLanguage, t } = useLanguage();
+  
+  const dynamicLinks = [
+    { href: "/", label: t("nav.home") },
+    { key: "services", label: t("nav.services"), isPillar: true },
+    { href: "/services", label: t("nav.allServices") },
+    { href: "/despre", label: t("nav.about") },
+    { href: "/contact", label: t("nav.contact") },
+  ];
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activePillar, setActivePillar] = useState<string | null>(null);
@@ -90,7 +93,7 @@ export function Header() {
 
         {/* Desktop Nav Items */}
         <nav className="hidden xl:flex items-center gap-2 relative">
-          {TOP_LINKS.map((link) => {
+          {dynamicLinks.map((link) => {
             if (link.isPillar && link.key) {
               const isHovered = activePillar === link.key;
               return (
@@ -136,11 +139,31 @@ export function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden xl:flex items-center gap-3">
+          {/* Language Switcher */}
+          <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1">
+            <button
+              onClick={() => setLanguage("ro")}
+              className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
+              }`}
+            >
+              RO
+            </button>
+            <button
+              onClick={() => setLanguage("en")}
+              className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
+              }`}
+            >
+              EN
+            </button>
+          </div>
+
           <Link
             href="/join"
             className="rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/25 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-amber-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
           >
-            Alătură-te AiX
+            {t("nav.join")}
           </Link>
           <a
             href={brandContent.contact.whatsappText}
@@ -149,7 +172,7 @@ export function Header() {
             className="rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-emerald-400 transition-all duration-300 flex items-center gap-1.5 shadow-sm"
           >
             <MessageCircle className="h-4 w-4" />
-            WhatsApp
+            {t("nav.whatsapp")}
           </a>
         </div>
 
@@ -201,6 +224,27 @@ export function Header() {
               <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
               <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
             </Link>
+
+            {/* Mobile Language Switcher */}
+            <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5">
+              <button
+                onClick={() => setLanguage("ro")}
+                className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                  language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                }`}
+              >
+                RO
+              </button>
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-2 py-0.5 text-[9px] font-bold rounded-full transition-all ${
+                  language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
             <button
               onClick={closeMenu}
               className="flex items-center justify-center w-11 h-11 text-zinc-500 hover:text-white hover:bg-zinc-800/60 rounded-xl transition-all"
@@ -223,12 +267,12 @@ export function Header() {
               }`}
             >
               <Home className="h-4.5 w-4.5 flex-shrink-0" />
-              Acasă
+              {t("nav.home")}
             </Link>
 
             <div className="pt-4 pb-2">
               <div className="flex items-center justify-between px-3 mb-2">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">Toate Serviciile</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">{t("nav.allServices")}</p>
                 <Link
                   href="/services"
                   onClick={closeMenu}
@@ -306,9 +350,9 @@ export function Header() {
 
             <div className="pt-4 mt-2 border-t border-zinc-800/60 space-y-1">
               {[
-                { href: "/despre", label: "Despre AiX", icon: Users },
-                { href: "/stiri", label: "Analize Piață", icon: Newspaper },
-                { href: "/contact", label: "Contact", icon: Send },
+                { href: "/despre", label: language === "ro" ? "Despre AiX" : "About AiX", icon: Users },
+                { href: "/stiri", label: language === "ro" ? "Analize Piață" : "Market Analysis", icon: Newspaper },
+                { href: "/contact", label: t("nav.contact"), icon: Send },
               ].map((link) => {
                 const Icon = link.icon;
                 return (
@@ -338,7 +382,7 @@ export function Header() {
                 className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl border border-zinc-800 text-[11px] uppercase tracking-wider font-bold text-zinc-300 hover:text-white hover:border-zinc-700 transition-all active:scale-95"
               >
                 <Phone className="h-4 w-4 text-amber-400" />
-                Sună
+                {t("nav.call")}
               </a>
               <a
                 href={brandContent.contact.whatsappText}
@@ -347,7 +391,7 @@ export function Header() {
                 className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-600/10 border border-emerald-500/30 text-[11px] uppercase tracking-wider font-bold text-emerald-400 hover:bg-emerald-600/20 transition-all active:scale-95"
               >
                 <MessageCircle className="h-4 w-4" />
-                WhatsApp
+                {t("nav.whatsapp")}
               </a>
             </div>
             <Link
@@ -355,7 +399,7 @@ export function Header() {
               onClick={closeMenu}
               className="w-full flex items-center justify-center py-4 text-xs font-bold uppercase tracking-widest text-black bg-amber-500 hover:bg-amber-400 rounded-xl transition-all active:scale-95 shadow-lg shadow-amber-500/20"
             >
-              Creează Cont AiX
+              {t("nav.cta")}
             </Link>
           </div>
         </div>
@@ -364,8 +408,9 @@ export function Header() {
   );
 }
 
-
 export function Footer() {
+  const { language, t } = useLanguage();
+  
   return (
     <footer className="border-t border-zinc-800 bg-[#060606] mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 space-y-16">
@@ -379,9 +424,9 @@ export function Footer() {
               <span className="text-2xl font-light tracking-[0.15em] text-amber-500/80">OS</span>
             </div>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              {siteConfig.tagline}
+              {t("footer.tagline")}
               <br />
-              <span className="text-zinc-500">Monaco · Dubai · București · Europa</span>
+              <span className="text-zinc-500">{t("footer.locations")}</span>
             </p>
             {/* Contact quick links */}
             <div className="flex flex-wrap gap-3">
@@ -392,7 +437,7 @@ export function Footer() {
                 className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
               >
                 <MessageCircle className="h-3.5 w-3.5" />
-                WhatsApp
+                {t("nav.whatsapp")}
               </a>
               <a
                 href={`tel:${brandContent.contact.phoneRORaw}`}
@@ -426,24 +471,28 @@ export function Footer() {
           {/* Platform & Ecosystem links */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 flex-1">
             <div>
-              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Platformă</h4>
+              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">
+                {language === "ro" ? "Platformă" : "Platform"}
+              </h4>
               <ul className="space-y-2.5">
                 {footerLinks.platform.map((l) => (
                   <li key={l.href}>
                     <Link href={l.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
-                      {l.label}
+                      {language === "ro" ? l.label : (l.label === "Acasă" ? "Home" : l.label === "Proprietăți" ? "Properties" : l.label === "Oportunități" ? "Opportunities" : l.label)}
                     </Link>
                   </li>
                 ))}
                 <li>
                   <Link href="/services" className="text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors">
-                    → All Services
+                    → {t("nav.allServices")}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">Ecosistem</h4>
+              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">
+                {language === "ro" ? "Ecosistem" : "Ecosystem"}
+              </h4>
               <ul className="space-y-2.5">
                 {footerLinks.ecosystem.map((l) => (
                   <li key={l.href}>
@@ -453,14 +502,14 @@ export function Footer() {
                       rel={"external" in l && l.external ? "noopener noreferrer" : undefined}
                       className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors"
                     >
-                      {l.label}
+                      {language === "ro" ? l.label : (l.label === "Analize" ? "Market Insights" : l.label === "Despre" ? "About Us" : l.label === "Contact" ? "Contact" : l.label)}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="space-y-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">Parteneri Strategici</p>
+              <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">{t("footer.strategic")}</p>
               <a
                 href={brandContent.urls.personal}
                 target="_blank"
@@ -484,9 +533,11 @@ export function Footer() {
         {/* ALL SERVICES - Full Sitemap Grid */}
         <div>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-bold">Toate Serviciile</h3>
+            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-bold">
+              {language === "ro" ? "Toate Serviciile" : "All Services"}
+            </h3>
             <Link href="/services" className="text-xs text-amber-500/70 hover:text-amber-400 transition-colors">
-              Director complet →
+              {language === "ro" ? "Director complet →" : "Full Directory →"}
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-8">
@@ -496,7 +547,9 @@ export function Footer() {
                 <div key={category.id} className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${category.color}`} />
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold leading-none">{category.title}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold leading-none">
+                      {language === "ro" ? category.title : (category.id === "ai" ? "AI" : category.id === "real-estate" ? "Real Estate" : category.id === "wealth" ? "Wealth" : category.id === "protection" ? "Protection" : "Resources")}
+                    </p>
                   </div>
                   <ul className="space-y-2">
                     {category.items.map((item) => (
@@ -520,19 +573,19 @@ export function Footer() {
         <div className="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-6">
           <div className="text-center sm:text-left space-y-1.5">
             <p className="text-xs text-zinc-600">
-              © {new Date().getFullYear()} AiX OS — Ecosistem Digital de Tranzacții Imobiliare
+              © {new Date().getFullYear()} {language === "ro" ? "AiX OS — Ecosistem Digital de Tranzacții Imobiliare" : "AiX OS — Digital Real Estate Transaction Ecosystem"}
             </p>
             <p className="text-xs text-zinc-700 italic">
-              {brandContent.about.short}
+              {language === "ro" ? brandContent.about.short : "Secured, direct, discrete transaction execution system for de-risking high-value real estate investments."}
             </p>
             <p className="text-[10px] uppercase tracking-widest font-semibold text-zinc-600/60 mt-4">
-              Proudly Powered by cristianvaduva.com
+              {t("hero.powered")}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <Link href="/despre" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Despre</Link>
-            <Link href="/services" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Servicii</Link>
-            <Link href="/contact" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Contact</Link>
+            <Link href="/despre" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.about")}</Link>
+            <Link href="/services" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.allServices")}</Link>
+            <Link href="/contact" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.contact")}</Link>
             <Link href="/privacy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Privacy</Link>
             <Link href="/cookie-policy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Cookies</Link>
           </div>
@@ -541,4 +594,3 @@ export function Footer() {
     </footer>
   );
 }
-

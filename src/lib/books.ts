@@ -26,6 +26,9 @@ export type BookCategory =
   | "cybersecurity"
   | "psychology"
   | "negotiation"
+  | "leadership"
+  | "history"
+  | "economics"
   | "luxury";
 
 export interface Book {
@@ -52,6 +55,9 @@ export const CATEGORY_LABELS: Record<BookCategory, string> = {
   cybersecurity: "Cybersecurity",
   psychology: "Psychology",
   negotiation: "Negotiation",
+  leadership: "Leadership",
+  history: "History",
+  economics: "Economics",
   luxury: "Luxury & Lifestyle",
 };
 
@@ -513,6 +519,48 @@ export const BOOKS: Book[] = [
     coverUrl: "https://covers.openlibrary.org/b/isbn/9780143113706-L.jpg",
     buyUrl: "https://www.amazon.com/dp/0143113704",
     aixScore: 8.6,
+  },
+  {
+    id: "extreme-ownership",
+    title: "Extreme Ownership: How U.S. Navy SEALs Lead and Win",
+    author: "Jocko Willink & Leif Babin",
+    category: "leadership",
+    year: 2015,
+    summary:
+      "Prezintă principiile fundamentale de leadership militar din teatrele de operațiuni speciale, traduse direct în dinamica echipelor comerciale și a managementului de criză.",
+    whyRead:
+      "O lectură esențială pe responsabilitate totală. Învață liderii cum să elimine scuzele și să unifice echipele sub o misiune clară.",
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9781250067050-L.jpg",
+    buyUrl: "https://www.amazon.com/dp/1250067057",
+    aixScore: 9.2,
+  },
+  {
+    id: "sapiens",
+    title: "Sapiens: A Brief History of Humankind",
+    author: "Yuval Noah Harari",
+    category: "history",
+    year: 2011,
+    summary:
+      "O analiză revoluționară a evoluției omenirii, explorând modul în care miturile comune (precum banii, corporațiile și religia) au permis cooperarea în masă.",
+    whyRead:
+      "Ajută investitorii să înțeleagă constructele economice și sociale de la baza piețelor financiare ca ficțiuni intersubiective puternice.",
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg",
+    buyUrl: "https://www.amazon.com/dp/0062316095",
+    aixScore: 9.4,
+  },
+  {
+    id: "capital-twenty-first-century",
+    title: "Capital in the Twenty-First Century",
+    author: "Thomas Piketty",
+    category: "economics",
+    year: 2013,
+    summary:
+      "Un studiu de referință privind inegalitatea averilor și a veniturilor în Europa și SUA începând cu secolul al XVIII-lea, bazat pe date fiscale istorice.",
+    whyRead:
+      "Analiză fundamentală referitoare la rata de rentabilitate a capitalului (r) față de rata de creștere economică (g), vitală pentru macroeconomiști.",
+    coverUrl: "https://covers.openlibrary.org/b/isbn/9780674430006-L.jpg",
+    buyUrl: "https://www.amazon.com/dp/067443000X",
+    aixScore: 9.1,
   },
 ];
 

@@ -54,21 +54,42 @@ export async function POST(request: Request) {
       const supabase = createClient();
       const { error } = await supabase.from("leads").insert(lead);
       if (!error) {
-        return NextResponse.json({ success: true, stored: "supabase" });
+        // Fall through to run webhook notification even if Supabase succeeds
+        console.log("[AiX Leads] Stored in Supabase.");
+      } else {
+        console.warn("[AiX Leads] Supabase insert failed:", error.message);
       }
-      // If table doesn't exist yet, fall through to console log
-      console.warn("[AiX Leads] Supabase insert failed:", error.message);
     } catch (supabaseErr) {
       console.warn("[AiX Leads] Supabase unavailable:", supabaseErr);
     }
 
-    // Fallback: log to console (visible in server logs / Vercel logs)
+    // Webhook dispatch logic
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL || process.env.LEAD_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        const payload = {
+          content: `🚨 **New Lead Received on AiX OS** 🚨\n\n👤 **Name:** ${lead.name}\n📞 **Phone:** ${lead.phone}\n📧 **Email:** ${lead.email ?? "N/A"}\n🎯 **Subject/Interest:** ${lead.subject ?? "N/A"}\n💰 **Budget:** ${lead.budget ?? "N/A"}\n📝 **Message:** ${lead.message ?? "N/A"}\n🌐 **Source:** ${lead.source} | **Page:** ${lead.page ?? "N/A"}`,
+        };
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        console.log("[AiX Leads Webhook] Dispatched successfully.");
+      } catch (webhookErr) {
+        console.error("[AiX Leads Webhook] Dispatch failed:", webhookErr);
+      }
+    } else {
+      console.log("[AiX Leads Webhook] Not configured (Set DISCORD_WEBHOOK_URL env var to enable).");
+    }
+
+    // Always fallback log to console (visible in server logs)
     console.log("[AiX OS LEAD]", JSON.stringify(lead, null, 2));
 
     return NextResponse.json({
       success: true,
-      stored: "console",
-      message: "Lead logged. Connect Supabase leads table to persist.",
+      stored: webhookUrl ? "supabase + webhook" : "console fallback",
+      message: "Lead logged and notification evaluated.",
     });
   } catch (err) {
     console.error("[AiX Leads] Error:", err);

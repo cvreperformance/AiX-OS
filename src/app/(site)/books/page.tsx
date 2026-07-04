@@ -20,6 +20,7 @@ import {
   type Book,
   type BookCategory,
 } from "@/lib/books";
+import { useLanguage } from "@/context/LanguageContext";
 import type { Metadata } from "next";
 
 // Note: metadata must be in a server component, but since this is "use client",
@@ -38,21 +39,18 @@ const CATEGORY_COLOR: Record<BookCategory, string> = {
   cybersecurity:   "text-red-400    bg-red-500/10    border-red-500/20",
   psychology:      "text-pink-400   bg-pink-500/10   border-pink-500/20",
   negotiation:     "text-teal-400   bg-teal-500/10   border-teal-500/20",
+  leadership:      "text-amber-300  bg-amber-500/10  border-amber-500/20",
+  history:         "text-zinc-300   bg-zinc-500/10   border-zinc-500/20",
+  economics:       "text-lime-400   bg-lime-500/10   border-lime-500/20",
   luxury:          "text-yellow-400 bg-yellow-500/10 border-yellow-500/20",
 };
 
-// ─── Stats ───────────────────────────────────────────────────────────────────
-const STATS = [
-  { value: `${BOOKS.length}+`, label: "Cărți Curate" },
-  { value: "11", label: "Categorii" },
-  { value: "9.2", label: "Scor Mediu AiX" },
-  { value: "100%", label: "Verificate Manual" },
-];
 
 type SelectedCategory = "all" | BookCategory;
 
 // ─── Book Card ────────────────────────────────────────────────────────────────
 function BookCard({ book }: { book: Book }) {
+  const { language } = useLanguage();
   const [imgError, setImgError] = useState(false);
   const colorCls = CATEGORY_COLOR[book.category];
 
@@ -115,7 +113,7 @@ function BookCard({ book }: { book: Book }) {
         {/* Why Read (AiX Recommendation) */}
         <div className="rounded-2xl border border-amber-500/15 bg-amber-500/5 p-3 space-y-1">
           <p className="text-[9px] uppercase tracking-widest font-mono text-amber-500/80 font-semibold">
-            De ce o recomandăm
+            {language === "ro" ? "De ce o recomandăm" : "Why We Recommend It"}
           </p>
           <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-3">
             {book.whyRead}
@@ -132,7 +130,7 @@ function BookCard({ book }: { book: Book }) {
           >
             <span className="flex items-center gap-1.5">
               <ExternalLink className="h-3.5 w-3.5 text-zinc-600 group-hover/link:text-amber-500 transition-colors" />
-              Cumpără / Află mai multe
+              {language === "ro" ? "Cumpără / Află mai multe" : "Buy / Learn More"}
             </span>
             <ChevronRight className="h-3.5 w-3.5 text-zinc-600 group-hover/link:translate-x-0.5 transition-transform" />
           </a>
@@ -144,6 +142,7 @@ function BookCard({ book }: { book: Book }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function BooksPage() {
+  const { language, t } = useLanguage();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>("all");
   const [showFilters, setShowFilters] = useState(false);
@@ -152,6 +151,13 @@ export default function BooksPage() {
     () => [...new Set(BOOKS.map((b) => b.category))].sort() as BookCategory[],
     []
   );
+
+  const dynamicStats = [
+    { value: `${BOOKS.length}+`, label: language === "ro" ? "Cărți Curate" : "Curated Books" },
+    { value: `${allCategories.length}`, label: language === "ro" ? "Categorii" : "Categories" },
+    { value: "9.2", label: language === "ro" ? "Scor Mediu AiX" : "Avg AiX Score" },
+    { value: "100%", label: language === "ro" ? "Verificate" : "Verified" },
+  ];
 
   const filtered = useMemo(() => {
     let list = BOOKS;
@@ -185,14 +191,16 @@ export default function BooksPage() {
 
       {/* Header */}
       <PageHeader
-        badge="AiX Wealth Library"
-        title="Cărți Recomandate de AiX OS"
-        subtitle="Biblioteca de elită curatoriată de consilierii AiX. Cărți fundamentale despre imobiliare, investiții, psihologie, AI, negociere și lifestyle HNWI."
+        badge={language === "ro" ? "Biblioteca AiX Wealth" : "AiX Wealth Library"}
+        title={language === "ro" ? "Cărți Recomandate de AiX OS" : "Recommended by AiX OS"}
+        subtitle={language === "ro" 
+          ? "Biblioteca de elită curatoriată de consilierii AiX. Cărți fundamentale despre imobiliare, investiții, psihologie, AI, negociere și lifestyle HNWI."
+          : "Core reading material recommended by our advisors: real estate, market intelligence, psychology, negotiation, and leadership."}
       />
 
       {/* Stats strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {STATS.map((s) => (
+        {dynamicStats.map((s) => (
           <div
             key={s.label}
             className={`relative rounded-2xl ${designSystem.glass} p-4 text-center overflow-hidden`}
@@ -214,7 +222,7 @@ export default function BooksPage() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Caută după titlu, autor sau categorie…"
+              placeholder={language === "ro" ? "Caută după titlu, autor sau categorie…" : "Search by title, author, or category…"}
               className="w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 py-3 pl-11 pr-11 text-sm text-white placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 backdrop-blur-sm transition-colors"
             />
             {query && (

@@ -1,159 +1,416 @@
 "use client";
 
+import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { designSystem } from "@/styles/designSystem";
+import { PageHeader } from "@/components/ui";
 import {
   BookOpen,
   CheckCircle2,
   FileText,
-  AlertOctagon,
+  AlertTriangle,
+  ArrowRight,
   ShieldAlert,
-  Search,
   Building,
   Key,
   TrendingUp,
-  Download
+  Scale,
+  ShieldCheck,
+  Cpu,
+  Plane,
+  Coins,
+  Lock,
 } from "lucide-react";
-import { designSystem } from "@/styles/designSystem";
-import { PageHeader } from "@/components/ui";
 
 export default function LearningPage() {
-  const checklists = [
+  const { language } = useLanguage();
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+
+  const guides = [
     {
-      title: "Before Buying (Înainte de Achiziție)",
+      id: "buying",
+      titleRo: "Achiziție Imobiliară (Buying Property)",
+      titleEn: "Buying Property",
       icon: Key,
       color: "emerald",
-      items: [
-        "Setați un buget clar (inclusiv 10-15% marjă eroare, taxe, renovări).",
-        "Obțineți pre-aprobarea de creditare (dacă este cazul).",
-        "Analizați piața pentru prețul mediu real / mp în zonă.",
-        "Verificați dacă infrastructura corespunde cu promisiunea (drumuri publice).",
-      ]
+      checklistRo: [
+        "Setați un buget clar incluzând marje de reparații și taxe notariale.",
+        "Obțineți pre-aprobarea de finanțare bancară înainte de a semna promisiuni.",
+        "Verificați istoricul de publicitate imobiliară și extrasul de carte funciară (CF).",
+        "Efectuați o inspecție tehnică detaliată a instalațiilor și a structurii clădirii."
+      ],
+      checklistEn: [
+        "Set a clear budget including renovation margins and notary fees.",
+        "Secure bank pre-approval before signing any promise of sale.",
+        "Verify title registration history and fetch recent land registry records.",
+        "Perform a thorough technical inspection of utilities and structural health."
+      ],
+      mistakesRo: "Graba în a da un avans masiv fără a verifica actele sau a vizita zona noaptea.",
+      mistakesEn: "Rushing to wire a deposit without conducting registry searches first.",
+      nextStepsRo: "Programează o discuție cu un broker de cumpărător pe AiX.",
+      nextStepsEn: "Schedule a consult with a dedicated buyer broker on AiX.",
+      resourcesRo: "ANAF Registrul TVA, ANCPI eTerra Portal",
+      resourcesEn: "ANAF VAT Registry, ANCPI eTerra Land Registry",
     },
     {
-      title: "Before Selling (Înainte de Vânzare)",
+      id: "selling",
+      titleRo: "Vânzare Proprietate (Selling Property)",
+      titleEn: "Selling Property",
       icon: Building,
       color: "sky",
-      items: [
-        "Reparați viciile aparente (uși stricate, pete pe pereți).",
-        "Eliberați proprietatea de mobilă masivă și lucruri personale.",
-        "Pregătiți extrasul de CF pentru informare recent și certificatul energetic.",
-        "Stabiliți un preț de listare ancorat în tranzacțiile recente din zonă, nu în speranțe.",
-      ]
+      checklistRo: [
+        "Eliberați spațiul de mobilă voluminoasă și obiecte decorative personale.",
+        "Pregătiți releveul, cadastrul actualizat și certificatul de performanță energetică.",
+        "Stabiliți prețul bazat pe tranzacții încheiate în zonă, nu pe oferte active.",
+        "Colaborați exclusiv cu o singură agenție pentru a controla listările în piață."
+      ],
+      checklistEn: [
+        "Declutter the property of heavy furniture and personal collectibles.",
+        "Prepare floor plans, updated land registry map, and energy cert.",
+        "Set listing price based on closed transactions, not speculative listings.",
+        "Partner exclusively with a single agency to control market exposure."
+      ],
+      mistakesRo: "Supraevaluarea proprietății pe criterii emoționale, ducând la stagnare.",
+      mistakesEn: "Overpricing the asset on emotional value, causing listing stagnation.",
+      nextStepsRo: "Cere o analiză comparativă de piață gratuită prin Seller AI.",
+      nextStepsEn: "Request a comparative market report using Seller AI.",
+      resourcesRo: "Evaluare AI AiX, Ghidul Vânzătorului PDF",
+      resourcesEn: "AiX AI Valuation, Seller Manual PDF",
     },
     {
-      title: "Întrebări Obligatorii (Questions to Ask)",
-      icon: Search,
-      color: "amber",
-      items: [
-        "De ce vinde actualul proprietar?",
-        "Când a fost schimbată ultima dată instalația electrică / sanitară?",
-        "Cine sunt vecinii și care este atmosfera generală în bloc?",
-        "Există modificări interioare neînregistrate în planul cadastral?",
-      ]
-    },
-    {
-      title: "Red Flags (Steaguri Roșii)",
-      icon: AlertOctagon,
-      color: "red",
-      items: [
-        "Presiunea nejustificată de a da avans rapid, 'că mai sunt alți 5 la ușă'.",
-        "Vânzătorul refuză tranzacția prin virament bancar sau cere cash nejustificat.",
-        "Modificări structurale majore fărp autorizație (pereți de rezistență sparți).",
-        "Preț mult sub media zonei, 'că se grăbește'.",
-      ]
-    },
-    {
-      title: "Greșeli Frecvente (Common Mistakes)",
-      icon: ShieldAlert,
-      color: "orange",
-      items: [
-        "Achiziția doar pe baza emoțiilor, ignorând calculele reci de rentabilitate.",
-        "Omiterea verificării istoricului de litigii pentru proprietate sau dezvoltator.",
-        "Nu se iau în calcul costurile de mentenanță viitoare.",
-        "Subestimarea costului și timpului necesar pentru renovare.",
-      ]
-    },
-    {
-      title: "Documents Needed (Documente Necesare)",
-      icon: FileText,
-      color: "blue",
-      items: [
-        "Actele de proprietate (CVC, Moștenire, Donație).",
-        "Extrasul de Carte Funciară și planul releveu.",
-        "Certificat de atestare fiscală (impozite plătite la zi).",
-        "Certificatul energetic (clasa A-G).",
-      ]
-    },
-    {
-      title: "Due Diligence & Inspecție",
-      icon: CheckCircle2,
-      color: "indigo",
-      items: [
-        "Apelați la un inginer structurist pentru clădirile mai vechi.",
-        "Verificați izolația termică, mucegaiul ascuns (sub parchet / la colțuri).",
-        "Măsurați dimensiunile camerelor pentru a corespunde cu releveul.",
-        "Testați presiunea la apă și toate prizele electrice.",
-      ]
-    },
-    {
-      title: "Rental & Investment (Închirieri & Investiții)",
+      id: "investment",
+      titleRo: "Investiții de Bază (Investment Basics)",
+      titleEn: "Investment Basics",
       icon: TrendingUp,
       color: "violet",
-      items: [
-        "Calculați randamentul net real, scăzând vacanța, reparațiile și taxele.",
-        "Analizați polul de birouri din apropiere pentru cererea de chiriași.",
-        "Efectuați background check pentru chiriași.",
-        "Stabiliți prin contract un fond de reparații administrat de chiriaș sau o garanție fermă.",
-      ]
-    }
+      checklistRo: [
+        "Înțelegeți diferența dintre randamentul brut (Gross Yield) și cel net (Net Yield).",
+        "Diversificați capitalul între rezidențial, comercial și alte instrumente de portofoliu.",
+        "Monitorizați evoluția inflației și a dobânzilor de referință (IRCC, ROBOR, EURIBOR).",
+        "Calculați perioada de amortizare și costurile anuale cu impozite și reparații."
+      ],
+      checklistEn: [
+        "Understand the difference between Gross Yield and net rental returns.",
+        "Diversify capital between residential, commercial, and liquid assets.",
+        "Monitor core macroeconomic metrics (inflation, IRCC, ROBOR, EURIBOR).",
+        "Calculate recovery periods (ROI) and annual maintenance budgets."
+      ],
+      mistakesRo: "Ignorarea costurilor recurente precum fondul de mentenanță și taxele.",
+      mistakesEn: "Neglecting ongoing maintenance expenses and real estate tax rates.",
+      nextStepsRo: "Accesează calculatorul de ROI și ipotecă pe platformă.",
+      nextStepsEn: "Access the ROI and mortgage calculators page.",
+      resourcesRo: "Wealth Manager AiX, Indici Macro BNR",
+      resourcesEn: "AiX Wealth Manager, BNR Macro Indices",
+    },
+    {
+      id: "insurance",
+      titleRo: "Biroul de Asigurări (Insurance)",
+      titleEn: "Insurance",
+      icon: ShieldCheck,
+      color: "rose",
+      checklistRo: [
+        "Verificați diferența între asigurarea obligatorie PAD și cea facultativă.",
+        "Asigurați clădirea la valoarea reală de reconstrucție, nu la valoarea comercială.",
+        "Includeți clauze suplimentare pentru bunuri de valoare, artă și răspundere civilă.",
+        "Reevaluați polița anual pentru a acoperi îmbunătățirile sau renovările făcute."
+      ],
+      checklistEn: [
+        "Verify differences between mandatory (PAD) and optional home policies.",
+        "Insure structural assets at reconstruction cost, not speculative value.",
+        "Include custom riders for luxury assets, art, and personal liability.",
+        "Re-evaluate policies annually to account for major home improvements."
+      ],
+      mistakesRo: "Sub-asigurarea bunurilor pentru a plăti o primă de asigurare mai mică.",
+      mistakesEn: "Under-insuring premium properties to cut monthly policy premiums.",
+      nextStepsRo: "Completează formularul de cotație la Insurance Desk.",
+      nextStepsEn: "Fill in a quote request at the Insurance Desk.",
+      resourcesRo: "Ghidul de Asigurări Imobiliare RO",
+      resourcesEn: "RO Home Property Insurance Guide",
+    },
+    {
+      id: "negotiation",
+      titleRo: "Negociere de Contracte (Negotiation)",
+      titleEn: "Contract Negotiation",
+      icon: Scale,
+      color: "amber",
+      checklistRo: [
+        "Stabiliți termene clare de eliberare și penalități pe zi de întârziere.",
+        "Păstrați clauze de retragere securizate în cazul în care banca respinge creditul.",
+        "Nu negociați doar prețul final, ci și avansul, mobilierul inclus și taxele.",
+        "Securizați tranzacția prin cont de escrow dacă avansul este semnificativ."
+      ],
+      checklistEn: [
+        "Establish clear move-out timelines and daily delay penalties.",
+        "Maintain fallback exit clauses if bank financing gets rejected.",
+        "Negotiate deposits, included inventory, and notary split splits.",
+        "Utilize secure escrow accounts for large down-payments."
+      ],
+      mistakesRo: "Negocierea verbală fără a pune toate clauzele în scris la notar.",
+      mistakesEn: "Agreeing verbally without legal translation in the notary deed.",
+      nextStepsRo: "Solicită consultanță juridică precontractuală la RO Law Desk.",
+      nextStepsEn: "Request a pre-contract legal review at the RO Law Desk.",
+      resourcesRo: "Ghid juridic de negocieri AiX",
+      resourcesEn: "AiX Legal Pre-contract Handbook",
+    },
+    {
+      id: "taxes",
+      titleRo: "Impozite & Taxe (Taxes)",
+      titleEn: "Taxes & Fiscal Policy",
+      icon: Coins,
+      color: "orange",
+      checklistRo: [
+        "Calculați impozitul pe transferul proprietății datorat de vânzător.",
+        "Înțelegeți cota de TVA aplicabilă (5%, 9% sau 19%) pentru imobilele noi.",
+        "Înregistrați contractul de închiriere la ANAF în termen de 30 de zile.",
+        "Verificați impozitele locale pe clădiri în funcție de destinație (nerezidențială)."
+      ],
+      checklistEn: [
+        "Calculate transaction transfer taxes owed by the seller.",
+        "Understand VAT brackets (9% or 19%) for new build properties.",
+        "Register standard lease agreements with ANAF within 30 days.",
+        "Verify local municipal property tax rates for non-residential assets."
+      ],
+      mistakesRo: "Ignorarea taxelor de intabulare și a onorariilor notariale mari.",
+      mistakesEn: "Neglecting cadastral registration costs and notary billing fees.",
+      nextStepsRo: "Verifică ghidul fiscal complet pe AiX OS.",
+      nextStepsEn: "Open the complete property tax instructions page.",
+      resourcesRo: "Ministerul Finanțelor Publice, Ghid ANAF",
+      resourcesEn: "Ministry of Public Finances, ANAF Fiscal Portal",
+    },
+    {
+      id: "cybersecurity",
+      titleRo: "Securitate Cibernetică (Cybersecurity)",
+      titleEn: "Cybersecurity",
+      icon: Lock,
+      color: "blue",
+      checklistRo: [
+        "Folosiți parole unice complexe și manager de parole securizat.",
+        "Activați autentificarea cu doi factori (2FA) pe e-mail și conturi bancare.",
+        "Nu accesați link-uri din e-mailuri ce cer confirmări urgente de plăți.",
+        "Verificați adresa IBAN telefonic înainte de a efectua plăți de avans."
+      ],
+      checklistEn: [
+        "Generate complex unique credentials and store in a secure vault.",
+        "Enable hardware multi-factor authentication (MFA) on corporate accounts.",
+        "Avoid opening suspicious billing links requesting urgent wire transfers.",
+        "Verify target IBAN bank accounts via voice call before initiating wires."
+      ],
+      mistakesRo: "Efectuarea de plăți mari pe baza unui IBAN primit pe e-mail nesecurizat.",
+      mistakesEn: "Wiring high deposits based on IBAN details received via clear email.",
+      nextStepsRo: "Parcurge ghidul Cyber Security Desk pe AiX.",
+      nextStepsEn: "Read the full secure transaction instructions.",
+      resourcesRo: "Cyber Security Desk, Yubico Hardware keys",
+      resourcesEn: "Cyber Security Desk, Yubico hardware authentication",
+    },
+    {
+      id: "technology",
+      titleRo: "Tehnologie & Unelte (Technology)",
+      titleEn: "Technology & Dev Tools",
+      icon: Cpu,
+      color: "indigo",
+      checklistRo: [
+        "Automatizați alertele de preț pe zonele imobiliare de interes.",
+        "Utilizați platforme GIS pentru analiză topografică și urbanistică.",
+        "Implementați fluxuri de lucru serverless pentru monitorizare anunțuri.",
+        "Asigurați backup-uri criptate locale pentru toate actele de proprietate."
+      ],
+      checklistEn: [
+        "Automate property price tracking alerts in targeted neighborhoods.",
+        "Leverage GIS mapping systems to study land contours and layout plans.",
+        "Deploy serverless search crawlers to scan listing aggregators.",
+        "Create locally encrypted cold backup archives for title documents."
+      ],
+      mistakesRo: "Căutarea manuală ineficientă fără a folosi scripturi sau crawlere.",
+      mistakesEn: "Searching listings manually instead of deploying search alerts.",
+      nextStepsRo: "Vizitează Tech Hub-ul dedicat pe platformă.",
+      nextStepsEn: "Explore developer tools on the AiX Tech Hub.",
+      resourcesRo: "Technology Hub, Github Automation Pipelines",
+      resourcesEn: "Technology Hub, Github workflows and scripts",
+    },
+    {
+      id: "ai",
+      titleRo: "Inteligență Artificială (AI)",
+      titleEn: "Artificial Intelligence",
+      icon: Cpu,
+      color: "violet",
+      checklistRo: [
+        "Folosiți AI Advisor pentru a analiza contracte de sute de pagini.",
+        "Evaluarea automată a chiriilor de referință prin modele predictive.",
+        "Interogați modele lingvistice mari pe rapoarte macro economice BNR.",
+        "Verificați istoricul cadastral automat prin algoritmi cadastrali."
+      ],
+      checklistEn: [
+        "Query the AI Advisor to audit massive pre-contract documents.",
+        "Assess baseline rent yields using predictive models.",
+        "Interact with LLM structures to interpret BNR central bank feeds.",
+        "Audit cadastral files using automated legal review models."
+      ],
+      mistakesRo: "Încrederea oarbă în răspunsurile AI fără validare umană.",
+      mistakesEn: "Trusting AI advice blindly without direct verification.",
+      nextStepsRo: "Deschide chat-ul cu Money Advisor AI.",
+      nextStepsEn: "Initiate a chat session with the Money Advisor AI.",
+      resourcesRo: "OpenAI, Anthropic APIs, AI Advisor Desk",
+      resourcesEn: "OpenAI, Anthropic APIs, AI Advisor Desk",
+    },
+    {
+      id: "legal",
+      titleRo: "Due Diligence Juridic (Legal)",
+      titleEn: "Legal Due Diligence",
+      icon: Scale,
+      color: "amber",
+      checklistRo: [
+        "Verificați lanțul istoric de proprietari pentru a exclude donații atacabile.",
+        "Obțineți extrase de CF curate fără sarcini, ipoteci sau procese active.",
+        "Validați autorizațiile de construire și procesele-verbale de recepție.",
+        "Verificați drepturile de servitute și limitele de hotar ale terenului."
+      ],
+      checklistEn: [
+        "Trace ownership history chain to exclude contested gift deeds.",
+        "Ensure clear land registry deeds without active liens or disputes.",
+        "Verify developer building permits and official completion protocols.",
+        "Validate active easement rights and land boundaries."
+      ],
+      mistakesRo: "Semnarea promisiunii de vânzare fără audit cadastral preliminar.",
+      mistakesEn: "Signing promises of sale without conducting a cadastre audit.",
+      nextStepsRo: "Programează o sesiune juridică la RO Law Desk.",
+      nextStepsEn: "Schedule a legal audit session at the RO Law Desk.",
+      resourcesRo: "ANCPI, Portal Justiție, RO Law Desk",
+      resourcesEn: "ANCPI, Justice Court Search, RO Law Desk",
+    },
+    {
+      id: "travel",
+      titleRo: "Mobilitate & Călătorii (Travel)",
+      titleEn: "Travel & Mobility",
+      icon: Plane,
+      color: "sky",
+      checklistRo: [
+        "Verificați alertele de securitate MAE înainte de deplasări.",
+        "Rezervați zborurile private prin brokeri licențiați cu rating de siguranță ARGUS.",
+        "Verificați cerințele de viză și termenele de valabilitate ale pașaportului.",
+        "Securizați asigurări medicale internaționale cu acoperire mare."
+      ],
+      checklistEn: [
+        "Inspect active border safety warnings before departure.",
+        "Book private jets with ARGUS gold/platinum safety-rated operators.",
+        "Verify visa entry parameters and minimum passport validity margins.",
+        "Secure premium international health policies with high limits."
+      ],
+      mistakesRo: "Ignorarea timpilor de rezervare sau a limitelor de bagaje VIP.",
+      mistakesEn: "Neglecting FBO handling times or VIP baggage limitations.",
+      nextStepsRo: "Explorează resursele din secțiunea Travel.",
+      nextStepsEn: "Explore flight resources in the Travel module.",
+      resourcesRo: "MAE Alerte Călătorie, Henley Passport Index",
+      resourcesEn: "MAE Alerts Portal, Henley Passport rankings",
+    },
   ];
+
+  const filteredGuides = activeCategory === "all"
+    ? guides
+    : guides.filter((g) => g.id === activeCategory);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
-        badge="Education Hub"
-        title="Centrul de Învățare"
-        subtitle="Ghiduri practice și checklist-uri vitale. Fiecare punct ignorat de aici vă poate costa mii de euro. Protejați-vă deciziile investind 5 minute în educație."
+        badge={language === "ro" ? "Ghiduri Practice" : "Checklist Guides"}
+        title={language === "ro" ? "Centrul de Învățare" : "Learning Center"}
+        subtitle={language === "ro" 
+          ? "Ghiduri practice și checklist-uri esențiale structurate pe capitole. Redu riscul și optimizează deciziile financiare în mai puțin de 5 minute."
+          : "Actionable step-by-step checklists, recommended tools, and mistakes to avoid. Secure your property and financial transactions."}
       />
 
-      {/* Grid of Checklists */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {checklists.map((list, idx) => {
-          const Icon = list.icon;
-          // Dynamically set some accent colors (in tailwind logic)
+      {/* Categories Filter Tabs */}
+      <div className="flex flex-wrap gap-2 pb-4 border-b border-zinc-900">
+        <button
+          onClick={() => setActiveCategory("all")}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            activeCategory === "all" ? "bg-amber-500 text-black" : "border border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950/20"
+          }`}
+        >
+          {language === "ro" ? "Toate Ghidurile" : "All Guides"}
+        </button>
+        {guides.map((g) => (
+          <button
+            key={g.id}
+            onClick={() => setActiveCategory(g.id)}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeCategory === g.id ? "bg-amber-500 text-black" : "border border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950/20"
+            }`}
+          >
+            {language === "ro" ? g.titleRo.split(" (")[0] : g.titleEn}
+          </button>
+        ))}
+      </div>
+
+      {/* Guides Grid */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {filteredGuides.map((guide, idx) => {
+          const Icon = guide.icon;
           const colorClassMap: Record<string, string> = {
             emerald: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
             sky: "text-sky-400 bg-sky-500/10 border-sky-500/20",
             amber: "text-amber-400 bg-amber-500/10 border-amber-500/20",
-            red: "text-red-400 bg-red-500/10 border-red-500/20",
+            rose: "text-rose-400 bg-rose-500/10 border-rose-500/20",
             orange: "text-orange-400 bg-orange-500/10 border-orange-500/20",
             blue: "text-blue-400 bg-blue-500/10 border-blue-500/20",
             indigo: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
             violet: "text-violet-400 bg-violet-500/10 border-violet-500/20",
           };
-          const badgeClass = colorClassMap[list.color] || "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
+          const badgeClass = colorClassMap[guide.color] || "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
 
           return (
-            <div key={idx} className={`p-6 rounded-3xl ${designSystem.glass} border-t border-zinc-800 flex flex-col`}>
-              <div className="flex items-start gap-4 mb-5">
-                <div className={`h-12 w-12 rounded-xl flex items-center justify-center border shrink-0 ${badgeClass}`}>
-                  <Icon className="h-6 w-6" />
+            <div key={idx} className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border-t border-zinc-800 flex flex-col justify-between space-y-6`}>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className={`h-12 w-12 rounded-xl flex items-center justify-center border shrink-0 ${badgeClass}`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div className="pt-1">
+                    <h3 className="text-base font-semibold text-white leading-tight">
+                      {language === "ro" ? guide.titleRo : guide.titleEn}
+                    </h3>
+                  </div>
                 </div>
-                <div className="pt-1">
-                  <h3 className="text-sm font-semibold text-white leading-tight">{list.title}</h3>
+
+                {/* Checklist items */}
+                <div className="space-y-2">
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-mono font-semibold">Checklist</p>
+                  <ul className="space-y-2">
+                    {(language === "ro" ? guide.checklistRo : guide.checklistEn).map((item, iIdx) => (
+                      <li key={iIdx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="h-4 w-4 text-amber-500/70 shrink-0 mt-0.5" />
+                        <span className="text-xs text-zinc-300 leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-              <ul className="space-y-3 flex-1">
-                {list.items.map((item, iIdx) => (
-                  <li key={iIdx} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 text-zinc-500 shrink-0 mt-0.5" />
-                    <span className="text-xs text-zinc-300 leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <button className="mt-6 w-full py-2.5 rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-850 hover:text-white transition-all text-[10px] uppercase tracking-widest font-semibold text-zinc-400 flex items-center justify-center gap-2">
-                <Download className="h-3.5 w-3.5" />
-                Salvează PDF
-              </button>
+
+              {/* Warnings & Next Steps */}
+              <div className="pt-4 border-t border-zinc-900 space-y-3">
+                <div className="flex items-start gap-2 text-xs text-red-400">
+                  <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                  <p>
+                    <strong className="font-semibold">{language === "ro" ? "Greșeală Frecventă: " : "Common Mistake: "}</strong>
+                    {language === "ro" ? guide.mistakesRo : guide.mistakesEn}
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-2 text-xs text-zinc-400">
+                  <ArrowRight className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                  <p>
+                    <strong className="font-semibold text-white">{language === "ro" ? "Următorul Pas: " : "Next Step: "}</strong>
+                    {language === "ro" ? guide.nextStepsRo : guide.nextStepsEn}
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-2 text-xs text-zinc-500">
+                  <FileText className="h-4 w-4 shrink-0 mt-0.5" />
+                  <p>
+                    <strong className="font-semibold">{language === "ro" ? "Resurse Recomandate: " : "Recommended: "}</strong>
+                    {language === "ro" ? guide.resourcesRo : guide.resourcesEn}
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}
@@ -165,16 +422,20 @@ export default function LearningPage() {
           <div className="absolute -left-20 -top-20 w-44 h-44 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
           <BookOpen className="h-7 w-7 text-amber-500/40 mx-auto" />
           <div>
-            <h2 className="text-xl sm:text-2xl font-light text-white">Vrei să aprofundezi studiul?</h2>
+            <h2 className="text-xl sm:text-2xl font-light text-white">
+              {language === "ro" ? "Vrei să aprofundezi studiul?" : "Expand Your Reading List"}
+            </h2>
             <p className="text-xs text-zinc-500 mt-2 max-w-md mx-auto leading-relaxed">
-              Descoperă biblioteca noastră de cărți recomandate despre investiții, psihologia piețelor și negocieri de lux.
+              {language === "ro"
+                ? "Descoperă biblioteca noastră de cărți recomandate despre investiții, psihologia piețelor și negocieri de lux."
+                : "Explore our curated books collection focusing on luxury markets, financial charts, and asset valuation strategy."}
             </p>
           </div>
           <a
             href="/books"
             className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 text-black px-6 py-2.5 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 active:scale-95 mt-4"
           >
-            Spre Biblioteca AiX
+            {language === "ro" ? "Spre Biblioteca AiX" : "Go to AiX Library"}
           </a>
         </div>
       </section>
