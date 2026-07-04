@@ -210,10 +210,13 @@ export function Header() {
             {/* Mobile Menu Toggle Button (visible at all times next to toggle and alerts) */}
             <button
               onClick={() => setOpen(!open)}
-              className="xl:hidden flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white bg-zinc-900/60 rounded-xl transition-all"
-              aria-label="Meniu"
+              className="xl:hidden flex items-center gap-1.5 h-12 px-3.5 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md"
+              aria-label={language === "ro" ? "Meniu" : "Menu"}
             >
-              <LayoutGrid className="h-4.5 w-4.5" />
+              <Brain className="h-4.5 w-4.5 text-pink-500 fill-pink-500/10 drop-shadow-[0_0_6px_rgba(236,72,153,0.35)] shrink-0 animate-pulse" />
+              <span className="text-[10px] font-bold tracking-wider uppercase font-mono">
+                {language === "ro" ? "Meniu" : "Menu"}
+              </span>
             </button>
           </div>
         </div>

@@ -142,7 +142,9 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           <div>
             <h3 className="text-base font-semibold text-white">AiX Score Simulator</h3>
             <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
-              Scorul de siguranță al tranzacției. Evaluăm 14 variabile cadastrale, fiscale și juridice înainte de a recomanda un activ imobiliar.
+              {language === "ro"
+                ? "Scorul de siguranță al tranzacției. Evaluăm 14 variabile cadastrale, fiscale și juridice înainte de a recomanda un activ imobiliar."
+                : "Transaction safety index. We audit 14 cadastre, tax, and legal coordinates prior to matching any listing."}
             </p>
           </div>
           <div className="pt-2">
@@ -164,9 +166,13 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </div>
           
           <div>
-            <h3 className="text-base font-semibold text-white">Analize macroeconomice active</h3>
+            <h3 className="text-base font-semibold text-white">
+              {language === "ro" ? "Analize macroeconomice active" : "Active Macroeconomic Analysis"}
+            </h3>
             <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
-              Urmărește evoluția pieței imobiliare, deciziile de dobândă ale BNR și indicii inflației CPI.
+              {language === "ro"
+                ? "Urmărește evoluția pieței imobiliare, deciziile de dobândă ale BNR și indicii inflației CPI."
+                : "Monitor real estate shifts, BNR monetary interest rulings, and CPI inflation logs."}
             </p>
           </div>
 
