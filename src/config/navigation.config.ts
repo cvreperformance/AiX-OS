@@ -21,7 +21,7 @@ export const navigationCategories: NavigationCategory[] = [
   {
     id: "buy-sell",
     title: "Cumpără & Vinde",
-    titleEn: "BUY & SELL",
+    titleEn: "Buy & Sell",
     icon: Building2,
     color: "text-blue-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL"),
@@ -29,7 +29,7 @@ export const navigationCategories: NavigationCategory[] = [
   {
     id: "invest-protect",
     title: "Investește & Protejează",
-    titleEn: "INVEST & PROTECT",
+    titleEn: "Invest & Protect",
     icon: Shield,
     color: "text-rose-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST_PROTECT"),
@@ -37,7 +37,7 @@ export const navigationCategories: NavigationCategory[] = [
   {
     id: "learn-research",
     title: "Învață & Cercetează",
-    titleEn: "LEARN & RESEARCH",
+    titleEn: "Learn & Research",
     icon: BookOpen,
     color: "text-amber-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN_RESEARCH"),
@@ -45,18 +45,18 @@ export const navigationCategories: NavigationCategory[] = [
   {
     id: "tools",
     title: "Instrumente",
-    titleEn: "TOOLS",
+    titleEn: "Tools",
     icon: Wrench,
     color: "text-teal-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "TOOLS"),
   },
   {
-    id: "market-ai",
-    title: "Piață & AI",
-    titleEn: "MARKET & AI",
+    id: "ai-system",
+    title: "Sistem AI",
+    titleEn: "AI System",
     icon: Brain,
     color: "text-violet-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "MARKET_AI"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
   },
 ];
 
@@ -65,8 +65,5 @@ export const mainNavLinks = [
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
   { href: "/brain", label: "AiX Brain", labelEn: "AiX Brain" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
-  { href: "/compare", label: "Compare", labelEn: "Compare" },
-  { href: "/document-intelligence", label: "Doc Audit", labelEn: "Doc Audit" },
-  { href: "/leads", label: "Leads", labelEn: "Leads" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
 ];
