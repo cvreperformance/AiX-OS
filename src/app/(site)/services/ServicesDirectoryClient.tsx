@@ -9,15 +9,8 @@ import { designSystem } from "@/styles/designSystem";
 const CATEGORY_BG: Record<string, string> = {
   ai:                 "bg-violet-500/10 border-violet-500/20",
   "real-estate":      "bg-blue-500/10   border-blue-500/20",
-  "market-intelligence": "bg-emerald-500/10 border-emerald-500/20",
-  investments:        "bg-amber-500/10  border-amber-500/20",
-  insurance:          "bg-rose-500/10   border-rose-500/20",
-  "ro-law":           "bg-indigo-500/10 border-indigo-500/20",
-  technology:         "bg-sky-500/10    border-sky-500/20",
-  cybersecurity:      "bg-red-500/10    border-red-500/20",
-  luxury:             "bg-yellow-500/10 border-yellow-500/20",
-  education:          "bg-orange-500/10 border-orange-500/20",
-  tools:              "bg-zinc-700/20   border-zinc-600/20",
+  wealth:             "bg-amber-500/10  border-amber-500/20",
+  protection:         "bg-rose-500/10   border-rose-500/20",
   resources:          "bg-teal-500/10   border-teal-500/20",
 };
 

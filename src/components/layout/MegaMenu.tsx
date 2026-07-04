@@ -43,8 +43,8 @@ export function MegaMenu({ onClose }: MegaMenuProps) {
         </Link>
       </div>
 
-      {/* Category Grid — 4 columns */}
-      <div className="p-8 grid grid-cols-4 gap-x-8 gap-y-8">
+      {/* Category Grid — 5 columns */}
+      <div className="p-8 grid grid-cols-5 gap-x-6 gap-y-8">
         {SERVICES_DIRECTORY.map((category) => {
           const Icon = category.icon;
           return (

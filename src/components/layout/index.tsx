@@ -239,7 +239,7 @@ export function Header() {
               </div>
             </div>
 
-            {/* Accordion List for the 12 Categories */}
+            {/* Accordion List for the 5 Categories */}
             {SERVICES_DIRECTORY.map((category) => {
               const isExpanded = expandedCategory === category.id;
               const Icon = category.icon;
@@ -270,24 +270,34 @@ export function Header() {
 
                   <div
                     className={`overflow-hidden transition-all duration-300 ease-out ${
-                      isExpanded ? "max-h-[800px] opacity-100 mt-1" : "max-h-0 opacity-0"
+                      isExpanded ? "max-h-[1400px] opacity-100 mt-1" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="ml-5 pl-5 border-l-2 border-zinc-800/50 space-y-1 py-2">
-                      {category.items.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          onClick={closeMenu}
-                          className={`block px-3 py-2.5 rounded-lg transition-all active:scale-98 ${
-                            pathname === sub.href
-                              ? "bg-amber-500/10 text-amber-400 font-semibold"
-                              : "text-zinc-400 font-medium hover:text-white hover:bg-zinc-900/50"
-                          }`}
-                        >
-                          <span className="text-xs">{sub.label}</span>
-                        </Link>
-                      ))}
+                    <div className="ml-5 pl-4 border-l border-zinc-850 space-y-2 py-2">
+                      {category.items.map((sub) => {
+                        const SubIcon = sub.icon;
+                        const isSubActive = pathname === sub.href;
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={closeMenu}
+                            className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-200 active:scale-98 border border-transparent ${
+                              isSubActive
+                                ? "bg-amber-500/10 border-amber-500/20 text-amber-400 font-semibold"
+                                : "text-zinc-400 hover:text-white hover:bg-zinc-900/40"
+                            }`}
+                          >
+                            <div className={`mt-0.5 p-1.5 rounded-lg border border-zinc-800/60 bg-zinc-900/60 flex-shrink-0 transition-colors ${isSubActive ? "text-amber-400" : "text-zinc-500"}`}>
+                              <SubIcon className="h-3.5 w-3.5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-semibold text-zinc-200 leading-tight">{sub.label}</p>
+                              <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">{sub.desc}</p>
+                            </div>
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -479,7 +489,7 @@ export function Footer() {
               Director complet →
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-8 gap-y-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-8">
             {SERVICES_DIRECTORY.map((category) => {
               const Icon = category.icon;
               return (
