@@ -20,14 +20,44 @@ export default function OffMarketPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [botfield, setBotfield] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "Off-Market Deal Request",
+          name,
+          phone,
+          email,
+          message,
+          source: "off-market-page",
+          page: "/off-market",
+          botfield: botfield || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to submit lead");
+      }
       setSubmitted(true);
-    }, 1500);
+    } catch (err: any) {
+      setError(err.message || "Failed to submit request.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -102,19 +132,36 @@ export default function OffMarketPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Honeypot Spam Protection */}
+              <input
+                type="text"
+                name="botfield"
+                value={botfield}
+                onChange={(e) => setBotfield(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {error && (
+                <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-red-400 text-xs">
+                  {error}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Nume Complet</label>
                   <div className="relative">
                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="text" className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="Ion Popescu" />
+                    <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="Ion Popescu" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Telefon / WhatsApp</label>
                   <div className="relative">
                     <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="tel" className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="+40 700 000 000" />
+                    <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="+40 700 000 000" />
                   </div>
                 </div>
               </div>
@@ -123,7 +170,7 @@ export default function OffMarketPage() {
                 <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Email Corporate/Personal</label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                  <input required type="email" className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="adresa@companie.com" />
+                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="adresa@companie.com" />
                 </div>
               </div>
 
@@ -131,7 +178,7 @@ export default function OffMarketPage() {
                 <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Ce fel de proprietate căutați/vindeți?</label>
                 <div className="relative">
                   <Home className="absolute left-3.5 top-4 h-4 w-4 text-zinc-600" />
-                  <textarea required rows={3} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors resize-none" placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." />
+                  <textarea required rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none" placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." />
                 </div>
               </div>
 

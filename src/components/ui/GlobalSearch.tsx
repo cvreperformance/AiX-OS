@@ -1,64 +1,17 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, ArrowRight, Building, Sparkles, Newspaper, Activity, Compass, Globe, Command } from "lucide-react";
+import { Search, ArrowRight, Sparkles, Command, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { ALL_SERVICES } from "@/lib/services";
-
-interface SearchItem {
-  title: string;
-  category: "Property" | "Developer" | "City" | "Service" | "News" | "Market Data";
-  desc: string;
-  href: string;
-  icon?: any;
-}
-
-const STATIC_SEARCH_ITEMS: SearchItem[] = [
-  // Properties
-  { title: "Penthouse Floreasca Lake", category: "Property", desc: "Penthouse de lux cu vedere panoramică spre lacul Floreasca", href: "/proprietati/penthouse-floreasca-lake" },
-  { title: "Vila Premium Pipera", category: "Property", desc: "Vilă cu design minimalist și piscină exterioară", href: "/proprietati/vila-premium-pipera" },
-  { title: "Apartament Dorobanți Glass", category: "Property", desc: "Reședință ultra-luxoasă cu fațadă integrală din sticlă", href: "/proprietati/apartament-dorobanti-glass" },
-  
-  // Developers
-  { title: "One United Properties", category: "Developer", desc: "Liderul dezvoltărilor imobiliare verzi premium din România", href: "/dezvoltatori/one-united-properties" },
-  { title: "Emaar Properties", category: "Developer", desc: "Constructorul Burj Khalifa și Downtown Dubai", href: "/dezvoltatori/emaar-properties" },
-  { title: "Pastor Group Monaco", category: "Developer", desc: "Proprietăți ultraluxoase exclusive în Monte-Carlo", href: "/dezvoltatori/pastor-group" },
-  { title: "DAMAC Properties", category: "Developer", desc: "Reședințe de marcă în colaborare cu case de modă", href: "/dezvoltatori/damac-properties" },
-
-  // Cities
-  { title: "București", category: "City", desc: "Capitala României, oportunități cu yield ridicat", href: "/map" },
-  { title: "Monaco", category: "City", desc: "Safe haven absolut pentru capitaluri HNWI", href: "/map" },
-  { title: "Dubai", category: "City", desc: "Metropolă globală cu randamente ridicate din chirii", href: "/map" },
-
-  // News
-  { title: "Creșterea tranzacțiilor de lux", category: "News", desc: "Analiză imobiliară premium pe trimestrul 1 2026", href: "/stiri" },
-  { title: "Dezvoltări sustenabile în Europa", category: "News", desc: "Standardele verzi devin obligatorii pentru activele premium", href: "/stiri" },
-
-  // Market Data
-  { title: "Stocks Market Pulse", category: "Market Data", desc: "Urmărește indicii S&P 500, Nasdaq și Dow", href: "/market" },
-  { title: "Crypto Bitcoin (BTC)", category: "Market Data", desc: "Cotații Bitcoin, Ethereum și Solana alimentate live", href: "/market" },
-  { title: "Preț Aur Spot (Gold)", category: "Market Data", desc: "Preț spot mărfuri și aur", href: "/market" },
-];
+import { querySearchIndex, type IndexItem } from "@/lib/searchIndex";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function GlobalSearch() {
+  const { language } = useLanguage();
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Combine static items with dynamically loaded ALL_SERVICES
-  const allItems = useMemo(() => {
-    const serviceItems: SearchItem[] = ALL_SERVICES.map(service => ({
-      title: service.label,
-      category: "Service",
-      desc: service.desc,
-      href: service.href,
-      icon: service.icon
-    }));
-    // Remove duplicates based on href if they exist in both
-    const uniqueServiceItems = serviceItems.filter(s => !STATIC_SEARCH_ITEMS.some(st => st.href === s.href));
-    return [...STATIC_SEARCH_ITEMS, ...uniqueServiceItems];
-  }, []);
 
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
@@ -88,40 +41,53 @@ export function GlobalSearch() {
   }, []);
 
   const results = useMemo(() => {
-    if (!query.trim()) return [];
-    const lower = query.toLowerCase();
-    return allItems.filter(
-      (item) =>
-        item.title.toLowerCase().includes(lower) ||
-        item.category.toLowerCase().includes(lower) ||
-        item.desc.toLowerCase().includes(lower)
-    );
-  }, [query, allItems]);
+    return querySearchIndex(query);
+  }, [query]);
 
-  const categoryIcons = {
-    Property: Building,
-    Developer: Compass,
-    City: Globe,
-    Service: Sparkles,
-    News: Newspaper,
-    "Market Data": Activity,
-  };
+  // Group items by category
+  const groupedResults = useMemo(() => {
+    const groups: Record<string, IndexItem[]> = {};
+    results.forEach((item) => {
+      if (!groups[item.category]) {
+        groups[item.category] = [];
+      }
+      groups[item.category].push(item);
+    });
+    return groups;
+  }, [results]);
+
+  const popularTags = [
+    { label: "One United", q: "One United" },
+    { label: "Penthouse", q: "Penthouse" },
+    { label: "Money Advisor", q: "Money" },
+    { label: "Off-Market", q: "Off-Market" },
+    { label: "RO Law", q: "Law" },
+    { label: "Preț Aur", q: "Gold" },
+    { label: "ETF", q: "ETF" },
+    { label: "Cyber", q: "cyber" },
+  ];
 
   return (
     <div ref={containerRef} className="relative w-full max-w-2xl mx-auto z-45">
       {/* Search Input Bar */}
-      <div className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all ${
-        focused
-          ? "border-amber-500/40 bg-zinc-950 shadow-lg shadow-amber-500/[0.03]"
-          : "border-zinc-800 bg-[#080808]/75"
-      }`}>
+      <div
+        className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all ${
+          focused
+            ? "border-amber-500/40 bg-zinc-950 shadow-lg shadow-amber-500/[0.03]"
+            : "border-zinc-800 bg-[#080808]/75"
+        }`}
+      >
         <Search className="h-5 w-5 text-zinc-500 flex-shrink-0" />
         <input
           ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
-          placeholder="Caută proprietăți, dezvoltatori sau servicii..."
+          placeholder={
+            language === "ro"
+              ? "Caută proprietăți, dezvoltatori, instrumente financiare..."
+              : "Search properties, developers, investment tools..."
+          }
           className="bg-transparent text-sm text-white placeholder-zinc-500 w-full focus:outline-none"
         />
         {!query && !focused && (
@@ -145,66 +111,76 @@ export function GlobalSearch() {
 
       {/* Dropdown Results Box */}
       {focused && (
-        <div className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-850 bg-[#080808]/95 backdrop-blur-2xl shadow-2xl p-3 space-y-1 max-h-[400px] overflow-y-auto ${
-          query ? "animate-in fade-in slide-in-from-top-2 duration-150" : ""
-        }`}>
+        <div
+          className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-850 bg-[#080808]/98 backdrop-blur-3xl shadow-2xl p-4 space-y-4 max-h-[500px] overflow-y-auto ${
+            query ? "animate-in fade-in slide-in-from-top-2 duration-150" : ""
+          }`}
+        >
           {results.length > 0 ? (
-            results.map((item) => {
-              const IconComponent = item.icon || categoryIcons[item.category] || Globe;
-              return (
-                <Link
-                  key={item.title + item.href}
-                  href={item.href}
-                  onClick={() => setFocused(false)}
-                  className="flex items-center justify-between p-3.5 rounded-xl border border-transparent hover:border-zinc-850 hover:bg-zinc-900/30 transition-all group"
-                >
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="rounded-lg border border-zinc-900 bg-zinc-950 p-2 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20 transition-all flex-shrink-0">
-                      <IconComponent className="h-4 w-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-white truncate group-hover:text-amber-400 transition-colors">
-                          {item.title}
-                        </span>
-                        <span className="text-[8px] px-1.5 py-0.5 rounded border border-zinc-800 text-zinc-500 uppercase tracking-widest font-mono bg-zinc-900/40">
-                          {item.category}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-zinc-500 mt-0.5 truncate leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-zinc-650 group-hover:text-amber-500 group-hover:translate-x-1.5 transition-all flex-shrink-0" />
-                </Link>
-              );
-            })
+            Object.entries(groupedResults).map(([category, items]) => (
+              <div key={category} className="space-y-2">
+                <span className="text-[8.5px] uppercase tracking-[0.15em] text-amber-500/80 font-bold font-mono block border-b border-zinc-900 pb-1">
+                  {category}
+                </span>
+                <div className="space-y-1">
+                  {items.map((item) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <Link
+                        key={item.title + item.href}
+                        href={item.href}
+                        onClick={() => setFocused(false)}
+                        className="flex items-center justify-between p-3 rounded-xl border border-transparent hover:border-zinc-850 hover:bg-zinc-900/40 transition-all group"
+                      >
+                        <div className="flex items-center gap-3.5 min-w-0">
+                          <div className="rounded-lg border border-zinc-900 bg-zinc-950 p-2 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20 transition-all flex-shrink-0">
+                            <IconComponent className="h-4 w-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-xs font-semibold text-white group-hover:text-amber-400 transition-colors block">
+                              {item.title}
+                            </span>
+                            <p className="text-[10px] text-zinc-500 mt-0.5 truncate leading-relaxed">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[9px] font-mono text-zinc-500 group-hover:text-white uppercase tracking-wider transition-all flex-shrink-0">
+                          <span>{item.actionLabel ?? (language === "ro" ? "Deschide" : "Open")}</span>
+                          <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-zinc-600 group-hover:text-amber-500" />
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
           ) : query ? (
             <div className="py-8 text-center text-xs text-zinc-550 flex flex-col gap-1.5 items-center">
               <Sparkles className="h-5 w-5 text-amber-500/40 animate-bounce" />
-              <span>Nu am găsit rezultate pentru &ldquo;{query}&rdquo;. Încercați cu alte cuvinte cheie.</span>
+              <span>
+                {language === "ro"
+                  ? `Nu am găsit rezultate pentru "${query}". Încercați alte cuvinte.`
+                  : `No results found matching "${query}". Try alternative keywords.`}
+              </span>
             </div>
           ) : (
-            <div className="p-3 space-y-2">
-              <p className="text-[8.5px] uppercase tracking-wider text-zinc-600 font-semibold font-mono">Căutări populare</p>
+            <div className="space-y-2">
+              <p className="text-[8.5px] uppercase tracking-wider text-zinc-600 font-semibold font-mono">
+                {language === "ro" ? "Căutări Populare" : "Popular Searches"}
+              </p>
               <div className="flex flex-wrap gap-1.5">
-                {[
-                  { label: "One United", href: "/dezvoltatori/one-united-properties" },
-                  { label: "Penthouse", href: "/proprietati" },
-                  { label: "Money Advisor", href: "/money-advisor" },
-                  { label: "Off-Market", href: "/off-market" },
-                  { label: "RO Law", href: "/law" },
-                  { label: "Preț Aur", href: "/market" },
-                ].map((tag) => (
-                  <Link
+                {popularTags.map((tag) => (
+                  <button
                     key={tag.label}
-                    href={tag.href}
-                    onClick={() => setFocused(false)}
+                    onClick={() => {
+                      setQuery(tag.q);
+                      inputRef.current?.focus();
+                    }}
                     className="text-[10px] px-3 py-1.5 rounded-lg border border-zinc-850 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all bg-zinc-900/20"
                   >
                     {tag.label}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </div>
@@ -214,4 +190,3 @@ export function GlobalSearch() {
     </div>
   );
 }
-

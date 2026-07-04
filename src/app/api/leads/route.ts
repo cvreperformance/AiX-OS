@@ -1,110 +1,127 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/client";
+import fs from "fs";
+import path from "path";
 
-export interface LeadPayload {
-  name: string;
-  phone: string;
-  email?: string;
-  subject?: string;
-  budget?: string;
-  interest?: string;
-  message?: string;
-  source?: string; // "popup" | "contact-form" | "inline"
-  page?: string;
-}
-
-/**
- * POST /api/leads
- *
- * Accepts lead data from:
- * - ConsultationPopup
- * - ContactForm
- * - Any inline forms across the site
- *
- * Stores in Supabase `leads` table if available,
- * otherwise logs to console as fallback.
- */
-export async function POST(request: Request) {
+// GET /api/leads
+// Returns merged list of leads from Supabase and local backup file
+export async function GET() {
   try {
-    const body = (await request.json()) as LeadPayload;
-
-    // Basic validation
-    if (!body.name || !body.phone) {
-      return NextResponse.json(
-        { error: "Name and phone are required" },
-        { status: 400 }
-      );
-    }
-
-    const lead = {
-      name: body.name.trim(),
-      phone: body.phone.trim(),
-      email: body.email?.trim() ?? null,
-      subject: body.subject ?? body.interest ?? null,
-      budget: body.budget ?? null,
-      message: body.message ?? null,
-      source: body.source ?? "unknown",
-      page: body.page ?? null,
-      created_at: new Date().toISOString(),
-      status: "new",
-    };
-
-    // Try Supabase first
+    let supabaseLeads = [];
     try {
       const supabase = createClient();
-      const { error } = await supabase.from("leads").insert(lead);
-      if (!error) {
-        // Fall through to run webhook notification even if Supabase succeeds
-        console.log("[AiX Leads] Stored in Supabase.");
-      } else {
-        console.warn("[AiX Leads] Supabase insert failed:", error.message);
+      const { data, error } = await supabase
+        .from("leads")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data) {
+        supabaseLeads = data;
       }
-    } catch (supabaseErr) {
-      console.warn("[AiX Leads] Supabase unavailable:", supabaseErr);
+    } catch (e) {
+      console.warn("[AiX GET Leads] Supabase list failed:", e);
     }
 
-    // Webhook dispatch logic
-    const webhookUrl = process.env.DISCORD_WEBHOOK_URL || process.env.LEAD_WEBHOOK_URL;
-    if (webhookUrl) {
-      try {
-        const payload = {
-          content: `🚨 **New Lead Received on AiX OS** 🚨\n\n👤 **Name:** ${lead.name}\n📞 **Phone:** ${lead.phone}\n📧 **Email:** ${lead.email ?? "N/A"}\n🎯 **Subject/Interest:** ${lead.subject ?? "N/A"}\n💰 **Budget:** ${lead.budget ?? "N/A"}\n📝 **Message:** ${lead.message ?? "N/A"}\n🌐 **Source:** ${lead.source} | **Page:** ${lead.page ?? "N/A"}`,
-        };
-        await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        console.log("[AiX Leads Webhook] Dispatched successfully.");
-      } catch (webhookErr) {
-        console.error("[AiX Leads Webhook] Dispatch failed:", webhookErr);
+    let localLeads = [];
+    try {
+      const backupPath = path.join(process.cwd(), "src/data/leads_backup.json");
+      if (fs.existsSync(backupPath)) {
+        const raw = fs.readFileSync(backupPath, "utf8");
+        localLeads = JSON.parse(raw);
       }
-    } else {
-      console.log("[AiX Leads Webhook] Not configured (Set DISCORD_WEBHOOK_URL env var to enable).");
+    } catch (e) {
+      console.warn("[AiX GET Leads] Local backup read failed:", e);
     }
 
-    // Always fallback log to console (visible in server logs)
-    console.log("[AiX OS LEAD]", JSON.stringify(lead, null, 2));
+    // Merge lists, using phone + created_at as unique key if id is not available
+    const mergedMap = new Map();
 
-    return NextResponse.json({
-      success: true,
-      stored: webhookUrl ? "supabase + webhook" : "console fallback",
-      message: "Lead logged and notification evaluated.",
+    // Insert local leads first
+    localLeads.forEach((lead: any) => {
+      // Map legacy "subject" to "service" if needed, and vice-versa
+      const serv = lead.service || lead.subject || "General Consultation";
+      const leadItem = {
+        ...lead,
+        service: serv,
+        subject: serv,
+      };
+      const key = `${leadItem.phone}_${leadItem.created_at}`;
+      mergedMap.set(key, { ...leadItem, id: leadItem.id || key });
     });
+
+    // Insert Supabase leads, overwriting duplicates
+    supabaseLeads.forEach((lead: any) => {
+      const serv = lead.service || lead.subject || "General Consultation";
+      const leadItem = {
+        ...lead,
+        service: serv,
+        subject: serv,
+      };
+      const key = leadItem.id || `${leadItem.phone}_${leadItem.created_at}`;
+      mergedMap.set(key, leadItem);
+    });
+
+    // Convert map to array and sort by created_at descending
+    const allLeads = Array.from(mergedMap.values()).sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
+    return NextResponse.json(allLeads);
   } catch (err) {
-    console.error("[AiX Leads] Error:", err);
+    console.error("[AiX GET Leads API Error]", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
-export async function GET() {
-  return NextResponse.json({
-    info: "AiX OS Lead Capture API",
-    version: "1.0",
-    methods: ["POST"],
-    fields: {
-      required: ["name", "phone"],
-      optional: ["email", "subject", "budget", "interest", "message", "source", "page"],
-    },
-  });
+// PATCH /api/leads
+// Updates a lead's status (in Supabase and local backup file)
+export async function PATCH(request: Request) {
+  try {
+    const { id, status } = await request.json();
+    if (!id || !status) {
+      return NextResponse.json({ error: "Id and status are required" }, { status: 400 });
+    }
+
+    let updatedSupabase = false;
+    try {
+      const supabase = createClient();
+      // Only try to update by UUID if the ID is a valid UUID format
+      const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id);
+      if (isUuid) {
+        const { error } = await supabase.from("leads").update({ status }).eq("id", id);
+        if (!error) updatedSupabase = true;
+      }
+    } catch (e) {
+      console.warn("[AiX PATCH Leads] Supabase update failed:", e);
+    }
+
+    // Also update local file backup
+    try {
+      const backupPath = path.join(process.cwd(), "src/data/leads_backup.json");
+      if (fs.existsSync(backupPath)) {
+        const raw = fs.readFileSync(backupPath, "utf8");
+        const list = JSON.parse(raw);
+        let updatedLocal = false;
+        
+        const updatedList = list.map((lead: any) => {
+          const key = lead.id || `${lead.phone}_${lead.created_at}`;
+          if (lead.id === id || key === id) {
+            updatedLocal = true;
+            return { ...lead, status };
+          }
+          return lead;
+        });
+
+        if (updatedLocal) {
+          fs.writeFileSync(backupPath, JSON.stringify(updatedList, null, 2), "utf8");
+        }
+      }
+    } catch (e) {
+      console.warn("[AiX PATCH Leads] Local backup update failed:", e);
+    }
+
+    return NextResponse.json({ success: true, updatedSupabase });
+  } catch (err) {
+    console.error("[AiX PATCH Leads API Error]", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

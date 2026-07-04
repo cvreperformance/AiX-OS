@@ -185,3 +185,23 @@ $$ language plpgsql security definer;
 create or replace trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- Leads / Contact Submissions
+create table if not exists public.leads (
+  id uuid default uuid_generate_v4() primary key,
+  created_at timestamptz default now(),
+  service text,
+  page text,
+  name text not null,
+  email text,
+  phone text,
+  message text,
+  status text default 'new',
+  source text
+);
+
+alter table public.leads enable row level security;
+create policy "Public insert leads" on public.leads for insert with check (true);
+create policy "Admin read all leads" on public.leads for select using (
+  exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
+);

@@ -117,6 +117,49 @@ export default function TechnologyClient() {
           );
         })}
       </section>
+
+      {/* Devops & Threat Audit Desk */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+          <div className="rounded-xl bg-red-500/10 p-2.5 text-red-400 max-w-fit">
+            <Lock className="h-5 w-5" />
+          </div>
+          <h3 className="text-sm font-semibold text-white">
+            {language === "ro" ? "Ghid Securizare Tranzacții UHNW" : "UHNW Cyber Risk Prevention Desk"}
+          </h3>
+          <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">
+            <li>
+              <strong>{language === "ro" ? "Fără instrucțiuni IBAN pe mail" : "IBAN Authentication Protocol"}:</strong> {language === "ro" ? "Toate conturile bancare primite electronic trebuie verificate telefonic prin cod separat." : "Never wire capital without verifying bank IBAN parameters via secondary voice verification."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "MFA Fizic obligatoriu (YubiKey)" : "Physical Security Tokens (YubiKey)"}:</strong> {language === "ro" ? "Folosiți token hardware pentru a împiedica phishing-ul prin clonare SIM." : "Utilize hardware security keys for locking credential vaults against SIM-swap vectors."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Izolarea documentelor sensibile" : "Encrypted Cold Vault Archives"}:</strong> {language === "ro" ? "Nu păstrați schițele tehnice sau actele de identitate în conturi cloud nepărslate." : "Avoid storing property registry deeds inside plain unsecured cloud folders."}
+            </li>
+          </ul>
+        </div>
+
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+          <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 max-w-fit">
+            <Cpu className="h-5 w-5" />
+          </div>
+          <h3 className="text-sm font-semibold text-white">
+            {language === "ro" ? "Checklist Automatizare Dev" : "Serverless Automation Checklists"}
+          </h3>
+          <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">
+            <li>
+              <strong>{language === "ro" ? "Scanners de anunțuri imobiliare" : "Serverless Aggregator Scrapers"}:</strong> {language === "ro" ? "Rulați scripturi automate serverless pe servere pentru a detecta ofertele noi în 60s." : "Deploy cron-job serverless scraper workers to capture distressed seller posts within 60s."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Integrare LLM API pentru contracte" : "LLM pre-contract audits"}:</strong> {language === "ro" ? "Automatizați extragerea penalităților din promisiunile PDF prin modelul AI." : "Utilize API connectors to scan legal drafts for asymmetric cancellation fees."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Notificări instant (Telegram Bot)" : "Telegram Webhook Alerts"}:</strong> {language === "ro" ? "Configurați avertismente directe pe telefon la modificarea IRCC." : "Connect webhook notifications to sound instant phone alarms on central bank policy changes."}
+            </li>
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }

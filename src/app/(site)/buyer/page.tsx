@@ -12,6 +12,7 @@ import {
   ArrowRight,
   MessageCircle,
 } from "lucide-react";
+import BuyerLeadForm from "./BuyerLeadForm";
 
 export const metadata: Metadata = {
   title: "Buyer Representation — Cumpără Inteligent | AiX OS",
@@ -262,87 +263,25 @@ export default function BuyerPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-16 text-center space-y-6">
-        <Shield className="h-10 w-10 text-amber-500/60 mx-auto" />
-        <h2 className="text-3xl md:text-4xl font-light text-white">
-          Gata să cumperi inteligent?
-        </h2>
-        <p className="text-zinc-400 max-w-lg mx-auto">
-          Prima consultație este gratuită. Nu există angajamente. Doar o discuție despre obiectivele tale.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/contact" className="rounded-full bg-amber-500/90 px-8 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all">
-            Programează Consultație Gratuită
-          </Link>
-          <Link href="/proprietati" className="rounded-full border border-zinc-700 px-8 py-3.5 text-sm text-zinc-300 hover:text-white transition-all">
-            Explorează Proprietăți →
-          </Link>
+      <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-8 md:p-12">
+        <div className="md:col-span-7 space-y-6 text-left">
+          <Shield className="h-10 w-10 text-amber-500/60" />
+          <h2 className="text-3xl md:text-4xl font-light text-white leading-tight">
+            Gata să cumperi inteligent?
+          </h2>
+          <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
+            Prima consultație este gratuită. Nu există angajamente. Completează formularul alăturat pentru a primi cotații off-market și detalii exclusive.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/proprietati" className="rounded-full border border-zinc-700 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-350 hover:text-white transition-all">
+              Explorează Proprietăți →
+            </Link>
+          </div>
         </div>
-        <p className="text-xs text-zinc-600">
-          Parte din ecosistemul{" "}
-          <a href="https://cristianvaduva.com" target="_blank" rel="noopener noreferrer" className="text-amber-500/70 hover:text-amber-400">
-            CristianVaduva.com
-          </a>{" "}
-          ·{" "}
-          <a href="https://aixluxury.com" target="_blank" rel="noopener noreferrer" className="text-amber-500/70 hover:text-amber-400">
-            AiXLuxury.com
-          </a>
-        </p>
+        <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+          <BuyerLeadForm />
+        </div>
       </section>
     </div>
-  );
-}
-
-function BuyerLeadForm() {
-  return (
-    <form
-      action="mailto:contact@cristianvaduva.com"
-      method="get"
-      className="space-y-4"
-    >
-      <div className="grid grid-cols-2 gap-3">
-        <input
-          name="name"
-          placeholder="Prenume"
-          required
-          className="col-span-1 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors"
-        />
-        <input
-          name="phone"
-          placeholder="Telefon"
-          required
-          className="col-span-1 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors"
-        />
-      </div>
-      <input
-        name="budget"
-        placeholder="Budget estimat (EUR)"
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors"
-      />
-      <select className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-300 focus:border-amber-500/50 focus:outline-none transition-colors">
-        <option value="">Tipul proprietății dorite</option>
-        <option>Apartament</option>
-        <option>Casă / Vilă</option>
-        <option>Penthouse</option>
-        <option>Comercial / Birou</option>
-        <option>Teren</option>
-        <option>Orice oportunitate bună</option>
-      </select>
-      <textarea
-        placeholder="Detalii suplimentare (locație, suprafață, obiectiv...)"
-        rows={3}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors resize-none"
-      />
-      <button
-        type="submit"
-        className="w-full rounded-full bg-amber-500/90 py-3 text-sm font-medium text-black hover:bg-amber-400 transition-all"
-      >
-        Trimite Solicitarea
-      </button>
-      <p className="text-xs text-zinc-600 text-center">
-        Răspundem în maxim 24h. Consultație inițială gratuită.
-      </p>
-    </form>
   );
 }

@@ -31,6 +31,47 @@ export default function ValuationPage() {
 
   const [loading, setLoading] = useState(false);
 
+  // Lead contact form states
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadBotfield, setLeadBotfield] = useState("");
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [leadSuccess, setLeadSuccess] = useState(false);
+  const [leadError, setLeadError] = useState("");
+
+  const handleRequestReport = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadName || !leadPhone) return;
+    setLeadLoading(true);
+    setLeadError("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "AI Property Valuation",
+          name: leadName,
+          phone: leadPhone,
+          email: leadEmail || undefined,
+          message: `Solicitare Raport Oficial pentru Adresa: ${address}. Suprafata: ${sqm} mp, Tip: ${type}, Finisaje: ${finishes}. Valoare Evaluare AI: ${result?.avg}`,
+          source: "valuation-report-cta",
+          page: "/valuation",
+          botfield: leadBotfield || undefined,
+        }),
+      });
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to submit lead");
+      }
+      setLeadSuccess(true);
+    } catch (err: any) {
+      setLeadError(err.message || "Failed to request report.");
+    } finally {
+      setLeadLoading(false);
+    }
+  };
+
   const handleEvaluate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!sqm || !type) return;
@@ -190,6 +231,64 @@ export default function ValuationPage() {
                   <span>Medie m²:</span>
                   <span className="text-amber-400">{result.perSqm}</span>
                 </div>
+              </div>
+
+              {/* Premium Report Lead Form */}
+              <div className="pt-4 border-t border-zinc-900/80 space-y-3">
+                <p className="text-[10px] text-zinc-300 uppercase tracking-wider font-semibold">Solicită Raport Semnat Oficial</p>
+                {leadSuccess ? (
+                  <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-center">
+                    <p className="text-emerald-400 text-xs font-semibold">✓ Solicitare trimisă cu succes!</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleRequestReport} className="space-y-2">
+                    <input
+                      type="text"
+                      name="botfield"
+                      value={leadBotfield}
+                      onChange={(e) => setLeadBotfield(e.target.value)}
+                      className="hidden"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                    {leadError && (
+                      <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-2 text-[10px] text-red-400">
+                        {leadError}
+                      </div>
+                    )}
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        required
+                        value={leadName}
+                        onChange={(e) => setLeadName(e.target.value)}
+                        placeholder="Numele dvs."
+                        className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+                      />
+                      <input
+                        required
+                        type="tel"
+                        value={leadPhone}
+                        onChange={(e) => setLeadPhone(e.target.value)}
+                        placeholder="Telefon"
+                        className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <input
+                      type="email"
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      placeholder="E-mail (opțional)"
+                      className="w-full rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+                    />
+                    <button
+                      type="submit"
+                      disabled={leadLoading}
+                      className="w-full rounded-lg bg-amber-500 text-black py-2 text-[11px] font-bold uppercase tracking-wider hover:bg-amber-400 transition-all flex items-center justify-center gap-1"
+                    >
+                      {leadLoading ? "Se trimite..." : "Solicită Raport Complet"}
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           )}

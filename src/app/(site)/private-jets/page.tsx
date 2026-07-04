@@ -160,6 +160,15 @@ export default function PrivateJetsPage() {
   const [pax, setPax] = useState("1-4");
   const [jetClass, setJetClass] = useState("light");
 
+  // Contact details & loading/success states
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [botfield, setBotfield] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
   // Flight Tracker State
   const [trackQuery, setTrackQuery] = useState("");
   const [trackedFlight, setTrackedFlight] = useState<typeof MOCK_FLIGHTS[keyof typeof MOCK_FLIGHTS] | null>(null);
@@ -202,24 +211,57 @@ export default function PrivateJetsPage() {
     }
   };
 
-  // Build WhatsApp Message Link for custom bookings
-  const handleRequestBooking = (e: React.FormEvent) => {
+  // POST request details to unified contact API
+  const handleRequestBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!from || !to || !date) {
-      alert("Vă rugăm să completați punctele de plecare, destinație și data.");
+    if (!from || !to || !date || !name || !phone) {
+      setSubmitError("Vă rugăm să completați numele, telefonul, plecarea, sosirea și data.");
       return;
     }
 
-    const message = `Bună ziua, doresc o ofertă pentru un zbor privat charter:\n\n` +
-      `De la: ${from}\n` +
-      `La: ${to}\n` +
-      `Data: ${date}\n` +
-      `Număr pasageri: ${pax}\n` +
-      `Clasa de aeronavă dorită: ${jetClass.toUpperCase()}\n\n` +
-      `Vă rog să mă contactați cu opțiunile disponibile.`;
+    setIsSubmitting(true);
+    setSubmitError("");
 
-    const url = `https://wa.me/436509536345?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "Private Jets & Luxury Booking",
+          name,
+          phone,
+          email: email || undefined,
+          message: `Charter request details:\nFrom: ${from}\nTo: ${to}\nDate: ${date}\nPassengers: ${pax}\nJet Class: ${jetClass.toUpperCase()}`,
+          source: "private-jets-page",
+          page: "/private-jets",
+          botfield: botfield || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to submit lead");
+      }
+      setSubmitted(true);
+
+      // Optionally redirect/open WhatsApp as secondary confirmation channel
+      const message = `Bună ziua, doresc o ofertă pentru un zbor privat charter:\n\n` +
+        `Nume: ${name}\n` +
+        `Telefon: ${phone}\n` +
+        `De la: ${from}\n` +
+        `La: ${to}\n` +
+        `Data: ${date}\n` +
+        `Număr pasageri: ${pax}\n` +
+        `Clasa de aeronavă dorită: ${jetClass.toUpperCase()}\n\n` +
+        `Vă rog să mă contactați cu opțiunile disponibile.`;
+
+      const url = `https://wa.me/436509536345?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    } catch (err: any) {
+      setSubmitError(err.message || "Failed to request booking.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -244,102 +286,165 @@ export default function PrivateJetsPage() {
             </p>
           </div>
 
-          <form onSubmit={handleRequestBooking} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Plecare (Origine)</label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+          {submitted ? (
+            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-4 animate-in fade-in duration-300">
+              <Shield className="h-8 w-8 text-emerald-400 mx-auto" />
+              <h4 className="text-sm font-semibold text-white">Solicitare Trimisă!</h4>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Detalii trimise către sistemul central AiX. Am deschis și fereastra de WhatsApp pentru confirmare directă.
+              </p>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="text-xs font-semibold text-amber-500 hover:text-amber-400 uppercase tracking-widest"
+              >
+                Planifică un alt zbor
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleRequestBooking} className="space-y-4">
+              {/* Honeypot Spam Protection */}
+              <input
+                type="text"
+                name="botfield"
+                value={botfield}
+                onChange={(e) => setBotfield(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
+              {submitError && (
+                <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-red-400 text-xs">
+                  {submitError}
+                </div>
+              )}
+
+              {/* Passenger Personal Details */}
+              <div className="space-y-3.5 border-b border-zinc-900 pb-4">
+                <p className="text-[9px] font-mono tracking-widest text-zinc-550 uppercase">Detalii Pasager</p>
+                <div className="grid grid-cols-2 gap-4">
                   <input
-                    type="text"
-                    placeholder="București (BBU)"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
                     required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Nume Complet"
+                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                  />
+                  <input
+                    required
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Telefon / WhatsApp"
+                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
                   />
                 </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="E-mail (opțional)"
+                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 px-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Sosire (Destinație)</label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
-                  <input
-                    type="text"
-                    placeholder="Nice (NCE)"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
-                    required
-                  />
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Plecare (Origine)</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                    <input
+                      type="text"
+                      placeholder="București (BBU)"
+                      value={from}
+                      onChange={(e) => setFrom(e.target.value)}
+                      className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Sosire (Destinație)</label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                    <input
+                      type="text"
+                      placeholder="Nice (NCE)"
+                      value={to}
+                      onChange={(e) => setTo(e.target.value)}
+                      className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Data Zborului</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
-                    required
-                  />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Data Zborului</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                    <input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Pasageri</label>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                    <select
+                      value={pax}
+                      onChange={(e) => setPax(e.target.value)}
+                      className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white focus:border-amber-500 focus:outline-none transition-colors appearance-none"
+                    >
+                      <option value="1-4">1-4 Pasageri</option>
+                      <option value="5-8">5-8 Pasageri</option>
+                      <option value="9-12">9-12 Pasageri</option>
+                      <option value="13+">13+ Pasageri</option>
+                    </select>
+                  </div>
                 </div>
               </div>
+
               <div className="space-y-1.5">
-                <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Pasageri</label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
-                  <select
-                    value={pax}
-                    onChange={(e) => setPax(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 py-2.5 pl-9 pr-4 text-xs text-white focus:border-amber-500 focus:outline-none transition-colors appearance-none"
-                  >
-                    <option value="1-4">1-4 Pasageri</option>
-                    <option value="5-8">5-8 Pasageri</option>
-                    <option value="9-12">9-12 Pasageri</option>
-                    <option value="13+">13+ Pasageri</option>
-                  </select>
+                <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Clasa de Jet Preferată</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: "light", label: "Light" },
+                    { id: "midsize", label: "Midsize" },
+                    { id: "heavy", label: "Heavy / Long" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setJetClass(option.id)}
+                      className={`py-2 px-3 text-[11px] font-medium tracking-wide uppercase rounded-xl border transition-all duration-300 ${
+                        jetClass === option.id
+                          ? "border-amber-500 bg-amber-500/10 text-amber-400"
+                          : "border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:border-zinc-700 hover:text-white"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Clasa de Jet Preferată</label>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { id: "light", label: "Light" },
-                  { id: "midsize", label: "Midsize" },
-                  { id: "heavy", label: "Heavy / Long" },
-                ].map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => setJetClass(option.id)}
-                    className={`py-2 px-3 text-[11px] font-medium tracking-wide uppercase rounded-xl border transition-all duration-300 ${
-                      jetClass === option.id
-                        ? "border-amber-500 bg-amber-500/10 text-amber-400"
-                        : "border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:border-zinc-700 hover:text-white"
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-amber-500 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 mt-2"
-            >
-              Solicită Zbor prin WhatsApp
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-xl bg-amber-500 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+              >
+                {isSubmitting ? "Se trimite solicitarea..." : "Solicită Zbor & Deschide WhatsApp"}
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+          )}
 
           <div className="pt-4 border-t border-zinc-800/80 flex items-center gap-3 text-zinc-400">
             <Shield className="h-5 w-5 text-amber-500/70 flex-shrink-0" />

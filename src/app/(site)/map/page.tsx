@@ -16,13 +16,15 @@ import {
   BookOpen,
   Activity,
   Star,
+  Users,
+  Scale,
 } from "lucide-react";
 import Link from "next/link";
 import { designSystem } from "@/styles/designSystem";
 
 interface MapNode {
   id: string;
-  type: "property" | "developer" | "project" | "airport" | "hotel" | "metro" | "school" | "hospital";
+  type: "property" | "developer" | "project" | "airport" | "hotel" | "metro" | "school" | "hospital" | "agency" | "resource";
   title: string;
   location: string;
   city: "București" | "Dubai" | "Monaco";
@@ -78,6 +80,14 @@ const MAP_NODES: MapNode[] = [
   { id: "m4", type: "hotel", title: "Hotel de Paris Monte-Carlo", location: "Casino Square", city: "Monaco", x: 50, y: 48, investmentLevel: "high" },
   { id: "m5", type: "school", title: "International School of Monaco", location: "Port Hercule", city: "Monaco", x: 40, y: 55, investmentLevel: "high" },
   { id: "m6", type: "hospital", title: "Princess Grace Hospital Centre", location: "Les Moneghetti", city: "Monaco", x: 35, y: 38, investmentLevel: "high" },
+  
+  // Custom Agencies & Resources additions
+  { id: "b10", type: "agency", title: "Chestertons Romania Office", location: "Pipera", city: "București", x: 50, y: 28, investmentLevel: "mid" },
+  { id: "b11", type: "resource", title: "ANCPI Cadastre Office", location: "Sector 1", city: "București", x: 44, y: 48, investmentLevel: "low" },
+  { id: "d9", type: "agency", title: "AiX Exclusive Brokerage DXB", location: "Marina", city: "Dubai", x: 32, y: 58, investmentLevel: "high" },
+  { id: "d10", type: "resource", title: "Dubai Land Department (DLD)", location: "Deira", city: "Dubai", x: 68, y: 32, investmentLevel: "high" },
+  { id: "m7", type: "agency", title: "Pastor Luxury Real Estate", location: "Monte-Carlo", city: "Monaco", x: 52, y: 42, investmentLevel: "high" },
+  { id: "m8", type: "resource", title: "Monaco Cadastre Registry", location: "Fontvieille", city: "Monaco", x: 25, y: 65, investmentLevel: "high" },
 ];
 
 const CITY_COORDS = {
@@ -99,6 +109,8 @@ export default function MapExperiencePage() {
     metro: true,
     school: true,
     hospital: true,
+    agency: true,
+    resource: true,
   });
 
   const [investmentFilter, setInvestmentFilter] = useState<InvestmentFilter>("all");
@@ -196,6 +208,8 @@ export default function MapExperiencePage() {
     { key: "metro", label: "Metro", icon: Activity, color: "text-purple-400" },
     { key: "school", label: "Schools", icon: BookOpen, color: "text-emerald-400" },
     { key: "hospital", label: "Hospitals", icon: Heart, color: "text-red-400" },
+    { key: "agency", label: "Agencies", icon: Users, color: "text-indigo-400" },
+    { key: "resource", label: "Public Registries", icon: Scale, color: "text-amber-500" },
   ];
 
   return (

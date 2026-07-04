@@ -198,6 +198,48 @@ export default function LawPage() {
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  // Lead contact form states
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadBotfield, setLeadBotfield] = useState("");
+  const [leadDetails, setLeadDetails] = useState("");
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [leadSuccess, setLeadSuccess] = useState(false);
+  const [leadError, setLeadError] = useState("");
+
+  const handleRequestLawConsult = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadName || !leadPhone) return;
+    setLeadLoading(true);
+    setLeadError("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "RO Law Consultation",
+          name: leadName,
+          phone: leadPhone,
+          email: leadEmail || undefined,
+          message: leadDetails,
+          source: "law-consult-form",
+          page: "/law",
+          botfield: leadBotfield || undefined,
+        }),
+      });
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to submit lead");
+      }
+      setLeadSuccess(true);
+    } catch (err: any) {
+      setLeadError(err.message || "Failed to request consultation.");
+    } finally {
+      setLeadLoading(false);
+    }
+  };
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages, isTyping]);
@@ -529,6 +571,87 @@ export default function LawPage() {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* Lawyer Consultation Card */}
+      <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-8 md:p-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div className="md:col-span-7 space-y-6 text-left">
+            <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Specialist Representation</span>
+            <h2 className="text-3xl md:text-4xl font-light text-white leading-tight">
+              Solicită Consultanță Juridică Avocat
+            </h2>
+            <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
+              Aveți o speță complexă? Completează formularul alăturat pentru a primi asistență de la un avocat partener specializat în drept imobiliar și fiscal.
+            </p>
+          </div>
+          <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+            {leadSuccess ? (
+              <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-2 animate-in fade-in duration-300">
+                <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto" />
+                <h4 className="text-sm font-semibold text-white">Solicitare Trimisă cu Succes!</h4>
+                <p className="text-xs text-zinc-400">Avocatul partener vă va contacta în cel mai scurt timp.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleRequestLawConsult} className="space-y-4">
+                {/* Honeypot Spam Protection */}
+                <input
+                  type="text"
+                  name="botfield"
+                  value={leadBotfield}
+                  onChange={(e) => setLeadBotfield(e.target.value)}
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+                {leadError && (
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-red-400 text-xs">
+                    {leadError}
+                  </div>
+                )}
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    required
+                    value={leadName}
+                    onChange={(e) => setLeadName(e.target.value)}
+                    placeholder="Nume"
+                    className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                  />
+                  <input
+                    required
+                    type="tel"
+                    value={leadPhone}
+                    onChange={(e) => setLeadPhone(e.target.value)}
+                    placeholder="Telefon"
+                    className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                  />
+                </div>
+                <input
+                  type="email"
+                  value={leadEmail}
+                  onChange={(e) => setLeadEmail(e.target.value)}
+                  placeholder="E-mail (opțional)"
+                  className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                />
+                <textarea
+                  required
+                  value={leadDetails}
+                  onChange={(e) => setLeadDetails(e.target.value)}
+                  placeholder="Descrieți speța juridică pe scurt..."
+                  rows={3}
+                  className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none"
+                />
+                <button
+                  type="submit"
+                  disabled={leadLoading}
+                  className="w-full rounded-full bg-amber-500/90 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  Solicită Consultanță
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </section>
 

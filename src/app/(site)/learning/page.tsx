@@ -302,6 +302,31 @@ export default function LearningPage() {
       resourcesRo: "MAE Alerte Călătorie, Henley Passport Index",
       resourcesEn: "MAE Alerts Portal, Henley Passport rankings",
     },
+    {
+      id: "ro-real-estate",
+      titleRo: "Imobiliare România (Romanian Real Estate)",
+      titleEn: "Romanian Real Estate",
+      icon: Building,
+      color: "emerald",
+      checklistRo: [
+        "Verificați Planul Urbanistic Zonal (PUZ) și indicatorii CUT/POT ai imobilului.",
+        "Obțineți certificatul de urbanism pentru a înțelege limitările de construcție.",
+        "Efectuați due-diligence referitor la rețelele de utilități publice (gaze, electricitate).",
+        "Validați istoricul titlurilor de proprietate de după 1990."
+      ],
+      checklistEn: [
+        "Verify local Zoning Plans (PUZ) and density coefficients (CUT/POT).",
+        "Fetch the Urbanism Certificate to understand construction constraints.",
+        "Inspect availability and capacity of public grid utilities (gas, electricity).",
+        "Audit history of title deeds trace compiled after 1990."
+      ],
+      mistakesRo: "Achiziționarea de terenuri promise ca 'intravilan' care sunt blocate agricol.",
+      mistakesEn: "Buying land plots classified as agricultural without build approval.",
+      nextStepsRo: "Programați o sesiune de audit cu specialiștii cadastrali ai AiX.",
+      nextStepsEn: "Schedule a cadastral review session with AiX specialists.",
+      resourcesRo: "Registrul eTerra ANCPI, Portal Cadastru RO",
+      resourcesEn: "eTerra ANCPI Registry, RO Cadastration Portal",
+    },
   ];
 
   const filteredGuides = activeCategory === "all"

@@ -17,20 +17,50 @@ import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
 
 export default function JoinPage() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [botfield, setBotfield] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !name || !phone) return;
     
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "Join Waitlist / Newsletter",
+          name,
+          phone,
+          email,
+          source: "join-page",
+          page: "/join",
+          botfield: botfield || undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to join waitlist");
+      }
+      
       setSuccess(true);
       setEmail("");
-    }, 1500);
+      setName("");
+      setPhone("");
+    } catch (err: any) {
+      setError(err.message || "Failed to join.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -124,7 +154,48 @@ export default function JoinPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-between">
+              {/* Honeypot Spam Protection */}
+              <input
+                type="text"
+                name="botfield"
+                value={botfield}
+                onChange={(e) => setBotfield(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+
               <div className="space-y-4">
+                {error && (
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-2.5 text-red-400 text-xs">
+                    {error}
+                  </div>
+                )}
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Nume Complet</label>
+                  <input 
+                    required 
+                    type="text" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-2.5 px-4 text-xs text-white placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    placeholder="Numele tău" 
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Număr Telefon</label>
+                  <input 
+                    required 
+                    type="tel" 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-2.5 px-4 text-xs text-white placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    placeholder="+40 7..." 
+                  />
+                </div>
+
                 <div className="space-y-1.5">
                   <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Adresa de Email</label>
                   <div className="relative">
@@ -134,7 +205,7 @@ export default function JoinPage() {
                       type="email" 
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                      className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" 
                       placeholder="nume@exemplu.com" 
                     />
                   </div>

@@ -19,6 +19,7 @@ import { brandContent } from "@/lib/content/brand";
 import { SERVICES_DIRECTORY } from "@/lib/services";
 import { MegaMenu } from "./MegaMenu";
 import { useLanguage } from "@/context/LanguageContext";
+import NotificationPopover from "@/components/ui/NotificationPopover";
 
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
@@ -26,8 +27,11 @@ export function Header() {
   const dynamicLinks = [
     { href: "/", label: t("nav.home") },
     { key: "services", label: t("nav.services"), isPillar: true },
-    { href: "/services", label: t("nav.allServices") },
-    { href: "/despre", label: t("nav.about") },
+    { href: "/brain", label: "AiX Brain" },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/compare", label: "Compare" },
+    { href: "/document-intelligence", label: "Doc Audit" },
+    { href: "/leads", label: "Leads" },
     { href: "/contact", label: t("nav.contact") },
   ];
 
@@ -139,6 +143,9 @@ export function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden xl:flex items-center gap-3">
+          {/* Notification Center */}
+          <NotificationPopover />
+
           {/* Language Switcher */}
           <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1">
             <button

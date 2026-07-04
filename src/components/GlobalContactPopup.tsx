@@ -13,6 +13,8 @@ import {
 import Link from "next/link";
 import { brandContent } from "@/lib/content/brand";
 import { designSystem } from "@/styles/designSystem";
+import { submitContactForm } from "@/lib/contactSubmit";
+import { RefreshCw } from "lucide-react";
 
 const DISMISSED_KEY = "aix_global_popup_dismissed";
 const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days — only manual triggers after dismiss
@@ -20,6 +22,12 @@ const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days — only manual trig
 export function GlobalContactPopup() {
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [botfield, setBotfield] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   // Track if auto-trigger has already fired this session — never fire auto again after first show
   const autoTriggeredRef = useRef(false);
 
@@ -89,8 +97,25 @@ export function GlobalContactPopup() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(dismiss, 3000);
+    setError("");
+    setLoading(true);
+    try {
+      await submitContactForm({
+        service: "General Consultation (Popup)",
+        page: window.location.pathname,
+        name,
+        phone,
+        email: email || undefined,
+        source: "popup",
+        botfield: botfield || undefined,
+      });
+      setSubmitted(true);
+      setTimeout(dismiss, 3000);
+    } catch (err: any) {
+      setError(err.message || "Eroare la trimitere.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (!visible) return null;
@@ -204,9 +229,13 @@ export function GlobalContactPopup() {
           </div>
         </div>
 
-        {/* Inquiry form */}
         <div className="border-t border-zinc-900 pt-5 space-y-3.5">
           <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-550">Trimite Solicitare Exclusivă</p>
+          {error && (
+            <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-2.5 text-red-400 text-[10px]">
+              {error}
+            </div>
+          )}
           {submitted ? (
             <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-center">
               <p className="text-emerald-400 text-xs font-semibold">✓ Solicitare trimisă!</p>
@@ -214,10 +243,22 @@ export function GlobalContactPopup() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
+              {/* Honeypot Spam Protection */}
+              <input
+                type="text"
+                name="botfield"
+                value={botfield}
+                onChange={(e) => setBotfield(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+              />
               <div className="grid grid-cols-2 gap-3">
                 <input
                   name="name"
                   required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Numele dvs."
                   className="rounded-xl border border-zinc-800 bg-zinc-900/30 px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
                 />
@@ -225,16 +266,28 @@ export function GlobalContactPopup() {
                   name="phone"
                   required
                   type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Număr telefon"
                   className="rounded-xl border border-zinc-800 bg-zinc-900/30 px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
                 />
               </div>
+              <input
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="E-mail (opțional)"
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/30 px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+              />
               <button
                 type="submit"
-                className="w-full rounded-xl bg-amber-500 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center justify-center gap-1.5"
+                disabled={loading}
+                className="w-full rounded-xl bg-amber-500 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
-                Transmite Securizat
-                <ArrowRight className="h-3.5 w-3.5" />
+                {loading && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
+                {loading ? "Se trimite..." : "Transmite Securizat"}
+                {!loading && <ArrowRight className="h-3.5 w-3.5" />}
               </button>
             </form>
           )}

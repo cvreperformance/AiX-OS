@@ -12,6 +12,7 @@ import {
   Star,
   MessageCircle,
 } from "lucide-react";
+import SellerLeadForm from "./SellerLeadForm";
 
 export const metadata: Metadata = {
   title: "Seller Representation — Vinzi la Prețul Corect | AiX OS",
@@ -229,43 +230,17 @@ export default function SellerPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-16 text-center space-y-6">
-        <h2 className="text-3xl md:text-4xl font-light text-white">Evaluare gratuită, fără angajamente</h2>
-        <p className="text-zinc-400 max-w-lg mx-auto">
-          Află în 24h care este prețul real al proprietății tale pe piața actuală.
-        </p>
-        <Link href="/contact" className="inline-block rounded-full bg-amber-500/90 px-10 py-4 text-sm font-medium text-black hover:bg-amber-400 transition-all">
-          Solicită Evaluare Gratuită
-        </Link>
+      <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-8 md:p-12">
+        <div className="md:col-span-7 space-y-6 text-left">
+          <h2 className="text-3xl md:text-4xl font-light text-white">Evaluare gratuită, fără angajamente</h2>
+          <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
+            Află în 24h care este prețul real al proprietății tale pe piața actuală. Completează formularul alăturat pentru evaluare.
+          </p>
+        </div>
+        <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+          <SellerLeadForm />
+        </div>
       </section>
     </div>
-  );
-}
-
-function SellerLeadForm() {
-  return (
-    <form action="mailto:contact@cristianvaduva.com" method="get" className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <input name="name" placeholder="Numele tău" required
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" />
-        <input name="phone" placeholder="Telefon" required
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" />
-      </div>
-      <input name="address" placeholder="Adresa proprietății" required
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" />
-      <select className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-300 focus:border-amber-500/50 focus:outline-none transition-colors">
-        <option value="">Tipul proprietății</option>
-        <option>Apartament</option><option>Casă / Vilă</option>
-        <option>Penthouse</option><option>Teren</option><option>Comercial</option>
-      </select>
-      <input name="price" placeholder="Prețul estimat (EUR)" type="number"
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors" />
-      <button type="submit"
-        className="w-full rounded-full bg-amber-500/90 py-3 text-sm font-medium text-black hover:bg-amber-400 transition-all">
-        Solicită Evaluare Gratuită
-      </button>
-      <p className="text-xs text-zinc-600 text-center">Evaluare în 24h. Fără angajamente.</p>
-    </form>
   );
 }

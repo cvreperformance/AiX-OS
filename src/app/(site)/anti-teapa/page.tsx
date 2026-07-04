@@ -29,6 +29,47 @@ export default function AntiTeapaPage() {
     recommendation: string;
   } | null>(null);
 
+  // Lead form states
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadBotfield, setLeadBotfield] = useState("");
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [leadSuccess, setLeadSuccess] = useState(false);
+  const [leadError, setLeadError] = useState("");
+
+  const handleRequestAudit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadName || !leadPhone) return;
+    setLeadLoading(true);
+    setLeadError("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: "AntiȚeapă Legal Audit",
+          name: leadName,
+          phone: leadPhone,
+          email: leadEmail || undefined,
+          message: `Solicitare Verificare Documente Juridice pentru Adresa: ${address}. Cadastru/CF: ${cadastru}, Pret: ${price} EUR. Scor AI: ${report?.score}%`,
+          source: "anti-teapa-cta",
+          page: "/anti-teapa",
+          botfield: leadBotfield || undefined,
+        }),
+      });
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to submit lead");
+      }
+      setLeadSuccess(true);
+    } catch (err: any) {
+      setLeadError(err.message || "Failed to request audit.");
+    } finally {
+      setLeadLoading(false);
+    }
+  };
+
   const RED_FLAGS = [
     {
       icon: AlertTriangle,
@@ -256,6 +297,66 @@ export default function AntiTeapaPage() {
                   }`}>
                     {report.recommendation}
                   </p>
+
+                  {/* Audit Lead Form */}
+                  <div className="pt-4 border-t border-zinc-900/80 space-y-3">
+                    <p className="text-[10px] text-zinc-300 uppercase tracking-wider font-semibold">
+                      {language === "ro" ? "Solicită Raport Complet Certificat" : "Request Certified Notary Audit"}
+                    </p>
+                    {leadSuccess ? (
+                      <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-center">
+                        <p className="text-emerald-400 text-xs font-semibold">✓ Solicitare trimisă cu succes!</p>
+                      </div>
+                    ) : (
+                      <form onSubmit={handleRequestAudit} className="space-y-2">
+                        <input
+                          type="text"
+                          name="botfield"
+                          value={leadBotfield}
+                          onChange={(e) => setLeadBotfield(e.target.value)}
+                          className="hidden"
+                          tabIndex={-1}
+                          autoComplete="off"
+                        />
+                        {leadError && (
+                          <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-2 text-[10px] text-red-400">
+                            {leadError}
+                          </div>
+                        )}
+                        <div className="grid grid-cols-2 gap-2">
+                          <input
+                            required
+                            value={leadName}
+                            onChange={(e) => setLeadName(e.target.value)}
+                            placeholder="Numele dvs."
+                            className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                          />
+                          <input
+                            required
+                            type="tel"
+                            value={leadPhone}
+                            onChange={(e) => setLeadPhone(e.target.value)}
+                            placeholder="Telefon"
+                            className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                          />
+                        </div>
+                        <input
+                          type="email"
+                          value={leadEmail}
+                          onChange={(e) => setLeadEmail(e.target.value)}
+                          placeholder="E-mail (opțional)"
+                          className="w-full rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                        />
+                        <button
+                          type="submit"
+                          disabled={leadLoading}
+                          className="w-full rounded-lg bg-red-600 hover:bg-red-500 text-white py-2 text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1"
+                        >
+                          {leadLoading ? "Se trimite..." : "Solicită Audit Juridic"}
+                        </button>
+                      </form>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

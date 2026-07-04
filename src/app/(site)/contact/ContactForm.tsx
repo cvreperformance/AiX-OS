@@ -20,6 +20,8 @@ const SUBJECTS = [
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [botfield, setBotfield] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,26 +38,30 @@ export default function ContactForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
+    setErrorMessage("");
 
-    // POST to /api/leads — stores in Supabase or logs to server console
     try {
-      const res = await fetch("/api/leads", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          service: formData.subject || "General Contact",
           name: formData.name,
           phone: formData.phone,
           email: formData.email || undefined,
-          subject: formData.subject,
-          budget: formData.budget || undefined,
-          message: formData.message || undefined,
+          message: `Subject: ${formData.subject}\nBudget: ${formData.budget || "N/A"}\nMessage: ${formData.message || "N/A"}`,
           source: "contact-form",
           page: "/contact",
+          botfield: botfield || undefined,
         }),
       });
-      if (!res.ok) throw new Error("API error");
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "API error");
+      }
       setStatus("success");
-    } catch {
+    } catch (err: any) {
+      setErrorMessage(err.message || "A apărut o eroare la trimiterea mesajului.");
       setStatus("error");
     }
   }
@@ -90,6 +96,23 @@ export default function ContactForm() {
       onSubmit={handleSubmit}
       className="rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 space-y-5"
     >
+      {/* Honeypot Spam Protection */}
+      <input
+        type="text"
+        name="botfield"
+        value={botfield}
+        onChange={(e) => setBotfield(e.target.value)}
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+      />
+
+      {errorMessage && (
+        <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3 text-red-400 text-xs">
+          {errorMessage}
+        </div>
+      )}
+
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <label className="text-xs uppercase tracking-wider text-zinc-500">

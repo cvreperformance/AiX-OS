@@ -232,6 +232,71 @@ export default function WealthClient() {
         </div>
       </section>
 
+      {/* Forbes Wealth Rankings & Largest Companies */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Forbes HNWI Card */}
+        <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
+          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+            <Trophy className="h-5 w-5 text-amber-400 font-semibold" />
+            <div>
+              <h2 className="text-lg font-light text-white">{language === "ro" ? "Top Investitori & HNWI România" : "Top Investors & HNWI Romania"}</h2>
+              <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">{language === "ro" ? "Clasament Forbes estimat" : "Estimated Forbes Wealth Rankings"}</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {[
+              { rank: "1", name: "Dragoș & Adrian Pavăl", source: "Dedeman / Imobiliare", wealth: "€3.1 Billion" },
+              { rank: "2", name: "Ion Țiriac", source: "Auto / Finanțe / Imobiliare", wealth: "€2.2 Billion" },
+              { rank: "3", name: "Daniel Dines", source: "UiPath / Tech", wealth: "€1.9 Billion" },
+              { rank: "4", name: "Ion Stoica & Matei Zaharia", source: "Databricks / Tech", wealth: "€1.4 Billion" },
+              { rank: "5", name: "Ștefan Vuza", source: "Chimcomplex / Industrie", wealth: "€1.1 Billion" },
+            ].map((hnwi) => (
+              <div key={hnwi.rank} className="flex justify-between items-center p-3 rounded-xl border border-zinc-900 bg-zinc-950/20 text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono font-bold text-amber-500 w-4">{hnwi.rank}.</span>
+                  <div>
+                    <span className="font-semibold text-white block">{hnwi.name}</span>
+                    <span className="text-[10px] text-zinc-500 block">{hnwi.source}</span>
+                  </div>
+                </div>
+                <span className="font-mono text-white font-semibold">{hnwi.wealth}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Corporate Index Card */}
+        <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
+          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+            <Landmark className="h-5 w-5 text-amber-400 font-semibold" />
+            <div>
+              <h2 className="text-lg font-light text-white">{language === "ro" ? "Cele mai Mari Companii (BVB)" : "Largest Romanian Companies (BSE)"}</h2>
+              <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">{language === "ro" ? "Capitalizare bursieră de top" : "Top Market Cap Indexing"}</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {[
+              { symbol: "H2O", name: "Hidroelectrica", sector: "Energie Verde", cap: "RON 56.4 Billion" },
+              { symbol: "SNP", name: "OMV Petrom", sector: "Petrol & Gaze", cap: "RON 48.2 Billion" },
+              { symbol: "TLV", name: "Banca Transilvania", sector: "Financiar-Bancar", cap: "RON 24.8 Billion" },
+              { symbol: "SNG", name: "Romgaz", sector: "Gaze Naturale", cap: "RON 22.1 Billion" },
+              { symbol: "BRD", name: "BRD Groupe SG", sector: "Financiar-Bancar", cap: "RON 12.6 Billion" },
+            ].map((corp) => (
+              <div key={corp.symbol} className="flex justify-between items-center p-3 rounded-xl border border-zinc-900 bg-zinc-950/20 text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono font-bold text-indigo-450 w-10">{corp.symbol}</span>
+                  <div>
+                    <span className="font-semibold text-white block">{corp.name}</span>
+                    <span className="text-[10px] text-zinc-500 block">{corp.sector}</span>
+                  </div>
+                </div>
+                <span className="font-mono text-white font-semibold">{corp.cap}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Economic Calendar Section */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         {/* Economic Calendar events list */}

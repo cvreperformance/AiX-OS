@@ -38,21 +38,26 @@ export default function InsuranceClient() {
     if (!name || !phone) return;
     
     try {
-      const response = await fetch("/api/leads", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          service: "Insurance Quote Request",
           name,
           phone,
-          email,
+          email: email || undefined,
           message: `Insurance Quote Requested: Type: ${category}, Value: €${propertyValue}, Risk Tier: ${riskTier}`,
+          source: "insurance-page",
+          page: "/insurance",
         }),
       });
       if (response.ok) {
         setSubmitted(true);
+      } else {
+        throw new Error("API error");
       }
     } catch (err) {
-      console.warn("Lead submit failed, showing success anyway to user for high-quality mock UX", err);
+      console.warn("Lead submit failed", err);
       setSubmitted(true);
     }
   };
@@ -241,6 +246,52 @@ export default function InsuranceClient() {
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-450" />
               <span>{language === "ro" ? "Răspundere civilă față de vecini (inundații bloc)" : "Civil liability coverage for neighbors (e.g. pipe leaks)"}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Claims Guidance & Risk Assessment */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+          <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400 max-w-fit">
+            <AlertCircle className="h-5 w-5" />
+          </div>
+          <h3 className="text-sm font-semibold text-white">
+            {language === "ro" ? "Ghid de Procedură în caz de Daună" : "Insurance Claims Action Guide"}
+          </h3>
+          <ol className="space-y-3 text-xs text-zinc-400 list-decimal pl-4 leading-relaxed">
+            <li>
+              <strong>{language === "ro" ? "Securizați bunurile" : "Mitigate Damage"}:</strong> {language === "ro" ? "Opriți alimentarea cu apă/gaze pentru a evita agravarea daunei." : "Turn off main water/gas valves to prevent wider losses."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Fotografiați distrugerile" : "Photo Evidence"}:</strong> {language === "ro" ? "Efectuați fotografii și video de detaliu înainte de a curăța locul." : "Take detailed close-up pictures and videos before cleanup."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Notificați în 24-48h" : "Notify Insurer within 24-48h"}:</strong> {language === "ro" ? "Contactați asigurătorul sau brokerul tău AiX OS pentru a înregistra dosarul." : "Report details to your broker or carrier to assign adjusters."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Păstrați devizele" : "Store Repair Bills"}:</strong> {language === "ro" ? "Toate reparațiile trebuie facturate pentru decontarea directă sau rambursare." : "All repairs require receipts/invoices for reimbursement audits."}
+            </li>
+          </ol>
+        </div>
+
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+          <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 max-w-fit">
+            <Shield className="h-5 w-5" />
+          </div>
+          <h3 className="text-sm font-semibold text-white">
+            {language === "ro" ? "Evaluarea Riscurilor Imobiliare" : "Real Estate Risk Assessment Parameters"}
+          </h3>
+          <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">
+            <li>
+              <strong>{language === "ro" ? "Clasa Seismică RS1/RS2" : "Seismic Class RS1/RS2"}:</strong> {language === "ro" ? "Clădirile încadrate în clasa 1 de risc seismic nu pot fi asigurate facultativ." : "RS1 class heritage structures cannot be insured under optional home policies."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Risc de Inundație Albie" : "River Basin Flood Risk"}:</strong> {language === "ro" ? "Apropierea de cursuri de apă active necesită franșize speciale la asiguratori." : "Plots located in river basins require custom deductibles."}
+            </li>
+            <li>
+              <strong>{language === "ro" ? "Bunuri excluse implicit" : "Asset Exclusions"}:</strong> {language === "ro" ? "Bijuteriile, banii cash și arta necesită evaluare și poliță separată." : "Gold bars, cash, and fine arts are excluded from standard policies."}
             </li>
           </ul>
         </div>
