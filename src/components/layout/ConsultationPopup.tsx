@@ -1,4 +1,6 @@
 "use client";
 
-export { GlobalContactPopup as ConsultationPopup } from "@/components/GlobalContactPopup";
-export default function DummyPlaceholder() { return null; }
+import { GlobalContactPopup } from "@/components/GlobalContactPopup";
+
+export { GlobalContactPopup as ConsultationPopup };
+export default GlobalContactPopup;

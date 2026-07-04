@@ -9,5 +9,16 @@
     "message": "Integration test submission",
     "status": "new",
     "source": "qa-test"
+  },
+  {
+    "created_at": "2026-07-04T18:14:53.785Z",
+    "service": "Test Notification Hardening",
+    "page": "/qa-hardening",
+    "name": "QA Hardener",
+    "email": "qa@aixos.ro",
+    "phone": "+40799988877",
+    "message": "Verifying retry loops and abort timeouts",
+    "status": "new",
+    "source": "qa-verify"
   }
 ]

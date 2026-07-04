@@ -12,11 +12,22 @@ import {
   Send,
   Users,
   Newspaper,
-  LayoutGrid
+  LayoutGrid,
+  Sparkles,
+  ArrowRight,
+  Globe,
+  CheckCircle,
+  Sliders,
+  Gem,
+  Calculator,
+  Lock,
+  Star,
+  Activity,
+  Heart
 } from "lucide-react";
-import { siteConfig, footerLinks } from "@/lib/config";
 import { brandContent } from "@/lib/content/brand";
-import { SERVICES_DIRECTORY } from "@/lib/services";
+import { mainNavLinks, navigationCategories } from "@/config/navigation.config";
+import { footerColumns } from "@/config/footer.config";
 import { MegaMenu } from "./MegaMenu";
 import { useLanguage } from "@/context/LanguageContext";
 import NotificationPopover from "@/components/ui/NotificationPopover";
@@ -24,16 +35,10 @@ import NotificationPopover from "@/components/ui/NotificationPopover";
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
   
-  const dynamicLinks = [
-    { href: "/", label: t("nav.home") },
-    { key: "services", label: t("nav.services"), isPillar: true },
-    { href: "/brain", label: "AiX Brain" },
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/compare", label: "Compare" },
-    { href: "/document-intelligence", label: "Doc Audit" },
-    { href: "/leads", label: "Leads" },
-    { href: "/contact", label: t("nav.contact") },
-  ];
+  const dynamicLinks = mainNavLinks.map((link) => ({
+    ...link,
+    label: language === "ro" ? link.label : link.labelEn,
+  }));
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -279,7 +284,9 @@ export function Header() {
 
             <div className="pt-4 pb-2">
               <div className="flex items-center justify-between px-3 mb-2">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">{t("nav.allServices")}</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">
+                  {language === "ro" ? "Servicii & Module" : "Services & Modules"}
+                </p>
                 <Link
                   href="/services"
                   onClick={closeMenu}
@@ -291,9 +298,11 @@ export function Header() {
             </div>
 
             {/* Accordion List for the 5 Categories */}
-            {SERVICES_DIRECTORY.map((category) => {
+            {navigationCategories.map((category) => {
               const isExpanded = expandedCategory === category.id;
               const Icon = category.icon;
+              const title = language === "ro" ? category.title : category.titleEn;
+
               return (
                 <div key={category.id} className="mb-1">
                   <button
@@ -310,7 +319,7 @@ export function Header() {
                       <div className={`p-1.5 rounded-lg border border-zinc-800/50 bg-zinc-900/50 flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-500"}`}>
                         <Icon className="h-4 w-4" />
                       </div>
-                      {category.title}
+                      {title}
                     </span>
                     <ChevronDown
                       className={`h-4 w-4 flex-shrink-0 transition-transform duration-300 ${
@@ -328,9 +337,12 @@ export function Header() {
                       {category.items.map((sub) => {
                         const SubIcon = sub.icon;
                         const isSubActive = pathname === sub.href;
+                        const label = language === "ro" ? sub.label : sub.labelEn;
+                        const desc = language === "ro" ? sub.desc : sub.descEn;
+
                         return (
                           <Link
-                            key={sub.href}
+                            key={sub.id}
                             href={sub.href}
                             onClick={closeMenu}
                             className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-200 active:scale-98 border border-transparent ${
@@ -343,8 +355,8 @@ export function Header() {
                               <SubIcon className="h-3.5 w-3.5" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs font-semibold text-zinc-200 leading-tight">{sub.label}</p>
-                              <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">{sub.desc}</p>
+                              <p className="text-xs font-semibold text-zinc-200 leading-tight">{label}</p>
+                              <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">{desc}</p>
                             </div>
                           </Link>
                         );
@@ -416,187 +428,175 @@ export function Header() {
 }
 
 export function Footer() {
-  const { language, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
+  const [expandedCol, setExpandedCol] = useState<string | null>(null);
   
   return (
-    <footer className="border-t border-zinc-800 bg-[#060606] mt-auto">
+    <footer className="border-t border-zinc-800 bg-[#050505] mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 space-y-16">
 
-        {/* Top: Brand + Contact */}
-        <div className="flex flex-col md:flex-row gap-10 md:gap-16 md:items-start">
-          {/* Brand */}
-          <div className="space-y-4 md:w-72 flex-shrink-0">
-            <div className="flex items-center gap-1.5">
+        {/* ─── HERO FOOTER BANNER ─────────────────────────────────────────── */}
+        <div className="p-8 md:p-12 rounded-3xl border border-zinc-850 bg-gradient-to-br from-zinc-950 via-zinc-950/95 to-zinc-900/40 relative overflow-hidden flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 shadow-2xl">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/[0.02] blur-3xl pointer-events-none rounded-full" />
+          
+          <div className="space-y-4 max-w-2xl text-left">
+            <div className="flex items-center gap-2">
               <span className="text-2xl font-light tracking-[0.15em] text-white">AiX</span>
-              <span className="text-2xl font-light tracking-[0.15em] text-amber-500/80">OS</span>
+              <span className="text-2xl font-light tracking-[0.15em] text-amber-500">OS</span>
             </div>
-            <p className="text-zinc-400 text-sm leading-relaxed">
-              {t("footer.tagline")}
-              <br />
-              <span className="text-zinc-500">{t("footer.locations")}</span>
-            </p>
-            {/* Contact quick links */}
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={brandContent.contact.whatsappText}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
-              >
-                <MessageCircle className="h-3.5 w-3.5" />
-                {t("nav.whatsapp")}
-              </a>
-              <a
-                href={`tel:${brandContent.contact.phoneRORaw}`}
-                className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-amber-400 transition-colors"
-              >
-                <Phone className="h-3.5 w-3.5" />
-                {brandContent.contact.phoneRO}
-              </a>
-            </div>
-            {/* Social icons */}
-            <div className="flex gap-3 flex-wrap pt-2">
-              {[
-                { label: "LinkedIn", href: "https://www.linkedin.com/in/cristianv%C4%83duva" },
-                { label: "Instagram", href: "https://instagram.com/cristian_vaduva_cristianv" },
-                { label: "Facebook", href: "https://www.facebook.com/CristianVaduvaCV" },
-                { label: "YouTube", href: "https://youtube.com/@CristianVaduvaCV" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-semibold text-zinc-600 hover:text-amber-400 transition-colors uppercase tracking-wider"
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Platform & Ecosystem links */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 flex-1">
-            <div>
-              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">
-                {language === "ro" ? "Platformă" : "Platform"}
-              </h4>
-              <ul className="space-y-2.5">
-                {footerLinks.platform.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors">
-                      {language === "ro" ? l.label : (l.label === "Acasă" ? "Home" : l.label === "Proprietăți" ? "Properties" : l.label === "Oportunități" ? "Opportunities" : l.label)}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link href="/services" className="text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors">
-                    → {t("nav.allServices")}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs uppercase tracking-widest text-zinc-500 font-bold mb-4">
-                {language === "ro" ? "Ecosistem" : "Ecosystem"}
-              </h4>
-              <ul className="space-y-2.5">
-                {footerLinks.ecosystem.map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      target={"external" in l && l.external ? "_blank" : undefined}
-                      rel={"external" in l && l.external ? "noopener noreferrer" : undefined}
-                      className="text-xs font-medium text-zinc-400 hover:text-amber-400 transition-colors"
-                    >
-                      {language === "ro" ? l.label : (l.label === "Analize" ? "Market Insights" : l.label === "Despre" ? "About Us" : l.label === "Contact" ? "Contact" : l.label)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="space-y-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold">{t("footer.strategic")}</p>
-              <a
-                href={brandContent.urls.personal}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors"
-              >
-                CristianVaduva.com ↗
-              </a>
-              <a
-                href={brandContent.urls.luxury}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-xs font-medium text-amber-500/70 hover:text-amber-400 transition-colors"
-              >
-                AiXLuxury.com ↗
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* ALL SERVICES - Full Sitemap Grid */}
-        <div>
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-bold">
-              {language === "ro" ? "Toate Serviciile" : "All Services"}
+            <h3 className="text-lg font-light text-zinc-300">
+              {language === "ro" ? "Creierul tău imobiliar secundar. Gândește mai rapid." : "Your second brain. Think faster."}
             </h3>
-            <Link href="/services" className="text-xs text-amber-500/70 hover:text-amber-400 transition-colors">
-              {language === "ro" ? "Director complet →" : "Full Directory →"}
+            <p className="text-xs text-zinc-500 leading-relaxed max-w-xl">
+              {language === "ro"
+                ? "O platformă de intelligence decizional care ajută investitorii să facă alegeri informate în Imobiliare, Wealth, Asigurări, AI, Tehnologie și Investiții globale."
+                : "A decision intelligence platform helping people make better decisions across Real Estate, Wealth, Insurance, AI, Technology and Investments."}
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto shrink-0">
+            <Link
+              href="/join"
+              className="flex-1 sm:flex-none text-center px-6 py-3.5 rounded-xl bg-amber-500 text-black hover:bg-amber-400 text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-98 shadow-lg shadow-amber-500/10"
+            >
+              {language === "ro" ? "Alătură-te Waitlist" : "Join Waitlist"}
+            </Link>
+            <Link
+              href="/contact"
+              className="flex-1 sm:flex-none text-center px-6 py-3.5 rounded-xl border border-zinc-800 bg-zinc-950 hover:bg-zinc-900 text-zinc-300 hover:text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-98"
+            >
+              {language === "ro" ? "Contact Support" : "Contact Support"}
+            </Link>
+            <Link
+              href="/money-advisor"
+              className="flex-1 sm:flex-none text-center px-6 py-3.5 rounded-xl border border-amber-500/25 bg-amber-500/5 hover:bg-amber-500/10 text-amber-400 text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-98 flex items-center justify-center gap-1.5"
+            >
+              <Sparkles className="h-3.5 w-3.5 animate-pulse" />
+              {language === "ro" ? "Deschide AI Advisor" : "Open AI Advisor"}
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-8">
-            {SERVICES_DIRECTORY.map((category) => {
-              const Icon = category.icon;
-              return (
-                <div key={category.id} className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${category.color}`} />
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold leading-none">
-                      {language === "ro" ? category.title : (category.id === "ai" ? "AI" : category.id === "real-estate" ? "Real Estate" : category.id === "wealth" ? "Wealth" : category.id === "protection" ? "Protection" : "Resources")}
-                    </p>
-                  </div>
-                  <ul className="space-y-2">
-                    {category.items.map((item) => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          className="text-[11px] text-zinc-500 hover:text-amber-400 transition-colors leading-snug block"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-6">
-          <div className="text-center sm:text-left space-y-1.5">
-            <p className="text-xs text-zinc-600">
-              © {new Date().getFullYear()} {language === "ro" ? "AiX OS — Ecosistem Digital de Tranzacții Imobiliare" : "AiX OS — Digital Real Estate Transaction Ecosystem"}
-            </p>
-            <p className="text-xs text-zinc-700 italic">
-              {language === "ro" ? brandContent.about.short : "Secured, direct, discrete transaction execution system for de-risking high-value real estate investments."}
-            </p>
-            <p className="text-[10px] uppercase tracking-widest font-semibold text-zinc-600/60 mt-4">
-              {t("hero.powered")}
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <Link href="/despre" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.about")}</Link>
-            <Link href="/services" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.allServices")}</Link>
-            <Link href="/contact" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">{t("nav.contact")}</Link>
-            <Link href="/privacy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Privacy</Link>
-            <Link href="/cookie-policy" className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors">Cookies</Link>
-          </div>
+        {/* ─── OUTCOME-BASED NAVIGATION COLUMNS GRID ──────────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 border-t border-zinc-900 pt-12 text-left">
+          {footerColumns.map((col) => {
+            const isExpanded = expandedCol === col.title;
+            return (
+              <div key={col.title} className="space-y-4">
+                {/* Column header (button accordion on mobile, static title on desktop) */}
+                <button
+                  type="button"
+                  onClick={() => setExpandedCol(isExpanded ? null : col.title)}
+                  className="w-full md:pointer-events-none text-left flex items-center justify-between pb-2 border-b border-zinc-900/80 md:border-none md:pb-0"
+                >
+                  <h4 className="text-xs uppercase tracking-widest text-zinc-400 font-bold font-mono">
+                    {language === "ro" ? col.title : col.titleEn}
+                  </h4>
+                  <ChevronDown
+                    className={`h-4.5 w-4.5 text-zinc-650 transition-transform duration-350 md:hidden ${
+                      isExpanded ? "rotate-180 text-amber-400" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Navigation lists collapsible on mobile drawers */}
+                <div
+                  className={`overflow-hidden transition-all duration-350 ease-out ${
+                    isExpanded ? "max-h-[850px] opacity-100" : "max-h-0 md:max-h-none opacity-0 md:opacity-100"
+                  }`}
+                >
+                  <ul className="space-y-3 pt-2 md:pt-0">
+                    {col.items.map((item) => {
+                      const label = language === "ro" ? item.label : item.labelEn;
+                      if (item.external) {
+                        return (
+                          <li key={item.id}>
+                            <a
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-zinc-500 hover:text-amber-400 transition-all font-medium flex items-center gap-1.5"
+                            >
+                              {label}
+                              <span className="text-[9px] text-zinc-700 font-mono">↗</span>
+                            </a>
+                          </li>
+                        );
+                      }
+                      return (
+                        <li key={item.id}>
+                          <Link
+                            href={item.href}
+                            className="text-xs text-zinc-500 hover:text-amber-400 transition-all font-medium block"
+                          >
+                            {label}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* ─── BOTTOM CLEAN FOOTER BAR ─────────────────────────────────────── */}
+        <div className="pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          
+          {/* Copyrights, Author, Status, Version */}
+          <div className="space-y-2">
+            <p className="text-xs text-zinc-500">
+              &copy; {new Date().getFullYear()} AiX OS &bull; {language === "ro" ? "Ecosistem de Intelligence Imobiliar" : "Decision Intelligence Platform"}
+            </p>
+            <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-4 gap-y-1.5 text-[10px] text-zinc-600 font-mono font-medium">
+              <span>{language === "ro" ? "Status: Online" : "Status: Online"}</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>&bull;</span>
+              <span>Version: v4.2.0-prod</span>
+              <span>&bull;</span>
+              <span>
+                {language === "ro" ? "Creat de " : "Created by "}
+                <a href="https://cristianvaduva.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-amber-400 underline transition-colors">
+                  CristianVaduva.com
+                </a>
+              </span>
+            </div>
+          </div>
+
+          {/* Languages switch + Legal paths */}
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            {/* Minimal Language Toggles */}
+            <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5">
+              <button
+                onClick={() => setLanguage("ro")}
+                className={`px-2.5 py-1 text-[9.5px] font-bold rounded-full transition-all ${
+                  language === "ro" ? "bg-amber-500/20 text-amber-400 font-bold" : "text-zinc-550 hover:text-zinc-300"
+                }`}
+              >
+                RO
+              </button>
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-2.5 py-1 text-[9.5px] font-bold rounded-full transition-all ${
+                  language === "en" ? "bg-amber-500/20 text-amber-400 font-bold" : "text-zinc-550 hover:text-zinc-300"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+
+            {/* Sitemap, policies */}
+            <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-zinc-550">
+              <Link href="/sitemap" className="hover:text-amber-400 transition-colors">Sitemap</Link>
+              <Link href="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link>
+              <Link href="/cookie-policy" className="hover:text-amber-400 transition-colors">Cookie Policy</Link>
+              <Link href="/contact" className="hover:text-amber-400 transition-colors">Terms</Link>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </footer>
   );

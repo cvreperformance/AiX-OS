@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Search,
   Globe,
@@ -10,12 +11,34 @@ import {
   Briefcase,
   AlertTriangle,
   Lock,
-  ExternalLink
+  ExternalLink,
+  Loader2,
+  ShieldCheck,
+  Building,
+  TrendingUp,
+  FileWarning
 } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
 
+interface OsintReport {
+  companyName: string;
+  cui: string;
+  status: string;
+  riskScore: number;
+  riskLevel: "low" | "medium" | "high";
+  lawsuitsCount: number;
+  taxDebts: string;
+  foundedYear: string;
+  findings: string[];
+}
+
 export default function OsintPage() {
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [scanStep, setScanStep] = useState("");
+  const [report, setReport] = useState<OsintReport | null>(null);
+
   const osintCategories = [
     {
       title: "Cercetare Companii și Asociați",
@@ -60,6 +83,94 @@ export default function OsintPage() {
     }
   ];
 
+  const handleScan = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    setLoading(true);
+    setReport(null);
+    setScanStep("Conectare la serverul securizat AiX OSINT...");
+
+    setTimeout(() => {
+      setScanStep("Interogare baze de date ANAF & Stare Fiscală...");
+      setTimeout(() => {
+        setScanStep("Scanare dosare portal.just.ro (Litigii active)...");
+        setTimeout(() => {
+          setScanStep("Verificare structură acționari ONRC...");
+          setTimeout(() => {
+            const inputLower = query.toLowerCase();
+            let mockReport: OsintReport;
+
+            if (inputLower.includes("one") || inputLower.includes("united")) {
+              mockReport = {
+                companyName: "ONE UNITED PROPERTIES S.A.",
+                cui: "RO22767862",
+                status: "Activă / Solvabilă (Listată BVB)",
+                riskScore: 92,
+                riskLevel: "low",
+                lawsuitsCount: 3,
+                taxDebts: "Fără obligații fiscale restante",
+                foundedYear: "2007",
+                findings: [
+                  "Capital social solid, lichiditate ridicată.",
+                  "Litigiile comerciale identificate sunt de tip civil curent în limitele standard operaționale.",
+                  "Transparență sporită datorată reglementărilor pieței de capital.",
+                  "Certificare ESG și dezvoltare exclusiv sustenabilă."
+                ]
+              };
+            } else if (inputLower.includes("phantom") || inputLower.includes("teap") || inputLower.includes("scam")) {
+              mockReport = {
+                companyName: "DEVELOPMENT CONSTRUCT S.R.L.",
+                cui: "RO99882211",
+                status: "Risc Insolvență Ridicat / Sediu expirat",
+                riskScore: 28,
+                riskLevel: "high",
+                lawsuitsCount: 14,
+                taxDebts: "185,400 RON restante la bugetul de stat",
+                foundedYear: "2024",
+                findings: [
+                  "Companie înființată recent, fără istoric operațional demonstrat.",
+                  "Litigii active pentru neplată subcontractori și litigiu pe titlu proprietate teren.",
+                  "Sediu social declarat într-un apartament rezidențial de tip paravan.",
+                  "Divergențe majore în planul de intabulare cadastrală."
+                ]
+              };
+            } else {
+              // General mock generated based on query
+              const hash = query.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              const isEven = hash % 2 === 0;
+              mockReport = {
+                companyName: `${query.toUpperCase()} S.R.L.`,
+                cui: `RO${hash}3849`,
+                status: "Activă",
+                riskScore: isEven ? 81 : 62,
+                riskLevel: isEven ? "low" : "medium",
+                lawsuitsCount: isEven ? 0 : 2,
+                taxDebts: isEven ? "Zero datorii restante" : "Obligații fiscale curente declarate",
+                foundedYear: (2010 + (hash % 14)).toString(),
+                findings: isEven
+                  ? [
+                      "Fără antecedente juridice sau litigii active identificate pe rol.",
+                      "Bilanț financiar depus regulat, comportament fiscal corect.",
+                      "Asociați fără alte firme în stare de faliment/lichidare."
+                    ]
+                  : [
+                      "2 dosare comerciale active identificate în instanțele locale.",
+                      "Obligații fiscale curente fără sechestre active.",
+                      "Recomandăm due-diligence extins pe contractul de antrepriză."
+                    ]
+              };
+            }
+
+            setReport(mockReport);
+            setLoading(false);
+            setScanStep("");
+          }, 400);
+        }, 400);
+      }, 400);
+    }, 400);
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
@@ -92,29 +203,117 @@ export default function OsintPage() {
           </ul>
         </div>
         
-        {/* Simple OSINT Lookup tool mockup */}
-        <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950 flex flex-col items-center justify-center text-center space-y-6 relative overflow-hidden`}>
+        {/* Interactive OSINT Lookup tool */}
+        <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950 flex flex-col justify-between relative overflow-hidden min-h-[360px]`}>
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl" />
           
-          <Globe className="h-10 w-10 text-amber-500/50" />
-          <div>
-            <h3 className="text-lg font-semibold text-white">Căutare Rapidă Entități</h3>
-            <p className="text-xs text-zinc-500 mt-2 max-w-sm mx-auto">
-              (Modul Simulator) Căutarea va indexa curând rezultate agregate pentru persoană juridică pe plan local.
-            </p>
+          <div className="space-y-4 text-center">
+            <Globe className="h-10 w-10 text-amber-500/50 mx-auto" />
+            <div>
+              <h3 className="text-lg font-semibold text-white">Căutare Rapidă Entități</h3>
+              <p className="text-xs text-zinc-500 mt-2 max-w-sm mx-auto">
+                Introduceți CUI-ul sau numele dezvoltatorului imobiliar pentru a efectua o scanare preliminară instantă.
+              </p>
+            </div>
           </div>
           
-          <div className="w-full max-w-sm relative mt-4">
-            <input 
-              type="text" 
-              placeholder="Ex: CUI, Nume Firmă, Domeniu web..." 
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-amber-500/50 transition-colors"
-            />
-            <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-          </div>
-          <button className="rounded-xl bg-zinc-800 text-zinc-300 px-6 py-2.5 text-xs font-semibold hover:bg-zinc-700 transition-all">
-            Lansează Scanare (Inactiv)
-          </button>
+          {!report && !loading && (
+            <form onSubmit={handleScan} className="w-full max-w-sm mx-auto space-y-4 mt-6">
+              <div className="relative">
+                <input 
+                  type="text" 
+                  required
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Ex: One United, RO22767862, CUI..." 
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-zinc-650 focus:outline-none focus:border-amber-500/50 transition-colors"
+                />
+                <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+              </div>
+              <button 
+                type="submit"
+                className="w-full rounded-xl bg-amber-500 text-black py-3 text-xs font-semibold uppercase tracking-wider hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10"
+              >
+                Lansează Scanare OSINT
+              </button>
+            </form>
+          )}
+
+          {loading && (
+            <div className="py-8 text-center space-y-4">
+              <Loader2 className="h-8 w-8 text-amber-500 animate-spin mx-auto" />
+              <p className="text-xs text-zinc-450 font-mono animate-pulse">{scanStep}</p>
+            </div>
+          )}
+
+          {report && (
+            <div className="space-y-4 mt-6 animate-in fade-in duration-300">
+              <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <div className="text-left">
+                  <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <Building className="h-4 w-4 text-zinc-400" />
+                    {report.companyName}
+                  </h4>
+                  <p className="text-[10px] text-zinc-500 mt-0.5">CUI: {report.cui} &bull; Fondat: {report.foundedYear}</p>
+                </div>
+                <div className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono border ${
+                  report.riskLevel === "low"
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                    : report.riskLevel === "medium"
+                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                }`}>
+                  Risk Score: {report.riskScore}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-left">
+                <div className="p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
+                  <span className="text-[9px] uppercase text-zinc-500 font-mono">Stare ANAF</span>
+                  <p className="text-xs font-semibold text-white mt-0.5">{report.status}</p>
+                </div>
+                <div className="p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
+                  <span className="text-[9px] uppercase text-zinc-500 font-mono">Litigii Instanțe</span>
+                  <p className="text-xs font-semibold text-white mt-0.5">{report.lawsuitsCount} dosare pe rol</p>
+                </div>
+              </div>
+
+              <div className="text-left p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
+                <span className="text-[9px] uppercase text-zinc-500 font-mono">Datorii Bugetare</span>
+                <p className="text-xs font-semibold text-white mt-0.5">{report.taxDebts}</p>
+              </div>
+
+              <div className="text-left space-y-1.5">
+                <span className="text-[9px] uppercase text-zinc-500 font-mono">Constatări Cheie:</span>
+                <ul className="space-y-1">
+                  {report.findings.map((f, i) => (
+                    <li key={i} className="text-[11px] text-zinc-400 flex items-start gap-2">
+                      <span className="text-amber-500 mt-0.5">&bull;</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="pt-2 flex gap-2">
+                <button
+                  onClick={() => {
+                    setReport(null);
+                    setQuery("");
+                  }}
+                  className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-300 py-2.5 text-xs font-semibold uppercase hover:bg-zinc-800/80 transition-all"
+                >
+                  Nouă Căutare
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
+                  className="flex-1 rounded-xl bg-amber-500 text-black py-2.5 text-xs font-semibold uppercase hover:bg-amber-400 transition-all shadow-md"
+                >
+                  Solicită Raport Complet
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

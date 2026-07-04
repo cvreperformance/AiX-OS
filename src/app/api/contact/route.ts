@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/client";
 import fs from "fs";
 import path from "path";
+import { sendTelegramAlert, sendEmailAlert } from "@/lib/notifications";
 
 // Simple in-memory rate limiter
 // Tracks IP address -> array of timestamps of requests
@@ -142,65 +143,17 @@ export async function POST(request: Request) {
     }
 
     // 5. Telegram Dispatch
-    const tgToken = process.env.TELEGRAM_BOT_TOKEN;
-    const tgChatId = process.env.TELEGRAM_CHAT_ID;
-    if (tgToken && tgChatId) {
-      try {
-        const text = `🔥 *NEW LEAD RECEIVED ON AiX OS*\n\n*Service:* ${lead.service}\n*Page:* ${lead.page}\n*Name:* ${lead.name}\n*Phone:* ${lead.phone}\n*Email:* ${lead.email ?? "N/A"}\n*Message:* ${lead.message ?? "N/A"}\n*Source:* ${lead.source}\n*Time:* ${lead.created_at}`;
-        
-        await fetch(`https://api.telegram.org/bot${tgToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: tgChatId,
-            text,
-            parse_mode: "Markdown",
-          }),
-        });
-        console.log("[AiX Leads Telegram] Notification sent.");
-      } catch (tgErr) {
-        console.error("[AiX Leads Telegram] Failed to dispatch notification:", tgErr);
-      }
-    } else {
-      console.log("[AiX Leads Telegram] Credentials missing. Skip notification.");
+    try {
+      await sendTelegramAlert(lead);
+    } catch (tgErr) {
+      console.error("[AiX Contact Route] Telegram alert promise exception:", tgErr);
     }
 
-    // 6. Email Dispatch (Resend API direct fetch call)
-    const resendKey = process.env.RESEND_API_KEY;
-    const contactEmail = process.env.CONTACT_EMAIL || "contact@cristianvaduva.com";
-    if (resendKey) {
-      try {
-        const emailBody = `
-          <h2>🔥 NEW LEAD RECEIVED ON AiX OS</h2>
-          <p><strong>Service:</strong> ${lead.service}</p>
-          <p><strong>Page:</strong> ${lead.page}</p>
-          <p><strong>Name:</strong> ${lead.name}</p>
-          <p><strong>Phone:</strong> ${lead.phone}</p>
-          <p><strong>Email:</strong> ${lead.email ?? "N/A"}</p>
-          <p><strong>Message:</strong> ${lead.message ?? "N/A"}</p>
-          <p><strong>Source:</strong> ${lead.source}</p>
-          <p><strong>Time:</strong> ${lead.created_at}</p>
-        `;
-
-        await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${resendKey}`,
-          },
-          body: JSON.stringify({
-            from: "AiX OS Leads <onboarding@resend.dev>",
-            to: [contactEmail],
-            subject: `🔥 NEW LEAD - ${lead.service}`,
-            html: emailBody,
-          }),
-        });
-        console.log("[AiX Leads Resend] Email notification dispatched.");
-      } catch (emailErr) {
-        console.error("[AiX Leads Resend] Email dispatch failed:", emailErr);
-      }
-    } else {
-      console.log("[AiX Leads Resend] Credentials missing. Skip email notification.");
+    // 6. Email Dispatch (Resend API)
+    try {
+      await sendEmailAlert(lead);
+    } catch (emailErr) {
+      console.error("[AiX Contact Route] Email alert promise exception:", emailErr);
     }
 
     return NextResponse.json({

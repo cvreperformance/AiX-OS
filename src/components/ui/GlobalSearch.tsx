@@ -3,16 +3,21 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, ArrowRight, Sparkles, Command, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { querySearchIndex, type IndexItem } from "@/lib/searchIndex";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function GlobalSearch() {
   const { language } = useLanguage();
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Close search when clicking outside
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -23,23 +28,7 @@ export function GlobalSearch() {
     return () => document.removeEventListener("mousedown", clickOutside);
   }, []);
 
-  // Cmd+K shortcut
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        inputRef.current?.focus();
-        setFocused(true);
-      }
-      if (e.key === "Escape") {
-        setFocused(false);
-        inputRef.current?.blur();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
+  // Fetch index items matching query
   const results = useMemo(() => {
     return querySearchIndex(query);
   }, [query]);
@@ -55,6 +44,76 @@ export function GlobalSearch() {
     });
     return groups;
   }, [results]);
+
+  // Flattened items in rendered order for keyboard navigation indexing
+  const flatRenderedItems = useMemo(() => {
+    return Object.values(groupedResults).flat();
+  }, [groupedResults]);
+
+  // Reset active index when query or focus changes
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [query, focused]);
+
+  // Handle keyboard events (Cmd+K, Escape, ArrowDown, ArrowUp, Enter)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Toggle Focus via Cmd+K / Ctrl+K
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
+        setFocused(true);
+        return;
+      }
+
+      // Close on Escape
+      if (e.key === "Escape") {
+        setFocused(false);
+        inputRef.current?.blur();
+        return;
+      }
+
+      if (!focused) return;
+
+      // Handle arrow keys & enter for item navigation
+      if (flatRenderedItems.length > 0) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setActiveIndex((prev) => {
+            if (prev === -1) return 0;
+            return (prev + 1) % flatRenderedItems.length;
+          });
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setActiveIndex((prev) => {
+            if (prev === -1) return flatRenderedItems.length - 1;
+            return (prev - 1 + flatRenderedItems.length) % flatRenderedItems.length;
+          });
+        } else if (e.key === "Enter") {
+          if (activeIndex >= 0 && activeIndex < flatRenderedItems.length) {
+            e.preventDefault();
+            const targetItem = flatRenderedItems[activeIndex];
+            router.push(targetItem.href);
+            setFocused(false);
+            inputRef.current?.blur();
+          }
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [focused, flatRenderedItems, activeIndex, router]);
+
+  // Scroll active item into view inside dropdown
+  useEffect(() => {
+    if (activeIndex >= 0) {
+      const activeEl = containerRef.current?.querySelector("[data-search-active='true']");
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: "nearest" });
+      }
+    }
+  }, [activeIndex]);
 
   const popularTags = [
     { label: "One United", q: "One United" },
@@ -125,19 +184,40 @@ export function GlobalSearch() {
                 <div className="space-y-1">
                   {items.map((item) => {
                     const IconComponent = item.icon;
+                    // Find index in flattened rendered array
+                    const itemIdx = flatRenderedItems.findIndex(
+                      (f) => f.title === item.title && f.href === item.href
+                    );
+                    const isActive = itemIdx === activeIndex;
+
                     return (
                       <Link
                         key={item.title + item.href}
                         href={item.href}
+                        data-search-active={isActive}
                         onClick={() => setFocused(false)}
-                        className="flex items-center justify-between p-3 rounded-xl border border-transparent hover:border-zinc-850 hover:bg-zinc-900/40 transition-all group"
+                        className={`flex items-center justify-between p-3 rounded-xl border transition-all group ${
+                          isActive
+                            ? "border-amber-500/40 bg-zinc-900/40 text-amber-400"
+                            : "border-transparent hover:border-zinc-850 hover:bg-zinc-900/40"
+                        }`}
                       >
                         <div className="flex items-center gap-3.5 min-w-0">
-                          <div className="rounded-lg border border-zinc-900 bg-zinc-950 p-2 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20 transition-all flex-shrink-0">
+                          <div
+                            className={`rounded-lg border p-2 flex-shrink-0 transition-all ${
+                              isActive
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-400"
+                                : "border-zinc-900 bg-zinc-950 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20"
+                            }`}
+                          >
                             <IconComponent className="h-4 w-4" />
                           </div>
                           <div className="min-w-0">
-                            <span className="text-xs font-semibold text-white group-hover:text-amber-400 transition-colors block">
+                            <span
+                              className={`text-xs font-semibold block transition-colors ${
+                                isActive ? "text-amber-400" : "text-white group-hover:text-amber-400"
+                              }`}
+                            >
                               {item.title}
                             </span>
                             <p className="text-[10px] text-zinc-500 mt-0.5 truncate leading-relaxed">
@@ -145,9 +225,19 @@ export function GlobalSearch() {
                             </p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1.5 text-[9px] font-mono text-zinc-500 group-hover:text-white uppercase tracking-wider transition-all flex-shrink-0">
+                        <div
+                          className={`flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-wider transition-all flex-shrink-0 ${
+                            isActive ? "text-amber-400" : "text-zinc-500 group-hover:text-white"
+                          }`}
+                        >
                           <span>{item.actionLabel ?? (language === "ro" ? "Deschide" : "Open")}</span>
-                          <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-zinc-600 group-hover:text-amber-500" />
+                          <ArrowUpRight
+                            className={`h-3 w-3 transition-transform ${
+                              isActive
+                                ? "translate-x-0.5 -translate-y-0.5 text-amber-400"
+                                : "text-zinc-600 group-hover:text-amber-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            }`}
+                          />
                         </div>
                       </Link>
                     );
