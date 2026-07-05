@@ -37,6 +37,7 @@ import { brandContent } from "@/lib/content/brand";
 import { mainNavLinks, navigationCategories } from "@/config/navigation.config";
 import { useLanguage } from "@/context/LanguageContext";
 import NotificationPopover from "@/components/ui/NotificationPopover";
+import { AuthNavLinks } from "./AuthNavLinks";
 
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
@@ -245,12 +246,7 @@ export function Header() {
                 </button>
               </div>
 
-              <Link
-                href="/join"
-                className="rounded-full border border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-400 transition-all shadow-sm"
-              >
-                Waitlist
-              </Link>
+              <AuthNavLinks />
             </div>
           </div>
 
