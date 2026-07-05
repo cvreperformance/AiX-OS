@@ -4,7 +4,7 @@ import { Brain } from "lucide-react";
 
 export function SystemBackgroundLayer() {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none bg-zinc-950">
+    <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden select-none">
       {/* Dynamic Grid Overlay (No noise) */}
       <div className="absolute inset-0 bg-[radial-gradient(#18181b_1px,transparent_1px)] [background-size:24px_24px] opacity-20" />
 
