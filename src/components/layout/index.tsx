@@ -317,6 +317,11 @@ export function Header() {
             {/* Notification Center */}
             <NotificationPopover />
 
+            {/* Auth Nav Links (Sticky Header) */}
+            <div className="hidden sm:block">
+              <AuthNavLinks />
+            </div>
+
             {/* Global Language Toggle */}
             <button
               onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
@@ -464,13 +469,18 @@ export function Header() {
               <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
             </Link>
 
-            <button
-              onClick={closeMenu}
-              className="flex items-center justify-center w-12 h-12 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
-              aria-label={language === "ro" ? "Închide meniu" : "Close menu"}
-            >
-              <X size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              <div className="sm:hidden block">
+                <AuthNavLinks />
+              </div>
+              <button
+                onClick={closeMenu}
+                className="flex items-center justify-center w-12 h-12 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+                aria-label={language === "ro" ? "Închide meniu" : "Close menu"}
+              >
+                <X size={18} />
+              </button>
+            </div>
           </div>
 
           {/* Mobile Categories - identical structures to desktop categories */}
