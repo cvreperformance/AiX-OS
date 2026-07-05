@@ -10,7 +10,7 @@ export function SystemBackgroundLayer() {
 
       {/* Large central neural brain icon background element - GHOST OUTLINE ONLY */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 animate-pulse duration-[12000ms]">
-        <Brain className="w-[45rem] h-[45rem] text-zinc-500 stroke-[0.2]" fill="none" />
+        <Brain className="w-[45rem] h-[45rem] text-amber-500 stroke-[0.2]" fill="none" />
       </div>
     </div>
   );
