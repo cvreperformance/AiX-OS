@@ -114,15 +114,8 @@ function buildTelegramMessage(lead: LeadData): string {
  * - NEVER throws — callers must not let Telegram failure block the form response
  */
 export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
-  const token  = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-
-  if (!token || !chatId) {
-    console.warn(
-      "[AiX Telegram] Credentials not configured (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID). Skipping."
-    );
-    return false;
-  }
+  const token  = process.env.TELEGRAM_BOT_TOKEN || "";
+  const chatId = process.env.TELEGRAM_CHAT_ID || "";
 
   const url  = `https://api.telegram.org/bot${token}/sendMessage`;
   const body = JSON.stringify({
