@@ -318,9 +318,7 @@ export function Header() {
             <NotificationPopover />
 
             {/* Auth Nav Links (Sticky Header) */}
-            <div className="hidden sm:block">
-              <AuthNavLinks />
-            </div>
+            <AuthNavLinks />
 
             {/* Global Language Toggle */}
             <button

@@ -57,11 +57,11 @@ export function AuthNavLinks() {
 
   if (session) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         {profile?.role === "admin" && (
           <Link
             href="/admin"
-            className="flex items-center gap-1.5 rounded-full border border-rose-500/25 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-rose-400 transition-all shadow-sm"
+            className="hidden sm:flex items-center gap-1.5 rounded-full border border-rose-500/25 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-rose-400 transition-all shadow-sm"
           >
             <Shield className="w-3.5 h-3.5" />
             Admin
@@ -69,7 +69,7 @@ export function AuthNavLinks() {
         )}
         <Link
           href="/dashboard"
-          className="flex items-center gap-1.5 rounded-full border border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-400 transition-all shadow-sm"
+          className="flex items-center gap-1.5 rounded-full border border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20 px-2.5 sm:px-3 py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-amber-400 transition-all shadow-sm whitespace-nowrap"
         >
           <UserIcon className="w-3.5 h-3.5" />
           Dashboard
@@ -86,18 +86,18 @@ export function AuthNavLinks() {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 sm:gap-2">
       <Link
         href="/login"
-        className="rounded-full border border-transparent hover:border-zinc-700 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all"
+        className="rounded-full border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:text-white px-2.5 sm:px-3 py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-zinc-400 transition-all whitespace-nowrap"
       >
-        Sign In
+        Login
       </Link>
       <Link
         href="/register"
-        className="rounded-full border border-amber-500/25 bg-amber-500/10 hover:bg-amber-500/20 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-400 transition-all shadow-sm"
+        className="rounded-full bg-amber-500 hover:bg-amber-400 px-3 sm:px-4 py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-zinc-950 transition-all shadow-sm whitespace-nowrap"
       >
-        Register
+        Create Account
       </Link>
     </div>
   );
