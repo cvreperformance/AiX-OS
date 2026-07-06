@@ -41,7 +41,7 @@ export interface ServiceItem {
   href: string;
   icon: LucideIcon;
   keywords: string[];
-  category: "BUY_SELL" | "INVEST_PROTECT" | "LEARN_RESEARCH" | "TOOLS" | "AI_SYSTEM" | "ACCOUNT";
+  category: "BUY_SELL" | "INVEST_PROTECT" | "LEARN_RESEARCH" | "TOOLS" | "AI_SYSTEM";
   status: "active" | "hidden" | "beta";
   actionLabel?: string;
   actionLabelEn?: string;

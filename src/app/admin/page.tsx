@@ -6,31 +6,8 @@ import {
   opportunities,
   properties,
 } from "@/lib/demo-data";
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 
-export default async function AdminDashboard() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // Ensure user is admin (Double check, even if middleware handles it)
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== "admin") {
-    redirect("/dashboard");
-  }
-
+export default function AdminDashboard() {
   const stats = [
     { label: "Proprietăți", value: properties.length, icon: Building2, href: "/admin/properties" },
     { label: "Market Pulse", value: newsArticles.length, icon: Newspaper, href: "/admin/news" },
