@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/client";
-import fs from "fs";
-import path from "path";
 import { sendTelegramAlert, sendEmailAlert } from "@/lib/notifications";
 
 // Simple in-memory rate limiter
@@ -123,24 +121,7 @@ export async function POST(request: Request) {
       console.warn("[AiX Leads] Supabase database connection failed:", supabaseErr);
     }
 
-    // 4. Fallback Local Storage Write (No lead is lost)
-    try {
-      const backupPath = path.join(process.cwd(), "src/data/leads_backup.json");
-      const dir = path.dirname(backupPath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      let currentList = [];
-      if (fs.existsSync(backupPath)) {
-        const raw = fs.readFileSync(backupPath, "utf8");
-        currentList = JSON.parse(raw);
-      }
-      currentList.push(lead);
-      fs.writeFileSync(backupPath, JSON.stringify(currentList, null, 2), "utf8");
-      console.log("[AiX Leads] Stored in local backup file.");
-    } catch (fsErr) {
-      console.error("[AiX Leads] Local backup file write failed:", fsErr);
-    }
+
 
     // 5. Telegram Dispatch
     try {
