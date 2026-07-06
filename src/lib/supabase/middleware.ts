@@ -27,8 +27,9 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // This will refresh session if expired
-  const { data: { user } } = await supabase.auth.getUser();
+  // This will refresh session if expired, without a heavy user verification DB call
+  const { data: { session } } = await supabase.auth.getSession();
+  const user = session?.user || null;
 
   return { supabaseResponse, user, supabase };
 }

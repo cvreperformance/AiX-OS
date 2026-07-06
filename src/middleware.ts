@@ -2,46 +2,34 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  // Update session & get the user
-  const { supabaseResponse, user, supabase } = await updateSession(request);
-  const { pathname } = request.nextUrl;
+  try {
+    // Basic auth check and cookie refresh using Supabase SSR
+    const { supabaseResponse, user } = await updateSession(request);
+    const { pathname } = request.nextUrl;
 
-  // Protect /dashboard
-  if (pathname.startsWith("/dashboard")) {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      url.searchParams.set("next", pathname);
-      return NextResponse.redirect(url);
+    // Edge-safe lightweight route protection.
+    // Heavy role validation (Admin) is handled securely in Server Components.
+    if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+      if (!user) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/login";
+        url.searchParams.set("next", pathname);
+        return NextResponse.redirect(url);
+      }
     }
+
+    return supabaseResponse;
+  } catch (err) {
+    // Temporary Stability Mode:
+    // If Supabase edge client crashes for any reason, DO NOT bring down the site.
+    // Allow the request to pass through; Server Components will catch unauthorized access.
+    console.error("Middleware Auth Error:", err);
+    return NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    });
   }
-
-  // Protect /admin
-  if (pathname.startsWith("/admin")) {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      url.searchParams.set("next", pathname);
-      return NextResponse.redirect(url);
-    }
-
-    // Verify role in profiles table
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (!profile || profile.role !== "admin") {
-      // Return 403 Forbidden
-      return new NextResponse(
-        JSON.stringify({ error: "403 Access Denied. Admin role required." }),
-        { status: 403, headers: { "content-type": "application/json" } }
-      );
-    }
-  }
-
-  return supabaseResponse;
 }
 
 export const config = {
@@ -51,8 +39,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
+     * - api/ (API routes are protected server-side)
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/.*|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
