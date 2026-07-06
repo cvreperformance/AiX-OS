@@ -9,7 +9,6 @@ import { User, LogIn, UserPlus, LogOut, LayoutDashboard, Shield } from "lucide-r
 export function AccountMenuSection({ language }: { language: string }) {
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -29,8 +28,6 @@ export function AccountMenuSection({ language }: { language: string }) {
         }
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
     
@@ -56,9 +53,7 @@ export function AccountMenuSection({ language }: { language: string }) {
         </h4>
       </div>
       <ul className="space-y-2.5">
-        {loading ? (
-          <li><span className="text-xs text-zinc-600 block">Loading...</span></li>
-        ) : session ? (
+        {session ? (
           <>
             {profile?.role === "admin" && (
               <li>

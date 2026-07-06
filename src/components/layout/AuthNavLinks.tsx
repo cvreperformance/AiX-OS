@@ -9,7 +9,6 @@ import { User as UserIcon, LogOut, Shield } from "lucide-react";
 export function AuthNavLinks() {
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -29,8 +28,6 @@ export function AuthNavLinks() {
         }
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
     
@@ -41,7 +38,6 @@ export function AuthNavLinks() {
       if (!session) {
         setProfile(null);
       } else {
-        // reload profile if needed
         loadSession();
       }
     });
@@ -50,10 +46,6 @@ export function AuthNavLinks() {
       subscription.unsubscribe();
     };
   }, []);
-
-  if (loading) {
-    return <div className="w-16 h-8 animate-pulse bg-zinc-800/50 rounded-full" />;
-  }
 
   if (session) {
     return (
