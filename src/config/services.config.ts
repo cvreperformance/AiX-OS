@@ -336,8 +336,8 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
   },
   {
     id: "learning",
-    label: "Education",
-    labelEn: "Education",
+    label: "Educație & Ghiduri",
+    labelEn: "Learning Center",
     desc: "Cursuri și educație financiară pentru investitori.",
     descEn: "Tutorial guides and courses for strategic investors.",
     href: "/learning",
@@ -348,20 +348,7 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
     actionLabel: "Începe",
     actionLabelEn: "Start",
   },
-  {
-    id: "guides",
-    label: "Guides",
-    labelEn: "Guides",
-    desc: "Checklisturi de achiziție, ghiduri practice ANAF.",
-    descEn: "Acquisitions guide books and tax calculators.",
-    href: "/learning",
-    icon: BookOpen,
-    keywords: ["guides", "ghiduri", "taxe"],
-    category: "LEARN_RESEARCH",
-    status: "active",
-    actionLabel: "Accesează",
-    actionLabelEn: "Access",
-  },
+
   {
     id: "word-of-day",
     label: "Cuvântul Zilei",
@@ -436,8 +423,8 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
   // ─── TOOLS ─────────────────────────────────────────────────────────────────
   {
     id: "calculators",
-    label: "Calculators",
-    labelEn: "Calculators",
+    label: "Calculatoare Financiare",
+    labelEn: "Financial Calculators",
     desc: "Calculatoare credite imobiliare și rate dobândă.",
     descEn: "Comprehensive home loan and credit interest calculators.",
     href: "/calculators",
@@ -462,34 +449,7 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
     actionLabel: "Deschide",
     actionLabelEn: "Open",
   },
-  {
-    id: "mortgage-calculator",
-    label: "Mortgage Calculator",
-    labelEn: "Mortgage Calculator",
-    desc: "Calculează rata creditului și gradul maxim DTI.",
-    descEn: "Simulate monthly mortgage interest and debt ratio metrics.",
-    href: "/calculators",
-    icon: Calculator,
-    keywords: ["mortgage", "credit", "ipotecar"],
-    category: "TOOLS",
-    status: "active",
-    actionLabel: "Calculează",
-    actionLabelEn: "Calculate",
-  },
-  {
-    id: "roi-calculator",
-    label: "ROI Calculator",
-    labelEn: "ROI Calculator",
-    desc: "Simulează cash flow, ROI și recuperare investiție.",
-    descEn: "Simulate net cash flow yields and investment paybacks.",
-    href: "/calculators",
-    icon: Calculator,
-    keywords: ["roi", "randament", "investitie"],
-    category: "TOOLS",
-    status: "active",
-    actionLabel: "Calculează",
-    actionLabelEn: "Calculate",
-  },
+
   {
     id: "currency-tools",
     label: "Currency Tools",
@@ -504,20 +464,7 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
     actionLabel: "Deschide",
     actionLabelEn: "Open",
   },
-  {
-    id: "map",
-    label: "GIS Map",
-    labelEn: "GIS Map",
-    desc: "Scanare spațială imobiliară și pin clustering.",
-    descEn: "Geo-spatial real estate map audit scanner.",
-    href: "/map",
-    icon: Map,
-    keywords: ["map", "harta", "gis", "clustering"],
-    category: "TOOLS",
-    status: "active",
-    actionLabel: "Hartă",
-    actionLabelEn: "Map",
-  },
+
   {
     id: "osint",
     label: "OSINT Intelligence",
@@ -536,8 +483,8 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
   // ─── AI SYSTEM ─────────────────────────────────────────────────────────────
   {
     id: "brain",
-    label: "AiX Brain",
-    labelEn: "AiX Brain",
+    label: "AiX Brain™",
+    labelEn: "AiX Brain™",
     desc: "Nucleul cognitiv central și motor de analiză decizională.",
     descEn: "Central decision engine routing across all platforms.",
     href: "/brain",
@@ -548,34 +495,7 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
     actionLabel: "Deschide",
     actionLabelEn: "Open",
   },
-  {
-    id: "money-advisor",
-    label: "AI Advisor",
-    labelEn: "AI Advisor",
-    desc: "Consilier financiar personal ghidat de AI.",
-    descEn: "AI financial advisor powered by models.",
-    href: "/money-advisor",
-    icon: Brain,
-    keywords: ["money-advisor", "ai advisor", "chat"],
-    category: "AI_SYSTEM",
-    status: "active",
-    actionLabel: "Consultă AI",
-    actionLabelEn: "Consult AI",
-  },
-  {
-    id: "universal-search",
-    label: "Search Everything",
-    labelEn: "Search Everything",
-    desc: "Căutare universală rapidă pe întreaga platformă.",
-    descEn: "Universal search across the entire platform via Cmd+K.",
-    href: "/",
-    icon: Search,
-    keywords: ["search", "cautare", "cmd-k"],
-    category: "AI_SYSTEM",
-    status: "active",
-    actionLabel: "Caută",
-    actionLabelEn: "Search",
-  }
+
 ];
 
 export const CONNECT_CHANNELS = [

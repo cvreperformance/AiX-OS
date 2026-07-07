@@ -221,10 +221,10 @@ export function Header() {
               <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
               <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
               <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
-                OS<sup className="text-[10px] mt-1 ml-0.5">&trade;</sup>
+                OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
               </span>
             </div>
-            <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
+            <span className="text-xs text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
               Powered by CristianVaduva.com
             </span>
           </Link>
@@ -306,10 +306,10 @@ export function Header() {
               <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
               <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
               <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
-                OS<sup className="text-[9px] mt-0.5 ml-0.5">&trade;</sup>
+                OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
               </span>
             </div>
-            <span className="text-[9px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6 hidden sm:block">
+            <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
               Powered by CristianVaduva.com
             </span>
           </Link>
@@ -482,10 +482,10 @@ export function Header() {
                 <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
                 <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
                 <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
-                  OS<sup className="text-[9px] mt-0.5 ml-0.5">&trade;</sup>
+                  OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
                 </span>
               </div>
-              <span className="text-[9px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
+              <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
                 Powered by CristianVaduva.com
               </span>
             </Link>
