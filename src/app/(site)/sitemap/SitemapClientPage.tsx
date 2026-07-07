@@ -25,8 +25,8 @@ export default function SitemapClientPage() {
         title={language === "ro" ? "Sitemap" : "Sitemap"}
         subtitle={
           language === "ro"
-            ? "Harta completă a sistemului decizional AiX OS."
-            : "Complete map of the AiX OS decision system."
+            ? "Harta completă a sistemului decizional AiX OS™."
+            : "Complete map of the AiX OS™ decision system."
         }
       />
 

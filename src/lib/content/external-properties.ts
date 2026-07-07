@@ -1,5 +1,5 @@
 /**
- * AiX OS — External Property Data
+ * AiX OS™ — External Property Data
  * Sources attempted: chestertons.com · chestertons.ro · tet.ro
  *
  * NOTE: All three sources block automated scraping (403/CORS/JS-rendered).

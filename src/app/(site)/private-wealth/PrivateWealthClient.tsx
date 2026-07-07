@@ -91,7 +91,7 @@ function NetworkTab() {
       {/* Hero */}
       <section className="space-y-6">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          AiX OS · Luxury Network Platform
+          AiX OS™ · Luxury Network Platform
         </span>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
@@ -100,7 +100,7 @@ function NetworkTab() {
               <span className="gradient-gold">Investitorilor de Top</span>
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed">
-              Un cerc select de investitori, proprietari și experți imobiliari conectați prin AiX OS. Oportunități exclusive, deal-uri private și capital cu care să co-investești în piețe globale.
+              Un cerc select de investitori, proprietari și experți imobiliari conectați prin AiX OS™. Oportunități exclusive, deal-uri private și capital cu care să co-investești în piețe globale.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {MEMBER_STATS.map(({ value, label }) => (
@@ -335,7 +335,7 @@ function WealthTab() {
       {/* Header */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          {language === "ro" ? "AiX OS · Managementul Portofoliului" : "AiX OS · Portfolio Manager"}
+          {language === "ro" ? "AiX OS™ · Managementul Portofoliului" : "AiX OS™ · Portfolio Manager"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
           {language === "ro" ? "Private Wealth Desk &" : "Private Wealth Desk &"} <br />
@@ -641,7 +641,7 @@ function OffMarketTab() {
       <PageHeader
         badge="Confidentiality First"
         title="Tranzacții Off-Market"
-        subtitle="Acces la proprietăți care nu vor fi niciodată listate public. Vindeți sau cumpărați în deplină confidențialitate prin circuitul închis AiX OS."
+        subtitle="Acces la proprietăți care nu vor fi niciodată listate public. Vindeți sau cumpărați în deplină confidențialitate prin circuitul închis AiX OS™."
       />
 
       {/* Hero Explainer */}

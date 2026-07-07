@@ -19,7 +19,7 @@ import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Cybersecurity & Fraud Prevention | AiX OS",
+  title: "Cybersecurity & Fraud Prevention | AiX OS™",
   description:
     "Protecție digitală avansată pentru investitori imobiliari HNWI. Prevenire fraude, due diligence digital, securitate identitate și protecție active.",
 };
@@ -84,7 +84,7 @@ const SECURITY_STATS = [
   { value: "€2.4M+", label: "Fraude Prevenite", sublabel: "Valoare totală protejată în portofolii client" },
   { value: "99.7%", label: "Acuratețe AI", sublabel: "Rata de detectare documente false" },
   { value: "<48h", label: "Time to Detect", sublabel: "Detectare medie tentativă fraudă" },
-  { value: "0", label: "Breaches", sublabel: "Incidente de securitate în platforma AiX OS" },
+  { value: "0", label: "Breaches", sublabel: "Incidente de securitate în platforma AiX OS™" },
 ];
 
 const CHECKLIST = [
@@ -138,7 +138,7 @@ export default function CybersecurityPage() {
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Threat Intelligence</span>
           <h2 className="text-2xl md:text-3xl font-light text-white mt-1">Tipuri de Fraude Detectate</h2>
           <p className="text-xs text-zinc-500 mt-2 max-w-2xl">
-            Sistemul AiX OS monitorizează în timp real toate categoriile majore de risc care amenință tranzacțiile imobiliare de lux.
+            Sistemul AiX OS™ monitorizează în timp real toate categoriile majore de risc care amenință tranzacțiile imobiliare de lux.
           </p>
         </div>
 
@@ -262,7 +262,7 @@ export default function CybersecurityPage() {
             Ai Identificat o Fraudă?
           </h2>
           <p className="text-xs text-zinc-450 max-w-lg mx-auto leading-relaxed">
-            Echipa noastră de securitate este disponibilă non-stop pentru investitori afiliați AiX OS. Raportează orice activitate suspectă și primești suport prioritar în maximum 2 ore.
+            Echipa noastră de securitate este disponibilă non-stop pentru investitori afiliați AiX OS™. Raportează orice activitate suspectă și primești suport prioritar în maximum 2 ore.
           </p>
           <div className="flex flex-wrap justify-center gap-3 pt-2">
             <Link

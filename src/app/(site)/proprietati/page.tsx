@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Filter, TrendingUp, MapPin, Globe, Building2, ArrowRight, BarChart3, Gem, Star, Lock, Clock, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Property & Investment Hub | AiX OS",
+  title: "Property & Investment Hub | AiX OS™",
   description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
 };
 
@@ -400,7 +400,7 @@ export default async function PropertyInvestmentHub() {
 
         <section className="rounded-3xl border border-zinc-800 bg-zinc-900/20 p-8 md:p-12 space-y-8 mt-16">
           <div className="text-center space-y-3">
-            <h2 className="text-2xl md:text-3xl font-light text-white">Procesul de Investiție AiX OS</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-white">Procesul de Investiție AiX OS™</h2>
             <p className="text-zinc-400">De la strategie la achiziție, cu suport complet la distanță.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">

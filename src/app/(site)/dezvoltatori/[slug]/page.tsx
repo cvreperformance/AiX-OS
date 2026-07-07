@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dev = await getDeveloper(slug);
   if (!dev) return { title: "Dezvoltator negăsit" };
-  return { title: `${dev.name} | AiX OS Intelligence`, description: dev.description };
+  return { title: `${dev.name} | AiX OS™ Intelligence`, description: dev.description };
 }
 
 export default async function DeveloperDetailPage({ params }: Props) {

@@ -1,5 +1,5 @@
 /**
- * AiX OS — Server-Side Notification Hub
+ * AiX OS™ — Server-Side Notification Hub
  *
  * Handles Telegram and Email alert dispatch for every contact form submission.
  * Rules:
@@ -91,7 +91,7 @@ function buildTelegramMessage(lead: LeadData): string {
   const time     = formatTime(lead.created_at);
 
   return [
-    `🧠 AiX OS Lead`,
+    `🧠 AiX OS™ Lead`,
     ``,
     `Name: ${name}`,
     `Email: ${email}`,
@@ -189,7 +189,7 @@ export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
   const emailHtml = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 24px; background-color: #0c0c0c; color: #ffffff; border-radius: 16px; border: 1px solid #1f1f1f; max-width: 600px; margin: 0 auto;">
       <h2 style="font-size: 20px; font-weight: 300; border-bottom: 1px solid #27272a; padding-bottom: 12px; color: #f59e0b; margin-top: 0;">
-        🔥 NEW LEAD — AiX OS
+        🔥 NEW LEAD — AiX OS™
       </h2>
       <table style="width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.6; margin-top: 16px;">
         <tr><td style="padding: 6px 0; color: #71717a; width: 110px;">Service:</td><td style="padding: 6px 0; color: #ffffff; font-weight: 600;">${lead.service}</td></tr>
@@ -205,13 +205,13 @@ export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
         <div style="background-color: #18181b; padding: 12px 16px; border-radius: 8px; border: 1px solid #27272a; font-size: 13px; color: #e4e4e7; white-space: pre-wrap; line-height: 1.5;">${lead.message ?? "No additional message."}</div>
       </div>
       <p style="font-size: 10px; color: #3f3f46; text-align: center; margin-top: 24px; margin-bottom: 0;">
-        AiX OS • Secured Notification Network
+        AiX OS™ • Secured Notification Network
       </p>
     </div>
   `;
 
   const payload = JSON.stringify({
-    from:    "AiX OS Leads <onboarding@resend.dev>",
+    from:    "AiX OS™ Leads <onboarding@resend.dev>",
     to:      [toEmail],
     subject: `🔥 NEW LEAD — ${lead.service}`,
     html:    emailHtml,

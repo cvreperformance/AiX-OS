@@ -77,7 +77,7 @@ export default async function NewsDetailPage({ params }: Props) {
         />
 
         <footer className="border-t border-zinc-800 pt-6 text-xs text-zinc-600">
-          Powered by AiX OS Market Pulse · {article.source_url ? "Sursa externă" : "AiX OS Intelligence"}
+          Powered by AiX OS™ Market Pulse · {article.source_url ? "Sursa externă" : "AiX OS™ Intelligence"}
         </footer>
       </article>
     </div>

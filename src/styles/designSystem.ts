@@ -1,5 +1,5 @@
 /**
- * Unified Design System Tokens - AiX OS 2026
+ * Unified Design System Tokens - AiX OS™ 2026
  * Applied globally to navbar, cards, modals, popups, and dropdowns.
  * Ensures consistent glassmorphic, transparent visual premium style.
  */

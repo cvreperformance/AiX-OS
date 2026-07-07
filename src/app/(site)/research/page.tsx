@@ -179,7 +179,7 @@ export default function ResearchCenterPage() {
 
     setLoading(true);
     setReport(null);
-    setScanStep("Conectare la serverul securizat AiX OSINT...");
+    setScanStep("Conectare la serverul securizat AiX OS™INT...");
 
     setTimeout(() => {
       setScanStep("Interogare baze de date ANAF & Stare Fiscală...");
@@ -536,7 +536,7 @@ export default function ResearchCenterPage() {
             <Lock className="h-3.5 w-3.5 text-zinc-400" /> Avertisment Legal și Securitate (Privacy Policy)
           </h4>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-4xl">
-            Această pagină este exclusiv un agregator educațional de resurse deschise și publice pe internet (OSINT). AiX OS nu recoltează, nu stochează și nu interoghează automat pe serverele noastre aceste baze de date. Toate linkurile vă direcționează către sursele oficiale guvernamentale sau de investigație. Folosiți datele găsite cu responsabilitate și în acord cu legea GDPR.
+            Această pagină este exclusiv un agregator educațional de resurse deschise și publice pe internet (OSINT). AiX OS™ nu recoltează, nu stochează și nu interoghează automat pe serverele noastre aceste baze de date. Toate linkurile vă direcționează către sursele oficiale guvernamentale sau de investigație. Folosiți datele găsite cu responsabilitate și în acord cu legea GDPR.
           </p>
         </div>
       </section>

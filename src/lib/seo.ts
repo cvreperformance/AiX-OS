@@ -23,7 +23,7 @@ export function ogImage(url: string | null | undefined) {
 export const organizationSchema: JsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "AiX OS",
+  name: "AiX OS™",
   url: "https://aixos.ro",
   logo: "https://aixos.ro/logo.png",
   description:

@@ -43,7 +43,7 @@ export default async function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-light text-white mb-2">Dashboard</h1>
       <p className="text-zinc-500 text-sm mb-8">
-        Panou de administrare AiX OS — gestionează conținutul platformei.
+        Panou de administrare AiX OS™ — gestionează conținutul platformei.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">

@@ -8,7 +8,7 @@ const SERVICES = [
   { icon: Gem, title: "Proprietăți Off-Market", desc: "Acces exclusiv la portofolii rezidențiale care nu apar niciodată pe listările publice." },
   { icon: Shield, title: "Due Diligence Premium", desc: "Verificare juridică și tehnică rapidă completată în sub 48h de experți calificați." },
   { icon: Clock, title: "Suport Dedicated 24/7", desc: "Lifestyle manager personal disponibil oricând, asigurând rezolvarea oricărei solicitări." },
-  { icon: Star, title: "Networking UHNW", desc: "Acces cu invitație la dineurile private din cercurile de parteneri investitori AiX OS." },
+  { icon: Star, title: "Networking UHNW", desc: "Acces cu invitație la dineurile private din cercurile de parteneri investitori AiX OS™." },
   { icon: Phone, title: "Planificare Fiscală", desc: "Asistență în optimizare fiscală transfrontalieră pentru achiziții mari de active." },
 ];
 
@@ -50,7 +50,7 @@ export default function ConciergePage() {
       {/* Hero section */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          AiX OS · Luxury Concierge Desk
+          AiX OS™ · Luxury Concierge Desk
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
           Lifestyle Management & <br />

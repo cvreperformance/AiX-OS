@@ -435,7 +435,7 @@ export const agencies: Agency[] = [
     slug: "cristian-vaduva-real-estate",
     name: "Cristian Vaduva Real Estate",
     description:
-      "Buyer representation, luxury properties și market intelligence. Parte din ecosistemul AiX OS.",
+      "Buyer representation, luxury properties și market intelligence. Parte din ecosistemul AiX OS™.",
     website: "https://cristianvaduva.com",
     phone: "+43 650 953 6345",
     email: "cristianvaduva@duck.com",
@@ -460,7 +460,7 @@ export const agencies: Agency[] = [
     properties_count: 38,
     status: "active",
     specializations: ["Off-Market Deals", "Investiții Internaționale", "Proprietăți Premium"],
-    collaboration_info: "Colaborare exclusivă prin rețeaua AiX OS."
+    collaboration_info: "Colaborare exclusivă prin rețeaua AiX OS™."
   },
   {
     id: "3",

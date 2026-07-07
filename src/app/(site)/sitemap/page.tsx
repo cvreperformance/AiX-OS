@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import SitemapClientPage from "./SitemapClientPage";
 
 export const metadata: Metadata = {
-  title: "Sitemap — AiX OS",
+  title: "Sitemap — AiX OS™",
   description:
-    "Harta completă a site-ului AiX OS. Accesează rapid toate resursele, instrumentele și oportunitățile.",
+    "Harta completă a site-ului AiX OS™. Accesează rapid toate resursele, instrumentele și oportunitățile.",
   openGraph: {
-    title: "Sitemap AiX OS",
-    description: "Harta completă a sistemului decizional AiX OS.",
+    title: "Sitemap AiX OS™",
+    description: "Harta completă a sistemului decizional AiX OS™.",
     type: "website",
   },
 };

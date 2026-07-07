@@ -52,7 +52,7 @@ export function ScoreCard({ score, explanation, insight }: ScoreCardProps) {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium uppercase tracking-widest text-zinc-400">
-          AiX OS Score
+          AiX OS™ Score
         </h3>
         <ScoreBadge score={score} size="lg" showLabel={false} />
       </div>

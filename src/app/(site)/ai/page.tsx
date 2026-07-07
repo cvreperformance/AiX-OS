@@ -65,7 +65,7 @@ Strategii recomandate:
   // Pipera vs Floreasca
   if (q.includes("pipera") && (q.includes("floreasca") || q.includes("compara"))) {
     return {
-      content: `Pipera vs Floreasca — AiX OS Comparație:
+      content: `Pipera vs Floreasca — AiX OS™ Comparație:
 
 📊 Pipera / Voluntari:
 • Preț mediu: €1,800–2,200/m²
@@ -89,7 +89,7 @@ Concluzie: Pipera = investiție cu cashflow mai bun. Floreasca = stabilitate și
   // Yield / Herastrau
   if (q.includes("yield") || q.includes("herastrau") || q.includes("randament")) {
     return {
-      content: `Yield-uri imobiliare în București — Date AiX OS 2026:
+      content: `Yield-uri imobiliare în București — Date AiX OS™ 2026:
 
 🏢 Herăstrău / Aviatorilor: 6–8% net | Airbnb: 10–13%
 🏢 Pipera / Voluntari: 6–8% net
@@ -121,7 +121,7 @@ Impact asupra pieței:
 • Cererea cu credit a scăzut cu ~15% față de 2023
 • Prețurile se ajustează mai lent decât dobânzile
 
-Strategie AiX OS: momentul este favorabil pentru negociere agresivă dacă ești cash.`,
+Strategie AiX OS™: momentul este favorabil pentru negociere agresivă dacă ești cash.`,
       links: [
         { label: "Calculator Ipotecă", href: "/convenience" },
         { label: "Indicatori Piață", href: "/market" },
@@ -169,7 +169,7 @@ Market Sentiment · Long-term Value`,
 
 Total estimat: 4–7% din prețul de achiziție
 
-Cu AiX OS Buyer Representation: comisionul agentului tău = €0 (plătit de vânzător)`,
+Cu AiX OS™ Buyer Representation: comisionul agentului tău = €0 (plătit de vânzător)`,
       links: [
         { label: "Calculator Taxe Notariale", href: "/convenience" },
         { label: "Buyer Representation", href: "/buyer" },
@@ -196,7 +196,7 @@ Cu AiX OS Buyer Representation: comisionul agentului tău = €0 (plătit de vâ
 • Risc: mai mic, piață mai previzibilă
 • Avantaj: convergență spre prețuri UE
 
-Concluzie AiX OS: Dubai pentru maximizare randament, România pentru risc-randament optim și lichiditate mai bună.`,
+Concluzie AiX OS™: Dubai pentru maximizare randament, România pentru risc-randament optim și lichiditate mai bună.`,
       links: [{ label: "Investiții Globale", href: "/proprietati" }],
     };
   }
@@ -290,7 +290,7 @@ Pachete: Quick (€149) | Standard (€299) | Premium (€599)`,
 • Yield: 2–4% (low, dar asset de wealth preservation suprem)
 • Acces: extrem de restrictiv, rețea privată necesară
 
-AiX OS are acces la proprietăți și rețea în Monaco prin AiXLuxury.com. Discuție privată disponibilă.`,
+AiX OS™ are acces la proprietăți și rețea în Monaco prin AiXLuxury.com. Discuție privată disponibilă.`,
       links: [
         { label: "AiXLuxury.com ↗", href: "https://aixluxury.com" },
         { label: "Luxury Concierge", href: "/concierge" },
@@ -313,7 +313,7 @@ AiX OS are acces la proprietăți și rețea în Monaco prin AiXLuxury.com. Disc
 • Prima: €15–80/lună pentru un apartament mediu
 • Acoperire: incendiu, inundație, furt, cutremur, terți
 
-AiX OS: comparăm ofertele de la 15+ asigurători. Consultanță gratuită.`,
+AiX OS™: comparăm ofertele de la 15+ asigurători. Consultanță gratuită.`,
       links: [
         { label: "Asigurări AI", href: "/insurance" },
         { label: "Calculator Asigurare", href: "/convenience" },
@@ -344,7 +344,7 @@ Gratuit: estimare orientativă | Premium: raport complet €99–299`,
 
   // Default
   return {
-    content: `Sunt AiX OS Advisor — specialistul tău în investiții imobiliare.
+    content: `Sunt AiX OS™ Advisor — specialistul tău în investiții imobiliare.
 
 Pot analiza:
 💰 Bugete și strategii de investiție
@@ -367,7 +367,7 @@ export default function AiAdvisorPage() {
     {
       role: "assistant",
       content:
-        "Bună. Sunt AiX OS Advisor.\n\nÎți pot analiza investiții imobiliare, randamente, zone, credite și mult mai mult.\n\nAlege o sugestie sau pune orice întrebare.",
+        "Bună. Sunt AiX OS™ Advisor.\n\nÎți pot analiza investiții imobiliare, randamente, zone, credite și mult mai mult.\n\nAlege o sugestie sau pune orice întrebare.",
     },
   ]);
 
@@ -515,7 +515,7 @@ export default function AiAdvisorPage() {
                 handleSend();
               }
             }}
-            placeholder="Întreabă AiX OS Advisor…"
+            placeholder="Întreabă AiX OS™ Advisor…"
             disabled={loading}
             className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800/50 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-all disabled:opacity-50"
           />
@@ -533,7 +533,7 @@ export default function AiAdvisorPage() {
 
       <div className="flex items-center justify-between mt-4 px-1">
         <p className="text-xs text-zinc-600">
-          AiX OS Advisor v2 · Knowledge base local · Răspunsuri orientative
+          AiX OS™ Advisor v2 · Knowledge base local · Răspunsuri orientative
         </p>
         <Link href="/contact" className="text-xs text-amber-500/60 hover:text-amber-400 transition-colors">
           Consultanță reală →

@@ -3,8 +3,8 @@ import { PageHeader } from "@/components/ui";
 import { ShieldCheck, Info, ToggleLeft, Cookie } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Politica de Cookie-uri | AiX OS",
-  description: "Politica de cookie-uri și preferințe a platformei AiX OS. Aflați cum folosim tehnologiile de stocare locală.",
+  title: "Politica de Cookie-uri | AiX OS™",
+  description: "Politica de cookie-uri și preferințe a platformei AiX OS™. Aflați cum folosim tehnologiile de stocare locală.",
 };
 
 export default function CookiePolicyPage() {
@@ -44,10 +44,10 @@ export default function CookiePolicyPage() {
         <section className="space-y-3">
           <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
             <Info className="h-5 w-5 text-amber-500/80" />
-            2. Cum Utilizăm Local Storage pe AiX OS?
+            2. Cum Utilizăm Local Storage pe AiX OS™?
           </h2>
           <p>
-            Pe lângă cookie-urile tradiționale, platforma <strong>AiX OS</strong> utilizează memoria locală a browserului dvs. (<em>Local Storage</em>) pentru a vă memora opțiunile de interfață și respingerea bannerelor publicitare sau informative:
+            Pe lângă cookie-urile tradiționale, platforma <strong>AiX OS™</strong> utilizează memoria locală a browserului dvs. (<em>Local Storage</em>) pentru a vă memora opțiunile de interfață și respingerea bannerelor publicitare sau informative:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-zinc-400">
             <li>
@@ -88,7 +88,7 @@ export default function CookiePolicyPage() {
       </div>
 
       <div className="pt-6 border-t border-zinc-800 text-center text-xs text-zinc-500">
-        Ultima actualizare: 1 Iulie 2026. Administrat de AiX OS Market Pulse.
+        Ultima actualizare: 1 Iulie 2026. Administrat de AiX OS™ Market Pulse.
       </div>
     </div>
   );

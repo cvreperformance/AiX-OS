@@ -173,7 +173,7 @@ export default function MarketPage() {
       {/* Header */}
       <div className="space-y-4 border-b border-zinc-900 pb-8">
         <span className="text-xs uppercase tracking-[0.2em] text-amber-500">
-          AiX OS · Bloomberg Intelligence Terminal
+          AiX OS™ · Bloomberg Intelligence Terminal
         </span>
         <h1 className="text-3xl md:text-4xl font-light text-white tracking-tight">
           Market Pulse Dashboard
@@ -261,8 +261,8 @@ export default function MarketPage() {
         </h2>
         <p className="text-xs text-zinc-450 max-w-lg mx-auto leading-relaxed">
           {language === "ro"
-            ? "Platforma AiX OS corelează acești indicatori de cotații bursiere în timp real, crypto și inflație pentru a evalua oportunitățile imobiliare calificate."
-            : "AiX OS correlates these real-time stock, crypto, and inflation indicators to evaluate qualified real estate opportunities."}
+            ? "Platforma AiX OS™ corelează acești indicatori de cotații bursiere în timp real, crypto și inflație pentru a evalua oportunitățile imobiliare calificate."
+            : "AiX OS™ correlates these real-time stock, crypto, and inflation indicators to evaluate qualified real estate opportunities."}
         </p>
         <div className="flex flex-wrap justify-center gap-3 pt-2">
           <button

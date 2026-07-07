@@ -174,7 +174,7 @@ export default function LearningPage() {
       ],
       mistakesRo: "Ignorarea taxelor de intabulare și a onorariilor notariale mari.",
       mistakesEn: "Neglecting cadastral registration costs and notary billing fees.",
-      nextStepsRo: "Verifică ghidul fiscal complet pe AiX OS.",
+      nextStepsRo: "Verifică ghidul fiscal complet pe AiX OS™.",
       nextStepsEn: "Open the complete property tax instructions page.",
       resourcesRo: "Ministerul Finanțelor Publice, Ghid ANAF",
       resourcesEn: "Ministry of Public Finances, ANAF Fiscal Portal",

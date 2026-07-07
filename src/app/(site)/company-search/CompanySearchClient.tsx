@@ -88,7 +88,7 @@ export default function CompanySearchClient() {
       {/* Header */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          {language === "ro" ? "AiX OS · Verificare Companii" : "AiX OS · Business Lookup"}
+          {language === "ro" ? "AiX OS™ · Verificare Companii" : "AiX OS™ · Business Lookup"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
           {language === "ro" ? "Rapoarte Clienți &" : "Corporate Intelligence &"} <br />

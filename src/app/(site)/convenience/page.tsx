@@ -444,7 +444,7 @@ export default function OpenSourceAppsPage() {
                   <div className="bg-white p-3 rounded-xl">
                     {/* Simulated vector QR layout */}
                     <div className="w-28 h-28 bg-black flex items-center justify-center text-white text-[8px] font-mono text-center select-none font-bold">
-                      [ AiX OS QR ]
+                      [ AiX OS™ QR ]
                     </div>
                   </div>
                   <span className="text-[9px] text-zinc-550 font-mono truncate max-w-[140px]">{qrText}</span>

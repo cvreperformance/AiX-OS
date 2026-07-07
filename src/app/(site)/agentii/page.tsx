@@ -7,7 +7,7 @@ import Link from "next/link";
 import { MapPin, Phone, Mail, Globe, ExternalLink, Star } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Agenții Imobiliare | AiX OS",
+  title: "Agenții Imobiliare | AiX OS™",
   description:
     "Agenții imobiliare evaluate cu AiX Score. Buyer representation, seller services și network internațional.",
 };
@@ -20,7 +20,7 @@ export default async function AgentiiPage() {
       <PageHeader
         badge="Agenții Partenere"
         title="Rețea de Agenții Evaluate"
-        subtitle="Fiecare agenție din ecosistemul AiX OS este evaluată transparent pe baza track record-ului, calității serviciilor și performanței pe piață."
+        subtitle="Fiecare agenție din ecosistemul AiX OS™ este evaluată transparent pe baza track record-ului, calității serviciilor și performanței pe piață."
       />
 
       {/* Featured agency — Cristian Văduva */}
@@ -39,7 +39,7 @@ export default async function AgentiiPage() {
             <h2 className="text-xl font-medium text-white mb-1">Cristian Văduva Real Estate</h2>
             <p className="text-sm text-zinc-400 mb-4 leading-relaxed max-w-2xl">
               Buyer &amp; Seller Representation, Market Intelligence și acces la proprietăți off-market.
-              Monaco · Dubai · București — parte din ecosistemul AiX OS.
+              Monaco · Dubai · București — parte din ecosistemul AiX OS™.
             </p>
             <div className="flex flex-wrap gap-4 text-sm">
               <a href={`tel:${brandContent.contact.phoneRORaw}`}
@@ -84,10 +84,10 @@ export default async function AgentiiPage() {
 
       {/* CTA */}
       <div className="mt-16 rounded-2xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
-        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">AiX OS Network</p>
+        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">AiX OS™ Network</p>
         <h3 className="text-2xl font-light text-white mb-3">Ești agent imobiliar?</h3>
         <p className="text-zinc-400 text-sm mb-6 max-w-lg mx-auto">
-          Intră în ecosistemul AiX OS și accesează un flux calificat de cumpărători cu putere de decizie.
+          Intră în ecosistemul AiX OS™ și accesează un flux calificat de cumpărători cu putere de decizie.
         </p>
         <a
           href={brandContent.contact.whatsappText}

@@ -1,7 +1,7 @@
 import { brandContent } from "@/lib/content/brand";
 
 /**
- * AiX OS — Site Configuration
+ * AiX OS™ — Site Configuration
  * All contact data sourced from @/lib/content/brand.ts
  * Do NOT hardcode contact info here — import from brandContent.
  */
@@ -78,7 +78,7 @@ export const footerLinks = {
     { href: brandContent.urls.personal, label: "CristianVaduva.com", external: true },
     { href: brandContent.urls.luxury, label: "AiXLuxury.com", external: true },
     { href: brandContent.urls.linktree, label: "Linktree", external: true },
-    { href: "/contact", label: "Contact AiX OS" },
+    { href: "/contact", label: "Contact AiX OS™" },
     { href: "/learning#word-of-the-day", label: "Word of the Day" },
   ],
 };

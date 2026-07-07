@@ -1,5 +1,5 @@
 /**
- * AiX OS — Loading Skeletons
+ * AiX OS™ — Loading Skeletons
  * Reusable skeleton components matching the luxury dark design system.
  */
 

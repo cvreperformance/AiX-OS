@@ -74,10 +74,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </div>
         </div>
         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
-          AiX OS &bull; Decision intelligence
+          AiX OS™ &bull; Decision intelligence
         </span>
         <h1 className="text-5xl sm:text-6xl font-light text-white tracking-tight leading-none">
-          AiX OS
+          AiX OS™
         </h1>
         <p className="text-2xl sm:text-3xl font-light text-zinc-300">
           {language === "ro" ? "Creierul tău imobiliar secundar. Gândește mai rapid." : "Your second brain. Think faster."}
@@ -87,14 +87,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             ? "Economisește timp, evită capcanele de due-diligence și optimizează-ți plasamentele financiare cu sistemul nostru decizional."
             : "Save time, mitigate transactional friction, and allocate your property capital using automated risk logs."}
         </p>
-        <div className="pt-4">
-          <Link
-            href="/join"
-            className="inline-block rounded-xl bg-amber-500 text-black px-8 py-3.5 text-xs font-bold uppercase tracking-wider hover:bg-amber-400 transition-all shadow-lg shadow-amber-500/10 active:scale-98"
-          >
-            {language === "ro" ? "Alătură-te Waitlist" : "Join Waitlist"}
-          </Link>
-        </div>
+
       </section>
 
       {/* ─── QUICK ACCESS GRID (5 CATEGORIES ONLY) ─────────────────────────── */}

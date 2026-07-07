@@ -1,5 +1,5 @@
 /**
- * AiX OS — Centralized Brand Content
+ * AiX OS™ — Centralized Brand Content
  * Source: https://cristianvaduva.com + https://aixluxury.com
  * Last extracted: 2026-07-01
  *
@@ -12,7 +12,7 @@ export const brandContent = {
   name: "Cristian Văduva",
   tagline: "Real Estate Consultant · Insurance · Investments",
   brand: {
-    primary: "AiX OS",
+    primary: "AiX OS™",
     luxury: "AiXLuxury.com",
     personal: "CristianVaduva.com",
   },

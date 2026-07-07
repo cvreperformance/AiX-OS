@@ -15,7 +15,7 @@ import {
 import SellerLeadForm from "./SellerLeadForm";
 
 export const metadata: Metadata = {
-  title: "Seller Representation — Vinzi la Prețul Corect | AiX OS",
+  title: "Seller Representation — Vinzi la Prețul Corect | AiX OS™",
   description:
     "Vinde-ți proprietatea cu maximum de expunere și prețul corect. Marketing premium, fotografie profesională, AI promotion și analiză de piață.",
 };
@@ -34,7 +34,7 @@ const SERVICES = [
   {
     icon: Globe,
     title: "Expunere Maximă",
-    desc: "Listare pe toate portalele majore + rețeaua privată AiX OS + baza de cumpărători calificați pre-aprovați.",
+    desc: "Listare pe toate portalele majore + rețeaua privată AiX OS™ + baza de cumpărători calificați pre-aprovați.",
   },
   {
     icon: Brain,
@@ -76,7 +76,7 @@ export default function SellerPage() {
       <section className="grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-            AiX OS · Seller Representation
+            AiX OS™ · Seller Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1]">
             Vinzi la{" "}
@@ -144,7 +144,7 @@ export default function SellerPage() {
       {/* Process */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul de Vânzare AiX OS</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul de Vânzare AiX OS™</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {PROCESS.map((step) => (
@@ -162,7 +162,7 @@ export default function SellerPage() {
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-5">
             <h2 className="text-2xl md:text-3xl font-light text-white">Pachetul Marketing Premium</h2>
-            <p className="text-zinc-400">Inclus în orice mandat de vânzare AiX OS:</p>
+            <p className="text-zinc-400">Inclus în orice mandat de vânzare AiX OS™:</p>
             <ul className="space-y-3">
               {[
                 "Fotografie profesională (20+ imagini HDR)",
@@ -172,7 +172,7 @@ export default function SellerPage() {
                 "Listare pe toate portalele majore (imobiliare.ro, storia.ro, OLX Pro)",
                 "Promovare Social Media (Facebook, Instagram, LinkedIn)",
                 "Outreach direct la baza de cumpărători qualificați",
-                "Pagină dedicată proprietății pe AiX OS",
+                "Pagină dedicată proprietății pe AiX OS™",
                 "Raport săptămânal cu analytics",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
@@ -214,13 +214,13 @@ export default function SellerPage() {
       <section className="space-y-8 max-w-4xl mx-auto">
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
-          <p className="text-zinc-400">Despre procesul de vânzare AiX OS.</p>
+          <p className="text-zinc-400">Despre procesul de vânzare AiX OS™.</p>
         </div>
         <div className="space-y-4">
           {[
             { q: "Trebuie să semnez un contract de exclusivitate?", a: "Recomandăm reprezentarea exclusivă pentru a putea investi masiv în marketing (foto, video, promovare) fără riscul ca altcineva să vândă proprietatea fără aceste materiale, însă oferim și opțiuni flexibile." },
             { q: "Cum stabiliți prețul corect?", a: "Folosim algoritmul AiX Score, coroborat cu expertiza umană, analizând tranzacții similare recente din zonă, tendințele macroeconomice și dotările specifice ale proprietății." },
-            { q: "Cât durează procesul de vânzare?", a: "În medie, proprietățile evaluate și promovate prin AiX OS primesc o ofertă validă în 27 de zile de la lansarea campaniei de marketing." },
+            { q: "Cât durează procesul de vânzare?", a: "În medie, proprietățile evaluate și promovate prin AiX OS™ primesc o ofertă validă în 27 de zile de la lansarea campaniei de marketing." },
           ].map((faq, i) => (
             <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
               <h3 className="font-medium text-white">{faq.q}</h3>

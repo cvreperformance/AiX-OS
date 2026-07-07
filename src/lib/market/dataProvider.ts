@@ -1,5 +1,5 @@
 /**
- * Real-Time Market Data Provider & Caching Layer - AiX OS 2026
+ * Real-Time Market Data Provider & Caching Layer - AiX OS™ 2026
  * Fetches from CoinGecko and public APIs, fallbacks gracefully to cached/mock datasets.
  */
 

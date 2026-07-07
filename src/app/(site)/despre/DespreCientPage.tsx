@@ -67,16 +67,16 @@ export function DespreCientPage() {
         title="Operating System for Investors"
         subtitle={
           language === "ro"
-            ? "AiX OS nu este un site imobiliar. Este stratul de intelligence din spatele fiecărei decizii de investiție."
-            : "AiX OS is not a real estate website. It is the intelligence layer behind every investment decision."
+            ? "AiX OS™ nu este un site imobiliar. Este stratul de intelligence din spatele fiecărei decizii de investiție."
+            : "AiX OS™ is not a real estate website. It is the intelligence layer behind every investment decision."
         }
       />
 
       <div className="prose prose-invert max-w-3xl mb-16 space-y-6">
         <p className="text-lg text-zinc-300 leading-relaxed">
           {language === "ro"
-            ? "Informația e peste tot. Inteligența e rară. AiX OS există pentru a transforma informația brută în claritate, strategie și decizii mai bune."
-            : "Information is everywhere. Intelligence is rare. AiX OS exists to transform raw information into clarity, strategy, and better decisions."}
+            ? "Informația e peste tot. Inteligența e rară. AiX OS™ există pentru a transforma informația brută în claritate, strategie și decizii mai bune."
+            : "Information is everywhere. Intelligence is rare. AiX OS™ exists to transform raw information into clarity, strategy, and better decisions."}
         </p>
         <p className="text-zinc-400 leading-relaxed">
           {language === "ro"
@@ -113,7 +113,7 @@ export function DespreCientPage() {
         <p className="font-display text-2xl font-light text-white italic">
           &ldquo;Information is infinite. Attention is limited. Decisions are expensive.&rdquo;
         </p>
-        <p className="text-sm text-zinc-500">— Core Philosophy, AiX OS</p>
+        <p className="text-sm text-zinc-500">— Core Philosophy, AiX OS™</p>
       </section>
     </div>
   );

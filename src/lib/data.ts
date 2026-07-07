@@ -44,7 +44,7 @@ async function fetchFromSupabase<T>(
 
   const { data, error } = await query;
   if (error) {
-    console.error(`[AiX OS] Supabase ${table} error:`, error.message);
+    console.error(`[AiX OS™] Supabase ${table} error:`, error.message);
     return null;
   }
   return data as T[];
@@ -208,6 +208,6 @@ export function getMarketIndicators(): MarketIndicator[] {
     { label: "Dobândă BCE", value: "3.40%", change: "-0.25pp", trend: "down", description: "ECB Iun 2026" },
     { label: "Prețuri Vechi BUC", value: "€2,653/mp", change: "+3.2%", trend: "up", description: "Storia/OLX Mar 2026" },
     { label: "Prețuri Noi BUC", value: "€2,099/mp", change: "+1.1%", trend: "up", description: "Imobiliare.ro" },
-    { label: "Yield Mediu BUC", value: "6.2% net", change: "+0.1pp", trend: "up", description: "AiX OS Research" },
+    { label: "Yield Mediu BUC", value: "6.2% net", change: "+0.1pp", trend: "up", description: "AiX OS™ Research" },
   ];
 }

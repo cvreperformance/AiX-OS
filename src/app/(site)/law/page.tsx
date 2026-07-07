@@ -241,7 +241,9 @@ export default function LawPage() {
   };
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatMessages.length > 0 || isTyping) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [chatMessages, isTyping]);
 
   // Handle send message
@@ -263,7 +265,7 @@ export default function LawPage() {
           ...prev,
           {
             sender: "ai",
-            text: "Am identificat informațiile legale relevante în baza de date AiX OS:",
+            text: "Am identificat informațiile legale relevante în baza de date AiX OS™:",
             response: answer,
           },
         ]);
@@ -357,7 +359,7 @@ export default function LawPage() {
                 Consultă un specialist legal
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
-              <span className="text-[9.5px] font-mono text-zinc-600">AiX OS Legal Compliance</span>
+              <span className="text-[9.5px] font-mono text-zinc-600">AiX OS™ Legal Compliance</span>
             </div>
           </div>
         </div>

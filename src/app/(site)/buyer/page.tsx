@@ -15,11 +15,11 @@ import {
 import BuyerLeadForm from "./BuyerLeadForm";
 
 export const metadata: Metadata = {
-  title: "Buyer Representation — Cumpără Inteligent | AiX OS",
+  title: "Buyer Representation — Cumpără Inteligent | AiX OS™",
   description:
     "Reprezentare cumpărător profesională cu AI. Negociere, due diligence, market intelligence și protecție completă în procesul de achiziție imobiliară.",
   openGraph: {
-    title: "Buyer Representation OS — AiX OS",
+    title: "Buyer Representation OS — AiX OS™",
     description: "Cumpără orice proprietate cu un expert în echipa ta.",
     type: "website",
   },
@@ -83,14 +83,14 @@ const TESTIMONIALS = [
     name: "Alexandru M.",
     role: "Investitor imobiliar, București",
     quote:
-      "Cu ajutorul echipei AiX OS am identificat și achiziționat un apartament cu 6% sub prețul de piață. Due diligence-ul a identificat o problemă juridică pe care o treceam cu vederea. Economie reală: €14,000.",
+      "Cu ajutorul echipei AiX OS™ am identificat și achiziționat un apartament cu 6% sub prețul de piață. Due diligence-ul a identificat o problemă juridică pe care o treceam cu vederea. Economie reală: €14,000.",
     score: 5,
   },
   {
     name: "Elena P.",
     role: "Cumpărător prima locuință",
     quote:
-      "Prima mea achiziție imobiliară și nu știam nimic. Echipa AiX OS m-a ghidat pas cu pas și am cumpărat o proprietate excelentă. Nu mi-aș fi imaginat că procesul poate fi atât de simplu.",
+      "Prima mea achiziție imobiliară și nu știam nimic. Echipa AiX OS™ m-a ghidat pas cu pas și am cumpărat o proprietate excelentă. Nu mi-aș fi imaginat că procesul poate fi atât de simplu.",
     score: 5,
   },
 ];
@@ -102,7 +102,7 @@ export default function BuyerPage() {
       <section className="grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-            AiX OS · Buyer Representation
+            AiX OS™ · Buyer Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1]">
             Cumpără Orice Proprietate{" "}
@@ -150,14 +150,14 @@ export default function BuyerPage() {
       {/* Comparison: alone vs with us */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Singur vs. cu AiX OS</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-white">Singur vs. cu AiX OS™</h2>
           <p className="text-zinc-400">Diferența dintre o decizie bună și una excelentă.</p>
         </div>
         <div className="rounded-2xl border border-zinc-800 overflow-hidden">
           <div className="grid grid-cols-3 bg-zinc-900/80 px-6 py-4">
             <p className="text-sm font-medium text-zinc-300">Aspect</p>
             <p className="text-sm font-medium text-zinc-500 text-center">Singur</p>
-            <p className="text-sm font-medium text-amber-400 text-center">Cu AiX OS</p>
+            <p className="text-sm font-medium text-amber-400 text-center">Cu AiX OS™</p>
           </div>
           {COMPARISON.map((row, i) => (
             <div
@@ -183,7 +183,7 @@ export default function BuyerPage() {
       {/* Advantages */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Ce obții cu AiX OS</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-white">Ce obții cu AiX OS™</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ADVANTAGES.map((adv) => {
@@ -206,7 +206,7 @@ export default function BuyerPage() {
       {/* Process */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul AiX OS</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul AiX OS™</h2>
           <p className="text-zinc-400">De la prima discuție la cheile în mână.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">

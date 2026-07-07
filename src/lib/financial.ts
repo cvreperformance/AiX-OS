@@ -1,5 +1,5 @@
 /**
- * AiX OS — Financial Data Layer
+ * AiX OS™ — Financial Data Layer
  * Step 5: Lightweight financial layer with live-ready placeholders.
  *
  * Production upgrade path:
@@ -134,7 +134,7 @@ export const financialIndicators: FinancialIndicator[] = [
     changeNumeric: 0.1,
     trend: "up",
     unit: "% net",
-    source: "AiX OS Research",
+    source: "AiX OS™ Research",
     updatedAt: "2026-07-01",
     description: "Randamentul mediu net din chirii în București, toate zonele",
   },

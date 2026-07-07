@@ -201,7 +201,7 @@ export default function AntiTeapaPage() {
       {/* Hero & Analyzer */}
       <section className="space-y-6">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-red-500/80 border border-red-500/20 rounded-full px-3 py-1">
-          AiX OS · AntiȚeapă AI
+          AiX OS™ · AntiȚeapă AI
         </span>
         
         <div className="grid lg:grid-cols-2 gap-10 items-start">

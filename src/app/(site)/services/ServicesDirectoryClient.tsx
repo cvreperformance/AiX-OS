@@ -62,14 +62,14 @@ export default function ServicesDirectoryClient() {
       {/* Page Header */}
       <section className="space-y-4 max-w-3xl">
         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
-          AiX OS &bull; Directory
+          AiX OS™ &bull; Directory
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight tracking-tight">
           {language === "ro" ? "Centrul de Servicii" : "System Control Hub"}
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
           {language === "ro"
-            ? "Catalogul complet de servicii AiX OS. Accesează direct orice modul decizional: imobiliare premium, transport VIP, indicatori macro și asistenți AI."
+            ? "Catalogul complet de servicii AiX OS™. Accesează direct orice modul decizional: imobiliare premium, transport VIP, indicatori macro și asistenți AI."
             : "Central directory catalog. Route directly to any sandboxed decision module: premium real estate, VIP transport, macro indicators, or AI advisors."}
         </p>
 

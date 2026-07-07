@@ -30,7 +30,7 @@ const ALERTS: Alert[] = [
   {
     id: "aix-score-launch",
     type: "success",
-    text: "✨ AiX OS Intelligence Platform — Acces gratuit la calculatoare, market intelligence și AI Advisor.",
+    text: "✨ AiX OS™ Intelligence Platform — Acces gratuit la calculatoare, market intelligence și AI Advisor.",
     href: "/ai",
   },
 ];

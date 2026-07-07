@@ -29,7 +29,7 @@ export default function RegisterPage() {
         <div className="relative text-center">
           <Brain className="mx-auto h-12 w-12 text-amber-500" />
           <h2 className="mt-6 text-3xl font-light text-white">
-            Join AiX OS
+            Join AiX OS™
           </h2>
           <p className="mt-2 text-sm text-zinc-400">
             Create an account to access premium features

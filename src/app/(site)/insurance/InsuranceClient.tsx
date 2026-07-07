@@ -93,7 +93,7 @@ export default function InsuranceClient() {
       {/* Header */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          {language === "ro" ? "AiX OS · Asigurări Premium" : "AiX OS · Premium Insurance"}
+          {language === "ro" ? "AiX OS™ · Asigurări Premium" : "AiX OS™ · Premium Insurance"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
           {language === "ro" ? "Protecție de Portofoliu &" : "Portfolio Protection &"} <br />
@@ -196,7 +196,7 @@ export default function InsuranceClient() {
           </p>
           <p className="text-xs text-zinc-400 leading-relaxed">
             {language === "ro"
-              ? "Toate proprietățile rezidențiale din România sunt obligate prin lege să dețină o poliță PAD activă. Suma asigurată este de 20.000 EUR pentru clădirile din beton/cărămidă (Prima de 20 EUR/an) sau 10.000 EUR pentru chirpici/lemn (Prima de 10 EUR/an). AiX OS completează automat PAD-ul cu o poliță facultativă pentru restul valorii proprietății tale."
+              ? "Toate proprietățile rezidențiale din România sunt obligate prin lege să dețină o poliță PAD activă. Suma asigurată este de 20.000 EUR pentru clădirile din beton/cărămidă (Prima de 20 EUR/an) sau 10.000 EUR pentru chirpici/lemn (Prima de 10 EUR/an). AiX OS™ completează automat PAD-ul cu o poliță facultativă pentru restul valorii proprietății tale."
               : "All residential properties in Romania are legally mandated to have active PAD insurance. PAD caps payouts at €20,000 for standard structures (at €20/year) and €10,000 for timber/clay structures (at €10/year). Our dashboard maps optional additions to cover properties up to their true replacement market value."}
           </p>
         </div>
@@ -268,7 +268,7 @@ export default function InsuranceClient() {
               <strong>{language === "ro" ? "Fotografiați distrugerile" : "Photo Evidence"}:</strong> {language === "ro" ? "Efectuați fotografii și video de detaliu înainte de a curăța locul." : "Take detailed close-up pictures and videos before cleanup."}
             </li>
             <li>
-              <strong>{language === "ro" ? "Notificați în 24-48h" : "Notify Insurer within 24-48h"}:</strong> {language === "ro" ? "Contactați asigurătorul sau brokerul tău AiX OS pentru a înregistra dosarul." : "Report details to your broker or carrier to assign adjusters."}
+              <strong>{language === "ro" ? "Notificați în 24-48h" : "Notify Insurer within 24-48h"}:</strong> {language === "ro" ? "Contactați asigurătorul sau brokerul tău AiX OS™ pentru a înregistra dosarul." : "Report details to your broker or carrier to assign adjusters."}
             </li>
             <li>
               <strong>{language === "ro" ? "Păstrați devizele" : "Store Repair Bills"}:</strong> {language === "ro" ? "Toate reparațiile trebuie facturate pentru decontarea directă sau rambursare." : "All repairs require receipts/invoices for reimbursement audits."}

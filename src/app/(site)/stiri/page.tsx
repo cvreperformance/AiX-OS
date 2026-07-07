@@ -5,7 +5,7 @@ import { getRomanianMarketPulse } from "@/lib/market";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Market Pulse | AiX OS — Știri Imobiliare România & Global",
+  title: "Market Pulse | AiX OS™ — Știri Imobiliare România & Global",
   description:
     "Știri imobiliare România, EU și global. Analize de piață, ROBOR, prețuri pe metru pătrat, yield-uri și market intelligence evaluat cu AiX Score.",
 };
@@ -137,7 +137,7 @@ export default async function StiriPage() {
       <div className="mt-16 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
           <div>
-            <p className="text-xs uppercase tracking-widest text-amber-500/80 mb-2">AiX OS Intelligence</p>
+            <p className="text-xs uppercase tracking-widest text-amber-500/80 mb-2">AiX OS™ Intelligence</p>
             <p className="text-white font-light text-lg leading-relaxed max-w-2xl">
               Apartamentele vechi din București sunt cu{" "}
               <span className="text-amber-400 font-medium">27% mai scumpe</span>{" "}

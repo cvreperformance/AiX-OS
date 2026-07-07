@@ -4,7 +4,7 @@ import { User, Settings, Bookmark, FileText, Search } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "My Control Center & Favorites | AiX OS",
+  title: "My Control Center & Favorites | AiX OS™",
   description: "Manage your bookmarked properties, developers, reading materials, searches, and recently viewed intelligence reports.",
 };
 

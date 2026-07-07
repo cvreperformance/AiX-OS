@@ -3,7 +3,7 @@ import HomeClientPage from "./HomeClientPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AiX OS — Know what is worth buying before everyone else.",
+  title: "AiX OS™ — Know what is worth buying before everyone else.",
   description:
     "Economisește timp, bani și elimină riscul din tranzacțiile imobiliare. Analiză cadastrală AI, calculatoare financiare și asistență juridică.",
 };

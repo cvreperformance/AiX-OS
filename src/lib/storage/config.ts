@@ -1,5 +1,5 @@
 /**
- * Supabase Storage configuration for AiX OS property images.
+ * Supabase Storage configuration for AiX OS™ property images.
  * Override via environment variables — no hardcoded URLs in components.
  */
 

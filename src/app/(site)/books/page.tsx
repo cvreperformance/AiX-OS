@@ -192,7 +192,7 @@ export default function BooksPage() {
       {/* Header */}
       <PageHeader
         badge={language === "ro" ? "Biblioteca AiX Wealth" : "AiX Wealth Library"}
-        title={language === "ro" ? "Cărți Recomandate de AiX OS" : "Recommended by AiX OS"}
+        title={language === "ro" ? "Cărți Recomandate de AiX OS™" : "Recommended by AiX OS™"}
         subtitle={language === "ro" 
           ? "Biblioteca de elită curatoriată de consilierii AiX. Cărți fundamentale despre imobiliare, investiții, psihologie, AI, negociere și lifestyle HNWI."
           : "Core reading material recommended by our advisors: real estate, market intelligence, psychology, negotiation, and leadership."}

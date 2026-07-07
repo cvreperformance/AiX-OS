@@ -3,8 +3,8 @@ import { PageHeader } from "@/components/ui";
 import { Building2, Globe, Bookmark, Award, ArrowUpRight, ShieldCheck, Landmark } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Parteneriat Strategic Chestertons | AiX OS",
-  description: "Despre Chestertons — reper global istoric în consultanța imobiliară de lux și integrarea cu platforma AiX OS.",
+  title: "Parteneriat Strategic Chestertons | AiX OS™",
+  description: "Despre Chestertons — reper global istoric în consultanța imobiliară de lux și integrarea cu platforma AiX OS™.",
 };
 
 export default function ChestertonsPage() {
@@ -72,7 +72,7 @@ export default function ChestertonsPage() {
           <div className="rounded-3xl border border-amber-500/20 bg-zinc-950/70 backdrop-blur-xl p-6 sm:p-8 space-y-5 shadow-2xl">
             <h3 className="text-base font-light text-white flex items-center gap-2">
               <Bookmark className="h-5 w-5 text-amber-500" />
-              Conexiune cu AiX OS
+              Conexiune cu AiX OS™
             </h3>
             
             <p className="text-xs text-zinc-400 leading-relaxed">

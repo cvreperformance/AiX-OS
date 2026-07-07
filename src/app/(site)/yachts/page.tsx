@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { YachtsClient } from "./YachtsClient";
 
 export const metadata: Metadata = {
-  title: "Superyacht Charters & Marine Lifestyle | AiX OS",
+  title: "Superyacht Charters & Marine Lifestyle | AiX OS™",
   description: "Charter superyahturi în Marea Mediterană și Golful Persic. Flotă privată de mega-yacht-uri cu echipaj complet. București, Monaco, Dubai.",
 };
 
@@ -12,7 +12,7 @@ export default function YachtsPage() {
       {/* Header */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          AiX OS · Yachting Services
+          AiX OS™ · Yachting Services
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
           Superyacht Charters & <br />

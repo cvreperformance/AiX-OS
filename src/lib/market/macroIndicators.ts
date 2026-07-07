@@ -1,5 +1,5 @@
 /**
- * AiX OS — Macro Indicators Module
+ * AiX OS™ — Macro Indicators Module
  * Real BNR/INS/ECB data with typed structure and formatting utilities.
  * Source of truth for all financial indicators displayed across the platform.
  */
@@ -161,7 +161,7 @@ export const macroIndicators: MacroIndicator[] = [
     trend: "up",
     unit: "% net/an",
     category: "property",
-    source: "AiX OS Research",
+    source: "AiX OS™ Research",
     updatedAt: "2026-07-01",
     description: "Randamentul mediu net din chirii în București, toate zonele. Zonele cu yield maxim: Iancului, Militari, Titan.",
     positiveIsUp: true,

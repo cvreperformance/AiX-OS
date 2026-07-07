@@ -1,5 +1,5 @@
 /**
- * AiX OS — AiX Score Engine
+ * AiX OS™ — AiX Score Engine
  * Computes investment attractiveness scores (0–10) for properties
  * using heuristic rules when no manual score is provided.
  */

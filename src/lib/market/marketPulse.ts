@@ -1,5 +1,5 @@
 /**
- * AiX OS — Market Pulse Engine
+ * AiX OS™ — Market Pulse Engine
  * Computes market sentiment and investment attractiveness from macro data.
  */
 

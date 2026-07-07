@@ -25,7 +25,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "nav.cta": "Creează Cont AiX",
     
     "hero.badge": "Sistemul tău secundar de inteligență imobiliară",
-    "hero.title": "AiX OS",
+    "hero.title": "AiX OS™",
     "hero.subtitle": "Al doilea creier al tău.",
     "hero.tagline": "Gândește mai rapid.",
     "hero.join": "🧠 Înscrie-te pe Waitlist",
@@ -39,7 +39,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "footer.tagline": "Ecosistem digital premium pentru tranzacții și inteligență imobiliară.",
     "footer.locations": "Monaco · Dubai · București · Europa",
     "footer.strategic": "Parteneri Strategici",
-    "footer.rights": "© 2026 AiX OS — Ecosistem Digital de Tranzacții Imobiliare. Toate drepturile rezervate.",
+    "footer.rights": "© 2026 AiX OS™ — Ecosistem Digital de Tranzacții Imobiliare. Toate drepturile rezervate.",
 
     "contact.title": "Contact Desk Privat",
     "contact.subtitle": "Răspundem la solicitări confidențiale în mai puțin de 2 ore.",
@@ -65,7 +65,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "nav.cta": "Create AiX Account",
     
     "hero.badge": "Your secondary real estate intelligence system",
-    "hero.title": "AiX OS",
+    "hero.title": "AiX OS™",
     "hero.subtitle": "Your second brain.",
     "hero.tagline": "Think faster.",
     "hero.join": "🧠 Join the Waitlist",
@@ -79,7 +79,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "footer.tagline": "Premium digital ecosystem for real estate transactions and intelligence.",
     "footer.locations": "Monaco · Dubai · Bucharest · Europe",
     "footer.strategic": "Strategic Partners",
-    "footer.rights": "© 2026 AiX OS — Digital Real Estate Transaction Ecosystem. All rights reserved.",
+    "footer.rights": "© 2026 AiX OS™ — Digital Real Estate Transaction Ecosystem. All rights reserved.",
 
     "contact.title": "Private Desk Contact",
     "contact.subtitle": "We respond to confidential inquiries in less than 2 hours.",

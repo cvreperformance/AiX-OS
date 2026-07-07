@@ -94,7 +94,7 @@ export default function AixScorePage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
         badge="Proprietary Rating Engine"
-        title="AiX OS Score™"
+        title="AiX OS™ Score™"
         subtitle={
           language === "ro"
             ? "Sistemul proprietar de intelligence al platformei. Evaluează fiecare oportunitate pe baza a 12 indicatori strategici ponderați, generând un rating de investiție de la 1.0 la 10.0."

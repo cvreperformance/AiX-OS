@@ -4,8 +4,8 @@ import { brandContent } from "@/lib/content/brand";
 import { Shield, Lock, Eye, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Politica de Confidențialitate | AiX OS",
-  description: "Politica de confidențialitate a platformei AiX OS. Aflați cum vă protejăm și procesăm datele.",
+  title: "Politica de Confidențialitate | AiX OS™",
+  description: "Politica de confidențialitate a platformei AiX OS™. Aflați cum vă protejăm și procesăm datele.",
 };
 
 export default function PrivacyPage() {
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
             1. Informații Generale
           </h2>
           <p>
-            Această Politică de Confidențialitate descrie modul în care platforma <strong>AiX OS</strong>, deținută și administrată în parteneriat cu <strong>{brandContent.name}</strong>, colectează, utilizează și protejează datele dvs. cu caracter personal atunci când accesați site-ul nostru și serviciile asociate.
+            Această Politică de Confidențialitate descrie modul în care platforma <strong>AiX OS™</strong>, deținută și administrată în parteneriat cu <strong>{brandContent.name}</strong>, colectează, utilizează și protejează datele dvs. cu caracter personal atunci când accesați site-ul nostru și serviciile asociate.
           </p>
         </section>
 
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
       </div>
 
       <div className="pt-6 border-t border-zinc-800 text-center text-xs text-zinc-500">
-        Ultima actualizare: 1 Iulie 2026. Administrat de AiX OS Market Pulse.
+        Ultima actualizare: 1 Iulie 2026. Administrat de AiX OS™ Market Pulse.
       </div>
     </div>
   );

@@ -138,7 +138,7 @@ export function GlobalContactPopup() {
         </div>
         <div>
           <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-amber-500">
-            AiX OS &bull; Intelligence
+            AiX OS™ &bull; Intelligence
           </p>
           <h2 className="text-sm font-semibold text-white mt-0.5">
             {language === "ro" ? "Asistență Premium" : "Premium Assistance"}

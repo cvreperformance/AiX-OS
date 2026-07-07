@@ -1,5 +1,5 @@
 /**
- * AiX OS — Curated Books Library
+ * AiX OS™ — Curated Books Library
  * Real, well-known books. Add new books here — the UI picks them up automatically.
  *
  * Fields:

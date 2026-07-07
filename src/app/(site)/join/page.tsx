@@ -116,7 +116,7 @@ export default function JoinPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
-        badge={language === "ro" ? "Abonament AiX OS" : "AiX OS Membership"}
+        badge={language === "ro" ? "Abonament AiX OS™" : "AiX OS™ Membership"}
         title={language === "ro" ? "Alătură-te Ecosistemului AiX" : "Join the AiX Ecosystem"}
         subtitle={
           language === "ro"
@@ -138,8 +138,8 @@ export default function JoinPage() {
             </h2>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
               {language === "ro"
-                ? "Prin crearea unui cont gratuit în AiX OS sau prin abonarea la newsletter, aveți garanția că nu veți rata nicio informație critică din piață. Vă livrăm direct în inbox rapoarte de care aveți nevoie."
-                : "By creating a free AiX OS account or subscribing to the newsletter, you are guaranteed not to miss any critical market information. We deliver the reports you need directly to your inbox."}
+                ? "Prin crearea unui cont gratuit în AiX OS™ sau prin abonarea la newsletter, aveți garanția că nu veți rata nicio informație critică din piață. Vă livrăm direct în inbox rapoarte de care aveți nevoie."
+                : "By creating a free AiX OS™ account or subscribing to the newsletter, you are guaranteed not to miss any critical market information. We deliver the reports you need directly to your inbox."}
             </p>
           </div>
 
@@ -285,8 +285,8 @@ export default function JoinPage() {
                 </button>
                 <p className="text-[9px] text-zinc-600 text-center px-2">
                   {language === "ro"
-                    ? "Apăsând butonul, sunteți de acord cu Termenii și Condițiile și Politica de Confidențialitate AiX OS."
-                    : "By clicking the button, you agree to AiX OS Terms & Conditions and Privacy Policy."}
+                    ? "Apăsând butonul, sunteți de acord cu Termenii și Condițiile și Politica de Confidențialitate AiX OS™."
+                    : "By clicking the button, you agree to AiX OS™ Terms & Conditions and Privacy Policy."}
                 </p>
               </div>
             </form>
