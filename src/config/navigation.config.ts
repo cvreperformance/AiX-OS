@@ -61,9 +61,11 @@ export const navigationCategories: NavigationCategory[] = [
 ];
 
 export const mainNavLinks = [
-  { href: "/", label: "Acasă", labelEn: "Home" },
-  { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
-  { href: "/brain", label: "AiX Brain™", labelEn: "AiX Brain™" },
-  { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
+  { href: "/proprietati", label: "Cumpără", labelEn: "Buy" },
+  { href: "/seller", label: "Vinde", labelEn: "Sell" },
+  { href: "/proprietati", label: "Investiții", labelEn: "Invest" },
+  { href: "/learning", label: "Educație", labelEn: "Learn" },
+  { href: "/convenience", label: "Instrumente", labelEn: "Tools" },
+  { href: "/brain", label: "Sistem AI", labelEn: "AI" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
 ];
