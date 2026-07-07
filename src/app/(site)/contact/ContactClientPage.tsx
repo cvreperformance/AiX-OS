@@ -152,13 +152,13 @@ export default function ContactClientPage() {
           href: siteConfig.links.insuranceForm,
         },
         {
-          title: language === "ro" ? "Consultanță Privată" : "Private Consultation",
+          title: language === "ro" ? "Consultanță Privată" : "Consultation",
           desc: language === "ro" ? "Sesiuni 1-la-1." : "1-on-1 sessions.",
           href: "#general-form", 
         },
         {
-          title: language === "ro" ? "Contact Premium" : "Premium Contact",
-          desc: language === "ro" ? "Acces prioritar." : "Priority access.",
+          title: language === "ro" ? "Premium Advisory" : "Premium Advisory",
+          desc: language === "ro" ? "Consultanță exclusivistă." : "Exclusive consulting.",
           href: brandContent.urls.personal,
         },
       ]
@@ -170,7 +170,7 @@ export default function ContactClientPage() {
       icon: Users,
       forms: [
         {
-          title: language === "ro" ? "Club Registration" : "Club Registration",
+          title: language === "ro" ? "Club" : "Club",
           desc: language === "ro" ? "Înscriere în rețea." : "Network enrollment.",
           href: siteConfig.links.membershipForm,
         },

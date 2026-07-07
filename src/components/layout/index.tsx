@@ -231,6 +231,14 @@ export function Header() {
 
           {/* Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
+              <Link
+                href="/contact"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 min-h-10 rounded-full border border-zinc-800 text-[11px] font-semibold uppercase tracking-wider text-zinc-300 hover:bg-zinc-900 transition-all mr-1"
+              >
+                <Phone className="h-3.5 w-3.5 text-amber-500" />
+                Contact
+              </Link>
+              
               {/* Notification Center */}
               <NotificationPopover />
 
@@ -329,6 +337,14 @@ export function Header() {
               <span>{language === "ro" ? "Sistem Desk" : "System Desk"}</span>
               <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
             </button>
+
+            <Link
+              href="/contact"
+              className="hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border border-zinc-800 text-xs font-semibold uppercase tracking-wider text-zinc-300 hover:bg-zinc-900 transition-all mr-1"
+            >
+              <Phone className="h-4 w-4 text-amber-500" />
+              Contact
+            </Link>
 
             {/* Notification Center */}
             <NotificationPopover />
@@ -517,6 +533,17 @@ export function Header() {
               {t("nav.home")}
             </Link>
 
+            <Link
+              href="/contact"
+              onClick={closeMenu}
+              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                pathname === "/contact" ? "bg-amber-500/10 text-amber-400" : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
+              }`}
+            >
+              <Phone className="h-4.5 w-4.5 flex-shrink-0" />
+              Contact
+            </Link>
+
             <div className="pt-2 pb-1">
               <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
                 {language === "ro" ? "Categorii Decizionale" : "Decision Categories"}
@@ -649,6 +676,7 @@ export function Footer() {
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-zinc-550">
             <a href="https://cristianvaduva.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">CristianVaduva.com</a>
             <a href="https://aixluxury.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">AiXLuxury.com</a>
+            <Link href="/contact" className="hover:text-amber-400 transition-colors">Contact</Link>
             <Link href="/sitemap" className="hover:text-amber-400 transition-colors">Sitemap</Link>
             <Link href="/privacy" className="hover:text-amber-400 transition-colors">
               {language === "ro" ? "Politică de Confidențialitate" : "Privacy Policy"}
