@@ -25,9 +25,9 @@ export const metadata: Metadata = {
     "asigurare locuinta",
     "aix os",
   ],
-  authors: [{ name: "AiX OS", url: "https://aixos.ro" }],
-  creator: "AiX OS",
-  publisher: "AiX OS",
+  authors: [{ name: "AiX OS™", url: "https://aixos.ro" }],
+  creator: "AiX OS™",
+  publisher: "AiX OS™",
   robots: {
     index: true,
     follow: true,

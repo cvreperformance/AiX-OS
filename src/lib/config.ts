@@ -6,7 +6,7 @@ import { brandContent } from "@/lib/content/brand";
  * Do NOT hardcode contact info here — import from brandContent.
  */
 export const siteConfig = {
-  name: "AiX OS",
+  name: "AiX OS™",
   tagline: "Intelligence Layer Built for Investors.",
   description:
     "Platformă de intelligence pentru investitori imobiliari. Market Pulse, AiX Score, AI Advisor și oportunități verificate.",
@@ -78,7 +78,7 @@ export const footerLinks = {
     { href: brandContent.urls.personal, label: "CristianVaduva.com", external: true },
     { href: brandContent.urls.luxury, label: "AiXLuxury.com", external: true },
     { href: brandContent.urls.linktree, label: "Linktree", external: true },
-    { href: "/contact", label: "Contact AiX OS" },
+    { href: "/contact-hub", label: "Contact AiX OS" },
     { href: "/learning#word-of-the-day", label: "Word of the Day" },
   ],
 };

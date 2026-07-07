@@ -216,10 +216,17 @@ export function Header() {
         }`}>
           {/* Top Brand & Actions line */}
         <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5 gap-4">
-          <Link href="/" className="flex min-h-12 items-center gap-1.5 group">
-            <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
-            <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
-            <span className="text-xl font-light tracking-[0.2em] text-amber-500">OS</span>
+          <Link href="/" className="flex flex-col items-start group">
+            <div className="flex items-center gap-1.5 min-h-8">
+              <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
+              <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
+              <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
+                OS<sup className="text-[10px] mt-1 ml-0.5">&trade;</sup>
+              </span>
+            </div>
+            <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
+              Powered by CristianVaduva.com
+            </span>
           </Link>
 
           {/* Quick Actions */}
@@ -294,10 +301,17 @@ export function Header() {
         }`}
       >
         <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
-          <Link href="/" className="flex min-h-12 items-center gap-1.5 group">
-            <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-            <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
-            <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
+          <Link href="/" className="flex flex-col items-start group">
+            <div className="flex items-center gap-1.5 min-h-8">
+              <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
+              <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
+              <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
+                OS<sup className="text-[9px] mt-0.5 ml-0.5">&trade;</sup>
+              </span>
+            </div>
+            <span className="text-[9px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6 hidden sm:block">
+              Powered by CristianVaduva.com
+            </span>
           </Link>
 
           {/* Sistem Desk Dropdown Toggle & Language Toggle */}
@@ -463,10 +477,17 @@ export function Header() {
           </div>
 
           <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-850 flex-shrink-0 bg-[#080808] z-10">
-            <Link href="/" className="flex items-center gap-1.5" onClick={closeMenu}>
-              <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
-              <span className="text-lg font-light tracking-[0.2em] text-amber-500">OS</span>
+            <Link href="/" className="flex flex-col items-start group" onClick={closeMenu}>
+              <div className="flex items-center gap-1.5 min-h-8">
+                <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
+                <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
+                <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
+                  OS<sup className="text-[9px] mt-0.5 ml-0.5">&trade;</sup>
+                </span>
+              </div>
+              <span className="text-[9px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
+                Powered by CristianVaduva.com
+              </span>
             </Link>
 
             <div className="flex items-center gap-2">
@@ -585,7 +606,7 @@ export function Footer() {
         {/* Minimized bottom indicators */}
         <div className="space-y-1">
           <p className="text-xs text-zinc-500">
-            &copy; {new Date().getFullYear()} AiX OS &bull; {language === "ro" ? "Sistem Decizional de Intelligence Imobiliar" : "Decision Intelligence System"}
+            &copy; {new Date().getFullYear()} AiX OS&trade; &bull; {language === "ro" ? "Sistem Decizional de Intelligence Imobiliar" : "Decision Intelligence System"}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-3 gap-y-1 text-[10px] text-zinc-600 font-mono font-medium">
             <span>Status: {language === "ro" ? "Activ" : "Online"}</span>

@@ -65,5 +65,5 @@ export const mainNavLinks = [
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
   { href: "/brain", label: "AiX Brain", labelEn: "AiX Brain" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
-  { href: "/contact", label: "Contact", labelEn: "Contact" },
+  { href: "/contact-hub", label: "Contact", labelEn: "Contact" },
 ];
