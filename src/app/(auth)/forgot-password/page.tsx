@@ -3,7 +3,7 @@
 import { useTransition, useState } from "react";
 import Link from "next/link";
 import { forgotPassword } from "../actions";
-import { Brain, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { Brain, Home, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const [isPending, startTransition] = useTransition();
@@ -29,6 +29,14 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-[#0a0a0a]/80 backdrop-blur-xl p-8 rounded-3xl border border-zinc-800/50 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-amber-500/10 blur-[80px] pointer-events-none" />
+
+        <Link
+          href="/"
+          className="absolute top-6 left-6 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-zinc-500 hover:text-white transition-all z-10"
+        >
+          <Home className="h-3.5 w-3.5" />
+          Home
+        </Link>
 
         <div className="relative text-center">
           <Brain className="mx-auto h-12 w-12 text-amber-500" />

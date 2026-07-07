@@ -75,7 +75,7 @@ export default function NotificationPopover() {
 
       {/* Popover Card */}
       {open && (
-        <div className="absolute right-0 top-full mt-2.5 w-80 rounded-2xl border border-zinc-850 bg-[#080808]/98 backdrop-blur-3xl shadow-2xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute -right-2 sm:right-0 top-full mt-2.5 w-[calc(100vw-2rem)] max-w-[320px] sm:w-80 sm:max-w-none rounded-2xl border border-zinc-850 bg-[#080808]/98 backdrop-blur-3xl shadow-2xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="flex justify-between items-center border-b border-zinc-900 pb-2">
             <span className="text-[10px] uppercase tracking-wider text-zinc-550 font-bold font-mono">
               {language === "ro" ? "Alerte Recente" : "Intelligence Alerts"}
@@ -88,7 +88,7 @@ export default function NotificationPopover() {
             </button>
           </div>
 
-          <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1 scrollbar-none">
+          <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1 scrollbar-none overflow-x-hidden">
             {notifications.map((item) => {
               const Icon = item.icon;
               return (
@@ -99,8 +99,8 @@ export default function NotificationPopover() {
                   <div className={`rounded-lg bg-zinc-900 p-2 ${item.color} shrink-0`}>
                     <Icon className="h-4 w-4" />
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-[11px] text-zinc-300 leading-normal">
+                  <div className="space-y-1 overflow-hidden">
+                    <p className="text-[11px] text-zinc-300 leading-normal break-words">
                       {language === "ro" ? item.textRo : item.textEn}
                     </p>
                     <span className="text-[9px] text-zinc-550 font-mono block">

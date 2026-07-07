@@ -117,7 +117,7 @@ export function GlobalContactPopup() {
 
   return (
     <div
-      className="fixed bottom-[10%] right-4 sm:right-8 z-[250] w-full max-w-[360px] rounded-3xl p-5 sm:p-6 space-y-4 border border-zinc-850 bg-[#080808]/95 backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-bottom-5 duration-350 pointer-events-auto text-left"
+      className="fixed top-[50%] -translate-y-1/2 right-4 sm:right-8 z-[9999] w-full max-w-[360px] rounded-3xl p-5 sm:p-6 space-y-4 border border-zinc-850 bg-[#080808]/95 backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-right-5 duration-350 pointer-events-auto text-left"
       role="dialog"
       aria-label="AiX Luxury Advisor Hub"
     >

@@ -47,7 +47,7 @@ export function FloatingCTA() {
 
   return (
     <div
-      className="fixed bottom-5 right-4 z-[120] flex flex-col items-end gap-3 xl:right-6"
+      className="fixed top-[55%] -translate-y-1/2 right-4 z-[9999] flex flex-col items-end gap-3 xl:right-6"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       {open && (

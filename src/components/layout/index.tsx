@@ -31,7 +31,8 @@ import {
   ArrowUpRight,
   Brain,
   Building2,
-  Mail
+  Mail,
+  Menu
 } from "lucide-react";
 import { brandContent } from "@/lib/content/brand";
 import { mainNavLinks, navigationCategories } from "@/config/navigation.config";
@@ -231,9 +232,6 @@ export function Header() {
 
           {/* Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-              {/* Notification Center */}
-              <NotificationPopover />
-
               {/* Language Switcher */}
               <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1 font-mono">
                 <button
@@ -255,6 +253,9 @@ export function Header() {
               </div>
 
               <AuthNavLinks />
+
+              {/* Notification Center */}
+              <NotificationPopover />
             </div>
           </div>
 
@@ -330,11 +331,15 @@ export function Header() {
               <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
             </button>
 
-            {/* Notification Center */}
-            <NotificationPopover />
-
-            {/* Auth Nav Links (Sticky Header) */}
-            <AuthNavLinks />
+            {/* Mobile Menu Toggle Button */}
+            <button
+              onClick={open ? closeMenu : openMenu}
+              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+              aria-label={language === "ro" ? "Meniu Principal" : "Main Menu"}
+              aria-expanded={open}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
 
             {/* Global Language Toggle */}
             <button
@@ -344,15 +349,11 @@ export function Header() {
               {language === "ro" ? "EN" : "RO"}
             </button>
 
-            {/* Mobile Menu Toggle Button (visible at all times next to toggle and alerts) */}
-            <button
-              onClick={open ? closeMenu : openMenu}
-              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
-              aria-label={language === "ro" ? "Meniu" : "Menu"}
-            >
-              <Brain className="h-5 w-5 text-pink-500 fill-pink-500/10 drop-shadow-[0_0_6px_rgba(236,72,153,0.35)] shrink-0 animate-pulse" />
-              <span className="sr-only">{language === "ro" ? "Meniu" : "Menu"}</span>
-            </button>
+            {/* Auth Nav Links (Sticky Header) */}
+            <AuthNavLinks />
+
+            {/* Notification Center */}
+            <NotificationPopover />
           </div>
         </div>
 
