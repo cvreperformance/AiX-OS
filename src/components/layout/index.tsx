@@ -260,7 +260,7 @@ export function Header() {
           </div>
 
           {/* Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
-          <div className="grid grid-cols-7 gap-6 text-left">
+          <div className="grid grid-cols-8 gap-6 text-left">
             {navigationCategories.map((cat) => {
               const Icon = cat.icon;
               const title = language === "ro" ? cat.title : cat.titleEn;

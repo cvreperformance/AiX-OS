@@ -378,20 +378,6 @@ export const ALL_SERVICES_REGISTRY: ServiceItem[] = [
     actionLabel: "Deschide",
     actionLabelEn: "Open",
   },
-  {
-    id: "pricing",
-    label: "Pricing & Access",
-    labelEn: "Pricing & Access",
-    desc: "Alege nivelul de acces pentru ecosistemul AiX OS™.",
-    descEn: "Choose your access level for the AiX OS™ ecosystem.",
-    href: "/pricing",
-    icon: Gem,
-    keywords: ["preturi", "abonamente", "pricing", "plans", "access", "premium"],
-    category: "AI_SYSTEM",
-    status: "active",
-    actionLabel: "Vezi Planuri",
-    actionLabelEn: "View Plans",
-  },
 ];
 
 export const CONNECT_CHANNELS = [

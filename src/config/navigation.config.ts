@@ -6,6 +6,7 @@ import {
   Wrench,
   Brain,
   Phone,
+  Gem,
   type LucideIcon
 } from "lucide-react";
 
@@ -58,6 +59,27 @@ export const navigationCategories: NavigationCategory[] = [
     icon: Brain,
     color: "text-violet-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
+  },
+  {
+    id: "pricing",
+    title: "Prețuri",
+    titleEn: "Pricing",
+    icon: Gem,
+    color: "text-amber-400",
+    items: [
+      {
+        id: "pricing-page",
+        category: "AI_SYSTEM" as any,
+        label: "Planuri & Acces",
+        labelEn: "Pricing & Access",
+        href: "/pricing",
+        desc: "Alege nivelul de acces pentru ecosistemul AiX OS™.",
+        descEn: "Choose your access level for the AiX OS™ ecosystem.",
+        icon: Gem,
+        status: "active",
+        keywords: ["preturi", "abonamente", "pricing", "plans", "access", "premium"],
+      }
+    ]
   },
   {
     id: "contact",
