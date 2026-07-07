@@ -57,14 +57,6 @@ export default function BrainClient() {
     ]);
   }, [language]);
 
-  // Handle initial search params query
-  useEffect(() => {
-    if (initialQuery) {
-      setQuery(initialQuery);
-      executeSearch(initialQuery);
-    }
-  }, [initialQuery]);
-
   // Scroll to bottom on new message
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -93,7 +85,7 @@ export default function BrainClient() {
       }).slice(0, 4);
 
       let insights = "";
-      let actionsList: { label: string; href: string }[] = [];
+      const actionsList: { label: string; href: string }[] = [];
       let confidenceLevel: ChatMessage["confidence"] = "high";
 
       if (matched.length > 0) {
@@ -162,6 +154,13 @@ export default function BrainClient() {
       setLoading(false);
     }, 1000);
   };
+  // Handle initial search params query
+  useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery);
+      executeSearch(initialQuery);
+    }
+  }, [initialQuery]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -175,7 +175,7 @@ export function GlobalSearch() {
     e.stopPropagation();
     try {
       const current = localStorage.getItem("aix_saved_items");
-      let list = current ? JSON.parse(current) : [];
+      const list = current ? JSON.parse(current) : [];
       const exists = list.some((i: any) => i.href === item.deepLink);
       if (!exists) {
         list.push({ title: item.title, href: item.deepLink, category: item.category });
@@ -191,7 +191,7 @@ export function GlobalSearch() {
     e.stopPropagation();
     try {
       const current = localStorage.getItem("aix_compare_items");
-      let list = current ? JSON.parse(current) : [];
+      const list = current ? JSON.parse(current) : [];
       const exists = list.some((i: any) => i.href === item.deepLink);
       if (!exists) {
         list.push({ title: item.title, href: item.deepLink });
