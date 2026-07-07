@@ -233,9 +233,9 @@ export function Header() {
           <div className="flex items-center gap-2 sm:gap-3">
               <Link
                 href="/contact"
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 min-h-10 rounded-full border border-zinc-800 text-[11px] font-semibold uppercase tracking-wider text-zinc-300 hover:bg-zinc-900 transition-all mr-1"
+                className="hidden lg:flex items-center gap-2 px-4 py-2 min-h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs font-bold uppercase tracking-widest text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 transition-all mr-2 shadow-sm"
               >
-                <Phone className="h-3.5 w-3.5 text-amber-500" />
+                <Phone className="h-4 w-4" />
                 Contact
               </Link>
               
@@ -340,9 +340,9 @@ export function Header() {
 
             <Link
               href="/contact"
-              className="hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border border-zinc-800 text-xs font-semibold uppercase tracking-wider text-zinc-300 hover:bg-zinc-900 transition-all mr-1"
+              className="hidden lg:flex items-center gap-2 px-5 py-2 min-h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs font-bold uppercase tracking-widest text-amber-400 hover:bg-amber-500/20 hover:text-amber-300 transition-all mr-2 shadow-sm"
             >
-              <Phone className="h-4 w-4 text-amber-500" />
+              <Phone className="h-4 w-4" />
               Contact
             </Link>
 
