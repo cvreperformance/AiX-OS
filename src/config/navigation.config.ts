@@ -5,6 +5,7 @@ import {
   BookOpen,
   Wrench,
   Brain,
+  Phone,
   type LucideIcon
 } from "lucide-react";
 
@@ -58,14 +59,33 @@ export const navigationCategories: NavigationCategory[] = [
     color: "text-violet-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
   },
+  {
+    id: "contact",
+    title: "Contact",
+    titleEn: "Contact",
+    icon: Phone,
+    color: "text-amber-500",
+    items: [
+      {
+        id: "contact-hub",
+        category: "CONTACT" as any,
+        label: "Contactează-ne",
+        labelEn: "Contact Us",
+        href: "/contact",
+        desc: "Ia legătura cu noi.",
+        descEn: "Get in touch with us.",
+        icon: Phone,
+        status: "active",
+        keywords: ["contact", "suport", "ajutor"],
+      }
+    ]
+  }
 ];
 
 export const mainNavLinks = [
-  { href: "/proprietati", label: "Cumpără", labelEn: "Buy" },
-  { href: "/seller", label: "Vinde", labelEn: "Sell" },
-  { href: "/proprietati", label: "Investiții", labelEn: "Invest" },
-  { href: "/learning", label: "Educație", labelEn: "Learn" },
-  { href: "/convenience", label: "Instrumente", labelEn: "Tools" },
-  { href: "/brain", label: "Sistem AI", labelEn: "AI" },
+  { href: "/", label: "Acasă", labelEn: "Home" },
+  { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
+  { href: "/brain", label: "AiX Brain™", labelEn: "AiX Brain™" },
+  { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
 ];

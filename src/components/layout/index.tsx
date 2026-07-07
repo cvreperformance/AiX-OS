@@ -211,54 +211,30 @@ export function Header() {
       {/* ─── PRIMARY GLASS PANEL SERVICE HUB (TOP NAV REPLACEMENT) ───────── */}
       <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4 lg:pt-6">
         {/* Full Flat Grid Header - Visible on desktop at the top */}
-        <div className={`hidden lg:block rounded-3xl border border-zinc-900 bg-[#080808]/75 backdrop-blur-xl px-6 py-4 sm:px-8 sm:py-5 shadow-2xl relative transition-all duration-300 ${
+        <div className={`hidden lg:block rounded-3xl border border-zinc-900 bg-[#080808]/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
           scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
         }`}>
-          {/* Top Brand, Nav & Actions line */}
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="flex flex-col items-start group">
-              <div className="flex items-center gap-1.5 min-h-8">
-                <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
-                <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
-                <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
-                  OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
-                </span>
-              </div>
-              <span className="text-xs text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
-                Powered by CristianVaduva.com
+          {/* Top Brand & Actions line */}
+        <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5 gap-4">
+          <Link href="/" className="flex flex-col items-start group">
+            <div className="flex items-center gap-1.5 min-h-8">
+              <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
+              <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
+              <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
+                OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
               </span>
-            </Link>
+            </div>
+            <span className="text-xs text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
+              Powered by CristianVaduva.com
+            </span>
+          </Link>
 
-            {/* Primary Horizontal Navigation */}
-            <nav className="flex items-center gap-1 xl:gap-2">
-              {mainNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-2 text-[11px] xl:text-xs font-bold uppercase tracking-[0.15em] text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-full transition-all"
-                >
-                  {language === "ro" ? link.label : link.labelEn}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Quick Actions */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <button
-                onClick={() => setShowDeskDropdown(!showDeskDropdown)}
-                className={`flex items-center gap-1.5 px-4 py-2 min-h-10 rounded-xl border transition-all text-[11px] font-bold uppercase tracking-wider ${
-                  showDeskDropdown
-                    ? "bg-amber-500/20 border-amber-500/35 text-amber-400"
-                    : "border-zinc-800 text-zinc-300 hover:bg-zinc-900"
-                }`}
-              >
-                <LayoutGrid className="h-4 w-4" />
-                <span>{language === "ro" ? "Servicii" : "Services"}</span>
-                <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
-              </button>
-              
+          {/* Quick Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+              {/* Notification Center */}
               <NotificationPopover />
 
+              {/* Language Switcher */}
               <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1 font-mono">
                 <button
                   onClick={() => setLanguage("ro")}
@@ -280,6 +256,40 @@ export function Header() {
 
               <AuthNavLinks />
             </div>
+          </div>
+
+          {/* Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
+          <div className="grid grid-cols-7 gap-6 text-left">
+            {navigationCategories.map((cat) => {
+              const Icon = cat.icon;
+              const title = language === "ro" ? cat.title : cat.titleEn;
+              return (
+                <div key={cat.id} className="space-y-4">
+                  <div className="flex items-center gap-2 border-b border-zinc-900 pb-2">
+                    <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-300 font-mono">
+                      {title}
+                    </h4>
+                  </div>
+                  <ul className="space-y-2.5">
+                    {cat.items.map((item) => {
+                      const label = language === "ro" ? item.label : item.labelEn;
+                      return (
+                        <li key={item.id}>
+                          <Link
+                            href={item.href}
+                            className="text-xs text-zinc-500 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium leading-relaxed"
+                          >
+                            {label}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+            <AccountMenuSection language={language} />
           </div>
         </div>
       </div>
@@ -304,32 +314,20 @@ export function Header() {
             </span>
           </Link>
 
-          {/* Primary Horizontal Navigation (Sticky) */}
-          <nav className="hidden lg:flex items-center justify-center flex-1 mx-4 gap-1">
-              {mainNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-3 py-2 text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.15em] text-zinc-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-full transition-all whitespace-nowrap"
-                >
-                  {language === "ro" ? link.label : link.labelEn}
-                </Link>
-              ))}
-          </nav>
-
           {/* Sistem Desk Dropdown Toggle & Language Toggle */}
           <div className="flex items-center gap-2 sm:gap-2.5">
             {/* Desktop Desk Toggle */}
             <button
               onClick={() => setShowDeskDropdown(!showDeskDropdown)}
-              className={`hidden lg:flex items-center justify-center w-12 h-12 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
+              className={`hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
                 showDeskDropdown
                   ? "bg-amber-500/20 border-amber-500/35 text-amber-400"
                   : "border-zinc-800 text-zinc-300 hover:bg-zinc-900"
               }`}
-              title={language === "ro" ? "Toate Serviciile" : "All Services"}
             >
-              <LayoutGrid className="h-5 w-5" />
+              <LayoutGrid className="h-4 w-4" />
+              <span>{language === "ro" ? "Sistem Desk" : "System Desk"}</span>
+              <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
             </button>
 
             {/* Notification Center */}
@@ -361,7 +359,7 @@ export function Header() {
         {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
         {showDeskDropdown && scrolled && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-6 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-7 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
             onMouseLeave={() => setShowDeskDropdown(false)}
           >
             {navigationCategories.map((cat) => {
@@ -508,18 +506,16 @@ export function Header() {
 
           {/* Mobile Categories - identical structures to desktop categories */}
           <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 overscroll-contain">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={closeMenu}
-                className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                  pathname === link.href ? "bg-amber-500/10 text-amber-400" : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
-                }`}
-              >
-                {language === "ro" ? link.label : link.labelEn}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
+              }`}
+            >
+              <Home className="h-4.5 w-4.5 flex-shrink-0" />
+              {t("nav.home")}
+            </Link>
 
             <div className="pt-2 pb-1">
               <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
