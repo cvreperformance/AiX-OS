@@ -298,7 +298,7 @@ export function Header() {
       {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
         className={`sticky top-0 z-[300] border-b border-zinc-900 bg-[#080808]/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
-          scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 pointer-events-none lg:absolute"
+          scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"
         }`}
       >
         <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
