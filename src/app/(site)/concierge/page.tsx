@@ -1,6 +1,6 @@
 "use client";
 
-import { Gem, Globe, Clock, Phone, Star, MessageCircle, Shield } from "lucide-react";
+import { Gem, Globe, Clock, Phone, Star, MessageCircle, Shield, Plane, Compass, Info, ExternalLink } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 
 const SERVICES = [
@@ -10,6 +10,37 @@ const SERVICES = [
   { icon: Clock, title: "Suport Dedicated 24/7", desc: "Lifestyle manager personal disponibil oricând, asigurând rezolvarea oricărei solicitări." },
   { icon: Star, title: "Networking UHNW", desc: "Acces cu invitație la dineurile private din cercurile de parteneri investitori AiX OS." },
   { icon: Phone, title: "Planificare Fiscală", desc: "Asistență în optimizare fiscală transfrontalieră pentru achiziții mari de active." },
+];
+
+const TRAVEL_SERVICES = [
+  {
+    title: "Aviație Privată (FBO Lookup)",
+    desc: "Planificare zboruri charter la cerere. Căutare terminale private (FBO) în întreaga lume, companii aeriene de lux și costuri estimate.",
+    icon: Plane,
+    category: "Aviation",
+    link: "https://www.flapper.aero/",
+  },
+  {
+    title: "Ghid de Vize (Henley Passport)",
+    desc: "Verificare cerințe de viză pe baza cetățeniei tale. Analiză libertate de circulație și proceduri de obținere vize de investitor (Golden Visa).",
+    icon: Globe,
+    category: "Visa & Entry",
+    link: "https://www.henleyglobal.com/passport-index",
+  },
+  {
+    title: "Ghiduri de Țară Oficiale (MAE)",
+    desc: "Alerte de călătorie, starea frontierelor, condiții de intrare în țară și servicii de asistență consulară oferite de Ministerul Afacerilor Externe.",
+    icon: Info,
+    category: "Safety Alerts",
+    link: "https://www.mae.ro/concierge-alerts",
+  },
+  {
+    title: "Planificatoare Itinerarii VIP",
+    desc: "Platforme recomandate pentru planificarea de călătorii premium: cazări verificate, transport dedicat și ghiduri lifestyle locale.",
+    icon: Compass,
+    category: "Lifestyle Planning",
+    link: "https://www.virtuoso.com/",
+  },
 ];
 
 export default function ConciergePage() {
@@ -53,6 +84,44 @@ export default function ConciergePage() {
             </div>
           );
         })}
+      </section>
+
+      {/* Travel Services */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-light text-white">Resurse de Mobilitate Globală</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {TRAVEL_SERVICES.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.title} className={`p-6 rounded-3xl ${designSystem.glass} flex flex-col justify-between min-h-[200px]`}>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                      {s.category}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{s.title}</h3>
+                    <p className="text-xs text-zinc-455 leading-relaxed mt-2">{s.desc}</p>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                  <a
+                    href={s.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-amber-500/70 hover:text-amber-400 font-semibold transition-colors"
+                  >
+                    Deschide Portal <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       {/* Call to action */}

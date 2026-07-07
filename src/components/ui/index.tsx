@@ -94,7 +94,7 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
 
   return (
     <Link
-      href={`/oportunitati/${opportunity.slug}`}
+      href={`/proprietati/${opportunity.slug}`}
       className="group block overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/30 transition-all hover:border-amber-500/30"
     >
       {opportunity.image_url && (

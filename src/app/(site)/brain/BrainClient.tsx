@@ -99,7 +99,7 @@ export default function BrainClient() {
           
           actionsList.push(
             { label: language === "ro" ? "Scanează Carte Funciară" : "Scan Cadastre", href: "/anti-teapa" },
-            { label: language === "ro" ? "Calculează Taxe Notariale" : "Calculate Notary Cost", href: "/calculators" }
+            { label: language === "ro" ? "Calculează Taxe Notariale" : "Calculate Notary Cost", href: "/convenience" }
           );
         } else if (categoriesMatched.includes("INVEST_PROTECT")) {
           insights = language === "ro"
@@ -116,7 +116,7 @@ export default function BrainClient() {
             : "Platform utilities request matched. Sandboxed financial computations are available instantly via the modules below.";
           
           actionsList.push(
-            { label: language === "ro" ? "Calculează Ipotecă & ROI" : "Simulate Mortgage & ROI", href: "/calculators" }
+            { label: language === "ro" ? "Calculează Ipotecă & ROI" : "Simulate Mortgage & ROI", href: "/convenience" }
           );
         } else {
           insights = language === "ro"
@@ -132,7 +132,7 @@ export default function BrainClient() {
         
         actionsList.push(
           { label: language === "ro" ? "Consultanță WhatsApp" : "WhatsApp Support", href: "https://wa.me/436509536345" },
-          { label: language === "ro" ? "Deschide Calculator Financiar" : "Open Financial Calculators", href: "/calculators" }
+          { label: language === "ro" ? "Deschide Calculator Financiar" : "Open Financial Calculators", href: "/convenience" }
         );
       }
 

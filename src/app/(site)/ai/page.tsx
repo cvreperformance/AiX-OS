@@ -55,7 +55,7 @@ Strategii recomandate:
 
 ⚠️ Moment de piață: stabilitate cu oportunități selective. ROBOR 6.85% avantajează cumpărătorii cash.`,
       links: [
-        { label: "Calculator ROI", href: "/calculators" },
+        { label: "Calculator ROI", href: "/convenience" },
         { label: "Proprietăți Disponibile", href: "/proprietati" },
         { label: "Consultanță Gratuită", href: "/contact" },
       ],
@@ -82,7 +82,7 @@ Strategii recomandate:
 • AiX Score mediu: 8.2
 
 Concluzie: Pipera = investiție cu cashflow mai bun. Floreasca = stabilitate și apreciere graduală pe termen lung.`,
-      links: [{ label: "Calculator Yield", href: "/calculators" }],
+      links: [{ label: "Calculator Yield", href: "/convenience" }],
     };
   }
 
@@ -102,7 +102,7 @@ Medie național: 5.8% net
 
 Formula Yield Net:
 = (Chirie Anuală − Cheltuieli) ÷ Prețul de Achiziție × 100`,
-      links: [{ label: "Calculator Yield Chirie", href: "/calculators" }],
+      links: [{ label: "Calculator Yield Chirie", href: "/convenience" }],
     };
   }
 
@@ -123,7 +123,7 @@ Impact asupra pieței:
 
 Strategie AiX OS: momentul este favorabil pentru negociere agresivă dacă ești cash.`,
       links: [
-        { label: "Calculator Ipotecă", href: "/calculators" },
+        { label: "Calculator Ipotecă", href: "/convenience" },
         { label: "Indicatori Piață", href: "/market" },
       ],
     };
@@ -171,7 +171,7 @@ Total estimat: 4–7% din prețul de achiziție
 
 Cu AiX OS Buyer Representation: comisionul agentului tău = €0 (plătit de vânzător)`,
       links: [
-        { label: "Calculator Taxe Notariale", href: "/calculators" },
+        { label: "Calculator Taxe Notariale", href: "/convenience" },
         { label: "Buyer Representation", href: "/buyer" },
       ],
     };
@@ -197,7 +197,7 @@ Cu AiX OS Buyer Representation: comisionul agentului tău = €0 (plătit de vâ
 • Avantaj: convergență spre prețuri UE
 
 Concluzie AiX OS: Dubai pentru maximizare randament, România pentru risc-randament optim și lichiditate mai bună.`,
-      links: [{ label: "Investiții Globale", href: "/investments" }],
+      links: [{ label: "Investiții Globale", href: "/proprietati" }],
     };
   }
 
@@ -221,7 +221,7 @@ Exemplu practic:
 → Yield net = 7,560 ÷ 158,000 × 100 = 4.79%
 
 Adaugă apreciere 6%/an = ROI total estimat ~11%/an`,
-      links: [{ label: "Calculator ROI Complet", href: "/calculators" }],
+      links: [{ label: "Calculator ROI Complet", href: "/convenience" }],
     };
   }
 
@@ -316,7 +316,7 @@ AiX OS are acces la proprietăți și rețea în Monaco prin AiXLuxury.com. Disc
 AiX OS: comparăm ofertele de la 15+ asigurători. Consultanță gratuită.`,
       links: [
         { label: "Asigurări AI", href: "/insurance" },
-        { label: "Calculator Asigurare", href: "/calculators" },
+        { label: "Calculator Asigurare", href: "/convenience" },
       ],
     };
   }

@@ -272,7 +272,7 @@ export default function MarketPage() {
             {language === "ro" ? "Programează Întâlnire Advisor" : "Schedule Advisor Meeting"}
           </button>
           <Link
-            href="/calculators"
+            href="/convenience"
             className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-2.5 text-xs text-zinc-350 hover:text-white transition-all flex items-center gap-1"
           >
             {language === "ro" ? "Calculatoare ROI" : "ROI Calculators"}

@@ -52,7 +52,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       desc: language === "ro" ? "Calculatoare credite imobiliare, randament yield și convertoare." : "Mortgage interest estimators, cash flow ROI sheets, and currency values.",
       icon: Wrench,
       color: "text-teal-400 border-teal-500/10 hover:bg-teal-500/[0.02]",
-      href: "/calculators"
+      href: "/convenience"
     },
     {
       title: language === "ro" ? "Sistem AI" : "AI System",

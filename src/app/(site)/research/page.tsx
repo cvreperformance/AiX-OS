@@ -16,7 +16,11 @@ import {
   ShieldCheck,
   Building,
   TrendingUp,
-  FileWarning
+  FileWarning,
+  Scale,
+  Landmark,
+  Shield,
+  FileText
 } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
@@ -33,13 +37,99 @@ interface OsintReport {
   findings: string[];
 }
 
-export default function OsintPage() {
+
+export default function ResearchCenterPage() {
+
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [scanStep, setScanStep] = useState("");
   const [report, setReport] = useState<OsintReport | null>(null);
 
+  
+  const resourcesRO = [
+    {
+      title: "ANCPI (eTerra)",
+      desc: "Agenția Națională de Cadastru și Publicitate Imobiliară. Utilizată pentru extrase de carte funciară, verificarea proprietarilor legali și intabulări.",
+      url: "https://www.ancpi.ro/",
+      category: "Real Estate",
+      icon: Building,
+    },
+    {
+      title: "ONRC",
+      desc: "Oficiul Național al Registrului Comerțului. Baza oficială pentru verificarea existenței firmelor românești, a stării juridice și a acționarilor.",
+      url: "https://www.onrc.ro/",
+      category: "Business",
+      icon: Scale,
+    },
+    {
+      title: "ANAF Registry",
+      desc: "Verificare stare de inactivitate fiscală, obligații restante și înregistrare în scopuri de TVA a partenerilor de tranzacție.",
+      url: "https://www.anaf.ro/RegistruTVA/",
+      category: "Tax & Finance",
+      icon: Landmark,
+    },
+    {
+      title: "PMB Urbanism",
+      desc: "Directia de Urbanism Primăria București. Planuri Urbanistice Zonale (PUZ), regulamente locale și certificate de urbanism active.",
+      url: "https://www.pmb.ro/",
+      category: "Real Estate",
+      icon: Shield,
+    },
+    {
+      title: "SEAP (Sicap)",
+      desc: "Sistemul Electronic de Achiziții Publice. Monitorizarea licitațiilor publice, achizițiilor guvernamentale și proiectelor de infrastructură.",
+      url: "http://e-licitatie.ro/",
+      category: "Public Sector",
+      icon: FileText,
+    },
+    {
+      title: "Ministerul Finanțelor",
+      desc: "Verificare bilanțuri contabile anuale, profitabilitate firmă și indicatori de capital depuși oficial.",
+      url: "https://mfinante.gov.ro/",
+      category: "Tax & Finance",
+      icon: Landmark,
+    },
+  ];
+  const resourcesEU = [
+    {
+      title: "Eurostat",
+      desc: "Oficiul de Statistică al Uniunii Europene. Date macroeconomice comparate, inflație, indici imobiliari europeni și demografie.",
+      url: "https://ec.europa.eu/eurostat/",
+      category: "Macro Intelligence",
+      icon: Globe,
+    },
+    {
+      title: "ECB (Central Bank)",
+      desc: "Banca Centrală Europeană. Rata dobânzilor de referință EURIBOR, decizii de politică monetară din Zona Euro și prognoze economice.",
+      url: "https://www.ecb.europa.eu/",
+      category: "Macro Intelligence",
+      icon: Landmark,
+    },
+    {
+      title: "EUR-Lex",
+      desc: "Acces direct și oficial la legislația Uniunii Europene, tratate fundamentale și jurisprudența Curții de Justiție (CJUE).",
+      url: "https://eur-lex.europa.eu/",
+      category: "Legal & Treaties",
+      icon: FileText,
+    },
+    {
+      title: "ESMA",
+      desc: "Autoritatea Europeană pentru Valori Mobiliare și Piețe. Reglementări financiare, protecția investitorilor în piețe de capital.",
+      url: "https://www.esma.europa.eu/",
+      category: "Legal & Treaties",
+      icon: Shield,
+    },
+    {
+      title: "European Data Portal",
+      desc: "Seturi de date publice din Uniunea Europeană referitoare la transporturi, mediu, economie și administrații locale.",
+      url: "https://data.europa.eu/",
+      category: "Public Sector",
+      icon: FileText,
+    },
+  ];
+
   const osintCategories = [
+
     {
       title: "Cercetare Companii și Asociați",
       icon: Briefcase,
@@ -174,8 +264,8 @@ export default function OsintPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       <PageHeader
-        badge="Market Intelligence"
-        title="Centrul de Comandă OSINT"
+        badge="Research & Intelligence"
+        title="Research Center & OSINT"
         subtitle="Open-Source Intelligence (OSINT). Folosiți resurse publice și baze de date guvernamentale pentru un due diligence exhaustiv înainte de a semna orice contract."
       />
 
@@ -317,7 +407,80 @@ export default function OsintPage() {
         </div>
       </section>
 
+      
       {/* Directory of Links */}
+      <section className="space-y-8 mb-16">
+        <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <Database className="h-6 w-6 text-amber-500" />
+          <h2 className="text-2xl font-light text-white">Registre Publice România</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {resourcesRO.map((res) => {
+            const Icon = res.icon || Globe;
+            return (
+              <div key={res.title} className="p-6 rounded-3xl bg-zinc-900/30 border border-zinc-800 flex flex-col justify-between min-h-[220px]">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                      {res.category}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <p className="text-xs text-zinc-450 leading-relaxed mt-2">{res.desc}</p>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                  <a href={res.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-amber-500/70 hover:text-amber-400 font-semibold transition-colors">
+                    Accesează Portal <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="space-y-8 mb-16">
+        <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <Globe className="h-6 w-6 text-blue-500" />
+          <h2 className="text-2xl font-light text-white">Resurse & Date Uniunea Europeană</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {resourcesEU.map((res) => {
+            const Icon = res.icon || Globe;
+            return (
+              <div key={res.title} className="p-6 rounded-3xl bg-zinc-900/30 border border-zinc-800 flex flex-col justify-between min-h-[220px]">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                      {res.category}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <p className="text-xs text-zinc-450 leading-relaxed mt-2">{res.desc}</p>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                  <a href={res.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-400/80 hover:text-blue-400 font-semibold transition-colors">
+                    Accesează Portal <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Directory of Links */}
+
       <section className="space-y-8">
         <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
           <Database className="h-6 w-6 text-amber-500" />

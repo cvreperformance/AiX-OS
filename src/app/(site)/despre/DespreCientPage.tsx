@@ -31,7 +31,7 @@ export function DespreCientPage() {
       icon: Network,
       name: "Connect",
       desc: "Rețea privată globală. Invitation only. Off-market deals.",
-      href: "/oportunitati",
+      href: "/proprietati",
     },
   ] : [
     {
@@ -56,7 +56,7 @@ export function DespreCientPage() {
       icon: Network,
       name: "Connect",
       desc: "Private global network. Invitation only. Off-market deals.",
-      href: "/oportunitati",
+      href: "/proprietati",
     },
   ];
 

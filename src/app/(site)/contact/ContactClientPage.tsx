@@ -136,7 +136,7 @@ export default function ContactClientPage() {
         {
           title: language === "ro" ? "Investiții" : "Investments",
           desc: language === "ro" ? "Oportunități de randament." : "Yield opportunities.",
-          href: "/investments",
+          href: "/proprietati",
         },
       ]
     },

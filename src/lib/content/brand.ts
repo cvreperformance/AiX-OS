@@ -138,7 +138,7 @@ export const brandContent = {
       id: "private-investor-network",
       title: "Private Investor Network",
       titleRO: "Rețea Privată de Investitori",
-      href: "/network",
+      href: "/private-wealth",
       desc: "Direct connection with qualified private investors (UHNW) from the world's major financial capitals.",
       descRO: "Conexiune directă cu investitori privați calificați (UHNW) din principalele capitale financiare globale.",
       features: [

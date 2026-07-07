@@ -25,7 +25,7 @@ const ALERTS: Alert[] = [
     id: "robor-alert",
     type: "info",
     text: "📈 ROBOR 3M: ~6.85% — Avantaj major pentru cumpărătorii cash. Consultanță gratuită disponibilă.",
-    href: "/calculators",
+    href: "/convenience",
   },
   {
     id: "aix-score-launch",

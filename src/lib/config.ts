@@ -35,8 +35,8 @@ export const siteConfig = {
 export const navLinks = [
   { href: "/proprietati", label: "Proprietăți" },
   { href: "/stiri", label: "Market Pulse" },
-  { href: "/oportunitati", label: "Oportunități" },
-  { href: "/investments", label: "Investiții" },
+  { href: "/proprietati", label: "Oportunități" },
+  { href: "/proprietati", label: "Investiții" },
   { href: "/aix-score", label: "AiX Score" },
   { href: "/ai", label: "AI Advisor" },
   {
@@ -49,7 +49,7 @@ export const navLinks = [
       { href: "/anti-teapa", label: "AntiȚeapă AI" },
       { href: "/valuation", label: "Evaluare AI" },
       { href: "/concierge", label: "Luxury Concierge" },
-      { href: "/network", label: "Rețea Privată" },
+      { href: "/private-wealth", label: "Rețea Privată" },
     ],
   },
 ];
@@ -58,10 +58,10 @@ export const footerLinks = {
   platform: [
     { href: "/proprietati", label: "Proprietăți" },
     { href: "/stiri", label: "Market Pulse" },
-    { href: "/oportunitati", label: "Oportunități" },
-    { href: "/investments", label: "Investiții" },
+    { href: "/proprietati", label: "Oportunități" },
+    { href: "/proprietati", label: "Investiții" },
     { href: "/market", label: "Indicatori Piață" },
-    { href: "/calculators", label: "Calculatoare" },
+    { href: "/convenience", label: "Calculatoare" },
     { href: "/aix-score", label: "AiX Score" },
     { href: "/ai", label: "AI Advisor" },
   ],
@@ -72,7 +72,7 @@ export const footerLinks = {
     { href: "/concierge", label: "Luxury Concierge" },
     { href: "/anti-teapa", label: "AntiȚeapă AI" },
     { href: "/valuation", label: "Evaluare AI" },
-    { href: "/network", label: "Rețea Privată" },
+    { href: "/private-wealth", label: "Rețea Privată" },
   ],
   ecosystem: [
     { href: brandContent.urls.personal, label: "CristianVaduva.com", external: true },

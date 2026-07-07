@@ -15,7 +15,7 @@ export default function AdminOpportunitiesPage() {
     <AdminTable
       title="Oportunități"
       description="Gestionează oportunitățile investiționale"
-      basePath="/oportunitati"
+      basePath="/proprietati"
       columns={[
         { key: "title", label: "Titlu" },
         { key: "opportunity_type", label: "Tip" },
