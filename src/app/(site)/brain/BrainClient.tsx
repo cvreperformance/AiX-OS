@@ -92,7 +92,7 @@ export default function BrainClient() {
         // Build dynamic insights based on matched categories
         const categoriesMatched = Array.from(new Set(matched.map((m) => m.category)));
         
-        if (categoriesMatched.includes("BUY_SELL")) {
+        if (categoriesMatched.includes("BUY") || categoriesMatched.includes("SELL")) {
           insights = language === "ro"
             ? "Am detectat intentie imobiliară. Recomandăm due diligence cadastral riguros înainte de orice promisiune de vânzare-cumpărare (verificarea titlului de proprietate, litigii active ale vânzătorului și limitări de drum de servitute)."
             : "Property transaction intent detected. We highly advise strict cadastre due diligence (checking ownership chains, active claims, and easement access) before signing any purchase contract.";
@@ -101,7 +101,7 @@ export default function BrainClient() {
             { label: language === "ro" ? "Scanează Carte Funciară" : "Scan Cadastre", href: "/anti-teapa" },
             { label: language === "ro" ? "Calculează Taxe Notariale" : "Calculate Notary Cost", href: "/convenience" }
           );
-        } else if (categoriesMatched.includes("INVEST_PROTECT")) {
+        } else if (categoriesMatched.includes("INVEST")) {
           insights = language === "ro"
             ? "Interogarea vizează managementul riscului și portofoliul de active. Recomandăm calcularea DTI (grad îndatorare) și corelarea randamentelor imobiliare cu dobânzile cheie ale BNR."
             : "Query maps to active asset allocation and risk mitigation. We advise evaluating your debt-to-income index and benchmarking rental yields against live BNR policy rates.";

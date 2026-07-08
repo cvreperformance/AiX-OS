@@ -7,6 +7,7 @@ import {
   Brain,
   Phone,
   Gem,
+  TrendingUp,
   type LucideIcon
 } from "lucide-react";
 
@@ -21,28 +22,36 @@ export interface NavigationCategory {
 
 export const navigationCategories: NavigationCategory[] = [
   {
-    id: "buy-sell",
-    title: "Cumpără & Vinde",
-    titleEn: "Buy & Sell",
+    id: "buy",
+    title: "Cumpără",
+    titleEn: "Buy",
     icon: Building2,
     color: "text-blue-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY"),
   },
   {
-    id: "invest-protect",
-    title: "Investește & Protejează",
-    titleEn: "Invest & Protect",
+    id: "sell",
+    title: "Vinde",
+    titleEn: "Sell",
+    icon: TrendingUp,
+    color: "text-emerald-400",
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "SELL"),
+  },
+  {
+    id: "invest",
+    title: "Investește",
+    titleEn: "Invest",
     icon: Shield,
     color: "text-rose-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST_PROTECT"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST"),
   },
   {
-    id: "learn-research",
-    title: "Învață & Cercetează",
-    titleEn: "Learn & Research",
+    id: "learn",
+    title: "Învață",
+    titleEn: "Learn",
     icon: BookOpen,
     color: "text-amber-400",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN_RESEARCH"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN"),
   },
   {
     id: "tools",
@@ -53,9 +62,9 @@ export const navigationCategories: NavigationCategory[] = [
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "TOOLS"),
   },
   {
-    id: "ai-system",
+    id: "ai",
     title: "Sistem AI",
-    titleEn: "AI System",
+    titleEn: "AI",
     icon: Brain,
     color: "text-violet-400",
     items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "AI_SYSTEM"),
@@ -69,7 +78,7 @@ export const navigationCategories: NavigationCategory[] = [
     items: [
       {
         id: "pricing-page",
-        category: "AI_SYSTEM" as any,
+        category: "PRICING",
         label: "Planuri & Acces",
         labelEn: "Pricing & Access",
         href: "/pricing",
@@ -90,7 +99,7 @@ export const navigationCategories: NavigationCategory[] = [
     items: [
       {
         id: "contact-hub",
-        category: "CONTACT" as any,
+        category: "CONTACT",
         label: "Contactează-ne",
         labelEn: "Contact Us",
         href: "/contact",

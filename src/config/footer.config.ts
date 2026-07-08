@@ -10,17 +10,17 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Cumpără & Vinde",
     titleEn: "Buy & Sell",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY_SELL"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "BUY" || s.category === "SELL"),
   },
   {
     title: "Investește & Protejează",
     titleEn: "Invest & Protect",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST_PROTECT"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "INVEST"),
   },
   {
     title: "Învață & Cercetează",
     titleEn: "Learn & Research",
-    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN_RESEARCH"),
+    items: ALL_SERVICES_REGISTRY.filter((s) => s.category === "LEARN"),
   },
   {
     title: "Instrumente",

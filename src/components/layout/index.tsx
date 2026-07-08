@@ -260,7 +260,7 @@ export function Header() {
           </div>
 
           {/* Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
-          <div className="grid grid-cols-8 gap-6 text-left">
+          <div className="grid grid-cols-9 gap-6 text-left">
             {navigationCategories.map((cat) => {
               const Icon = cat.icon;
               const title = language === "ro" ? cat.title : cat.titleEn;
@@ -360,7 +360,7 @@ export function Header() {
         {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
         {showDeskDropdown && scrolled && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-7 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-8 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
             onMouseLeave={() => setShowDeskDropdown(false)}
           >
             {navigationCategories.map((cat) => {
