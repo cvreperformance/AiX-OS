@@ -8,6 +8,7 @@ import {
   Phone,
   Gem,
   TrendingUp,
+  Search,
   type LucideIcon
 } from "lucide-react";
 
@@ -87,6 +88,27 @@ export const navigationCategories: NavigationCategory[] = [
         icon: Gem,
         status: "active",
         keywords: ["preturi", "abonamente", "pricing", "plans", "access", "premium"],
+      }
+    ]
+  },
+  {
+    id: "home-find",
+    title: "Home Find",
+    titleEn: "Home Find",
+    icon: Search,
+    color: "text-amber-300",
+    items: [
+      {
+        id: "home-find-page",
+        category: "HOME_FIND" as any,
+        label: "Platformă Premium",
+        labelEn: "Premium Platform",
+        href: "/home-find",
+        desc: "Ecosistem digital pentru proprietăți de lux.",
+        descEn: "Digital ecosystem for luxury properties.",
+        icon: Search,
+        status: "active",
+        keywords: ["home", "find", "premium", "luxury"],
       }
     ]
   },
