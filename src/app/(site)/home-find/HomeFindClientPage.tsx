@@ -377,19 +377,6 @@ export default function HomeFindClientPage() {
         </div>
     </section>
 
-    {/* Technology Stack */}
-    <section className="py-24 border-y border-white/5 bg-black/50 backdrop-blur-sm overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 text-center reveal">
-            <p className="text-xs font-bold tracking-[0.3em] text-gray-500 uppercase mb-10">Engineered with cutting-edge technology</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50">
-                <span className="text-2xl font-bold font-display tracking-tight hover:opacity-100 transition-opacity">Next.js 16</span>
-                <span className="text-2xl font-bold font-display tracking-tight hover:opacity-100 transition-opacity">React</span>
-                <span className="text-2xl font-bold font-display tracking-tight hover:opacity-100 transition-opacity">Tailwind CSS</span>
-                <span className="text-2xl font-bold font-display tracking-tight hover:opacity-100 transition-opacity">Supabase</span>
-                <span className="text-2xl font-bold font-display tracking-tight hover:opacity-100 transition-opacity">Vercel Edge</span>
-            </div>
-        </div>
-    </section>
 
     {/* Powered by AiX / CTA */}
     <section className="py-40 relative text-center overflow-hidden">
