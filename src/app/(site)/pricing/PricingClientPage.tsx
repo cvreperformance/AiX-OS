@@ -462,8 +462,8 @@ export default function PricingClientPage() {
             )}
 
             <div className="mt-8 p-5 rounded-2xl bg-red-950/20 border border-red-900/30 text-xs text-zinc-500 text-center space-y-2">
-              <p>⚠️ "Declared values may be reviewed according to available market information."</p>
-              <p>"AiX OS™ reserves the right to verify submitted information. Incorrect or misleading data may result in pricing adjustments or listing removal."</p>
+              <p>⚠️ &quot;Declared values may be reviewed according to available market information.&quot;</p>
+              <p>&quot;AiX OS™ reserves the right to verify submitted information. Incorrect or misleading data may result in pricing adjustments or listing removal.&quot;</p>
             </div>
           </div>
         </section>

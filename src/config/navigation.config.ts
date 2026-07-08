@@ -117,6 +117,7 @@ export const mainNavLinks = [
   { href: "/", label: "Acasă", labelEn: "Home" },
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
   { href: "/brain", label: "AiX Brain™", labelEn: "AiX Brain™" },
+  { href: "/home-find", label: "Home Find", labelEn: "Home Find" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
 ];
