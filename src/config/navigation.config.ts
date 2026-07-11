@@ -139,7 +139,8 @@ export const mainNavLinks = [
   { href: "/", label: "Acasă", labelEn: "Home" },
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
   { href: "/brain", label: "AiX Brain™", labelEn: "AiX Brain™" },
-  { href: "/home-find", label: "Home Find", labelEn: "Home Find" },
+  { href: "/property-scanner", label: "Scanner AI", labelEn: "AI Scanner" },
+  { href: "/private-deal-room", label: "Cameră Privată", labelEn: "Deal Room" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
 ];

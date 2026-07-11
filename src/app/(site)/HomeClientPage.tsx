@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -12,7 +13,12 @@ import {
   Wrench,
   ChevronRight,
   TrendingUp,
-  DollarSign
+  DollarSign,
+  Lock,
+  Globe,
+  ArrowUpRight,
+  Scale,
+  Zap
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { designSystem } from "@/styles/designSystem";
@@ -23,7 +29,9 @@ interface HomeClientPageProps {
 }
 
 export default function HomeClientPage({ featuredProperties, featuredNews }: HomeClientPageProps) {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [activeSimulationStep, setActiveSimulationStep] = useState(0);
 
   const QUICK_GRID = [
     {
@@ -63,36 +71,201 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     }
   ];
 
+  const AI_AGENTS = [
+    {
+      id: "property",
+      name: language === "ro" ? "Agent Proprietăți" : "Property Agent",
+      desc: language === "ro" ? "Scanează automat documentațiile cadastrale și identifică riscurile ascunse." : "Scans land registry files automatically and flags structural or legal liabilities.",
+      capabilities: language === "ro" 
+        ? ["Verificare istoric titlu proprietate", "Detecție drum de servitute", "Sarcini bancare active"] 
+        : ["Ownership title chain analysis", "Easement road audit", "Active mortgages check"],
+      icon: Building2,
+      href: "/property-scanner"
+    },
+    {
+      id: "investment",
+      name: language === "ro" ? "Agent Investiții" : "Investment Agent",
+      desc: language === "ro" ? "Identifică oportunități premium off-market și calculează randamentul net." : "Locates off-market options and models dynamic net ROI benchmarks.",
+      capabilities: language === "ro" 
+        ? ["Simulare yield cash flow", "Comparație preț/mp pe sub-zone", "Arbitraj imobiliar"] 
+        : ["Cash-flow yield modeling", "Sub-market price benchmarking", "Real estate arbitrage flags"],
+      icon: TrendingUp,
+      href: "/simulation"
+    },
+    {
+      id: "insurance",
+      name: language === "ro" ? "Agent Asigurări" : "Insurance Agent",
+      desc: language === "ro" ? "Calculează cotațiile optime de primă și protejează activele împotriva riscurilor." : "Extracts optimal premium quotes and insulates high-value portfolios.",
+      capabilities: language === "ro" 
+        ? ["Estimator cotații PAD", "Evaluare risc seismic regional", "Garanții contractuale"] 
+        : ["Optional PAD insurance estimates", "Seismic risk mapping", "Bespoke liability clauses"],
+      icon: Shield,
+      href: "/insurance"
+    },
+    {
+      id: "market",
+      name: language === "ro" ? "Agent Piață" : "Market Agent",
+      desc: language === "ro" ? "Urmărește indicii BNR, inflația CPI și trendurile globale macro." : "Tracks BNR policy rates, inflation shifts, and sovereign macro indicators.",
+      capabilities: language === "ro" 
+        ? ["Urmărire indici ROBOR/IRCC", "Monitorizare cotații active", "Sentimentul general al pieței"] 
+        : ["ROBOR/IRCC tracking", "Commodity & crypto feed scans", "Sentiment analysis indexes"],
+      icon: Activity,
+      href: "/market-radar"
+    },
+    {
+      id: "concierge",
+      name: language === "ro" ? "Agent Concierge" : "Concierge Agent",
+      desc: language === "ro" ? "Gestionează cererile VIP pentru avioane private, iahturi și stil de viață de lux." : "Handles premium private aviation, marine chartering, and lifestyle management.",
+      capabilities: language === "ro" 
+        ? ["Charter avioane private", "Închiriere super-iahturi", "Management relocare HNWI"] 
+        : ["Private jet booking", "Luxury yacht charters", "Bespoke HNWI lifestyle services"],
+      icon: Sparkles,
+      href: "/concierge"
+    }
+  ];
+
+  const ROADMAP = [
+    {
+      year: "2026",
+      title: language === "ro" ? "Fundația OS" : "OS Foundation",
+      desc: language === "ro" ? "Sincronizarea registrelor cadastrale românești, a datelor macro BNR și a calculatoarelor offline." : "Syncing Romanian cadastre registries, macro BNR indexes, and offline sandboxed calculators."
+    },
+    {
+      year: "2027",
+      title: language === "ro" ? "Expansiune AI" : "AI Agent Expansion",
+      desc: language === "ro" ? "Lansarea scanerelor automate cu scoruri ponderate AiX Score™ și a agenților cognitivi autonomi." : "Launching automated scans powered by weighted AiX Score™ parameters and cognitive agents."
+    },
+    {
+      year: "2028",
+      title: language === "ro" ? "Rețea Globală" : "Global Network Integration",
+      desc: language === "ro" ? "Integrarea piețelor premium internaționale (Dubai, Monaco, Londra) și a camerelor private securizate." : "Onboarding top international markets (Dubai, Monaco, London) and secure deal spaces."
+    },
+    {
+      year: "2030",
+      title: language === "ro" ? "Intelligence Autonom" : "Autonomous Real Estate OS",
+      desc: language === "ro" ? "Sistem autonom capabil să execute tranzacții licențiate prin contracte inteligente auditate AI." : "Complete decentralized, agent-driven transactional execution via AI-audited smart contracts."
+    }
+  ];
+
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 space-y-24 text-center animate-in">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 space-y-28 text-center animate-in">
       
-      {/* ─── HERO SECTION ─────────────────────────────────────────────────── */}
-      <section className="space-y-6 max-w-2xl mx-auto py-6">
-        <div className="flex justify-center mb-4">
-          <div className="rounded-3xl bg-amber-500/10 p-5 border border-amber-500/25 w-fit shrink-0 animate-pulse">
-            <Brain className="h-12 w-12 text-amber-500" />
+      {/* ─── HOLOGRAM HERO EXPERIENCE ────────────────────────────────────── */}
+      <section className="relative grid lg:grid-cols-12 gap-8 items-center text-left py-6 overflow-hidden">
+        <div className="lg:col-span-7 space-y-6">
+          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
+            AiX OS™ &bull; FUTURE 2030 INTELLIGENCE
+          </span>
+          <h1 className="text-5xl sm:text-6xl font-light text-white tracking-tight leading-none">
+            The AI Operating System <br />
+            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600">for Capital & Property</span>
+          </h1>
+          <p className="text-base sm:text-lg font-light text-zinc-300 max-w-xl leading-relaxed">
+            {language === "ro" 
+              ? "Experimentează prima platformă de inteligență imobiliară concepută pentru a de-risca achizițiile, a simula portofolii și a automatiza investițiile de lux."
+              : "Experience the premier intelligence operating system built to de-risk acquisitions, model wealth portfolios, and manage luxury assets."}
+          </p>
+          <div className="flex flex-wrap gap-4 pt-2">
+            <Link
+              href="/property-scanner"
+              className="rounded-xl bg-amber-500 text-black px-6 py-3 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
+            >
+              <span>{language === "ro" ? "Deschide Scanner AI" : "Launch AI Scanner"}</span>
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/dashboard"
+              className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-3 text-xs text-zinc-300 hover:text-white transition-all flex items-center gap-1.5"
+            >
+              <span>{language === "ro" ? "Command Center" : "Command Center"}</span>
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
-        <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
-          AiX OS™ &bull; Decision intelligence
-        </span>
-        <h1 className="text-5xl sm:text-6xl font-light text-white tracking-tight leading-none">
-          AiX OS™
-        </h1>
-        <p className="text-2xl sm:text-3xl font-light text-zinc-300">
-          {language === "ro" ? "Creierul tău imobiliar secundar. Gândește mai rapid." : "Your second brain. Think faster."}
-        </p>
-        <p className="text-xs sm:text-sm text-zinc-500 max-w-lg mx-auto leading-relaxed">
-          {language === "ro" 
-            ? "Economisește timp, evită capcanele de due-diligence și optimizează-ți plasamentele financiare cu sistemul nostru decizional."
-            : "Save time, mitigate transactional friction, and allocate your property capital using automated risk logs."}
-        </p>
 
+        {/* Dynamic Holographic AI SVG Brain */}
+        <div className="lg:col-span-5 relative flex items-center justify-center min-h-[350px]">
+          <div className="absolute inset-0 bg-amber-500/[0.01] blur-3xl pointer-events-none rounded-full" />
+          
+          <svg className="w-full max-w-[350px] aspect-square" viewBox="0 0 200 200">
+            {/* Pulsing connections */}
+            <g className="stroke-amber-500/25 stroke-[0.5] fill-none">
+              <line x1="100" y1="100" x2="40" y2="60" className="animate-pulse" />
+              <line x1="100" y1="100" x2="160" y2="60" />
+              <line x1="100" y1="100" x2="150" y2="140" />
+              <line x1="100" y1="100" x2="50" y2="140" />
+              <line x1="100" y1="100" x2="100" y2="30" />
+              <line x1="40" y1="60" x2="100" y2="30" />
+              <line x1="160" y1="60" x2="100" y2="30" />
+              <line x1="40" y1="60" x2="50" y2="140" />
+              <line x1="160" y1="60" x2="150" y2="140" />
+              <line x1="50" y1="140" x2="150" y2="140" />
+            </g>
+
+            {/* Glowing lines overlay on hover */}
+            {hoveredNode && (
+              <g className="stroke-amber-400 stroke-[1.5] fill-none transition-all duration-300">
+                {hoveredNode === "brain" && <circle cx="100" cy="100" r="10" className="stroke-amber-500" />}
+                {hoveredNode === "properties" && <line x1="100" y1="100" x2="40" y2="60" />}
+                {hoveredNode === "investments" && <line x1="100" y1="100" x2="160" y2="60" />}
+                {hoveredNode === "markets" && <line x1="100" y1="100" x2="100" y2="30" />}
+                {hoveredNode === "agents" && <line x1="100" y1="100" x2="50" y2="140" />}
+                {hoveredNode === "nodes" && <line x1="100" y1="100" x2="150" y2="140" />}
+              </g>
+            )}
+
+            {/* Nodes */}
+            <g className="cursor-pointer">
+              {/* Central Core Brain */}
+              <g onMouseEnter={() => setHoveredNode("brain")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="100" cy="100" r="10" className="fill-zinc-950 stroke-amber-500 stroke-[1.5]" />
+                <circle cx="100" cy="100" r="4" className="fill-amber-500 animate-ping" />
+                <circle cx="100" cy="100" r="4" className="fill-amber-500" />
+                <text x="100" y="122" textAnchor="middle" className="fill-zinc-400 text-[8px] font-mono tracking-widest font-bold">AiX CORE</text>
+              </g>
+
+              {/* Properties Node */}
+              <g onMouseEnter={() => setHoveredNode("properties")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="40" cy="60" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
+                <circle cx="40" cy="60" r="2.5" className="fill-amber-500" />
+                <text x="40" y="48" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">PROPERTIES</text>
+              </g>
+
+              {/* Investments Node */}
+              <g onMouseEnter={() => setHoveredNode("investments")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="160" cy="60" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
+                <circle cx="160" cy="60" r="2.5" className="fill-amber-500" />
+                <text x="160" y="48" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">INVESTMENTS</text>
+              </g>
+
+              {/* Markets Node */}
+              <g onMouseEnter={() => setHoveredNode("markets")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="100" cy="30" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
+                <circle cx="100" cy="30" r="2.5" className="fill-amber-500" />
+                <text x="100" y="18" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">MARKETS</text>
+              </g>
+
+              {/* Agents Node */}
+              <g onMouseEnter={() => setHoveredNode("agents")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="50" cy="140" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
+                <circle cx="50" cy="140" r="2.5" className="fill-amber-500" />
+                <text x="50" y="156" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">AI AGENTS</text>
+              </g>
+
+              {/* Intelligence Nodes */}
+              <g onMouseEnter={() => setHoveredNode("nodes")} onMouseLeave={() => setHoveredNode(null)}>
+                <circle cx="150" cy="140" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
+                <circle cx="150" cy="140" r="2.5" className="fill-amber-500" />
+                <text x="150" y="156" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">INTELLIGENCE</text>
+              </g>
+            </g>
+          </svg>
+        </div>
       </section>
 
       {/* ─── QUICK ACCESS GRID (5 CATEGORIES ONLY) ─────────────────────────── */}
       <section className="space-y-6 text-left">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-500 font-mono">
+        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
           {language === "ro" ? "Categorii de Lucru" : "Quick Access Workspace"}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -121,6 +294,60 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
         </div>
       </section>
 
+      {/* ─── AI AGENTS DIRECTORY ─────────────────────────────────────────── */}
+      <section className="space-y-8 text-left">
+        <div className="space-y-2">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
+            {language === "ro" ? "Consilieri Autonomi Activabili" : "AI Agent Infrastructure"}
+          </h2>
+          <p className="text-2xl font-light text-white">
+            {language === "ro" ? "Specialiști Inteligenți Integrați" : "Specialized AI Agents"}
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          {AI_AGENTS.map((agent) => {
+            const AgentIcon = agent.icon;
+            return (
+              <div
+                key={agent.id}
+                className={`rounded-2xl p-5 ${designSystem.glass} ${designSystem.glassHover} flex flex-col justify-between min-h-[300px]`}
+              >
+                <div className="space-y-4">
+                  <div className="rounded-xl bg-amber-500/10 p-2 text-amber-500 border border-amber-500/20 w-fit">
+                    <AgentIcon className="h-4.5 w-4.5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-semibold text-white">{agent.name}</h3>
+                    <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">{agent.desc}</p>
+                  </div>
+                  <div className="space-y-1.5 border-t border-zinc-900 pt-3">
+                    <p className="text-[8px] uppercase tracking-wider text-zinc-400 font-mono font-bold">Capabilities</p>
+                    <ul className="space-y-1">
+                      {agent.capabilities.map((c, i) => (
+                        <li key={i} className="text-[9.5px] text-zinc-450 flex items-center gap-1.5">
+                          <span className="h-1 w-1 rounded-full bg-amber-500/50 shrink-0" />
+                          <span className="truncate">{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-zinc-900/60">
+                  <Link
+                    href={agent.href}
+                    className="w-full py-2 rounded-lg bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/20 text-zinc-300 hover:text-amber-400 text-[9.5px] font-semibold uppercase tracking-wider text-center block transition-all"
+                  >
+                    {language === "ro" ? "Lansează Consilier" : "Deploy Agent"}
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
       {/* ─── MARKET SNAPSHOT (AIX SCORE + MARKET PULSE PREVIEW) ───────────── */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left items-start">
         
@@ -133,19 +360,19 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             <span className="text-[10px] uppercase font-bold font-mono text-zinc-400">Score Tracker</span>
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white">AiX Score Simulator</h3>
+            <h3 className="text-base font-semibold text-white">AiX Score™ Simulation</h3>
             <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
               {language === "ro"
-                ? "Scorul de siguranță al tranzacției. Evaluăm 14 variabile cadastrale, fiscale și juridice înainte de a recomanda un activ imobiliar."
-                : "Transaction safety index. We audit 14 cadastre, tax, and legal coordinates prior to matching any listing."}
+                ? "Scorul de siguranță al tranzacției. Evaluăm variabile cadastrale, fiscale și juridice înainte de a recomanda un activ imobiliar."
+                : "Transaction safety index. We audit key cadastre, tax, and legal coordinates prior to matching any listing."}
             </p>
           </div>
           <div className="pt-2">
             <Link
-              href="/aix-score"
+              href="/property-scanner"
               className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-semibold"
             >
-              {language === "ro" ? "Calculează AiX Score" : "Run AiX Score Simulator"}
+              {language === "ro" ? "Scanează Proprietate" : "Run Property Scan"}
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -169,7 +396,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             </p>
           </div>
 
-          <div className="space-y-2 pt-2 border-t border-zinc-900/60">
+          <div className="space-y-2 pt-2 border-t border-t-zinc-900/60">
             {featuredNews.slice(0, 2).map((n) => (
               <Link
                 key={n.slug}
@@ -178,9 +405,9 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
               >
                 <div className="text-left">
                   <p className="text-[11px] font-semibold text-zinc-300 truncate max-w-sm">{n.title}</p>
-                  <p className="text-[9.5px] text-zinc-650 mt-0.5">{new Date(n.published_at || n.date).toLocaleDateString(language === "ro" ? "ro-RO" : "en-US")}</p>
+                  <p className="text-[9.5px] text-zinc-600 mt-0.5">{new Date(n.published_at || n.date).toLocaleDateString(language === "ro" ? "ro-RO" : "en-US")}</p>
                 </div>
-                <ChevronRight className="h-3.5 w-3.5 text-zinc-550" />
+                <ChevronRight className="h-3.5 w-3.5 text-zinc-600" />
               </Link>
             ))}
           </div>
@@ -196,6 +423,35 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </div>
         </div>
 
+      </section>
+
+      {/* ─── ROADMAP TIMELINE ────────────────────────────────────────────── */}
+      <section className="space-y-8 text-left">
+        <div className="space-y-2">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
+            {language === "ro" ? "Evoluția Ecosistemului" : "Ecosystem Evolution"}
+          </h2>
+          <p className="text-2xl font-light text-white">
+            {language === "ro" ? "Drumul către Autonomie Imobiliară" : "AiX OS™ Future Roadmap"}
+          </p>
+        </div>
+
+        <div className="relative border-l border-zinc-800 ml-3 pl-8 py-4 space-y-12">
+          {ROADMAP.map((item, idx) => (
+            <div key={idx} className="relative group">
+              {/* Timeline dot */}
+              <div className="absolute -left-[41px] top-1.5 h-6 w-6 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center group-hover:border-amber-500 transition-colors">
+                <div className="h-2.5 w-2.5 rounded-full bg-amber-500/40 group-hover:bg-amber-500 transition-colors" />
+              </div>
+
+              <div className="space-y-2 max-w-2xl">
+                <span className="text-[10px] font-bold font-mono text-amber-500 uppercase tracking-widest">{item.year}</span>
+                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+                <p className="text-xs text-zinc-450 leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
     </div>
