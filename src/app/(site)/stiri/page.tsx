@@ -73,11 +73,11 @@ export default async function StiriPage() {
       />
 
       {/* Market Sentiment Bar */}
-      <div className="mb-10 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="mb-10 rounded-2xl border border-zinc-200 bg-zinc-50/40 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="text-3xl">{pulse.emoji}</div>
           <div>
-            <p className="text-xs uppercase tracking-widest text-zinc-500 mb-0.5">Sentiment Piață RO — Iun 2026</p>
+            <p className="text-xs uppercase tracking-widest text-zinc-400 mb-0.5">Sentiment Piață RO — Iun 2026</p>
             <p className={`text-xl font-semibold ${pulse.color}`}>{pulse.label}</p>
             <p className="text-sm text-zinc-400 mt-0.5 max-w-xl">{pulse.description}</p>
           </div>
@@ -95,7 +95,7 @@ export default async function StiriPage() {
                 strokeLinecap="round"
               />
             </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-zinc-900">
               {pulse.score}
             </span>
           </div>
@@ -111,7 +111,7 @@ export default async function StiriPage() {
             className={`rounded-full px-4 py-1.5 text-xs border transition-colors ${
               cat === "Toate"
                 ? "border-amber-500/50 bg-amber-500/10 text-amber-400"
-                : "border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300"
+                : "border-zinc-200 text-zinc-400 hover:border-zinc-600 hover:text-zinc-600"
             }`}
           >
             {cat}
@@ -122,7 +122,7 @@ export default async function StiriPage() {
       {/* Articles grid */}
       {articles.length === 0 ? (
         <div className="text-center py-24">
-          <p className="text-zinc-500 text-lg">Nu există știri disponibile momentan.</p>
+          <p className="text-zinc-400 text-lg">Nu există știri disponibile momentan.</p>
           <p className="text-zinc-600 text-sm mt-2">Revino în curând sau urmărește canalul Telegram.</p>
         </div>
       ) : (
@@ -138,12 +138,12 @@ export default async function StiriPage() {
         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
           <div>
             <p className="text-xs uppercase tracking-widest text-amber-500/80 mb-2">AiX OS™ Intelligence</p>
-            <p className="text-white font-light text-lg leading-relaxed max-w-2xl">
+            <p className="text-zinc-900 font-light text-lg leading-relaxed max-w-2xl">
               Apartamentele vechi din București sunt cu{" "}
               <span className="text-amber-400 font-medium">27% mai scumpe</span>{" "}
               decât cele noi — fenomen unic în Europa cauzat de TVA 21%.
             </p>
-            <p className="text-zinc-500 text-sm mt-2">
+            <p className="text-zinc-400 text-sm mt-2">
               Sursa: Storia/OLX Mar 2026 · Imobiliare.ro · Compilat de Cristian Văduva — AiXLuxury.com
             </p>
           </div>

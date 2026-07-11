@@ -39,15 +39,15 @@ const FACTORS_EN = [
 const SCORE_RANGES_RO = [
   { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", borderColor: "border-emerald-500/30", bgColor: "bg-emerald-500/5", desc: "Oportunitate rară. Factori favorabili simultan. Investiție prioritară." },
   { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", borderColor: "border-amber-500/30", bgColor: "bg-amber-500/5", desc: "Fundamentale solide. Merită analiză detaliată și alocare semnificativă." },
-  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", borderColor: "border-zinc-700", bgColor: "bg-zinc-900/30", desc: "Relevanță medie. Evaluare context-dependent cu strategii de hedging." },
-  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", borderColor: "border-zinc-900", bgColor: "bg-zinc-950/40", desc: "Impact limitat. Filtrat automat din feed. Nu apare în recomandări." },
+  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-600", borderColor: "border-zinc-300", bgColor: "bg-zinc-50/30", desc: "Relevanță medie. Evaluare context-dependent cu strategii de hedging." },
+  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-400", borderColor: "border-zinc-200", bgColor: "bg-white/40", desc: "Impact limitat. Filtrat automat din feed. Nu apare în recomandări." },
 ];
 
 const SCORE_RANGES_EN = [
   { range: "9.0 — 10.0", label: "Exceptional", color: "text-emerald-400", borderColor: "border-emerald-500/30", bgColor: "bg-emerald-500/5", desc: "Rare opportunity. Favorable factors aligned simultaneously. Priority investment." },
   { range: "7.0 — 8.9", label: "Strong", color: "text-amber-400", borderColor: "border-amber-500/30", bgColor: "bg-amber-500/5", desc: "Solid fundamentals. Deserves detailed analysis and significant allocation." },
-  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-300", borderColor: "border-zinc-700", bgColor: "bg-zinc-900/30", desc: "Average relevance. Context-dependent evaluation with hedging strategies." },
-  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-500", borderColor: "border-zinc-900", bgColor: "bg-zinc-950/40", desc: "Limited impact. Automatically filtered from feed. Does not appear in recommendations." },
+  { range: "5.0 — 6.9", label: "Moderate", color: "text-zinc-600", borderColor: "border-zinc-300", bgColor: "bg-zinc-50/30", desc: "Average relevance. Context-dependent evaluation with hedging strategies." },
+  { range: "1.0 — 4.9", label: "Low", color: "text-zinc-400", borderColor: "border-zinc-200", bgColor: "bg-white/40", desc: "Limited impact. Automatically filtered from feed. Does not appear in recommendations." },
 ];
 
 const DEMO_ASSETS = [
@@ -63,8 +63,8 @@ function ScoreBadge({ score }: { score: number }) {
   const color =
     score >= 9 ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" :
     score >= 7 ? "bg-amber-500/10 border-amber-500/30 text-amber-400" :
-    score >= 5 ? "bg-zinc-800 border-zinc-700 text-zinc-300" :
-    "bg-zinc-950 border-zinc-900 text-zinc-500";
+    score >= 5 ? "bg-zinc-100 border-zinc-300 text-zinc-600" :
+    "bg-white border-zinc-200 text-zinc-400";
   
   return (
     <span className={`px-2.5 py-1 rounded-lg border text-xs font-bold font-mono ${color}`}>
@@ -109,7 +109,7 @@ export default function AixScorePage() {
             <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit">
               <item.icon className="h-5 w-5" />
             </div>
-            <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+            <h3 className="text-sm font-semibold text-zinc-900">{item.title}</h3>
             <p className="text-xs text-zinc-450 leading-relaxed">{item.desc}</p>
           </div>
         ))}
@@ -117,14 +117,14 @@ export default function AixScorePage() {
 
       {/* Score range interpretation */}
       <section className="space-y-6">
-        <h2 className="text-lg font-light text-white">
+        <h2 className="text-lg font-light text-zinc-900">
           {language === "ro" ? "Interpretare Scor" : "Score Interpretation"}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {scoreRanges.map((sr) => (
             <div key={sr.range} className={`rounded-2xl border ${sr.borderColor} ${sr.bgColor} p-5 space-y-2`}>
               <div className="flex justify-between items-center">
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">{sr.range}</span>
+                <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-mono">{sr.range}</span>
                 <span className={`text-xs font-bold uppercase tracking-widest ${sr.color}`}>{sr.label}</span>
               </div>
               <p className="text-[11px] text-zinc-450 leading-relaxed">{sr.desc}</p>
@@ -136,10 +136,10 @@ export default function AixScorePage() {
       {/* 12 Factors Interactive Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-light text-white">
+          <h2 className="text-lg font-light text-zinc-900">
             {language === "ro" ? "12 Factori de Evaluare" : "12 Evaluation Factors"}
           </h2>
-          <span className="text-[10px] text-zinc-500 font-mono">
+          <span className="text-[10px] text-zinc-400 font-mono">
             {language === "ro" ? "Click pentru detalii" : "Click for details"}
           </span>
         </div>
@@ -152,7 +152,7 @@ export default function AixScorePage() {
               className={`flex items-start gap-4 rounded-2xl border text-left p-4 transition-all duration-200 ${
                 selectedFactor?.id === f.id
                   ? "border-amber-500/40 bg-amber-500/5"
-                  : "border-zinc-900 bg-zinc-950/40 hover:border-zinc-800 hover:bg-zinc-900/20"
+                  : "border-zinc-200 bg-white/40 hover:border-zinc-300 hover:bg-zinc-100/20"
               }`}
             >
               <span className="text-[10px] text-amber-500/60 font-mono mt-0.5 flex-shrink-0">
@@ -161,7 +161,7 @@ export default function AixScorePage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-semibold text-zinc-200">{f.name}</p>
-                  <span className="text-[9px] text-zinc-500 font-mono flex-shrink-0">{f.weight}%</span>
+                  <span className="text-[9px] text-zinc-400 font-mono flex-shrink-0">{f.weight}%</span>
                 </div>
                 {selectedFactor?.id === f.id && (
                   <p className="text-[10.5px] text-zinc-400 mt-1.5 leading-relaxed">{f.desc}</p>
@@ -176,13 +176,13 @@ export default function AixScorePage() {
       <section className="space-y-6">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-amber-500/80" />
-          <h2 className="text-lg font-light text-white">
+          <h2 className="text-lg font-light text-zinc-900">
             {language === "ro" ? "Exemple Active Evaluate" : "Live Evaluated Examples"}
           </h2>
         </div>
         
         <div className={`rounded-3xl ${designSystem.glass} overflow-hidden`}>
-          <div className="grid grid-cols-12 px-5 py-3 text-[9px] uppercase tracking-widest text-zinc-600 border-b border-zinc-900 font-semibold">
+          <div className="grid grid-cols-12 px-5 py-3 text-[9px] uppercase tracking-widest text-zinc-600 border-b border-zinc-200 font-semibold">
             <span className="col-span-4">{language === "ro" ? "Active" : "Asset"}</span>
             <span className="col-span-3">{language === "ro" ? "Tip" : "Type"}</span>
             <span className="col-span-3">{language === "ro" ? "Locație" : "Location"}</span>
@@ -192,10 +192,10 @@ export default function AixScorePage() {
             <div
               key={asset.name}
               className={`grid grid-cols-12 px-5 py-4 text-xs items-center ${
-                idx < DEMO_ASSETS.length - 1 ? "border-b border-zinc-900/50" : ""
-              } hover:bg-zinc-900/20 transition-colors`}
+                idx < DEMO_ASSETS.length - 1 ? "border-b border-zinc-200/50" : ""
+              } hover:bg-zinc-100/20 transition-colors`}
             >
-              <span className="col-span-4 font-semibold text-white truncate pr-2">{asset.name}</span>
+              <span className="col-span-4 font-semibold text-zinc-900 truncate pr-2">{asset.name}</span>
               <span className="col-span-3 text-zinc-450">{language === "ro" ? asset.type : asset.typeEn}</span>
               <span className="col-span-3 text-zinc-550 flex items-center gap-1.5">
                 <span className="text-zinc-650">{asset.location}</span>

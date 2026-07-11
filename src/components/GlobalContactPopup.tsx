@@ -117,7 +117,7 @@ export function GlobalContactPopup() {
 
   return (
     <div
-      className="fixed top-[50%] -translate-y-1/2 right-4 sm:right-8 z-[9999] w-full max-w-[360px] rounded-3xl p-5 sm:p-6 space-y-4 border border-zinc-850 bg-[#080808]/95 backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-right-5 duration-350 pointer-events-auto text-left"
+      className="fixed top-[50%] -translate-y-1/2 right-4 sm:right-8 z-[9999] w-full max-w-[360px] rounded-3xl p-5 sm:p-6 space-y-4 border border-zinc-200 bg-white/95 backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-right-5 duration-350 pointer-events-auto text-left"
       role="dialog"
       aria-label="AiX Luxury Advisor Hub"
     >
@@ -125,14 +125,14 @@ export function GlobalContactPopup() {
       <button
         type="button"
         onClick={dismiss}
-        className="absolute top-3.5 right-3.5 rounded-lg p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-900/60 transition-all border border-transparent"
+        className="absolute top-3.5 right-3.5 rounded-lg p-1.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100/60 transition-all border border-transparent"
         aria-label={language === "ro" ? "Închide" : "Close"}
       >
         <X className="h-3.5 w-3.5" />
       </button>
 
       {/* Brand Header */}
-      <div className="flex items-start gap-3 border-b border-zinc-900 pb-3">
+      <div className="flex items-start gap-3 border-b border-zinc-200 pb-3">
         <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/20 flex-shrink-0">
           <Sparkles className="h-4 w-4 text-amber-400" />
         </div>
@@ -140,10 +140,10 @@ export function GlobalContactPopup() {
           <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-amber-500">
             AiX OS™ &bull; Intelligence
           </p>
-          <h2 className="text-sm font-semibold text-white mt-0.5">
+          <h2 className="text-sm font-semibold text-zinc-900 mt-0.5">
             {language === "ro" ? "Asistență Premium" : "Premium Assistance"}
           </h2>
-          <p className="text-[10px] text-zinc-500 leading-normal mt-0.5">
+          <p className="text-[10px] text-zinc-400 leading-normal mt-0.5">
             {language === "ro"
             ? "Consultanță imobiliară, asigurări active HNWI și sprijin direct."
               : "Real estate consulting, HNWI active insurance, and direct assistance."}
@@ -161,38 +161,38 @@ export function GlobalContactPopup() {
         >
           <MessageCircle className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
           <div className="min-w-0">
-            <p className="text-[10px] font-bold text-white">WhatsApp</p>
+            <p className="text-[10px] font-bold text-zinc-900">WhatsApp</p>
             <p className="text-[8.5px] text-emerald-500/80 truncate">{brandContent.contact.phone}</p>
           </div>
         </a>
 
         <a
           href={`tel:${brandContent.contact.phoneRaw}`}
-          className="flex items-center gap-2 rounded-xl border border-zinc-900 bg-zinc-950 p-2.5 hover:bg-zinc-900 transition-all text-left"
+          className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 hover:bg-zinc-100 transition-all text-left"
         >
           <Phone className="h-4.5 w-4.5 text-zinc-400 shrink-0" />
           <div className="min-w-0">
-            <p className="text-[10px] font-bold text-white">
+            <p className="text-[10px] font-bold text-zinc-900">
               {language === "ro" ? "Apel VIP" : "VIP Hotline"}
             </p>
-            <p className="text-[8.5px] text-zinc-500 truncate">{brandContent.contact.phone}</p>
+            <p className="text-[8.5px] text-zinc-400 truncate">{brandContent.contact.phone}</p>
           </div>
         </a>
 
         <a
           href={`mailto:${brandContent.contact.email}`}
-          className="flex items-center gap-2 rounded-xl border border-zinc-900 bg-zinc-950 p-2.5 hover:bg-zinc-900 transition-all text-left col-span-2"
+          className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 hover:bg-zinc-100 transition-all text-left col-span-2"
         >
           <Mail className="h-4.5 w-4.5 text-zinc-400 shrink-0" />
           <div className="min-w-0">
-            <p className="text-[10px] font-bold text-white">E-mail</p>
-            <p className="text-[9px] text-zinc-500 truncate">{brandContent.contact.email}</p>
+            <p className="text-[10px] font-bold text-zinc-900">E-mail</p>
+            <p className="text-[9px] text-zinc-400 truncate">{brandContent.contact.email}</p>
           </div>
         </a>
       </div>
 
       {/* Short Form */}
-      <div className="pt-2 border-t border-zinc-900 space-y-2">
+      <div className="pt-2 border-t border-zinc-200 space-y-2">
         {submitted ? (
           <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-center">
             <p className="text-emerald-400 text-[10px] font-bold">
@@ -221,7 +221,7 @@ export function GlobalContactPopup() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={language === "ro" ? "Nume" : "Name"}
-                className="rounded-lg border border-zinc-850 bg-zinc-950 px-2.5 py-2 text-[10px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
               />
               <input
                 required
@@ -229,7 +229,7 @@ export function GlobalContactPopup() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder={language === "ro" ? "Telefon" : "Phone"}
-                className="rounded-lg border border-zinc-850 bg-zinc-950 px-2.5 py-2 text-[10px] text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
               />
             </div>
             <button

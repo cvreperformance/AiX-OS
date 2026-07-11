@@ -39,10 +39,10 @@ export function NewsCard({ article }: NewsCardProps) {
   return (
     <Link
       href={`/stiri/${article.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/30 transition-all hover:border-amber-500/30"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50/30 transition-all hover:border-amber-500/30"
     >
       {article.image_url && (
-        <div className="aspect-video overflow-hidden bg-zinc-800">
+        <div className="aspect-video overflow-hidden bg-zinc-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={article.image_url}
@@ -95,10 +95,10 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
   return (
     <Link
       href={`/proprietati/${opportunity.slug}`}
-      className="group block overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/30 transition-all hover:border-amber-500/30"
+      className="group block overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50/30 transition-all hover:border-amber-500/30"
     >
       {opportunity.image_url && (
-        <div className="aspect-[16/9] overflow-hidden bg-zinc-800">
+        <div className="aspect-[16/9] overflow-hidden bg-zinc-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={opportunity.image_url}
@@ -118,14 +118,14 @@ export function OpportunityCard({ opportunity }: OpportunityCardProps) {
           {opportunity.title}
         </h3>
         <p className="text-sm text-zinc-400 line-clamp-2">{opportunity.description}</p>
-        <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+        <div className="flex items-center justify-between pt-2 border-t border-zinc-200">
           <div>
-            <p className="text-xs text-zinc-500">Investiție minimă</p>
-            <p className="text-lg font-light text-white">{price}</p>
+            <p className="text-xs text-zinc-400">Investiție minimă</p>
+            <p className="text-lg font-light text-zinc-900">{price}</p>
           </div>
           {opportunity.expected_yield && (
             <div className="text-right">
-              <p className="text-xs text-zinc-500">Yield estimat</p>
+              <p className="text-xs text-zinc-400">Yield estimat</p>
               <p className="text-lg font-light text-emerald-400">
                 {opportunity.expected_yield}%
               </p>
@@ -151,7 +151,7 @@ export function PageHeader({ title, subtitle, badge }: PageHeaderProps) {
           {badge}
         </span>
       )}
-      <h1 className="text-4xl md:text-5xl font-light text-white tracking-tight">
+      <h1 className="text-4xl md:text-5xl font-light text-zinc-900 tracking-tight">
         {title}
       </h1>
       {subtitle && (
@@ -174,7 +174,7 @@ export function Section({ title, subtitle, href, linkLabel, children }: SectionP
     <section className="py-16">
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-2xl md:text-3xl font-light text-white">{title}</h2>
+          <h2 className="text-2xl md:text-3xl font-light text-zinc-900">{title}</h2>
           {subtitle && <p className="text-zinc-400 mt-2">{subtitle}</p>}
         </div>
         {href && linkLabel && (

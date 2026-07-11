@@ -23,9 +23,9 @@ export default function ChestertonsPage() {
           { icon: Globe, title: "Prezență Globală", desc: "O rețea extinsă de peste 120 de birouri repartizate strategic pe 5 continente." },
           { icon: Building2, title: "Lider Segment Lux", desc: "Specialiști recunoscuți în intermedieri de portofolii rezidențiale de lux și clădiri istorice." },
         ].map((item, idx) => (
-          <div key={idx} className="rounded-2xl border border-zinc-850 bg-zinc-950/40 p-6 space-y-3 backdrop-blur-xl shadow-xl">
+          <div key={idx} className="rounded-2xl border border-zinc-200 bg-white/40 p-6 space-y-3 backdrop-blur-xl shadow-xl">
             <item.icon className="h-6 w-6 text-amber-500/80" />
-            <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+            <h3 className="text-sm font-semibold text-zinc-900">{item.title}</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
           </div>
         ))}
@@ -37,7 +37,7 @@ export default function ChestertonsPage() {
         {/* Left Column: Factual Summaries */}
         <div className="lg:col-span-7 space-y-8">
           <section className="space-y-3.5">
-            <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-900 pb-2.5">
+            <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2.5">
               <Landmark className="h-4.5 w-4.5 text-amber-500" />
               1. Global Presence & Markets
             </h2>
@@ -52,7 +52,7 @@ export default function ChestertonsPage() {
           </section>
 
           <section className="space-y-3.5">
-            <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-900 pb-2.5">
+            <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2.5">
               <ShieldCheck className="h-4.5 w-4.5 text-amber-500" />
               2. Servicii de Consultanță Integrată
             </h2>
@@ -69,8 +69,8 @@ export default function ChestertonsPage() {
 
         {/* Right Column: Why it matters in luxury & Connection */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="rounded-3xl border border-amber-500/20 bg-zinc-950/70 backdrop-blur-xl p-6 sm:p-8 space-y-5 shadow-2xl">
-            <h3 className="text-base font-light text-white flex items-center gap-2">
+          <div className="rounded-3xl border border-amber-500/20 bg-white/70 backdrop-blur-xl p-6 sm:p-8 space-y-5 shadow-2xl">
+            <h3 className="text-base font-light text-zinc-900 flex items-center gap-2">
               <Bookmark className="h-5 w-5 text-amber-500" />
               Conexiune cu AiX OS™
             </h3>
@@ -80,12 +80,12 @@ export default function ChestertonsPage() {
             </p>
 
             <div className="space-y-3 text-xs leading-relaxed text-zinc-400">
-              <div className="p-3 rounded-xl border border-zinc-900 bg-zinc-900/10">
-                <span className="font-semibold text-white block mb-0.5">Sinergie de Portofoliu</span>
+              <div className="p-3 rounded-xl border border-zinc-200 bg-zinc-50/10">
+                <span className="font-semibold text-zinc-900 block mb-0.5">Sinergie de Portofoliu</span>
                 Acces direct la ofertele exclusive listate sub marca Chestertons în zonele ultra-premium din București (Nordului, Herăstrău).
               </div>
-              <div className="p-3 rounded-xl border border-zinc-900 bg-zinc-900/10">
-                <span className="font-semibold text-white block mb-0.5">Filtru Riguros AiX Score</span>
+              <div className="p-3 rounded-xl border border-zinc-200 bg-zinc-50/10">
+                <span className="font-semibold text-zinc-900 block mb-0.5">Filtru Riguros AiX Score</span>
                 Proprietățile intermediate de agenții sub licență Chestertons obțin ratinguri înalte de siguranță juridică în modelul nostru IA.
               </div>
             </div>

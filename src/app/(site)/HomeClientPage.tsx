@@ -156,11 +156,11 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
             AiX OS™ &bull; FUTURE 2030 INTELLIGENCE
           </span>
-          <h1 className="text-5xl sm:text-6xl font-light text-white tracking-tight leading-none">
+          <h1 className="text-5xl sm:text-6xl font-light text-zinc-900 tracking-tight leading-none">
             The AI Operating System <br />
             <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600">for Capital & Property</span>
           </h1>
-          <p className="text-base sm:text-lg font-light text-zinc-300 max-w-xl leading-relaxed">
+          <p className="text-base sm:text-lg font-light text-zinc-600 max-w-xl leading-relaxed">
             {language === "ro" 
               ? "Experimentează prima platformă de inteligență imobiliară concepută pentru a de-risca achizițiile, a simula portofolii și a automatiza investițiile de lux."
               : "Experience the premier intelligence operating system built to de-risk acquisitions, model wealth portfolios, and manage luxury assets."}
@@ -175,7 +175,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             </Link>
             <Link
               href="/dashboard"
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-3 text-xs text-zinc-300 hover:text-white transition-all flex items-center gap-1.5"
+              className="rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 px-6 py-3 text-xs text-zinc-600 hover:text-zinc-900 transition-all flex items-center gap-1.5"
             >
               <span>{language === "ro" ? "Command Center" : "Command Center"}</span>
               <ArrowUpRight className="h-4 w-4" />
@@ -183,29 +183,41 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </div>
         </div>
 
-        {/* Dynamic Holographic AI SVG Brain */}
+        {/* Premium Light Holographic AI SVG Core */}
         <div className="lg:col-span-5 relative flex items-center justify-center min-h-[350px]">
-          <div className="absolute inset-0 bg-amber-500/[0.01] blur-3xl pointer-events-none rounded-full" />
+          <div className="absolute inset-0 bg-amber-500/5 blur-3xl pointer-events-none rounded-full animate-pulse duration-[4000ms]" />
           
-          <svg className="w-full max-w-[350px] aspect-square" viewBox="0 0 200 200">
+          <svg className="w-full max-w-[350px] aspect-square drop-shadow-2xl" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e8d5a3" />
+                <stop offset="50%" stopColor="#c9a962" />
+                <stop offset="100%" stopColor="#b3914a" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
             {/* Pulsing connections */}
-            <g className="stroke-amber-500/25 stroke-[0.5] fill-none">
-              <line x1="100" y1="100" x2="40" y2="60" className="animate-pulse" />
+            <g className="stroke-zinc-200 stroke-[1] fill-none">
+              <line x1="100" y1="100" x2="40" y2="60" />
               <line x1="100" y1="100" x2="160" y2="60" />
               <line x1="100" y1="100" x2="150" y2="140" />
               <line x1="100" y1="100" x2="50" y2="140" />
               <line x1="100" y1="100" x2="100" y2="30" />
-              <line x1="40" y1="60" x2="100" y2="30" />
-              <line x1="160" y1="60" x2="100" y2="30" />
-              <line x1="40" y1="60" x2="50" y2="140" />
-              <line x1="160" y1="60" x2="150" y2="140" />
-              <line x1="50" y1="140" x2="150" y2="140" />
+              <line x1="40" y1="60" x2="100" y2="30" className="stroke-zinc-100" />
+              <line x1="160" y1="60" x2="100" y2="30" className="stroke-zinc-100" />
+              <line x1="40" y1="60" x2="50" y2="140" className="stroke-zinc-100" />
+              <line x1="160" y1="60" x2="150" y2="140" className="stroke-zinc-100" />
+              <line x1="50" y1="140" x2="150" y2="140" className="stroke-zinc-100" />
             </g>
 
             {/* Glowing lines overlay on hover */}
             {hoveredNode && (
-              <g className="stroke-amber-400 stroke-[1.5] fill-none transition-all duration-300">
-                {hoveredNode === "brain" && <circle cx="100" cy="100" r="10" className="stroke-amber-500" />}
+              <g className="stroke-amber-400 stroke-[2] fill-none transition-all duration-500 ease-out" filter="url(#glow)">
+                {hoveredNode === "brain" && <circle cx="100" cy="100" r="14" className="stroke-amber-500" />}
                 {hoveredNode === "properties" && <line x1="100" y1="100" x2="40" y2="60" />}
                 {hoveredNode === "investments" && <line x1="100" y1="100" x2="160" y2="60" />}
                 {hoveredNode === "markets" && <line x1="100" y1="100" x2="100" y2="30" />}
@@ -218,45 +230,45 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             <g className="cursor-pointer">
               {/* Central Core Brain */}
               <g onMouseEnter={() => setHoveredNode("brain")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="100" cy="100" r="10" className="fill-zinc-950 stroke-amber-500 stroke-[1.5]" />
-                <circle cx="100" cy="100" r="4" className="fill-amber-500 animate-ping" />
-                <circle cx="100" cy="100" r="4" className="fill-amber-500" />
-                <text x="100" y="122" textAnchor="middle" className="fill-zinc-400 text-[8px] font-mono tracking-widest font-bold">AiX CORE</text>
+                <circle cx="100" cy="100" r="14" className="fill-white stroke-[url(#goldGradient)] stroke-[3] filter drop-shadow-md transition-all duration-300 hover:scale-105 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="100" cy="100" r="6" className="fill-[url(#goldGradient)] animate-ping opacity-70" />
+                <circle cx="100" cy="100" r="6" className="fill-[url(#goldGradient)]" />
+                <text x="100" y="130" textAnchor="middle" className="fill-zinc-800 text-[9px] font-mono tracking-[0.2em] font-bold">AiX CORE</text>
               </g>
 
               {/* Properties Node */}
               <g onMouseEnter={() => setHoveredNode("properties")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="40" cy="60" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
-                <circle cx="40" cy="60" r="2.5" className="fill-amber-500" />
-                <text x="40" y="48" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">PROPERTIES</text>
+                <circle cx="40" cy="60" r="8" className="fill-white stroke-zinc-200 stroke-[2] transition-all hover:stroke-amber-400 hover:scale-110 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="40" cy="60" r="3" className="fill-amber-500" />
+                <text x="40" y="46" textAnchor="middle" className="fill-zinc-500 text-[8px] font-mono tracking-widest font-semibold">PROPERTIES</text>
               </g>
 
               {/* Investments Node */}
               <g onMouseEnter={() => setHoveredNode("investments")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="160" cy="60" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
-                <circle cx="160" cy="60" r="2.5" className="fill-amber-500" />
-                <text x="160" y="48" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">INVESTMENTS</text>
+                <circle cx="160" cy="60" r="8" className="fill-white stroke-zinc-200 stroke-[2] transition-all hover:stroke-amber-400 hover:scale-110 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="160" cy="60" r="3" className="fill-amber-500" />
+                <text x="160" y="46" textAnchor="middle" className="fill-zinc-500 text-[8px] font-mono tracking-widest font-semibold">INVESTMENTS</text>
               </g>
 
               {/* Markets Node */}
               <g onMouseEnter={() => setHoveredNode("markets")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="100" cy="30" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
-                <circle cx="100" cy="30" r="2.5" className="fill-amber-500" />
-                <text x="100" y="18" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">MARKETS</text>
+                <circle cx="100" cy="30" r="8" className="fill-white stroke-zinc-200 stroke-[2] transition-all hover:stroke-amber-400 hover:scale-110 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="100" cy="30" r="3" className="fill-amber-500" />
+                <text x="100" y="16" textAnchor="middle" className="fill-zinc-500 text-[8px] font-mono tracking-widest font-semibold">MARKETS</text>
               </g>
 
               {/* Agents Node */}
               <g onMouseEnter={() => setHoveredNode("agents")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="50" cy="140" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
-                <circle cx="50" cy="140" r="2.5" className="fill-amber-500" />
-                <text x="50" y="156" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">AI AGENTS</text>
+                <circle cx="50" cy="140" r="8" className="fill-white stroke-zinc-200 stroke-[2] transition-all hover:stroke-amber-400 hover:scale-110 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="50" cy="140" r="3" className="fill-amber-500" />
+                <text x="50" y="158" textAnchor="middle" className="fill-zinc-500 text-[8px] font-mono tracking-widest font-semibold">AI AGENTS</text>
               </g>
 
               {/* Intelligence Nodes */}
               <g onMouseEnter={() => setHoveredNode("nodes")} onMouseLeave={() => setHoveredNode(null)}>
-                <circle cx="150" cy="140" r="6" className="fill-zinc-950 stroke-amber-500/60 stroke-[1.5] hover:stroke-amber-400" />
-                <circle cx="150" cy="140" r="2.5" className="fill-amber-500" />
-                <text x="150" y="156" textAnchor="middle" className="fill-zinc-500 text-[7px] font-mono tracking-wider">INTELLIGENCE</text>
+                <circle cx="150" cy="140" r="8" className="fill-white stroke-zinc-200 stroke-[2] transition-all hover:stroke-amber-400 hover:scale-110 origin-center" style={{ transformBox: 'fill-box' }} />
+                <circle cx="150" cy="140" r="3" className="fill-amber-500" />
+                <text x="150" y="158" textAnchor="middle" className="fill-zinc-500 text-[8px] font-mono tracking-widest font-semibold">INTELLIGENCE</text>
               </g>
             </g>
           </svg>
@@ -265,7 +277,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
 
       {/* ─── QUICK ACCESS GRID (5 CATEGORIES ONLY) ─────────────────────────── */}
       <section className="space-y-6 text-left">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
+        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 font-mono">
           {language === "ro" ? "Categorii de Lucru" : "Quick Access Workspace"}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -275,14 +287,14 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
               <Link
                 key={idx}
                 href={item.href}
-                className={`p-6 rounded-2xl border bg-zinc-950/20 backdrop-blur-md transition-all duration-300 flex flex-col justify-between min-h-[200px] hover:-translate-y-1 ${item.color}`}
+                className={`p-6 rounded-2xl border bg-white/20 backdrop-blur-md transition-all duration-300 flex flex-col justify-between min-h-[200px] hover:-translate-y-1 ${item.color}`}
               >
                 <div className="space-y-3">
-                  <div className="p-2.5 rounded-xl border border-zinc-900 bg-zinc-950 w-fit shrink-0">
+                  <div className="p-2.5 rounded-xl border border-zinc-200 bg-white w-fit shrink-0">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-[11px] text-zinc-500 leading-normal line-clamp-3">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-zinc-900">{item.title}</h3>
+                  <p className="text-[11px] text-zinc-400 leading-normal line-clamp-3">{item.desc}</p>
                 </div>
                 <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-zinc-400 mt-4">
                   <span>{language === "ro" ? "Deschide" : "Open"}</span>
@@ -297,10 +309,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       {/* ─── AI AGENTS DIRECTORY ─────────────────────────────────────────── */}
       <section className="space-y-8 text-left">
         <div className="space-y-2">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 font-mono">
             {language === "ro" ? "Consilieri Autonomi Activabili" : "AI Agent Infrastructure"}
           </h2>
-          <p className="text-2xl font-light text-white">
+          <p className="text-2xl font-light text-zinc-900">
             {language === "ro" ? "Specialiști Inteligenți Integrați" : "Specialized AI Agents"}
           </p>
         </div>
@@ -318,10 +330,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
                     <AgentIcon className="h-4.5 w-4.5" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-semibold text-white">{agent.name}</h3>
-                    <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">{agent.desc}</p>
+                    <h3 className="text-xs font-semibold text-zinc-900">{agent.name}</h3>
+                    <p className="text-[10px] text-zinc-400 mt-1 leading-relaxed">{agent.desc}</p>
                   </div>
-                  <div className="space-y-1.5 border-t border-zinc-900 pt-3">
+                  <div className="space-y-1.5 border-t border-zinc-200 pt-3">
                     <p className="text-[8px] uppercase tracking-wider text-zinc-400 font-mono font-bold">Capabilities</p>
                     <ul className="space-y-1">
                       {agent.capabilities.map((c, i) => (
@@ -334,10 +346,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-zinc-900/60">
+                <div className="pt-4 border-t border-zinc-200/60">
                   <Link
                     href={agent.href}
-                    className="w-full py-2 rounded-lg bg-zinc-900/60 border border-zinc-800 hover:border-amber-500/20 text-zinc-300 hover:text-amber-400 text-[9.5px] font-semibold uppercase tracking-wider text-center block transition-all"
+                    className="w-full py-2 rounded-lg bg-zinc-50/60 border border-zinc-200 hover:border-amber-500/20 text-zinc-600 hover:text-amber-400 text-[9.5px] font-semibold uppercase tracking-wider text-center block transition-all"
                   >
                     {language === "ro" ? "Lansează Consilier" : "Deploy Agent"}
                   </Link>
@@ -352,7 +364,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left items-start">
         
         {/* AiX Score rating widget */}
-        <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl border border-zinc-900 bg-zinc-950/30 backdrop-blur-xl relative overflow-hidden space-y-4 min-h-[220px]">
+        <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl border border-zinc-200 bg-white/30 backdrop-blur-xl relative overflow-hidden space-y-4 min-h-[220px]">
           <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/[0.02] blur-3xl pointer-events-none rounded-full" />
           
           <div className="flex items-center gap-2">
@@ -360,8 +372,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             <span className="text-[10px] uppercase font-bold font-mono text-zinc-400">Score Tracker</span>
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white">AiX Score™ Simulation</h3>
-            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+            <h3 className="text-base font-semibold text-zinc-900">AiX Score™ Simulation</h3>
+            <p className="text-[11px] text-zinc-400 mt-1 leading-relaxed">
               {language === "ro"
                 ? "Scorul de siguranță al tranzacției. Evaluăm variabile cadastrale, fiscale și juridice înainte de a recomanda un activ imobiliar."
                 : "Transaction safety index. We audit key cadastre, tax, and legal coordinates prior to matching any listing."}
@@ -379,17 +391,17 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
         </div>
 
         {/* Market Pulse preview widget */}
-        <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl border border-zinc-900 bg-zinc-950/30 backdrop-blur-xl relative overflow-hidden space-y-4">
+        <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl border border-zinc-200 bg-white/30 backdrop-blur-xl relative overflow-hidden space-y-4">
           <div className="flex items-center gap-2">
             <Activity className="h-4.5 w-4.5 text-rose-500" />
             <span className="text-[10px] uppercase font-bold font-mono text-zinc-400">Market Pulse</span>
           </div>
           
           <div>
-            <h3 className="text-base font-semibold text-white">
+            <h3 className="text-base font-semibold text-zinc-900">
               {language === "ro" ? "Analize macroeconomice active" : "Active Macroeconomic Analysis"}
             </h3>
-            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+            <p className="text-[11px] text-zinc-400 mt-1 leading-relaxed">
               {language === "ro"
                 ? "Urmărește evoluția pieței imobiliare, deciziile de dobândă ale BNR și indicii inflației CPI."
                 : "Monitor real estate shifts, BNR monetary interest rulings, and CPI inflation logs."}
@@ -401,10 +413,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
               <Link
                 key={n.slug}
                 href={`/stiri/${n.slug}`}
-                className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-950/40 hover:bg-zinc-900/40 transition-colors border border-zinc-900/40"
+                className="flex items-center justify-between p-2.5 rounded-xl bg-white/40 hover:bg-zinc-100/40 transition-colors border border-zinc-200/40"
               >
                 <div className="text-left">
-                  <p className="text-[11px] font-semibold text-zinc-300 truncate max-w-sm">{n.title}</p>
+                  <p className="text-[11px] font-semibold text-zinc-600 truncate max-w-sm">{n.title}</p>
                   <p className="text-[9.5px] text-zinc-600 mt-0.5">{new Date(n.published_at || n.date).toLocaleDateString(language === "ro" ? "ro-RO" : "en-US")}</p>
                 </div>
                 <ChevronRight className="h-3.5 w-3.5 text-zinc-600" />
@@ -428,25 +440,25 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       {/* ─── ROADMAP TIMELINE ────────────────────────────────────────────── */}
       <section className="space-y-8 text-left">
         <div className="space-y-2">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 font-mono">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 font-mono">
             {language === "ro" ? "Evoluția Ecosistemului" : "Ecosystem Evolution"}
           </h2>
-          <p className="text-2xl font-light text-white">
+          <p className="text-2xl font-light text-zinc-900">
             {language === "ro" ? "Drumul către Autonomie Imobiliară" : "AiX OS™ Future Roadmap"}
           </p>
         </div>
 
-        <div className="relative border-l border-zinc-800 ml-3 pl-8 py-4 space-y-12">
+        <div className="relative border-l border-zinc-200 ml-3 pl-8 py-4 space-y-12">
           {ROADMAP.map((item, idx) => (
             <div key={idx} className="relative group">
               {/* Timeline dot */}
-              <div className="absolute -left-[41px] top-1.5 h-6 w-6 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center group-hover:border-amber-500 transition-colors">
+              <div className="absolute -left-[41px] top-1.5 h-6 w-6 rounded-full bg-white border border-zinc-200 flex items-center justify-center group-hover:border-amber-500 transition-colors">
                 <div className="h-2.5 w-2.5 rounded-full bg-amber-500/40 group-hover:bg-amber-500 transition-colors" />
               </div>
 
               <div className="space-y-2 max-w-2xl">
                 <span className="text-[10px] font-bold font-mono text-amber-500 uppercase tracking-widest">{item.year}</span>
-                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">{item.title}</h3>
                 <p className="text-xs text-zinc-450 leading-relaxed">{item.desc}</p>
               </div>
             </div>

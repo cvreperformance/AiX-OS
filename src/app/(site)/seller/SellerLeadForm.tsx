@@ -47,7 +47,7 @@ export default function SellerLeadForm() {
     return (
       <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-2 animate-in fade-in duration-300">
         <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
-        <h4 className="text-sm font-semibold text-white">
+        <h4 className="text-sm font-semibold text-zinc-900">
           {language === "ro" ? "Solicitare Înregistrată!" : "Request Submitted!"}
         </h4>
         <p className="text-xs text-zinc-400">
@@ -85,7 +85,7 @@ export default function SellerLeadForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={language === "ro" ? "Numele tău" : "Your name"}
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
         <input
           required
@@ -93,7 +93,7 @@ export default function SellerLeadForm() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder={language === "ro" ? "Telefon" : "Phone"}
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
       </div>
 
@@ -102,7 +102,7 @@ export default function SellerLeadForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={language === "ro" ? "E-mail (opțional)" : "E-mail (optional)"}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
       <input
@@ -110,14 +110,14 @@ export default function SellerLeadForm() {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         placeholder={language === "ro" ? "Adresa proprietății" : "Property address"}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
       <div className="grid grid-cols-2 gap-3">
         <select
           value={propertyType}
           onChange={(e) => setPropertyType(e.target.value)}
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
         >
           <option value="">{language === "ro" ? "Tipul proprietății" : "Property type"}</option>
           <option value="Apartament">{language === "ro" ? "Apartament" : "Apartment"}</option>
@@ -131,7 +131,7 @@ export default function SellerLeadForm() {
           onChange={(e) => setEstimatedPrice(e.target.value)}
           placeholder={language === "ro" ? "Preț estimat (€)" : "Estimated price (€)"}
           type="number"
-          className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
       </div>
 

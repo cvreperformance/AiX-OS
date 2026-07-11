@@ -117,24 +117,24 @@ export function FloatingCTA() {
     <>
       {/* ─── ASK AiX™ OVERLAY DRAWER ───────────────────────────────────────── */}
       {chatOpen && (
-        <div className="fixed bottom-24 right-4 sm:right-6 w-[350px] sm:w-[400px] h-[520px] z-[9999] rounded-3xl border border-zinc-800 bg-[#080808]/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden animate-in">
+        <div className="fixed bottom-24 right-4 sm:right-6 w-[350px] sm:w-[400px] h-[520px] z-[9999] rounded-3xl border border-zinc-200 bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden animate-in">
           {/* Glowing Top Line */}
           <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-amber-500 via-amber-300 to-transparent" />
 
           {/* Chat Header */}
-          <div className="p-4 border-b border-zinc-900 flex items-center justify-between bg-zinc-950/40">
+          <div className="p-4 border-b border-zinc-200 flex items-center justify-between bg-white/40">
             <div className="flex items-center gap-2">
               <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/25 text-amber-500 animate-pulse">
                 <Brain className="h-4 w-4" />
               </div>
               <div className="text-left">
-                <p className="text-xs font-semibold text-white tracking-wide">ASK AiX™</p>
+                <p className="text-xs font-semibold text-zinc-900 tracking-wide">ASK AiX™</p>
                 <p className="text-[9px] font-mono text-amber-500 uppercase tracking-wider">Premium AI Advisor</p>
               </div>
             </div>
             <button
               onClick={() => setChatOpen(false)}
-              className="text-zinc-500 hover:text-white p-1 rounded-lg hover:bg-zinc-900 transition-colors"
+              className="text-zinc-400 hover:text-zinc-900 p-1 rounded-lg hover:bg-zinc-100 transition-colors"
             >
               <X className="h-4 w-4" />
             </button>
@@ -151,7 +151,7 @@ export function FloatingCTA() {
                   className={`rounded-2xl p-3 text-xs leading-relaxed text-left ${
                     m.sender === "user"
                       ? "bg-amber-500 text-black font-semibold"
-                      : "border border-zinc-850 bg-zinc-900/30 text-zinc-300"
+                      : "border border-zinc-200 bg-zinc-50/30 text-zinc-600"
                   }`}
                 >
                   {m.text}
@@ -159,7 +159,7 @@ export function FloatingCTA() {
               </div>
             ))}
             {loading && (
-              <div className="flex gap-2 items-center text-[10px] text-zinc-500 italic pl-1">
+              <div className="flex gap-2 items-center text-[10px] text-zinc-400 italic pl-1">
                 <Brain className="h-3 w-3 animate-spin text-amber-500" />
                 <span>AiX Advisor analyzing...</span>
               </div>
@@ -177,7 +177,7 @@ export function FloatingCTA() {
               <button
                 key={idx}
                 onClick={() => handleSuggestion(s.label)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-900 bg-zinc-950/40 text-[9.5px] text-zinc-400 hover:text-white hover:border-zinc-700 transition-all whitespace-nowrap cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-200 bg-white/40 text-[9.5px] text-zinc-400 hover:text-zinc-900 hover:border-zinc-300 transition-all whitespace-nowrap cursor-pointer"
               >
                 <s.icon className="h-3 w-3 text-amber-500/60" />
                 <span>{s.label}</span>
@@ -186,7 +186,7 @@ export function FloatingCTA() {
           </div>
 
           {/* Chat Form */}
-          <form onSubmit={handleSend} className="p-3 border-t border-zinc-900/60 bg-zinc-950/40 flex gap-2">
+          <form onSubmit={handleSend} className="p-3 border-t border-zinc-200/60 bg-white/40 flex gap-2">
             <input
               required
               value={query}
@@ -196,7 +196,7 @@ export function FloatingCTA() {
                   ? "Adresează o întrebare (ex: 'randament')..."
                   : "State your inquiry (e.g. 'yields')..."
               }
-              className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/50 px-3.5 py-2 text-xs text-white placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none transition-colors"
+              className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none transition-colors"
             />
             <button
               type="submit"
@@ -222,7 +222,7 @@ export function FloatingCTA() {
                 setChatOpen(true);
                 setOpen(false);
               }}
-              className="flex min-h-12 items-center gap-3 rounded-full border border-amber-500/20 bg-[#090909]/95 text-amber-400 hover:bg-amber-500/10 px-4 py-3 text-sm backdrop-blur-xl shadow-2xl transition-all font-semibold cursor-pointer"
+              className="flex min-h-12 items-center gap-3 rounded-full border border-amber-500/20 bg-zinc-50/95 text-amber-400 hover:bg-amber-500/10 px-4 py-3 text-sm backdrop-blur-xl shadow-2xl transition-all font-semibold cursor-pointer"
             >
               <Sparkles className="h-4.5 w-4.5 text-amber-500 animate-pulse" />
               <span>ASK AiX™</span>
@@ -256,10 +256,10 @@ export function FloatingCTA() {
               const base = "flex min-h-12 items-center gap-3 rounded-full border px-4 py-3 text-sm backdrop-blur-xl shadow-2xl transition-all focus-visible:outline-none";
               const toneClass =
                 item.tone === "emerald"
-                  ? "border-emerald-500/20 bg-[#090909]/95 text-emerald-400 hover:bg-emerald-500/10"
+                  ? "border-emerald-500/20 bg-zinc-50/95 text-emerald-400 hover:bg-emerald-500/10"
                   : item.tone === "amber"
-                    ? "border-amber-500/20 bg-[#090909]/95 text-amber-400 hover:bg-amber-500/10"
-                    : "border-sky-500/20 bg-[#090909]/95 text-sky-400 hover:bg-sky-500/10";
+                    ? "border-amber-500/20 bg-zinc-50/95 text-amber-400 hover:bg-amber-500/10"
+                    : "border-sky-500/20 bg-zinc-50/95 text-sky-400 hover:bg-sky-500/10";
 
               const content = (
                 <>
@@ -304,7 +304,7 @@ export function FloatingCTA() {
           aria-expanded={open}
           className={`relative flex h-14 w-14 items-center justify-center rounded-full border shadow-2xl transition-all duration-300 focus-visible:outline-none cursor-pointer ${
             open
-              ? "border-zinc-800 bg-[#0a0a0a]/95 text-zinc-200"
+              ? "border-zinc-200 bg-zinc-50/95 text-zinc-200"
               : "border-amber-500/20 bg-amber-500 text-black hover:bg-amber-400"
           }`}
         >

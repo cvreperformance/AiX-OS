@@ -47,13 +47,13 @@ export default async function NewsDetailPage({ params }: Props) {
             </span>
             {date && <span className="text-zinc-600">{date}</span>}
           </div>
-          <h1 className="text-3xl md:text-4xl font-light text-white leading-tight">
+          <h1 className="text-3xl md:text-4xl font-light text-zinc-900 leading-tight">
             {article.title}
           </h1>
         </header>
 
         {article.image_url && (
-          <div className="aspect-video overflow-hidden rounded-2xl bg-zinc-800">
+          <div className="aspect-video overflow-hidden rounded-2xl bg-zinc-100">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={article.image_url}
@@ -64,7 +64,7 @@ export default async function NewsDetailPage({ params }: Props) {
         )}
 
         <div className="prose prose-invert max-w-none">
-          <p className="text-lg text-zinc-300 leading-relaxed">{article.summary}</p>
+          <p className="text-lg text-zinc-600 leading-relaxed">{article.summary}</p>
           {article.content && (
             <p className="text-zinc-400 leading-relaxed mt-4">{article.content}</p>
           )}
@@ -76,7 +76,7 @@ export default async function NewsDetailPage({ params }: Props) {
           insight={article.investment_insight}
         />
 
-        <footer className="border-t border-zinc-800 pt-6 text-xs text-zinc-600">
+        <footer className="border-t border-zinc-200 pt-6 text-xs text-zinc-600">
           Powered by AiX OS™ Market Pulse · {article.source_url ? "Sursa externă" : "AiX OS™ Intelligence"}
         </footer>
       </article>

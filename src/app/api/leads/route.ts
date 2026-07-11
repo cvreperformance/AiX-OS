@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 
 // GET /api/leads
 // Returns list of leads from Supabase
@@ -7,7 +7,7 @@ export async function GET() {
   try {
     let supabaseLeads = [];
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       const { data, error } = await supabase
         .from("leads")
         .select("*")
@@ -57,7 +57,7 @@ export async function PATCH(request: Request) {
 
     let updatedSupabase = false;
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       // Only try to update by UUID if the ID is a valid UUID format
       const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id);
       if (isUuid) {

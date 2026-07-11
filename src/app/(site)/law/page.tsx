@@ -287,7 +287,7 @@ export default function LawPage() {
       {/* Educational disclaimer on top */}
       <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 flex items-center gap-3">
         <Info className="h-5 w-5 text-amber-400 shrink-0" />
-        <p className="text-xs text-zinc-300">
+        <p className="text-xs text-zinc-600">
           <strong>Declinare de responsabilitate:</strong> Acest material are scop pur educațional și informativ și nu constituie consultanță juridică. Pentru asistență juridică personalizată, vă rugăm să consultați un avocat înregistrat în Barou.
         </p>
       </div>
@@ -313,17 +313,17 @@ export default function LawPage() {
                 onClick={() => setActiveTopic(topic.id)}
                 className={`w-full text-left p-4 rounded-2xl border transition-all duration-300 ${
                   active
-                    ? "border-amber-500/40 bg-zinc-900/60 text-white"
-                    : "border-zinc-900 bg-zinc-950/40 text-zinc-400 hover:border-zinc-800"
+                    ? "border-amber-500/40 bg-zinc-50/60 text-zinc-900"
+                    : "border-zinc-200 bg-white/40 text-zinc-400 hover:border-zinc-300"
                 }`}
               >
                 <div className="flex gap-3">
-                  <div className={`p-2 rounded-xl border shrink-0 ${active ? "bg-amber-500/10 border-amber-500/20 text-amber-400" : "bg-zinc-900/50 border-zinc-800 text-zinc-500"}`}>
+                  <div className={`p-2 rounded-xl border shrink-0 ${active ? "bg-amber-500/10 border-amber-500/20 text-amber-400" : "bg-zinc-50/50 border-zinc-200 text-zinc-400"}`}>
                     <Icon className="h-4.5 w-4.5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-semibold text-white leading-tight">{topic.title}</h4>
-                    <p className="text-[10.5px] text-zinc-500 leading-tight mt-1">{topic.desc}</p>
+                    <h4 className="text-xs font-semibold text-zinc-900 leading-tight">{topic.title}</h4>
+                    <p className="text-[10.5px] text-zinc-400 leading-tight mt-1">{topic.desc}</p>
                   </div>
                 </div>
               </button>
@@ -337,12 +337,12 @@ export default function LawPage() {
             <div className={designSystem.glowTop} />
             
             <div className="space-y-4">
-              <div className="flex items-center gap-2 text-zinc-500">
+              <div className="flex items-center gap-2 text-zinc-400">
                 <BookOpen className="h-4 w-4" />
                 <span className="text-[10px] uppercase tracking-widest font-mono font-semibold">Informații Detaliate</span>
               </div>
               
-              <h2 className="text-lg font-semibold text-white">
+              <h2 className="text-lg font-semibold text-zinc-900">
                 {LEGAL_TOPICS.find((t) => t.id === activeTopic)?.title}
               </h2>
               
@@ -351,7 +351,7 @@ export default function LawPage() {
               </div>
             </div>
 
-            <div className="pt-6 border-t border-zinc-900/60 mt-8 flex justify-between items-center">
+            <div className="pt-6 border-t border-zinc-200/60 mt-8 flex justify-between items-center">
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
                 className="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1"
@@ -368,15 +368,15 @@ export default function LawPage() {
 
       {/* Checklists Tabs Section */}
       <section className="space-y-6">
-        <div className="border-b border-zinc-900 pb-5">
+        <div className="border-b border-zinc-200 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Proceduri & Dosare</span>
-          <h2 className="text-2xl font-light text-white mt-1">Checklist-uri Documente Imobiliare</h2>
+          <h2 className="text-2xl font-light text-zinc-900 mt-1">Checklist-uri Documente Imobiliare</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
           {/* Sidebar Tabs */}
-          <div className="space-y-2 lg:border-r lg:border-zinc-900 lg:pr-6">
+          <div className="space-y-2 lg:border-r lg:border-zinc-200 lg:pr-6">
             {[
               { id: "purchase", label: "Cumpărător" },
               { id: "sale", label: "Vânzător" },
@@ -388,8 +388,8 @@ export default function LawPage() {
                 onClick={() => setActiveChecklist(tab.id as keyof typeof CHECKLISTS)}
                 className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all ${
                   activeChecklist === tab.id
-                    ? "bg-zinc-900 text-amber-400 border border-zinc-800"
-                    : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/20"
+                    ? "bg-zinc-50 text-amber-400 border border-zinc-200"
+                    : "text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100/20"
                 }`}
               >
                 {tab.label}
@@ -400,15 +400,15 @@ export default function LawPage() {
           {/* Active Checklist Content */}
           <div className="lg:col-span-3">
             <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} space-y-6`}>
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="text-sm font-semibold text-zinc-900">
                 {CHECKLISTS[activeChecklist].title}
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {CHECKLISTS[activeChecklist].items.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 rounded-xl border border-zinc-900 bg-zinc-950/40">
+                  <div key={idx} className="flex items-start gap-3 p-3 rounded-xl border border-zinc-200 bg-white/40">
                     <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
-                    <span className="text-xs text-zinc-300 leading-relaxed">{item}</span>
+                    <span className="text-xs text-zinc-600 leading-relaxed">{item}</span>
                   </div>
                 ))}
               </div>
@@ -420,10 +420,10 @@ export default function LawPage() {
 
       {/* AI Legal Assistant Interface */}
       <section className="space-y-6">
-        <div className="border-b border-zinc-900 pb-5">
+        <div className="border-b border-zinc-200 pb-5">
           <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Interactive Assistant</span>
-          <h2 className="text-2xl font-light text-white mt-1">AI Legal Assistant</h2>
-          <p className="text-xs text-zinc-500 mt-1">Sistem securizat de analiză a documentelor imobiliare și recomandări procedurale conform codului civil român.</p>
+          <h2 className="text-2xl font-light text-zinc-900 mt-1">AI Legal Assistant</h2>
+          <p className="text-xs text-zinc-400 mt-1">Sistem securizat de analiză a documentelor imobiliare și recomandări procedurale conform codului civil român.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -435,7 +435,7 @@ export default function LawPage() {
               <button
                 key={q}
                 onClick={() => handleSendMessage(q)}
-                className="w-full text-left p-3.5 rounded-2xl border border-zinc-900 bg-zinc-950/40 hover:border-zinc-800 hover:bg-zinc-900/20 text-xs text-zinc-300 hover:text-white transition-all leading-relaxed"
+                className="w-full text-left p-3.5 rounded-2xl border border-zinc-200 bg-white/40 hover:border-zinc-300 hover:bg-zinc-100/20 text-xs text-zinc-600 hover:text-zinc-900 transition-all leading-relaxed"
               >
                 {q}
               </button>
@@ -443,17 +443,17 @@ export default function LawPage() {
           </div>
 
           {/* Conversation & Structured Output Window (2/3) */}
-          <div className="lg:col-span-2 flex flex-col h-[550px] rounded-3xl border border-zinc-800 bg-[#080808]/90 overflow-hidden relative shadow-2xl">
+          <div className="lg:col-span-2 flex flex-col h-[550px] rounded-3xl border border-zinc-200 bg-white/90 overflow-hidden relative shadow-2xl">
             <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-amber-500/40 via-amber-300/10 to-transparent z-10" />
 
             {/* Chat header */}
-            <div className="p-4 border-b border-zinc-900 flex items-center justify-between bg-zinc-950/60">
+            <div className="p-4 border-b border-zinc-200 flex items-center justify-between bg-white/60">
               <div className="flex items-center gap-2.5">
                 <div className="h-7 w-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                   <Scale className="h-4 w-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-semibold text-white">AiX Legal Advisor</h4>
+                  <h4 className="text-xs font-semibold text-zinc-900">AiX Legal Advisor</h4>
                   <p className="text-[9px] text-emerald-400 font-mono uppercase tracking-widest">Active & Online</p>
                 </div>
               </div>
@@ -464,12 +464,12 @@ export default function LawPage() {
             <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-none">
               {chatMessages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-                  <div className="h-10 w-10 rounded-full bg-zinc-900 border border-zinc-850 flex items-center justify-center text-zinc-650">
+                  <div className="h-10 w-10 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center text-zinc-650">
                     <HelpCircle className="h-5 w-5" />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-xs font-semibold text-white">Cum vă pot ajuta astăzi?</p>
-                    <p className="text-[11px] text-zinc-500 max-w-sm">
+                    <p className="text-xs font-semibold text-zinc-900">Cum vă pot ajuta astăzi?</p>
+                    <p className="text-[11px] text-zinc-400 max-w-sm">
                       Selectați una dintre întrebările frecvente din stânga sau puneți o întrebare legală proprie legată de tranzacțiile din România.
                     </p>
                   </div>
@@ -486,7 +486,7 @@ export default function LawPage() {
                       className={`max-w-[85%] rounded-2xl p-3.5 text-xs leading-relaxed ${
                         msg.sender === "user"
                           ? "bg-amber-500 text-black font-medium"
-                          : "bg-zinc-900 border border-zinc-800 text-zinc-200"
+                          : "bg-zinc-50 border border-zinc-200 text-zinc-200"
                       }`}
                     >
                       {msg.text}
@@ -494,23 +494,23 @@ export default function LawPage() {
 
                     {/* Render Structured Legal Answer Layout if present */}
                     {msg.response && (
-                      <div className="w-full max-w-[95%] rounded-2xl border border-zinc-800 bg-zinc-950/80 p-5 mt-2 space-y-4 animate-in fade-in duration-300">
+                      <div className="w-full max-w-[95%] rounded-2xl border border-zinc-200 bg-white/80 p-5 mt-2 space-y-4 animate-in fade-in duration-300">
                         
                         {/* 1. Summary */}
                         <div className="space-y-1">
                           <h5 className="text-[10px] uppercase tracking-widest font-mono text-amber-500 font-semibold">1. Rezumat Explicație</h5>
-                          <p className="text-xs text-zinc-300 leading-relaxed font-light">{msg.response.summary}</p>
+                          <p className="text-xs text-zinc-600 leading-relaxed font-light">{msg.response.summary}</p>
                         </div>
 
                         {/* 2. Relevant Legal Info */}
                         <div className="space-y-1">
-                          <h5 className="text-[10px] uppercase tracking-widest font-mono text-zinc-500 font-semibold">2. Cadru Legal Relevant</h5>
+                          <h5 className="text-[10px] uppercase tracking-widest font-mono text-zinc-400 font-semibold">2. Cadru Legal Relevant</h5>
                           <p className="text-xs text-zinc-400 leading-relaxed">{msg.response.legalInfo}</p>
                         </div>
 
                         {/* 3. Steps */}
                         <div className="space-y-1">
-                          <h5 className="text-[10px] uppercase tracking-widest font-mono text-zinc-500 font-semibold">3. Pași Următori Recomandați</h5>
+                          <h5 className="text-[10px] uppercase tracking-widest font-mono text-zinc-400 font-semibold">3. Pași Următori Recomandați</h5>
                           <ul className="space-y-1.5 pt-1">
                             {msg.response.steps.map((st, sidx) => (
                               <li key={sidx} className="flex items-start gap-2 text-xs text-zinc-450">
@@ -538,7 +538,7 @@ export default function LawPage() {
 
               {/* Typing indicator */}
               {isTyping && (
-                <div className="flex items-center gap-1.5 text-zinc-500 text-xs pl-2">
+                <div className="flex items-center gap-1.5 text-zinc-400 text-xs pl-2">
                   <Sparkles className="h-3.5 w-3.5 animate-spin text-amber-500" />
                   <span>Se procesează consultarea...</span>
                 </div>
@@ -547,7 +547,7 @@ export default function LawPage() {
             </div>
 
             {/* Input bar */}
-            <div className="p-3 border-t border-zinc-900 bg-zinc-950/40">
+            <div className="p-3 border-t border-zinc-200 bg-white/40">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -560,7 +560,7 @@ export default function LawPage() {
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
                   placeholder="Scrieți o întrebare legală (ex: Cum intabulez proprietatea?)..."
-                  className="flex-1 rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+                  className="flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
@@ -581,18 +581,18 @@ export default function LawPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7 space-y-6 text-left">
             <span className="text-[10px] uppercase tracking-widest text-amber-500 font-mono font-semibold">Specialist Representation</span>
-            <h2 className="text-3xl md:text-4xl font-light text-white leading-tight">
+            <h2 className="text-3xl md:text-4xl font-light text-zinc-900 leading-tight">
               Solicită Consultanță Juridică Avocat
             </h2>
             <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
               Aveți o speță complexă? Completează formularul alăturat pentru a primi asistență de la un avocat partener specializat în drept imobiliar și fiscal.
             </p>
           </div>
-          <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+          <div className="md:col-span-5 bg-white/45 p-6 rounded-3xl border border-zinc-200">
             {leadSuccess ? (
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-2 animate-in fade-in duration-300">
                 <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto" />
-                <h4 className="text-sm font-semibold text-white">Solicitare Trimisă cu Succes!</h4>
+                <h4 className="text-sm font-semibold text-zinc-900">Solicitare Trimisă cu Succes!</h4>
                 <p className="text-xs text-zinc-400">Avocatul partener vă va contacta în cel mai scurt timp.</p>
               </div>
             ) : (
@@ -618,7 +618,7 @@ export default function LawPage() {
                     value={leadName}
                     onChange={(e) => setLeadName(e.target.value)}
                     placeholder="Nume"
-                    className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                    className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
                   />
                   <input
                     required
@@ -626,7 +626,7 @@ export default function LawPage() {
                     value={leadPhone}
                     onChange={(e) => setLeadPhone(e.target.value)}
                     placeholder="Telefon"
-                    className="rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                    className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
                   />
                 </div>
                 <input
@@ -634,7 +634,7 @@ export default function LawPage() {
                   value={leadEmail}
                   onChange={(e) => setLeadEmail(e.target.value)}
                   placeholder="E-mail (opțional)"
-                  className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
                 />
                 <textarea
                   required
@@ -642,7 +642,7 @@ export default function LawPage() {
                   onChange={(e) => setLeadDetails(e.target.value)}
                   placeholder="Descrieți speța juridică pe scurt..."
                   rows={3}
-                  className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none"
+                  className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none"
                 />
                 <button
                   type="submit"
@@ -658,7 +658,7 @@ export default function LawPage() {
       </section>
 
       {/* Educational disclaimer on bottom */}
-      <div className="rounded-2xl border border-zinc-900 bg-zinc-950/40 p-4 text-center">
+      <div className="rounded-2xl border border-zinc-200 bg-white/40 p-4 text-center">
         <p className="text-[10px] text-zinc-600 leading-normal uppercase tracking-wider">
           Declinare legală obligatorie: Acest material are scop exclusiv educațional și informativ și nu constituie sfat juridic, fiscal sau consultanță imobiliară.
         </p>

@@ -417,7 +417,7 @@ export default function AiAdvisorPage() {
         <button
           type="button"
           onClick={reset}
-          className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors mt-1 flex-shrink-0"
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-600 transition-colors mt-1 flex-shrink-0"
           aria-label="Resetează conversația"
         >
           <RefreshCw className="h-3.5 w-3.5" />
@@ -426,7 +426,7 @@ export default function AiAdvisorPage() {
       </div>
 
       {/* Chat window */}
-      <div className="flex-1 flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900/30 overflow-hidden">
+      <div className="flex-1 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50/30 overflow-hidden">
         <div className="flex-1 overflow-y-auto p-5 space-y-4 max-h-[520px] scrollbar-thin">
           {messages.map((m, i) => (
             <div key={i} className={`flex gap-3 ${m.role === "user" ? "justify-end" : ""}`}>
@@ -441,7 +441,7 @@ export default function AiAdvisorPage() {
                   className={`rounded-2xl px-4 py-3 text-sm whitespace-pre-wrap leading-relaxed ${
                     m.role === "user"
                       ? "bg-amber-500/10 text-zinc-200 border border-amber-500/20 rounded-tr-sm"
-                      : "bg-zinc-800/60 text-zinc-300 rounded-tl-sm"
+                      : "bg-zinc-100/60 text-zinc-600 rounded-tl-sm"
                   }`}
                 >
                   {m.content}
@@ -456,7 +456,7 @@ export default function AiAdvisorPage() {
                         href={link.href}
                         target={link.href.startsWith("http") ? "_blank" : undefined}
                         rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        className="inline-flex items-center gap-1 rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-amber-400/80 hover:text-amber-400 hover:border-amber-500/30 transition-all"
+                        className="inline-flex items-center gap-1 rounded-full border border-zinc-300 bg-zinc-50 px-3 py-1 text-xs text-amber-400/80 hover:text-amber-400 hover:border-amber-500/30 transition-all"
                       >
                         <Link2 className="h-3 w-3" />
                         {link.label}
@@ -473,7 +473,7 @@ export default function AiAdvisorPage() {
               <div className="h-8 w-8 rounded-full bg-amber-500/10 flex items-center justify-center">
                 <Sparkles className="h-4 w-4 text-amber-400 animate-pulse" />
               </div>
-              <div className="rounded-2xl px-4 py-3 bg-zinc-800/60 text-sm text-zinc-500 flex items-center gap-2">
+              <div className="rounded-2xl px-4 py-3 bg-zinc-100/60 text-sm text-zinc-400 flex items-center gap-2">
                 <span className="inline-flex gap-1">
                   <span className="animate-bounce" style={{ animationDelay: "0ms" }}>•</span>
                   <span className="animate-bounce" style={{ animationDelay: "150ms" }}>•</span>
@@ -488,7 +488,7 @@ export default function AiAdvisorPage() {
         </div>
 
         {/* Suggestions */}
-        <div className="border-t border-zinc-800/60 px-4 py-3">
+        <div className="border-t border-zinc-200/60 px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
             {SUGGESTIONS.map((s) => (
               <button
@@ -496,7 +496,7 @@ export default function AiAdvisorPage() {
                 type="button"
                 onClick={() => handleSend(s)}
                 disabled={loading}
-                className="flex-shrink-0 rounded-full border border-zinc-700 bg-zinc-800/40 px-3 py-1.5 text-xs text-zinc-400 hover:text-white hover:border-amber-500/30 transition-all disabled:opacity-40"
+                className="flex-shrink-0 rounded-full border border-zinc-300 bg-zinc-100/40 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-900 hover:border-amber-500/30 transition-all disabled:opacity-40"
               >
                 {s}
               </button>
@@ -505,7 +505,7 @@ export default function AiAdvisorPage() {
         </div>
 
         {/* Input */}
-        <div className="border-t border-zinc-800 p-4 flex gap-3">
+        <div className="border-t border-zinc-200 p-4 flex gap-3">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -517,7 +517,7 @@ export default function AiAdvisorPage() {
             }}
             placeholder="Întreabă AiX OS™ Advisor…"
             disabled={loading}
-            className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800/50 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-all disabled:opacity-50"
+            className="flex-1 rounded-xl border border-zinc-300 bg-zinc-100/50 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-all disabled:opacity-50"
           />
           <button
             type="button"

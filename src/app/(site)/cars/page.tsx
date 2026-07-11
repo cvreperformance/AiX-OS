@@ -14,7 +14,7 @@ export default function CarsPage() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           AiX OS™ · Luxury Mobility
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           Supercars & <br />
           <span className="gradient-gold">VIP Ground Mobility</span>
         </h1>

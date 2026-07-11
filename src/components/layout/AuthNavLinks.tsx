@@ -53,7 +53,7 @@ export function AuthNavLinks() {
         {/* Mobile Icon */}
         <Link
           href="/dashboard"
-          className="flex sm:hidden min-h-12 min-w-12 items-center justify-center rounded-xl border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:text-white transition-all shadow-sm"
+          className="flex sm:hidden min-h-12 min-w-12 items-center justify-center rounded-xl border border-amber-500/25 bg-amber-500/10 text-amber-400 hover:text-zinc-900 transition-all shadow-sm"
           aria-label="Dashboard"
         >
           <UserIcon className="w-5 h-5" />
@@ -79,7 +79,7 @@ export function AuthNavLinks() {
           </Link>
           <button
             onClick={() => signout()}
-            className="flex items-center justify-center rounded-full border border-zinc-700/50 hover:bg-zinc-800 px-2 py-1.5 text-zinc-400 hover:text-white transition-all shadow-sm"
+            className="flex items-center justify-center rounded-full border border-zinc-300/50 hover:bg-zinc-200 px-2 py-1.5 text-zinc-400 hover:text-zinc-900 transition-all shadow-sm"
             title="Sign out"
           >
             <LogOut className="w-3.5 h-3.5" />
@@ -94,7 +94,7 @@ export function AuthNavLinks() {
       {/* Mobile Icon */}
       <Link
         href="/login"
-        className="flex sm:hidden min-h-12 min-w-12 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:text-white transition-all shadow-sm"
+        className="flex sm:hidden min-h-12 min-w-12 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50/50 text-zinc-400 hover:text-zinc-900 transition-all shadow-sm"
         aria-label="Login"
       >
         <UserIcon className="w-5 h-5" />
@@ -104,7 +104,7 @@ export function AuthNavLinks() {
       <div className="hidden sm:flex items-center gap-2">
         <Link
           href="/login"
-          className="rounded-full border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 hover:text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 transition-all whitespace-nowrap"
+          className="rounded-full border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-200 hover:text-zinc-900 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 transition-all whitespace-nowrap"
         >
           Login
         </Link>

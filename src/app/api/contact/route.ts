@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { sendTelegramAlert, sendEmailAlert } from "@/lib/notifications";
 
 // Simple in-memory rate limiter
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
 
     // 3. Store in Supabase
     try {
-      const supabase = createClient();
+      const supabase = await createClient();
       const { error } = await supabase.from("leads").insert(lead);
       if (!error) {
         storedInSupabase = true;

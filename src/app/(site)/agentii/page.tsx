@@ -36,24 +36,24 @@ export default async function AgentiiPage() {
                 ★ Partner Oficial
               </span>
             </div>
-            <h2 className="text-xl font-medium text-white mb-1">Cristian Văduva Real Estate</h2>
+            <h2 className="text-xl font-medium text-zinc-900 mb-1">Cristian Văduva Real Estate</h2>
             <p className="text-sm text-zinc-400 mb-4 leading-relaxed max-w-2xl">
               Buyer &amp; Seller Representation, Market Intelligence și acces la proprietăți off-market.
               Monaco · Dubai · București — parte din ecosistemul AiX OS™.
             </p>
             <div className="flex flex-wrap gap-4 text-sm">
               <a href={`tel:${brandContent.contact.phoneRORaw}`}
-                className="flex items-center gap-1.5 text-zinc-300 hover:text-amber-400 transition-colors">
+                className="flex items-center gap-1.5 text-zinc-600 hover:text-amber-400 transition-colors">
                 <Phone className="h-3.5 w-3.5" />
                 {brandContent.contact.phoneRO}
               </a>
               <a href={`mailto:${brandContent.contact.email}`}
-                className="flex items-center gap-1.5 text-zinc-300 hover:text-amber-400 transition-colors">
+                className="flex items-center gap-1.5 text-zinc-600 hover:text-amber-400 transition-colors">
                 <Mail className="h-3.5 w-3.5" />
                 {brandContent.contact.email}
               </a>
               <a href={brandContent.urls.luxury} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-zinc-300 hover:text-amber-400 transition-colors">
+                className="flex items-center gap-1.5 text-zinc-600 hover:text-amber-400 transition-colors">
                 <Globe className="h-3.5 w-3.5" />
                 AiXLuxury.com
               </a>
@@ -72,7 +72,7 @@ export default async function AgentiiPage() {
       {/* Agency grid */}
       {agencies.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-zinc-500">Nu există agenții active momentan.</p>
+          <p className="text-zinc-400">Nu există agenții active momentan.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,9 +83,9 @@ export default async function AgentiiPage() {
       )}
 
       {/* CTA */}
-      <div className="mt-16 rounded-2xl border border-zinc-800 bg-zinc-900/30 p-8 text-center">
-        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">AiX OS™ Network</p>
-        <h3 className="text-2xl font-light text-white mb-3">Ești agent imobiliar?</h3>
+      <div className="mt-16 rounded-2xl border border-zinc-200 bg-zinc-50/30 p-8 text-center">
+        <p className="text-xs uppercase tracking-widest text-zinc-400 mb-3">AiX OS™ Network</p>
+        <h3 className="text-2xl font-light text-zinc-900 mb-3">Ești agent imobiliar?</h3>
         <p className="text-zinc-400 text-sm mb-6 max-w-lg mx-auto">
           Intră în ecosistemul AiX OS™ și accesează un flux calificat de cumpărători cu putere de decizie.
         </p>
@@ -121,10 +121,10 @@ interface AgencyCardProps {
 
 function AgencyCard({ agency }: AgencyCardProps) {
   return (
-    <div className="group flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-4 hover:border-amber-500/30 transition-all">
+    <div className="group flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-4 hover:border-amber-500/30 transition-all">
       {/* Header */}
       <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 h-14 w-14 rounded-xl border border-zinc-700 bg-zinc-800 flex items-center justify-center overflow-hidden">
+        <div className="flex-shrink-0 h-14 w-14 rounded-xl border border-zinc-300 bg-zinc-100 flex items-center justify-center overflow-hidden">
           {agency.logo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={agency.logo_url} alt={agency.name} className="h-full w-full object-cover" />
@@ -135,11 +135,11 @@ function AgencyCard({ agency }: AgencyCardProps) {
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-white group-hover:text-amber-400 transition-colors truncate">
+          <h3 className="font-medium text-zinc-900 group-hover:text-amber-400 transition-colors truncate">
             {agency.name}
           </h3>
           {agency.city && (
-            <p className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
+            <p className="text-xs text-zinc-400 flex items-center gap-1 mt-0.5">
               <MapPin className="h-3 w-3" />
               {agency.city}
             </p>
@@ -155,37 +155,37 @@ function AgencyCard({ agency }: AgencyCardProps) {
 
       {/* Stats row */}
       {agency.properties_count != null && (
-        <div className="flex items-center gap-2 text-xs text-zinc-500">
+        <div className="flex items-center gap-2 text-xs text-zinc-400">
           <Star className="h-3 w-3 text-amber-500/60" />
           <span>{agency.properties_count} proprietăți gestionate</span>
         </div>
       )}
 
       {/* CTAs */}
-      <div className="flex gap-2 pt-2 border-t border-zinc-800">
+      <div className="flex gap-2 pt-2 border-t border-zinc-200">
         {agency.phone && (
           <a href={`tel:${agency.phone.replace(/\s/g, "")}`}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-zinc-700 py-2 text-xs text-zinc-300 hover:border-amber-500/30 hover:text-white transition-all">
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-zinc-300 py-2 text-xs text-zinc-600 hover:border-amber-500/30 hover:text-zinc-900 transition-all">
             <Phone className="h-3 w-3" />
             Sună
           </a>
         )}
         {agency.email && (
           <a href={`mailto:${agency.email}`}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-zinc-700 py-2 text-xs text-zinc-300 hover:border-amber-500/30 hover:text-white transition-all">
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-zinc-300 py-2 text-xs text-zinc-600 hover:border-amber-500/30 hover:text-zinc-900 transition-all">
             <Mail className="h-3 w-3" />
             Email
           </a>
         )}
         {agency.website && (
           <a href={agency.website} target="_blank" rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1 rounded-full border border-zinc-700 px-3 py-2 text-xs text-zinc-400 hover:border-amber-500/30 hover:text-white transition-all">
+            className="flex items-center justify-center gap-1 rounded-full border border-zinc-300 px-3 py-2 text-xs text-zinc-400 hover:border-amber-500/30 hover:text-zinc-900 transition-all">
             <ExternalLink className="h-3 w-3" />
           </a>
         )}
         {!agency.phone && !agency.email && (
           <Link href={`/agentii/${agency.slug}`}
-            className="flex flex-1 items-center justify-center rounded-full border border-zinc-700 py-2 text-xs text-zinc-300 hover:border-amber-500/30 hover:text-white transition-all">
+            className="flex flex-1 items-center justify-center rounded-full border border-zinc-300 py-2 text-xs text-zinc-600 hover:border-amber-500/30 hover:text-zinc-900 transition-all">
             Vezi profil →
           </Link>
         )}

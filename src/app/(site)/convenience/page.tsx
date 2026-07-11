@@ -275,7 +275,7 @@ export default function OpenSourceAppsPage() {
                         className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all border flex items-center gap-2.5 ${
                           activeTool === tool.id
                             ? "bg-amber-500 border-amber-500 text-black shadow-md shadow-amber-500/10"
-                            : "border-transparent text-zinc-400 hover:text-white hover:bg-zinc-900/30"
+                            : "border-transparent text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100/30"
                         }`}
                       >
                         <Icon className="h-4 w-4 shrink-0" />
@@ -289,20 +289,20 @@ export default function OpenSourceAppsPage() {
         </div>
 
         {/* Right Side: Interactive Tool Workspace */}
-        <div className="lg:col-span-9 rounded-3xl border border-zinc-800 bg-zinc-950/20 p-6 sm:p-8 min-h-[420px] flex flex-col justify-between relative overflow-hidden">
+        <div className="lg:col-span-9 rounded-3xl border border-zinc-200 bg-white/20 p-6 sm:p-8 min-h-[420px] flex flex-col justify-between relative overflow-hidden">
           <div className={designSystem.glowTop} />
 
           {/* 1. Markdown Editor */}
           {activeTool === "markdown" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Markdown Live Editor</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Markdown Live Editor</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-[280px]">
                 <textarea
                   value={mdInput}
                   onChange={(e) => setMdInput(e.target.value)}
-                  className="w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-xs text-white focus:border-amber-500/40 focus:outline-none font-mono resize-none leading-relaxed"
+                  className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-900 focus:border-amber-500/40 focus:outline-none font-mono resize-none leading-relaxed"
                 />
-                <div className="w-full rounded-2xl border border-zinc-800 bg-zinc-950/20 p-4 overflow-y-auto text-xs text-zinc-300 whitespace-pre-line leading-relaxed">
+                <div className="w-full rounded-2xl border border-zinc-200 bg-white/20 p-4 overflow-y-auto text-xs text-zinc-600 whitespace-pre-line leading-relaxed">
                   {mdInput}
                 </div>
               </div>
@@ -313,7 +313,7 @@ export default function OpenSourceAppsPage() {
           {activeTool === "json" && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-semibold text-white">JSON Formatter</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">JSON Formatter</h3>
                 <button
                   onClick={formatJSON}
                   className="rounded-xl bg-amber-500 text-black px-4 py-1.5 text-xs font-semibold hover:bg-amber-400 transition-all"
@@ -325,9 +325,9 @@ export default function OpenSourceAppsPage() {
                 <textarea
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
-                  className="w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-xs text-white focus:border-amber-500/40 focus:outline-none font-mono resize-none"
+                  className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-900 focus:border-amber-500/40 focus:outline-none font-mono resize-none"
                 />
-                <div className="w-full rounded-2xl border border-zinc-800 bg-zinc-950/20 p-4 overflow-y-auto font-mono text-xs text-emerald-400">
+                <div className="w-full rounded-2xl border border-zinc-200 bg-white/20 p-4 overflow-y-auto font-mono text-xs text-emerald-400">
                   {jsonError ? (
                     <span className="text-red-400">{jsonError}</span>
                   ) : (
@@ -342,7 +342,7 @@ export default function OpenSourceAppsPage() {
           {activeTool === "csv" && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-semibold text-white">CSV Table Viewer</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">CSV Table Viewer</h3>
                 <button
                   onClick={parseCSV}
                   className="rounded-xl bg-amber-500 text-black px-4 py-1.5 text-xs font-semibold hover:bg-amber-400 transition-all"
@@ -354,18 +354,18 @@ export default function OpenSourceAppsPage() {
                 <textarea
                   value={csvInput}
                   onChange={(e) => setCsvInput(e.target.value)}
-                  className="w-full h-[220px] rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-xs text-white focus:border-amber-500/40 focus:outline-none font-mono resize-none leading-relaxed"
+                  className="w-full h-[220px] rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-xs text-zinc-900 focus:border-amber-500/40 focus:outline-none font-mono resize-none leading-relaxed"
                 />
-                <div className="lg:col-span-2 rounded-2xl border border-zinc-900 bg-zinc-950/20 overflow-x-auto h-[220px]">
+                <div className="lg:col-span-2 rounded-2xl border border-zinc-200 bg-white/20 overflow-x-auto h-[220px]">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="border-b border-zinc-850 bg-zinc-950 sticky top-0 text-[10px] font-mono text-zinc-400 uppercase">
+                      <tr className="border-b border-zinc-200 bg-white sticky top-0 text-[10px] font-mono text-zinc-400 uppercase">
                         {csvData.headers.map((h, i) => (
                           <th key={i} className="p-2.5">{h}</th>
                         ))}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-zinc-900 text-zinc-300">
+                    <tbody className="divide-y divide-zinc-900 text-zinc-600">
                       {csvData.rows.map((row, rIdx) => (
                         <tr key={rIdx}>
                           {row.map((cell, cIdx) => (
@@ -383,8 +383,8 @@ export default function OpenSourceAppsPage() {
           {/* 4. PDF Previewer */}
           {activeTool === "pdf" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Secure PDF Tool & Viewer</h3>
-              <div className="p-8 rounded-2xl border border-dashed border-zinc-800 text-center space-y-3">
+              <h3 className="text-sm font-semibold text-zinc-900">Secure PDF Tool & Viewer</h3>
+              <div className="p-8 rounded-2xl border border-dashed border-zinc-200 text-center space-y-3">
                 <FileText className="h-10 w-10 text-zinc-650 mx-auto animate-pulse" />
                 <p className="text-xs text-zinc-400">
                   {language === "ro" ? "Încarcă un extras cadastral PDF pentru previzualizare." : "Drop any PDF document to run secure local rendering."}
@@ -398,7 +398,7 @@ export default function OpenSourceAppsPage() {
                 />
                 <label
                   htmlFor="pdf-upload"
-                  className="inline-block rounded-xl border border-zinc-800 bg-zinc-950/60 hover:bg-zinc-900/60 px-4 py-2 text-xs font-semibold cursor-pointer text-white"
+                  className="inline-block rounded-xl border border-zinc-200 bg-white/60 hover:bg-zinc-100/60 px-4 py-2 text-xs font-semibold cursor-pointer text-zinc-900"
                 >
                   Select PDF
                 </label>
@@ -411,7 +411,7 @@ export default function OpenSourceAppsPage() {
           {activeTool === "ocr" && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-semibold text-white">OCR Text Scanner</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">OCR Text Scanner</h3>
                 <button
                   onClick={runMockOCR}
                   disabled={ocrScanning}
@@ -420,7 +420,7 @@ export default function OpenSourceAppsPage() {
                   Run OCR
                 </button>
               </div>
-              <div className="rounded-2xl border border-zinc-900 bg-zinc-950 p-4 min-h-[160px] font-mono text-xs text-emerald-400 whitespace-pre-line leading-relaxed">
+              <div className="rounded-2xl border border-zinc-200 bg-white p-4 min-h-[160px] font-mono text-xs text-emerald-400 whitespace-pre-line leading-relaxed">
                 {ocrScanning ? "Scanning image metadata..." : ocrText || "OCR extraction result will appear here."}
               </div>
             </div>
@@ -429,21 +429,21 @@ export default function OpenSourceAppsPage() {
           {/* 6. QR Generator */}
           {activeTool === "qr" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">QR Code Generator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">QR Code Generator</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">URL / Value</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">URL / Value</span>
                   <input
                     type="text"
                     value={qrText}
                     onChange={(e) => setQrText(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:border-amber-500/40 focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:border-amber-500/40 focus:outline-none"
                   />
                 </div>
-                <div className="p-4 rounded-2xl border border-zinc-850 bg-zinc-950 flex flex-col items-center justify-center space-y-2">
+                <div className="p-4 rounded-2xl border border-zinc-200 bg-white flex flex-col items-center justify-center space-y-2">
                   <div className="bg-white p-3 rounded-xl">
                     {/* Simulated vector QR layout */}
-                    <div className="w-28 h-28 bg-black flex items-center justify-center text-white text-[8px] font-mono text-center select-none font-bold">
+                    <div className="w-28 h-28 bg-white flex items-center justify-center text-zinc-900 text-[8px] font-mono text-center select-none font-bold">
                       [ AiX OS™ QR ]
                     </div>
                   </div>
@@ -457,7 +457,7 @@ export default function OpenSourceAppsPage() {
           {activeTool === "password" && (
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-semibold text-white">Secure Password Generator</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">Secure Password Generator</h3>
                 <button
                   onClick={generatePassword}
                   className="rounded-xl bg-amber-500 text-black px-4 py-1.5 text-xs font-semibold hover:bg-amber-400 transition-all"
@@ -478,11 +478,11 @@ export default function OpenSourceAppsPage() {
                   />
                 </div>
                 {generatedPass && (
-                  <div className="flex items-center justify-between p-3.5 rounded-xl border border-zinc-850 bg-zinc-950/60 font-mono text-xs text-white">
+                  <div className="flex items-center justify-between p-3.5 rounded-xl border border-zinc-200 bg-white/60 font-mono text-xs text-zinc-900">
                     <span className="select-all">{generatedPass}</span>
                     <button
                       onClick={() => triggerCopy(generatedPass)}
-                      className="text-zinc-500 hover:text-white transition-colors"
+                      className="text-zinc-400 hover:text-zinc-900 transition-colors"
                       title="Copy"
                     >
                       {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
@@ -496,30 +496,30 @@ export default function OpenSourceAppsPage() {
           {/* 8. Unit Converter */}
           {activeTool === "unit" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Real Estate Unit Converter</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Real Estate Unit Converter</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Input Value</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Input Value</span>
                   <input
                     type="number"
                     value={unitVal}
                     onChange={(e) => setUnitVal(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Conversion type</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Conversion type</span>
                   <select
                     value={unitType}
                     onChange={(e) => setUnitType(e.target.value as any)}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-3 py-2.5 text-xs text-white focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-xs text-zinc-900 focus:outline-none"
                   >
                     <option value="m2-sqft">Square Meters (m²) to Sq Ft</option>
                     <option value="sqft-m2">Sq Ft to Square Meters (m²)</option>
                   </select>
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 text-center font-mono text-lg text-amber-400 font-semibold">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 text-center font-mono text-lg text-amber-400 font-semibold">
                 = {convertedUnits}
               </div>
             </div>
@@ -528,30 +528,30 @@ export default function OpenSourceAppsPage() {
           {/* 9. Currency BNR Converter */}
           {activeTool === "currency" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">BNR Index Converter</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">BNR Index Converter</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Value</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Value</span>
                   <input
                     type="number"
                     value={currVal}
                     onChange={(e) => setCurrVal(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Exchange Target</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Exchange Target</span>
                   <select
                     value={currType}
                     onChange={(e) => setCurrType(e.target.value as any)}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-3 py-2.5 text-xs text-white focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-xs text-zinc-900 focus:outline-none"
                   >
                     <option value="eur-ron">EUR to RON (~4.97)</option>
                     <option value="usd-ron">USD to RON (~4.58)</option>
                   </select>
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 text-center font-mono text-lg text-amber-400 font-semibold">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 text-center font-mono text-lg text-amber-400 font-semibold">
                 = {convertedCurrency}
               </div>
             </div>
@@ -560,17 +560,17 @@ export default function OpenSourceAppsPage() {
           {/* 10. Notary Fees */}
           {activeTool === "notary" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Notary Fee Estimator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Notary Fee Estimator</h3>
               <div className="space-y-2">
-                <span className="text-[10px] text-zinc-500 font-mono">Transaction Value (€)</span>
+                <span className="text-[10px] text-zinc-400 font-mono">Transaction Value (€)</span>
                 <input
                   type="number"
                   value={notaryVal}
                   onChange={(e) => setNotaryVal(Number(e.target.value))}
-                  className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                 />
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 flex items-center justify-between">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 flex items-center justify-between">
                 <span className="text-xs text-zinc-400">Estimated RO Notary Cost (approx 1.2% scale):</span>
                 <span className="text-sm font-bold font-mono text-amber-400">€ {computedNotary}</span>
               </div>
@@ -580,38 +580,38 @@ export default function OpenSourceAppsPage() {
           {/* 11. Mortgage Calc */}
           {activeTool === "mortgage" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Credit Mortgage Estimator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Credit Mortgage Estimator</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Loan Principal (€)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Loan Principal (€)</span>
                   <input
                     type="number"
                     value={mortgageAmount}
                     onChange={(e) => setMortgageAmount(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Annual Rate (%)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Annual Rate (%)</span>
                   <input
                     type="number"
                     step="0.1"
                     value={mortgageRate}
                     onChange={(e) => setMortgageRate(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Term (Years)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Term (Years)</span>
                   <input
                     type="number"
                     value={mortgageYears}
                     onChange={(e) => setMortgageYears(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2 text-xs text-white focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-xs text-zinc-900 focus:outline-none"
                   />
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 flex items-center justify-between">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 flex items-center justify-between">
                 <span className="text-xs text-zinc-400">Monthly Payment:</span>
                 <span className="text-sm font-bold font-mono text-amber-400">€ {computedMortgage} / month</span>
               </div>
@@ -621,28 +621,28 @@ export default function OpenSourceAppsPage() {
           {/* 12. ROI Calculator */}
           {activeTool === "roi" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Capital ROI Allocator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Capital ROI Allocator</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Initial Cost (€)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Initial Cost (€)</span>
                   <input
                     type="number"
                     value={roiCost}
                     onChange={(e) => setRoiCost(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Total Revenue / Exit (€)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Total Revenue / Exit (€)</span>
                   <input
                     type="number"
                     value={roiRevenue}
                     onChange={(e) => setRoiRevenue(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 flex justify-between items-center">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 flex justify-between items-center">
                 <span className="text-xs text-zinc-400">Net Return:</span>
                 <span className="text-sm font-bold font-mono text-emerald-400">
                   € {computedROI.profit.toLocaleString()} ({computedROI.pct}%)
@@ -654,28 +654,28 @@ export default function OpenSourceAppsPage() {
           {/* 13. Rental Yield */}
           {activeTool === "yield" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Rental Yield Calculator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Rental Yield Calculator</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Purchase Price (€)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Purchase Price (€)</span>
                   <input
                     type="number"
                     value={yieldPrice}
                     onChange={(e) => setYieldPrice(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="space-y-2">
-                  <span className="text-[10px] text-zinc-500 font-mono">Monthly Rent (€)</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">Monthly Rent (€)</span>
                   <input
                     type="number"
                     value={yieldRent}
                     onChange={(e) => setYieldRent(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 flex justify-between items-center">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 flex justify-between items-center">
                 <span className="text-xs text-zinc-400">Gross Rental Yield:</span>
                 <span className="text-sm font-bold font-mono text-amber-400">{computedYield} % / year</span>
               </div>
@@ -685,7 +685,7 @@ export default function OpenSourceAppsPage() {
           {/* 14. Insurance Calc */}
           {activeTool === "insurance" && (
             <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-white">Property Insurance Estimator</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">Property Insurance Estimator</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <span className="text-[10px] text-zinc-550 font-mono">Reconstruction Valuation (€)</span>
@@ -693,7 +693,7 @@ export default function OpenSourceAppsPage() {
                     type="number"
                     value={insValue}
                     onChange={(e) => setInsValue(Number(e.target.value))}
-                    className="w-full rounded-xl border border-zinc-850 bg-zinc-950 px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500/40"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/40"
                   />
                 </div>
                 <div className="flex items-center gap-2 pt-6">
@@ -702,14 +702,14 @@ export default function OpenSourceAppsPage() {
                     id="seismic-risk"
                     checked={insSeismic}
                     onChange={(e) => setInsSeismic(e.target.checked)}
-                    className="h-4.5 w-4.5 rounded border-zinc-800 bg-zinc-950 accent-amber-500 cursor-pointer"
+                    className="h-4.5 w-4.5 rounded border-zinc-200 bg-white accent-amber-500 cursor-pointer"
                   />
                   <label htmlFor="seismic-risk" className="text-xs text-zinc-400 cursor-pointer select-none">
                     Seismic Zone (+15% premium)
                   </label>
                 </div>
               </div>
-              <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/60 space-y-2 text-xs text-zinc-350">
+              <div className="p-4 rounded-xl border border-zinc-200 bg-white/60 space-y-2 text-xs text-zinc-350">
                 <div className="flex justify-between font-mono">
                   <span>Mandatory PAD:</span>
                   <span>€ {computedInsurance.pad} / year</span>
@@ -718,7 +718,7 @@ export default function OpenSourceAppsPage() {
                   <span>Optional Home Policy:</span>
                   <span>€ {computedInsurance.optional} / year</span>
                 </div>
-                <div className="flex justify-between border-t border-zinc-800 pt-2 font-mono font-bold text-amber-400">
+                <div className="flex justify-between border-t border-zinc-200 pt-2 font-mono font-bold text-amber-400">
                   <span>Total Premium:</span>
                   <span>€ {computedInsurance.total} / year</span>
                 </div>
@@ -727,7 +727,7 @@ export default function OpenSourceAppsPage() {
           )}
 
           {/* 15. Security Slider (fallback or informational details) */}
-          <div className="border-t border-zinc-900 pt-4 mt-6 flex justify-between items-center text-[10px] text-zinc-550 font-mono">
+          <div className="border-t border-zinc-200 pt-4 mt-6 flex justify-between items-center text-[10px] text-zinc-550 font-mono">
             <span>SECURE OFFLINE DESK</span>
             <span>100% CLIENT-SIDE EXECUTION</span>
           </div>

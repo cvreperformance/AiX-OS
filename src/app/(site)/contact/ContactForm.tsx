@@ -107,13 +107,13 @@ export default function ContactForm() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-zinc-700 bg-zinc-800/50 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 transition-all";
+    "w-full rounded-xl border border-zinc-300 bg-zinc-100/50 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 transition-all";
 
   if (status === "success") {
     return (
       <div className="rounded-3xl border border-emerald-500/30 bg-emerald-500/5 p-12 text-center space-y-4">
         <CheckCircle2 className="h-12 w-12 text-emerald-400 mx-auto" />
-        <h3 className="text-xl font-light text-white">
+        <h3 className="text-xl font-light text-zinc-900">
           {language === "ro" ? "Mesaj trimis cu succes!" : "Message sent successfully!"}
         </h3>
         <p className="text-zinc-400 text-xs leading-relaxed">
@@ -138,7 +138,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-3xl border border-zinc-850 bg-[#080808]/40 p-8 space-y-5"
+      className="rounded-3xl border border-zinc-200 bg-white/40 p-8 space-y-5"
     >
       {/* Honeypot Spam Protection */}
       <input
@@ -205,7 +205,7 @@ export default function ContactForm() {
           required
           value={formData.subject}
           onChange={(e) => update("subject", e.target.value)}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
+          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
         >
           <option value="">
             {language === "ro" ? "Selectează subiectul…" : "Select subject…"}
@@ -225,7 +225,7 @@ export default function ContactForm() {
         <select
           value={formData.budget}
           onChange={(e) => update("budget", e.target.value)}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
+          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
         >
           <option value="">
             {language === "ro" ? "Selectează intervalul…" : "Select range…"}

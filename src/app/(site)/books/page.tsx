@@ -40,7 +40,7 @@ const CATEGORY_COLOR: Record<BookCategory, string> = {
   psychology:      "text-pink-400   bg-pink-500/10   border-pink-500/20",
   negotiation:     "text-teal-400   bg-teal-500/10   border-teal-500/20",
   leadership:      "text-amber-300  bg-amber-500/10  border-amber-500/20",
-  history:         "text-zinc-300   bg-zinc-500/10   border-zinc-500/20",
+  history:         "text-zinc-600   bg-zinc-500/10   border-zinc-500/20",
   economics:       "text-lime-400   bg-lime-500/10   border-lime-500/20",
   luxury:          "text-yellow-400 bg-yellow-500/10 border-yellow-500/20",
 };
@@ -62,7 +62,7 @@ function BookCard({ book }: { book: Book }) {
       <div className={designSystem.glowTop} />
 
       {/* Cover Image */}
-      <div className="relative h-52 sm:h-60 w-full bg-zinc-900/70 flex items-center justify-center overflow-hidden shrink-0">
+      <div className="relative h-52 sm:h-60 w-full bg-zinc-50/70 flex items-center justify-center overflow-hidden shrink-0">
         {!imgError ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -79,13 +79,13 @@ function BookCard({ book }: { book: Book }) {
         )}
 
         {/* AiX Score badge */}
-        <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/70 backdrop-blur-md border border-amber-500/25 rounded-xl px-2.5 py-1">
+        <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/70 backdrop-blur-md border border-amber-500/25 rounded-xl px-2.5 py-1">
           <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
           <span className="text-[10px] font-mono font-bold text-amber-400">{book.aixScore}</span>
         </div>
 
         {/* Category badge */}
-        <div className={`absolute top-3 left-3 flex items-center gap-1 border rounded-xl px-2.5 py-1 backdrop-blur-md bg-black/60 ${colorCls}`}>
+        <div className={`absolute top-3 left-3 flex items-center gap-1 border rounded-xl px-2.5 py-1 backdrop-blur-md bg-white/60 ${colorCls}`}>
           <span className="text-[9px] font-mono font-semibold uppercase tracking-wider">
             {CATEGORY_LABELS[book.category]}
           </span>
@@ -96,10 +96,10 @@ function BookCard({ book }: { book: Book }) {
       <div className="flex flex-col flex-1 p-5 space-y-3">
         {/* Title & Author */}
         <div className="space-y-1">
-          <h3 className="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors leading-snug line-clamp-2">
+          <h3 className="text-sm font-semibold text-zinc-900 group-hover:text-amber-400 transition-colors leading-snug line-clamp-2">
             {book.title}
           </h3>
-          <p className="text-[11px] text-zinc-500 flex items-center gap-1.5">
+          <p className="text-[11px] text-zinc-400 flex items-center gap-1.5">
             <User className="h-3 w-3 text-zinc-600 shrink-0" />
             {book.author} · {book.year}
           </p>
@@ -121,7 +121,7 @@ function BookCard({ book }: { book: Book }) {
         </div>
 
         {/* Footer CTA */}
-        <div className="pt-2 border-t border-zinc-900/60">
+        <div className="pt-2 border-t border-zinc-200/60">
           <a
             href={book.buyUrl}
             target="_blank"
@@ -207,7 +207,7 @@ export default function BooksPage() {
           >
             <div className={designSystem.glowTop} />
             <p className="text-xl font-light text-amber-400 font-mono">{s.value}</p>
-            <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">{s.label}</p>
+            <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">{s.label}</p>
           </div>
         ))}
       </div>
@@ -217,13 +217,13 @@ export default function BooksPage() {
         {/* Search */}
         <div className="flex gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={language === "ro" ? "Caută după titlu, autor sau categorie…" : "Search by title, author, or category…"}
-              className="w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 py-3 pl-11 pr-11 text-sm text-white placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 backdrop-blur-sm transition-colors"
+              className="w-full rounded-2xl border border-zinc-200 bg-white/60 py-3 pl-11 pr-11 text-sm text-zinc-900 placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 backdrop-blur-sm transition-colors"
             />
             {query && (
               <button
@@ -241,7 +241,7 @@ export default function BooksPage() {
             className={`md:hidden flex items-center gap-2 rounded-2xl border px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-all ${
               showFilters || selectedCategory !== "all"
                 ? "border-amber-500/50 bg-amber-500/10 text-amber-400"
-                : "border-zinc-800 bg-zinc-950/60 text-zinc-400"
+                : "border-zinc-200 bg-white/60 text-zinc-400"
             }`}
           >
             <Filter className="h-4 w-4" />
@@ -257,11 +257,11 @@ export default function BooksPage() {
             className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wider transition-all ${
               selectedCategory === "all"
                 ? "border-amber-500 bg-amber-500 text-black"
-                : "border-zinc-800 bg-zinc-950/40 text-zinc-400 hover:border-zinc-700 hover:text-white"
+                : "border-zinc-200 bg-white/40 text-zinc-400 hover:border-zinc-300 hover:text-zinc-900"
             }`}
           >
             Toate
-            <span className="rounded-full bg-black/20 px-1.5 py-0.5 text-[8px] font-mono">
+            <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[8px] font-mono">
               {totalByCategory["all"]}
             </span>
           </button>
@@ -277,13 +277,13 @@ export default function BooksPage() {
                 className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wider transition-all ${
                   active
                     ? `border-amber-500 bg-amber-500 text-black`
-                    : `border-zinc-800 bg-zinc-950/40 text-zinc-400 hover:border-zinc-700 hover:text-white`
+                    : `border-zinc-200 bg-white/40 text-zinc-400 hover:border-zinc-300 hover:text-zinc-900`
                 }`}
               >
                 <span className={active ? "" : textColor}>
                   {CATEGORY_LABELS[cat]}
                 </span>
-                <span className="rounded-full bg-black/20 px-1.5 py-0.5 text-[8px] font-mono">
+                <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[8px] font-mono">
                   {totalByCategory[cat] ?? 0}
                 </span>
               </button>
@@ -293,7 +293,7 @@ export default function BooksPage() {
 
         {/* Results count */}
         <div className="flex items-center justify-between">
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-400">
             {filtered.length === 0
               ? "Nicio carte găsită"
               : `${filtered.length} ${filtered.length === 1 ? "carte găsită" : "cărți găsite"}`}
@@ -304,7 +304,7 @@ export default function BooksPage() {
           {(query || selectedCategory !== "all") && (
             <button
               onClick={() => { setQuery(""); setSelectedCategory("all"); }}
-              className="text-[10px] text-zinc-500 hover:text-amber-400 flex items-center gap-1 transition-colors font-mono uppercase tracking-wider"
+              className="text-[10px] text-zinc-400 hover:text-amber-400 flex items-center gap-1 transition-colors font-mono uppercase tracking-wider"
             >
               <X className="h-3 w-3" />
               Resetează
@@ -324,12 +324,12 @@ export default function BooksPage() {
         <div className={`py-20 rounded-3xl ${designSystem.glass} flex flex-col items-center justify-center gap-4 text-center`}>
           <BookOpen className="h-10 w-10 text-zinc-700" />
           <div>
-            <p className="text-sm font-semibold text-white">Nicio carte nu corespunde filtrelor</p>
-            <p className="text-xs text-zinc-500 mt-1">Încearcă o altă categorie sau modifică căutarea.</p>
+            <p className="text-sm font-semibold text-zinc-900">Nicio carte nu corespunde filtrelor</p>
+            <p className="text-xs text-zinc-400 mt-1">Încearcă o altă categorie sau modifică căutarea.</p>
           </div>
           <button
             onClick={() => { setQuery(""); setSelectedCategory("all"); }}
-            className="rounded-xl border border-zinc-800 px-4 py-2 text-xs text-zinc-400 hover:text-white hover:border-amber-500/30 transition-all"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-xs text-zinc-400 hover:text-zinc-900 hover:border-amber-500/30 transition-all"
           >
             Resetează filtrele
           </button>
@@ -337,14 +337,14 @@ export default function BooksPage() {
       )}
 
       {/* Bottom CTA */}
-      <div className={`p-8 sm:p-10 rounded-3xl border border-amber-500/20 bg-[#080808]/70 backdrop-blur-xl text-center space-y-5 relative overflow-hidden`}>
+      <div className={`p-8 sm:p-10 rounded-3xl border border-amber-500/20 bg-white/70 backdrop-blur-xl text-center space-y-5 relative overflow-hidden`}>
         <div className="absolute -right-20 -top-20 w-44 h-44 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
         <BookOpen className="h-7 w-7 text-amber-500/40 mx-auto" />
         <div>
-          <h2 className="text-xl sm:text-2xl font-light text-white">
+          <h2 className="text-xl sm:text-2xl font-light text-zinc-900">
             Recomandă o Carte
           </h2>
-          <p className="text-xs text-zinc-500 mt-2 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs text-zinc-400 mt-2 max-w-md mx-auto leading-relaxed">
             Ai citit o carte care ți-a schimbat perspectiva financiară? Trimite-ne sugestia — consilierii AiX o vor evalua pentru a fi inclusă în bibliotecă.
           </p>
         </div>

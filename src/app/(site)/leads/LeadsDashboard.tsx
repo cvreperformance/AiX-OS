@@ -153,7 +153,7 @@ export default function LeadsDashboard() {
         <button
           onClick={fetchLeads}
           disabled={loading}
-          className="rounded-xl border border-zinc-850 bg-zinc-950/60 hover:bg-zinc-900/60 p-3 text-zinc-400 hover:text-white transition-all flex items-center gap-2 text-xs font-semibold uppercase tracking-wider disabled:opacity-50"
+          className="rounded-xl border border-zinc-200 bg-white/60 hover:bg-zinc-100/60 p-3 text-zinc-400 hover:text-zinc-900 transition-all flex items-center gap-2 text-xs font-semibold uppercase tracking-wider disabled:opacity-50"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin text-amber-500" : ""}`} />
           {language === "ro" ? "Actualizează" : "Refresh"}
@@ -173,7 +173,7 @@ export default function LeadsDashboard() {
             <div key={s.label} className={`p-5 rounded-3xl ${designSystem.glass} border relative flex items-center justify-between`}>
               <div className="space-y-1">
                 <span className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono font-semibold">{s.label}</span>
-                <p className="text-2xl font-light text-white font-mono">{s.value}</p>
+                <p className="text-2xl font-light text-zinc-900 font-mono">{s.value}</p>
               </div>
               <div className={`rounded-xl border p-2.5 ${s.color}`}>
                 <Icon className="h-5 w-5" />
@@ -186,13 +186,13 @@ export default function LeadsDashboard() {
       {/* Filters & search */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={language === "ro" ? "Caută după nume, telefon, subiect..." : "Search leads by name, phone, or subject..."}
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-950/60 py-3 pl-11 pr-4 text-xs text-white placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none backdrop-blur-sm transition-colors"
+            className="w-full rounded-2xl border border-zinc-200 bg-white/60 py-3 pl-11 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/40 focus:outline-none backdrop-blur-sm transition-colors"
           />
         </div>
 
@@ -204,7 +204,7 @@ export default function LeadsDashboard() {
               className={`px-3.5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
                 statusFilter === status
                   ? "bg-amber-500 border-amber-500 text-black"
-                  : "border-zinc-800 text-zinc-450 bg-zinc-950/20 hover:text-white"
+                  : "border-zinc-200 text-zinc-450 bg-white/20 hover:text-zinc-900"
               }`}
             >
               {status === "all" ? (language === "ro" ? "Toate" : "All") : status.replace("_", " ")}
@@ -214,11 +214,11 @@ export default function LeadsDashboard() {
       </div>
 
       {/* Leads Table */}
-      <div className={`rounded-3xl border border-zinc-800 overflow-hidden bg-zinc-950/30 backdrop-blur-md`}>
+      <div className={`rounded-3xl border border-zinc-200 overflow-hidden bg-white/30 backdrop-blur-md`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-zinc-900 text-zinc-500 font-mono text-[9px] uppercase tracking-wider bg-black/40">
+              <tr className="border-b border-zinc-200 text-zinc-400 font-mono text-[9px] uppercase tracking-wider bg-white/40">
                 <th className="p-4 font-semibold">{language === "ro" ? "Dată" : "Date"}</th>
                 <th className="p-4 font-semibold">{language === "ro" ? "Contact" : "Client Info"}</th>
                 <th className="p-4 font-semibold">{language === "ro" ? "Subiect" : "Interest"}</th>
@@ -230,7 +230,7 @@ export default function LeadsDashboard() {
             <tbody className="divide-y divide-zinc-900 text-xs">
               {filteredLeads.length > 0 ? (
                 filteredLeads.map((lead: LeadItem) => (
-                  <tr key={lead.id} className="hover:bg-zinc-900/10 transition-colors">
+                  <tr key={lead.id} className="hover:bg-zinc-100/10 transition-colors">
                     <td className="p-4 text-zinc-450 font-mono">
                       {new Date(lead.created_at).toLocaleString(language === "ro" ? "ro-RO" : "en-US", {
                         month: "short",
@@ -240,23 +240,23 @@ export default function LeadsDashboard() {
                       })}
                     </td>
                     <td className="p-4">
-                      <p className="font-semibold text-white">{lead.name}</p>
-                      <p className="text-[10px] text-zinc-500 mt-0.5">{lead.phone}</p>
+                      <p className="font-semibold text-zinc-900">{lead.name}</p>
+                      <p className="text-[10px] text-zinc-400 mt-0.5">{lead.phone}</p>
                       {lead.email && <p className="text-[10px] text-zinc-550">{lead.email}</p>}
                     </td>
                     <td className="p-4">
-                      <span className="font-medium text-white">{lead.subject ?? "N/A"}</span>
+                      <span className="font-medium text-zinc-900">{lead.subject ?? "N/A"}</span>
                       {lead.budget && (
                         <span className="block text-[10px] text-amber-400 font-mono font-semibold mt-0.5">
                           {lead.budget}
                         </span>
                       )}
                     </td>
-                    <td className="p-4 max-w-xs truncate text-zinc-300" title={lead.message ?? ""}>
+                    <td className="p-4 max-w-xs truncate text-zinc-600" title={lead.message ?? ""}>
                       {lead.message ?? "-"}
                     </td>
                     <td className="p-4">
-                      <span className="text-[9px] px-2 py-0.5 border border-zinc-900 bg-zinc-950/50 text-zinc-500 rounded-md font-mono uppercase tracking-wider">
+                      <span className="text-[9px] px-2 py-0.5 border border-zinc-200 bg-white/50 text-zinc-400 rounded-md font-mono uppercase tracking-wider">
                         {lead.source}
                       </span>
                     </td>
@@ -264,7 +264,7 @@ export default function LeadsDashboard() {
                       <select
                         value={lead.status}
                         onChange={(e) => handleStatusChange(lead.id, e.target.value as LeadItem["status"])}
-                        className={`rounded-lg border border-zinc-800 bg-zinc-950 px-2 py-1.5 text-[10.5px] font-semibold font-mono focus:outline-none cursor-pointer ${
+                        className={`rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-[10.5px] font-semibold font-mono focus:outline-none cursor-pointer ${
                           lead.status === "new"
                             ? "text-amber-400"
                             : lead.status === "in_progress"

@@ -64,7 +64,7 @@ export default function ServicesDirectoryClient() {
         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
           AiX OS™ &bull; Directory
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight tracking-tight">
           {language === "ro" ? "Centrul de Servicii" : "System Control Hub"}
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
@@ -74,7 +74,7 @@ export default function ServicesDirectoryClient() {
         </p>
 
         {/* Stats strip */}
-        <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2 border-t border-zinc-900/60 max-w-xl">
+        <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2 border-t border-zinc-200/60 max-w-xl">
           {[
             { value: ALL_SERVICES_REGISTRY.length.toString(), label: language === "ro" ? "Servicii active" : "Services Registered" },
             { value: navigationCategories.length.toString(), label: language === "ro" ? "Categorii" : "Categories" },
@@ -98,7 +98,7 @@ export default function ServicesDirectoryClient() {
             className={`px-3 py-1.5 rounded-xl border text-[10.5px] font-semibold transition-all ${
               selectedCategory === null
                 ? "border-amber-500/30 bg-amber-500/10 text-amber-400"
-                : "border-zinc-850 bg-zinc-950/20 text-zinc-400 hover:text-white hover:border-zinc-700"
+                : "border-zinc-200 bg-white/20 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300"
             }`}
           >
             {language === "ro" ? "Toate" : "All Categories"}
@@ -113,7 +113,7 @@ export default function ServicesDirectoryClient() {
                 className={`px-3 py-1.5 rounded-xl border text-[10.5px] font-semibold transition-all ${
                   isActive
                     ? "border-amber-500/30 bg-amber-500/10 text-amber-400"
-                    : "border-zinc-850 bg-zinc-950/20 text-zinc-400 hover:text-white hover:border-zinc-700"
+                    : "border-zinc-200 bg-white/20 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300"
                 }`}
               >
                 {title}
@@ -125,7 +125,7 @@ export default function ServicesDirectoryClient() {
 
       {/* Filter status */}
       {q && (
-        <p className="text-[11px] text-zinc-500">
+        <p className="text-[11px] text-zinc-400">
           {language === "ro"
             ? `Am găsit ${totalVisible} servicii potrivite cu "${query}"`
             : `Found ${totalVisible} modules matching query "${query}"`}
@@ -138,7 +138,7 @@ export default function ServicesDirectoryClient() {
           {filteredCategories.map((category) => {
             const Icon = category.icon;
             const title = language === "ro" ? category.title : category.titleEn;
-            const bgClass = CATEGORY_BG[category.id] ?? "bg-zinc-800/10 border-zinc-800/20 text-zinc-400";
+            const bgClass = CATEGORY_BG[category.id] ?? "bg-zinc-100/10 border-zinc-200/20 text-zinc-400";
 
             return (
               <div key={category.id} className="space-y-4">
@@ -148,7 +148,7 @@ export default function ServicesDirectoryClient() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h2 className="text-xs uppercase font-bold tracking-widest text-white font-mono">{title}</h2>
+                    <h2 className="text-xs uppercase font-bold tracking-widest text-zinc-900 font-mono">{title}</h2>
                     <p className="text-[10px] text-zinc-550 font-medium">
                       {category.items.length} {language === "ro" ? (category.items.length === 1 ? "modul" : "module") : (category.items.length === 1 ? "module" : "modules")}
                     </p>
@@ -166,23 +166,23 @@ export default function ServicesDirectoryClient() {
                       <Link
                         key={item.id}
                         href={item.href}
-                        className="group flex flex-col justify-between p-5 rounded-2xl border border-zinc-850 bg-zinc-950/20 hover:border-amber-500/20 hover:bg-amber-500/[0.01] transition-all duration-200"
+                        className="group flex flex-col justify-between p-5 rounded-2xl border border-zinc-200 bg-white/20 hover:border-amber-500/20 hover:bg-amber-500/[0.01] transition-all duration-200"
                       >
                         <div className="space-y-3">
-                          <div className="p-2 rounded-xl border border-zinc-900 bg-zinc-950 text-zinc-500 group-hover:text-amber-400 group-hover:border-amber-500/10 w-fit transition-colors">
+                          <div className="p-2 rounded-xl border border-zinc-200 bg-white text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/10 w-fit transition-colors">
                             <ItemIcon className="h-4.5 w-4.5" />
                           </div>
                           <div>
-                            <span className="text-xs font-semibold text-white group-hover:text-amber-400 transition-colors block">
+                            <span className="text-xs font-semibold text-zinc-900 group-hover:text-amber-400 transition-colors block">
                               {label}
                             </span>
-                            <p className="text-[10.5px] text-zinc-500 leading-relaxed mt-1 line-clamp-3">
+                            <p className="text-[10.5px] text-zinc-400 leading-relaxed mt-1 line-clamp-3">
                               {desc}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-1 text-[9.5px] font-bold uppercase tracking-wider text-zinc-550 group-hover:text-amber-400 transition-colors mt-5 pt-3 border-t border-zinc-900/60">
+                        <div className="flex items-center gap-1 text-[9.5px] font-bold uppercase tracking-wider text-zinc-550 group-hover:text-amber-400 transition-colors mt-5 pt-3 border-t border-zinc-200/60">
                           <span>{language === "ro" ? item.actionLabel || "Deschide" : item.actionLabelEn || "Open"}</span>
                           <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         </div>
@@ -195,8 +195,8 @@ export default function ServicesDirectoryClient() {
           })}
         </div>
       ) : (
-        <div className="py-16 text-center text-xs text-zinc-550 border border-dashed border-zinc-800 rounded-3xl space-y-2 max-w-xl">
-          <p className="font-semibold text-white">
+        <div className="py-16 text-center text-xs text-zinc-550 border border-dashed border-zinc-200 rounded-3xl space-y-2 max-w-xl">
+          <p className="font-semibold text-zinc-900">
             {language === "ro" ? "Nu am găsit servicii potrivite" : "No matching services found"}
           </p>
           <p>

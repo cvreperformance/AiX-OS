@@ -46,9 +46,9 @@ export function AccountMenuSection({ language }: { language: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 border-b border-zinc-900 pb-2">
+      <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
         <User className="h-4.5 w-4.5 text-zinc-400" />
-        <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-300 font-mono">
+        <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
           {language === "ro" ? "Cont" : "Account"}
         </h4>
       </div>
@@ -78,7 +78,7 @@ export function AccountMenuSection({ language }: { language: string }) {
             <li>
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-all font-medium"
+                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-900 transition-all font-medium"
               >
                 <User className="w-3.5 h-3.5" />
                 {language === "ro" ? "Profil" : "Profile"}
@@ -87,7 +87,7 @@ export function AccountMenuSection({ language }: { language: string }) {
             <li>
               <button
                 onClick={() => signout()}
-                className="flex w-full items-center gap-2 text-xs text-zinc-500 hover:text-rose-400 transition-all font-medium text-left"
+                className="flex w-full items-center gap-2 text-xs text-zinc-400 hover:text-rose-400 transition-all font-medium text-left"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 {language === "ro" ? "Deconectare" : "Sign Out"}
@@ -108,7 +108,7 @@ export function AccountMenuSection({ language }: { language: string }) {
             <li>
               <Link
                 href="/login"
-                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-all font-medium"
+                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-900 transition-all font-medium"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 {language === "ro" ? "Autentificare" : "Login"}

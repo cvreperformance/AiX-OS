@@ -82,7 +82,7 @@ const heatmapBlocks = [
 function TrendIcon({ trend }: { trend: "up" | "down" | "neutral" }) {
   if (trend === "up") return <TrendingUp className="h-4 w-4 text-emerald-400" />;
   if (trend === "down") return <TrendingDown className="h-4 w-4 text-red-400" />;
-  return <Minus className="h-4 w-4 text-zinc-500" />;
+  return <Minus className="h-4 w-4 text-zinc-400" />;
 }
 
 function IndicatorCard({ ind }: { ind: MarketItem }) {
@@ -91,9 +91,9 @@ function IndicatorCard({ ind }: { ind: MarketItem }) {
       <div className={designSystem.glowTop} />
       <div>
         <p className="text-[10px] uppercase tracking-widest text-zinc-550 font-semibold">{ind.label}</p>
-        <p className="text-xl font-light text-white mt-1">{ind.value}</p>
+        <p className="text-xl font-light text-zinc-900 mt-1">{ind.value}</p>
       </div>
-      <div className="flex items-center justify-between pt-2.5 border-t border-zinc-900/60">
+      <div className="flex items-center justify-between pt-2.5 border-t border-zinc-200/60">
         <div className="flex items-center gap-1.5">
           <TrendIcon trend={ind.trend} />
           <span
@@ -102,7 +102,7 @@ function IndicatorCard({ ind }: { ind: MarketItem }) {
                 ? "text-emerald-400"
                 : ind.trend === "down"
                   ? "text-red-400"
-                  : "text-zinc-500"
+                  : "text-zinc-400"
             }`}
           >
             {ind.change}
@@ -121,9 +121,9 @@ function Section({ title, badge, icon: Icon, indicators }: { title: string; badg
         <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/20 text-amber-400">
           <Icon className="h-4.5 w-4.5" />
         </div>
-        <h2 className="text-sm font-semibold text-white tracking-wide">{title}</h2>
+        <h2 className="text-sm font-semibold text-zinc-900 tracking-wide">{title}</h2>
         {badge && (
-          <span className="text-[9px] uppercase tracking-widest text-zinc-500 border border-zinc-800 rounded-full px-2 py-0.5 ml-auto font-mono">
+          <span className="text-[9px] uppercase tracking-widest text-zinc-400 border border-zinc-200 rounded-full px-2 py-0.5 ml-auto font-mono">
             {badge}
           </span>
         )}
@@ -171,11 +171,11 @@ export default function MarketPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-16 animate-in">
       {/* Header */}
-      <div className="space-y-4 border-b border-zinc-900 pb-8">
+      <div className="space-y-4 border-b border-zinc-200 pb-8">
         <span className="text-xs uppercase tracking-[0.2em] text-amber-500">
           AiX OS™ · Bloomberg Intelligence Terminal
         </span>
-        <h1 className="text-3xl md:text-4xl font-light text-white tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-light text-zinc-900 tracking-tight">
           Market Pulse Dashboard
         </h1>
         <p className="text-sm text-zinc-400 max-w-2xl leading-relaxed">
@@ -183,7 +183,7 @@ export default function MarketPage() {
             ? "Monitorizare în timp real a indicatorilor bursieri, cotațiilor crypto (alimentată direct de CoinGecko), bondurilor guvernamentale și macro-economiei globale. Intelligence actualizat automat la fiecare 30 de secunde."
             : "Real-time monitoring of stock indices, crypto quotes (powered by CoinGecko), government bonds, and global macroeconomics. Intelligence auto-refreshed every 30 seconds."}
         </p>
-        <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
           <RefreshCw className="h-3.5 w-3.5 text-amber-500/80 animate-spin" style={{ animationDuration: "10s" }} />
           <span>
             {language === "ro" ? "Sincronizat securizat · Cotații la zi iulie 2026" : "Securely synced · Quotes updated July 2026"}
@@ -223,10 +223,10 @@ export default function MarketPage() {
             <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/20 text-amber-400">
               <Layers className="h-4.5 w-4.5" />
             </div>
-            <h2 className="text-sm font-semibold text-white tracking-wide">
+            <h2 className="text-sm font-semibold text-zinc-900 tracking-wide">
               {language === "ro" ? "Hartă Performanță Active (Heatmap)" : "Asset Performance Heatmap"}
             </h2>
-            <span className="text-[9px] uppercase tracking-widest text-zinc-500 border border-zinc-800 rounded-full px-2 py-0.5 ml-auto font-mono">
+            <span className="text-[9px] uppercase tracking-widest text-zinc-400 border border-zinc-200 rounded-full px-2 py-0.5 ml-auto font-mono">
               Market Snapshot
             </span>
           </div>
@@ -253,10 +253,10 @@ export default function MarketPage() {
       </div>
 
       {/* Luxury CTA */}
-      <div className="rounded-3xl border border-amber-500/20 bg-[#080808]/70 backdrop-blur-xl p-8 md:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
+      <div className="rounded-3xl border border-amber-500/20 bg-white/70 backdrop-blur-xl p-8 md:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
         <div className="absolute -right-20 -top-20 w-40 h-40 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
         <Globe className="h-10 w-10 text-amber-500/60 mx-auto" />
-        <h2 className="text-2xl font-light text-white tracking-wide">
+        <h2 className="text-2xl font-light text-zinc-900 tracking-wide">
           {language === "ro" ? "Investește Asistat de Date" : "Data-Assisted Investing"}
         </h2>
         <p className="text-xs text-zinc-450 max-w-lg mx-auto leading-relaxed">
@@ -273,7 +273,7 @@ export default function MarketPage() {
           </button>
           <Link
             href="/convenience"
-            className="rounded-xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 px-6 py-2.5 text-xs text-zinc-350 hover:text-white transition-all flex items-center gap-1"
+            className="rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 px-6 py-2.5 text-xs text-zinc-350 hover:text-zinc-900 transition-all flex items-center gap-1"
           >
             {language === "ro" ? "Calculatoare ROI" : "ROI Calculators"}
             <ArrowUpRight className="h-3.5 w-3.5" />

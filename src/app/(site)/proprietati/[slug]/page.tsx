@@ -73,7 +73,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
           <div className="space-y-6">
             <div>
-              <div className="flex items-center gap-3 text-sm text-zinc-500 mb-3">
+              <div className="flex items-center gap-3 text-sm text-zinc-400 mb-3">
                 <span className="uppercase tracking-wider">{property.property_type}</span>
                 <span>·</span>
                 <span className="flex items-center gap-1">
@@ -81,7 +81,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                   {property.location}, {property.city}
                 </span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-light text-white mb-4">
+              <h1 className="text-3xl md:text-4xl font-light text-zinc-900 mb-4">
                 {property.title}
               </h1>
               <p className="text-3xl font-light text-amber-400">
@@ -93,25 +93,25 @@ export default async function PropertyDetailPage({ params }: Props) {
             <div className="flex flex-wrap gap-4 text-sm text-zinc-400">
               {property.area_sqm != null && (
                 <span className="flex items-center gap-1.5">
-                  <Ruler className="h-4 w-4 text-zinc-500" />
+                  <Ruler className="h-4 w-4 text-zinc-400" />
                   {property.area_sqm} m²
                 </span>
               )}
               {property.bedrooms != null && (
                 <span className="flex items-center gap-1.5">
-                  <BedDouble className="h-4 w-4 text-zinc-500" />
+                  <BedDouble className="h-4 w-4 text-zinc-400" />
                   {property.bedrooms} camere
                 </span>
               )}
               {property.bathrooms != null && (
                 <span className="flex items-center gap-1.5">
-                  <Bath className="h-4 w-4 text-zinc-500" />
+                  <Bath className="h-4 w-4 text-zinc-400" />
                   {property.bathrooms} băi
                 </span>
               )}
               {property.property_type && (
                 <span className="flex items-center gap-1.5">
-                  <Building2 className="h-4 w-4 text-zinc-500" />
+                  <Building2 className="h-4 w-4 text-zinc-400" />
                   {property.property_type}
                 </span>
               )}
@@ -119,8 +119,8 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Description */}
             {property.description && (
-              <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-5">
-                <p className="text-zinc-300 leading-relaxed text-sm whitespace-pre-line">
+              <div className="rounded-2xl border border-zinc-200/60 bg-zinc-50/30 p-5">
+                <p className="text-zinc-600 leading-relaxed text-sm whitespace-pre-line">
                   {property.description}
                 </p>
               </div>
@@ -132,7 +132,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 {property.features.map((f) => (
                   <span
                     key={f}
-                    className="rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400"
+                    className="rounded-full border border-zinc-300 px-3 py-1 text-xs text-zinc-400"
                   >
                     {f}
                   </span>
@@ -157,7 +157,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 href={brandContent.contact.whatsappText}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full rounded-full border border-zinc-700 py-3.5 text-center text-sm text-zinc-300 hover:border-amber-500/40 hover:text-white transition-all animate-pulse"
+                className="block w-full rounded-full border border-zinc-300 py-3.5 text-center text-sm text-zinc-600 hover:border-amber-500/40 hover:text-zinc-900 transition-all animate-pulse"
               >
                 💬 WhatsApp Direct
               </a>

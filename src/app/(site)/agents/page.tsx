@@ -31,14 +31,14 @@ export default function AIAgentsPage() {
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
                 <agent.icon className={`h-6 w-6 ${agent.color.split(' ')[0]}`} />
-                <h4 className="text-lg font-semibold text-white">{agent.name}</h4>
+                <h4 className="text-lg font-semibold text-zinc-900">{agent.name}</h4>
               </div>
-              <span className="text-[10px] font-bold font-mono px-3 py-1 border border-zinc-800 bg-zinc-950 rounded-full">{agent.status}</span>
+              <span className="text-[10px] font-bold font-mono px-3 py-1 border border-zinc-200 bg-white rounded-full">{agent.status}</span>
             </div>
             <p className="text-sm text-zinc-400 leading-relaxed">{agent.desc}</p>
-            <div className="pt-4 border-t border-zinc-900/60 flex justify-between items-center text-xs font-mono text-zinc-500">
+            <div className="pt-4 border-t border-zinc-200/60 flex justify-between items-center text-xs font-mono text-zinc-400">
               <span>Audit Frequency</span>
-              <span className="text-zinc-300 font-bold">{agent.rate}</span>
+              <span className="text-zinc-600 font-bold">{agent.rate}</span>
             </div>
           </div>
         ))}

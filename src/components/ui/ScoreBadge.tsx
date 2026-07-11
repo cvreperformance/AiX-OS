@@ -49,7 +49,7 @@ interface ScoreCardProps {
 
 export function ScoreCard({ score, explanation, insight }: ScoreCardProps) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 space-y-4">
+    <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-medium uppercase tracking-widest text-zinc-400">
           AiX OS™ Score
@@ -58,14 +58,14 @@ export function ScoreCard({ score, explanation, insight }: ScoreCardProps) {
       </div>
       {explanation && (
         <div>
-          <p className="text-xs uppercase tracking-wider text-zinc-500 mb-1">
+          <p className="text-xs uppercase tracking-wider text-zinc-400 mb-1">
             Why
           </p>
-          <p className="text-zinc-300 text-sm leading-relaxed">{explanation}</p>
+          <p className="text-zinc-600 text-sm leading-relaxed">{explanation}</p>
         </div>
       )}
       {insight && (
-        <div className="border-t border-zinc-800 pt-4">
+        <div className="border-t border-zinc-200 pt-4">
           <p className="text-xs uppercase tracking-wider text-amber-500/80 mb-1">
             Investment Insight
           </p>

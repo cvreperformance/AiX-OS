@@ -193,7 +193,7 @@ export default function ContactClientPage() {
     emerald: "border-emerald-500/20 bg-emerald-500/5 text-emerald-400",
     sky: "border-sky-500/20 bg-sky-500/5 text-sky-400",
     violet: "border-violet-500/20 bg-violet-500/5 text-violet-400",
-    zinc: "border-zinc-800 bg-zinc-900/30 text-zinc-300",
+    zinc: "border-zinc-200 bg-zinc-50/30 text-zinc-600",
   };
 
   return (
@@ -213,16 +213,16 @@ export default function ContactClientPage() {
         <div className="grid gap-8 lg:grid-cols-2">
           
           {/* Personal Contact */}
-          <section className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-5 sm:p-7 space-y-6">
-            <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <section className="rounded-3xl border border-zinc-200 bg-white/60 p-5 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
                 <MessageCircle className="h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
                   {language === "ro" ? "Contact Personal" : "Personal Contact"}
                 </p>
-                <h2 className="mt-1 text-lg text-white">
+                <h2 className="mt-1 text-lg text-zinc-900">
                   {language === "ro" ? "Linii Directe" : "Direct Lines"}
                 </h2>
               </div>
@@ -234,14 +234,14 @@ export default function ContactClientPage() {
                 const card = (
                   <div className={`rounded-2xl border p-4 sm:p-5 transition-all ${toneClass[item.tone]}`}>
                     <div className="flex items-start gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-current/20 bg-black/10">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-current/20 bg-white/10">
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="text-[10px] uppercase tracking-[0.22em] opacity-70">
                           {language === "ro" ? item.titleRo : item.titleEn}
                         </p>
-                        <p className="mt-1 text-sm text-white font-medium">
+                        <p className="mt-1 text-sm text-zinc-900 font-medium">
                           {language === "ro" ? item.valueRo : item.valueEn}
                         </p>
                       </div>
@@ -269,16 +269,16 @@ export default function ContactClientPage() {
           </section>
 
           {/* Websites Ecosystem */}
-          <section className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-5 sm:p-7 space-y-6">
-            <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <section className="rounded-3xl border border-zinc-200 bg-white/60 p-5 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-400">
                 <Globe className="h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
                   {language === "ro" ? "Ecosistem" : "Ecosystem"}
                 </p>
-                <h2 className="mt-1 text-lg text-white">
+                <h2 className="mt-1 text-lg text-zinc-900">
                   {language === "ro" ? "Site-uri Partenere" : "Partner Websites"}
                 </h2>
               </div>
@@ -293,16 +293,16 @@ export default function ContactClientPage() {
                     href={partner.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group rounded-2xl border border-zinc-850 bg-zinc-950/35 p-4 sm:p-5 transition-all hover:border-amber-500/30 hover:bg-zinc-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
+                    className="group rounded-2xl border border-zinc-200 bg-white/35 p-4 sm:p-5 transition-all hover:border-amber-500/30 hover:bg-zinc-100/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-amber-400">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-200 bg-white text-amber-400">
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-base font-medium text-white">{partner.label}</p>
-                          <p className="text-xs text-zinc-500 mt-0.5">{partner.desc}</p>
+                          <p className="text-base font-medium text-zinc-900">{partner.label}</p>
+                          <p className="text-xs text-zinc-400 mt-0.5">{partner.desc}</p>
                         </div>
                       </div>
                       <span className="rounded-full bg-amber-500/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-500 opacity-0 transition-opacity group-hover:opacity-100 hidden sm:block">
@@ -317,17 +317,17 @@ export default function ContactClientPage() {
         </div>
 
         {/* ROW 2: Professional Forms Categories */}
-        <section className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-5 sm:p-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-900 pb-5">
+        <section className="rounded-3xl border border-zinc-200 bg-white/60 p-5 sm:p-8 space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-amber-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-amber-400">
                 <FileText className="h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
                   {language === "ro" ? "Acces Rapid" : "Quick Access"}
                 </p>
-                <h2 className="mt-1 text-xl text-white font-medium">
+                <h2 className="mt-1 text-xl text-zinc-900 font-medium">
                   {language === "ro" ? "Formulare Profesionale" : "Professional Forms"}
                 </h2>
               </div>
@@ -340,7 +340,7 @@ export default function ContactClientPage() {
               return (
                 <div key={group.id} className="space-y-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <GroupIcon className="h-4.5 w-4.5 text-zinc-500" />
+                    <GroupIcon className="h-4.5 w-4.5 text-zinc-400" />
                     <h3 className="text-xs font-bold uppercase tracking-[0.1em] text-zinc-400">
                       {language === "ro" ? group.titleRo : group.titleEn}
                     </h3>
@@ -350,11 +350,11 @@ export default function ContactClientPage() {
                       <a
                         key={form.title}
                         href={form.href}
-                        className="group flex items-center justify-between gap-3 rounded-2xl border border-zinc-850/60 bg-zinc-950/20 p-4 transition-all hover:border-amber-500/25 hover:bg-zinc-900/40"
+                        className="group flex items-center justify-between gap-3 rounded-2xl border border-zinc-200/60 bg-white/20 p-4 transition-all hover:border-amber-500/25 hover:bg-zinc-100/40"
                       >
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-zinc-200 group-hover:text-amber-400 transition-colors">{form.title}</p>
-                          <p className="mt-1 text-[11px] leading-relaxed text-zinc-500 truncate">{form.desc}</p>
+                          <p className="mt-1 text-[11px] leading-relaxed text-zinc-400 truncate">{form.desc}</p>
                         </div>
                         <ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-transform group-hover:translate-x-0.5 group-hover:text-amber-400" />
                       </a>
@@ -370,16 +370,16 @@ export default function ContactClientPage() {
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
           
           {/* Social Media */}
-          <section className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-5 sm:p-7 space-y-6">
-            <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <section className="rounded-3xl border border-zinc-200 bg-white/60 p-5 sm:p-7 space-y-6">
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
                 <Globe className="h-4.5 w-4.5" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
                   {language === "ro" ? "Comunitate" : "Community"}
                 </p>
-                <h2 className="mt-1 text-lg text-white">
+                <h2 className="mt-1 text-lg text-zinc-900">
                   {language === "ro" ? "Rețele Sociale" : "Social Media"}
                 </h2>
               </div>
@@ -394,14 +394,14 @@ export default function ContactClientPage() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-2xl border border-zinc-850 bg-zinc-950/35 p-4 transition-all hover:border-indigo-500/25 hover:bg-zinc-900/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
+                    className="flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white/35 p-4 transition-all hover:border-indigo-500/25 hover:bg-zinc-100/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
                   >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-300">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-600">
                       <Icon className="h-4.5 w-4.5" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-white">{social.label}</p>
-                      <p className="text-xs text-zinc-500 truncate">{social.platform}</p>
+                      <p className="text-sm font-medium text-zinc-900">{social.label}</p>
+                      <p className="text-xs text-zinc-400 truncate">{social.platform}</p>
                     </div>
                   </a>
                 );
@@ -410,13 +410,13 @@ export default function ContactClientPage() {
           </section>
 
           {/* General Contact Form */}
-          <section id="general-form" className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-5 sm:p-7">
-            <div className="flex items-center justify-between gap-4 border-b border-zinc-900 pb-4">
+          <section id="general-form" className="rounded-3xl border border-zinc-200 bg-white/60 p-5 sm:p-7">
+            <div className="flex items-center justify-between gap-4 border-b border-zinc-200 pb-4">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400">
                   {language === "ro" ? "Asistență Rapidă" : "Quick Support"}
                 </p>
-                <h2 className="mt-1 text-lg text-white">
+                <h2 className="mt-1 text-lg text-zinc-900">
                   {language === "ro" ? "Contact General" : "General Contact"}
                 </h2>
               </div>

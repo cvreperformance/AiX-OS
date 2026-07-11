@@ -52,7 +52,7 @@ export default function ConciergePage() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           AiX OS™ · Luxury Concierge Desk
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           Lifestyle Management & <br />
           <span className="gradient-gold">Mobilitate Premium Globală</span>
         </h1>
@@ -79,7 +79,7 @@ export default function ConciergePage() {
               <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="text-sm font-semibold text-white">{s.title}</h3>
+              <h3 className="text-sm font-semibold text-zinc-900">{s.title}</h3>
               <p className="text-xs text-zinc-450 leading-relaxed">{s.desc}</p>
             </div>
           );
@@ -88,7 +88,7 @@ export default function ConciergePage() {
 
       {/* Travel Services */}
       <section className="space-y-6">
-        <h2 className="text-2xl font-light text-white">Resurse de Mobilitate Globală</h2>
+        <h2 className="text-2xl font-light text-zinc-900">Resurse de Mobilitate Globală</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {TRAVEL_SERVICES.map((s) => {
             const Icon = s.icon;
@@ -99,16 +99,16 @@ export default function ConciergePage() {
                     <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                       {s.category}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{s.title}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{s.title}</h3>
                     <p className="text-xs text-zinc-455 leading-relaxed mt-2">{s.desc}</p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                <div className="pt-4 border-t border-zinc-200/60 mt-4">
                   <a
                     href={s.link}
                     target="_blank"
@@ -127,8 +127,8 @@ export default function ConciergePage() {
       {/* Call to action */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-14 text-center space-y-5">
         <Gem className="h-10 w-10 text-amber-500/60 mx-auto" />
-        <h2 className="text-2xl font-light text-white">Discreție și NDA asigurate</h2>
-        <p className="text-xs text-zinc-500 max-w-md mx-auto">
+        <h2 className="text-2xl font-light text-zinc-900">Discreție și NDA asigurate</h2>
+        <p className="text-xs text-zinc-400 max-w-md mx-auto">
           Toate intermedierile noastre lifestyle sunt acoperite de acorduri stricte de confidențialitate înainte de programarea itinerariului.
         </p>
         <button

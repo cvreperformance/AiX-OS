@@ -201,7 +201,7 @@ export default function BrainClient() {
 
       <div className="grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Chat Screen */}
-        <div className={`lg:col-span-8 rounded-3xl border border-zinc-800 bg-zinc-950/20 shadow-2xl p-4 sm:p-6 flex flex-col justify-between min-h-[500px] h-[640px] relative`}>
+        <div className={`lg:col-span-8 rounded-3xl border border-zinc-200 bg-white/20 shadow-2xl p-4 sm:p-6 flex flex-col justify-between min-h-[500px] h-[640px] relative`}>
           
           {/* Scrollable messages container */}
           <div className="flex-1 overflow-y-auto space-y-5 pr-2 scrollbar-none">
@@ -216,14 +216,14 @@ export default function BrainClient() {
                   className={`rounded-2xl p-4 text-xs leading-relaxed space-y-4 text-left ${
                     m.sender === "user"
                       ? "bg-amber-500 text-black font-semibold"
-                      : "border border-zinc-850 bg-zinc-900/30 text-zinc-300"
+                      : "border border-zinc-200 bg-zinc-50/30 text-zinc-600"
                   }`}
                 >
                   <p className="whitespace-pre-line">{m.text}</p>
 
                   {/* Structured Results Layer */}
                   {m.structuredResults && (
-                    <div className="space-y-2 pt-3 border-t border-zinc-800">
+                    <div className="space-y-2 pt-3 border-t border-zinc-200">
                       <span className="text-[9px] uppercase font-bold text-amber-500 tracking-wider block">
                         {language === "ro" ? "Module Identificate:" : "Identified Modules:"}
                       </span>
@@ -234,14 +234,14 @@ export default function BrainClient() {
                             <Link
                               key={item.id}
                               href={item.href}
-                              className="flex items-center justify-between p-2.5 rounded-xl border border-zinc-800/80 bg-zinc-950/60 hover:bg-zinc-900/60 hover:border-zinc-700 transition-all group"
+                              className="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200/80 bg-white/60 hover:bg-zinc-100/60 hover:border-zinc-300 transition-all group"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
-                                <div className="rounded-lg bg-zinc-900 p-1.5 text-zinc-400 group-hover:text-amber-400 flex-shrink-0">
+                                <div className="rounded-lg bg-zinc-50 p-1.5 text-zinc-400 group-hover:text-amber-400 flex-shrink-0">
                                   <ItemIcon className="h-4 w-4" />
                                 </div>
                                 <div className="min-w-0 text-left">
-                                  <p className="text-[11px] font-semibold text-white truncate">
+                                  <p className="text-[11px] font-semibold text-zinc-900 truncate">
                                     {language === "ro" ? item.label : item.labelEn}
                                   </p>
                                 </div>
@@ -256,8 +256,8 @@ export default function BrainClient() {
 
                   {/* Insight Layer */}
                   {m.insights && (
-                    <div className="pt-3 border-t border-zinc-800 space-y-1">
-                      <span className="text-[9px] uppercase font-bold text-zinc-500 tracking-wider block">
+                    <div className="pt-3 border-t border-zinc-200 space-y-1">
+                      <span className="text-[9px] uppercase font-bold text-zinc-400 tracking-wider block">
                         {language === "ro" ? "Layer Analiză & Audit:" : "Analysis & Audit Layer:"}
                       </span>
                       <p className="text-zinc-400 text-[11px] leading-relaxed italic">{m.insights}</p>
@@ -282,7 +282,7 @@ export default function BrainClient() {
 
                   {/* Action Layer */}
                   {m.actions && (
-                    <div className="pt-3 border-t border-zinc-800 flex flex-wrap gap-2">
+                    <div className="pt-3 border-t border-zinc-200 flex flex-wrap gap-2">
                       {m.actions.map((act, i) => (
                         <Link
                           key={i}
@@ -300,7 +300,7 @@ export default function BrainClient() {
             ))}
 
             {loading && (
-              <div className="flex gap-2 items-center text-xs text-zinc-500 italic animate-pulse">
+              <div className="flex gap-2 items-center text-xs text-zinc-400 italic animate-pulse">
                 <Brain className="h-4 w-4 animate-spin text-amber-500" />
                 <span>
                   {language === "ro"
@@ -313,7 +313,7 @@ export default function BrainClient() {
           </div>
 
           {/* Chat Form */}
-          <form onSubmit={handleSubmit} className="mt-4 pt-4 border-t border-zinc-900 flex gap-2">
+          <form onSubmit={handleSubmit} className="mt-4 pt-4 border-t border-zinc-200 flex gap-2">
             <input
               required
               value={query}
@@ -323,7 +323,7 @@ export default function BrainClient() {
                   ? "Întreabă AiX Brain (ex: 'dobândă', 'carte funciară', 'apartament Pipera')..."
                   : "Ask AiX Brain (e.g. 'notary fees', 'rent rate', 'buy villa')..."
               }
-              className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+              className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50/60 px-4 py-3 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
             />
             <button
               type="submit"
@@ -338,9 +338,9 @@ export default function BrainClient() {
 
         {/* Right suggestions bar */}
         <div className={`lg:col-span-4 rounded-3xl ${designSystem.glass} p-6 space-y-6 text-left`}>
-          <div className="flex items-center gap-2 border-b border-zinc-900 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3">
             <Sparkles className="h-4 w-4 text-amber-400" />
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-zinc-900 uppercase tracking-wider">
               {language === "ro" ? "Întrebări Sugerate" : "Suggested Audits"}
             </h3>
           </div>
@@ -351,7 +351,7 @@ export default function BrainClient() {
                 key={idx}
                 type="button"
                 onClick={() => handleSuggestClick(s)}
-                className="w-full text-left p-3 rounded-xl border border-zinc-850 hover:border-zinc-700 bg-zinc-950/20 text-xs text-zinc-400 hover:text-white transition-all text-ellipsis overflow-hidden flex justify-between items-center group"
+                className="w-full text-left p-3 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white/20 text-xs text-zinc-400 hover:text-zinc-900 transition-all text-ellipsis overflow-hidden flex justify-between items-center group"
               >
                 <span className="truncate pr-2">{s}</span>
                 <ArrowRight className="h-3.5 w-3.5 text-zinc-650 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
@@ -359,8 +359,8 @@ export default function BrainClient() {
             ))}
           </div>
 
-          <div className="p-4 rounded-2xl border border-zinc-900 bg-zinc-950/30 space-y-2 text-[10.5px] leading-relaxed text-zinc-500">
-            <HelpCircle className="h-4 w-4 text-zinc-500" />
+          <div className="p-4 rounded-2xl border border-zinc-200 bg-white/30 space-y-2 text-[10.5px] leading-relaxed text-zinc-400">
+            <HelpCircle className="h-4 w-4 text-zinc-400" />
             <p>
               {language === "ro"
                 ? "AiX Brain analizează date brute din Supabase (proprietăți active, parametri fiscali) și folosește indexarea semantico-lexicală pentru a te ghida către decizia corectă."

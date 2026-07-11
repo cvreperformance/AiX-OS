@@ -67,7 +67,7 @@ export default function NotificationPopover() {
         onClick={() => setOpen(!open)}
         aria-label={language === "ro" ? "Alerte" : "Notifications"}
         aria-expanded={open}
-        className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-850 bg-zinc-950/60 text-zinc-400 transition-all hover:border-zinc-700 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35 shrink-0"
+        className="relative flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-200 bg-white/60 text-zinc-400 transition-all hover:border-zinc-300 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35 shrink-0"
       >
         <Bell className="h-4.5 w-4.5" />
         <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
@@ -75,14 +75,14 @@ export default function NotificationPopover() {
 
       {/* Popover Card */}
       {open && (
-        <div className="absolute -right-2 sm:right-0 top-full mt-2.5 w-[calc(100vw-2rem)] max-w-[320px] sm:w-80 sm:max-w-none rounded-2xl border border-zinc-850 bg-[#080808]/98 backdrop-blur-3xl shadow-2xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
-          <div className="flex justify-between items-center border-b border-zinc-900 pb-2">
+        <div className="absolute -right-2 sm:right-0 top-full mt-2.5 w-[calc(100vw-2rem)] max-w-[320px] sm:w-80 sm:max-w-none rounded-2xl border border-zinc-200 bg-white/98 backdrop-blur-3xl shadow-2xl p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="flex justify-between items-center border-b border-zinc-200 pb-2">
             <span className="text-[10px] uppercase tracking-wider text-zinc-550 font-bold font-mono">
               {language === "ro" ? "Alerte Recente" : "Intelligence Alerts"}
             </span>
             <button
               onClick={() => setOpen(false)}
-              className="text-[9px] text-zinc-650 hover:text-white uppercase font-mono font-semibold"
+              className="text-[9px] text-zinc-650 hover:text-zinc-900 uppercase font-mono font-semibold"
             >
               {language === "ro" ? "Închide" : "Close"}
             </button>
@@ -94,13 +94,13 @@ export default function NotificationPopover() {
               return (
                 <div
                   key={item.id}
-                  className="flex gap-3 p-2.5 rounded-xl border border-transparent hover:border-zinc-900 hover:bg-zinc-950/40 transition-colors"
+                  className="flex gap-3 p-2.5 rounded-xl border border-transparent hover:border-zinc-200 hover:bg-white/40 transition-colors"
                 >
-                  <div className={`rounded-lg bg-zinc-900 p-2 ${item.color} shrink-0`}>
+                  <div className={`rounded-lg bg-zinc-50 p-2 ${item.color} shrink-0`}>
                     <Icon className="h-4 w-4" />
                   </div>
                   <div className="space-y-1 overflow-hidden">
-                    <p className="text-[11px] text-zinc-300 leading-normal break-words">
+                    <p className="text-[11px] text-zinc-600 leading-normal break-words">
                       {language === "ro" ? item.textRo : item.textEn}
                     </p>
                     <span className="text-[9px] text-zinc-550 font-mono block">

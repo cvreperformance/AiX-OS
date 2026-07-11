@@ -31,7 +31,7 @@ export function StickyBottomCTA() {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-[150] flex items-center justify-between gap-3 border-t border-zinc-800/80 bg-[#0f0f0f]/95 backdrop-blur-md px-4 py-3 md:px-6 animate-in"
+      className="fixed bottom-0 left-0 right-0 z-[150] flex items-center justify-between gap-3 border-t border-zinc-200/80 bg-[#0f0f0f]/95 backdrop-blur-md px-4 py-3 md:px-6 animate-in"
       style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
     >
       <div className="flex items-center gap-3">
@@ -39,10 +39,10 @@ export function StickyBottomCTA() {
           <MessageCircle className="h-4 w-4 text-amber-400" />
         </div>
         <div>
-          <p className="text-xs font-medium text-white">
+          <p className="text-xs font-medium text-zinc-900">
             Consultanță gratuită cu Cristian Văduva
           </p>
-          <p className="text-xs text-zinc-500 hidden sm:block">
+          <p className="text-xs text-zinc-400 hidden sm:block">
             Monaco · Dubai · București · {brandContent.contact.phone}
           </p>
         </div>
@@ -53,7 +53,7 @@ export function StickyBottomCTA() {
           href={brandContent.contact.whatsappText}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-xs font-medium text-white hover:bg-emerald-500 transition-all"
+          className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-2 text-xs font-medium text-zinc-900 hover:bg-emerald-500 transition-all"
           onClick={dismiss}
         >
           <MessageCircle className="h-3.5 w-3.5" />
@@ -63,7 +63,7 @@ export function StickyBottomCTA() {
           href={brandContent.urls.propertyForm}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:inline-flex items-center rounded-full border border-zinc-700 px-4 py-2 text-xs text-zinc-300 hover:text-white hover:border-amber-500/30 transition-all"
+          className="hidden sm:inline-flex items-center rounded-full border border-zinc-300 px-4 py-2 text-xs text-zinc-600 hover:text-zinc-900 hover:border-amber-500/30 transition-all"
           onClick={dismiss}
         >
           Formular
@@ -71,7 +71,7 @@ export function StickyBottomCTA() {
         <button
           type="button"
           onClick={dismiss}
-          className="rounded-lg p-1.5 text-zinc-600 hover:text-zinc-400 hover:bg-zinc-800 transition-all"
+          className="rounded-lg p-1.5 text-zinc-600 hover:text-zinc-400 hover:bg-zinc-200 transition-all"
           aria-label="Închide"
         >
           <X className="h-4 w-4" />

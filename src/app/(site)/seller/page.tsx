@@ -78,7 +78,7 @@ export default function SellerPage() {
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
             AiX OS™ · Seller Representation
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
             Vinzi la{" "}
             <span className="gradient-gold">Prețul Maxim</span>
             <br />
@@ -94,15 +94,15 @@ export default function SellerPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a href="https://wa.me/436509536345" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-7 py-3.5 text-sm text-zinc-300 hover:border-amber-500/30 transition-all">
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-7 py-3.5 text-sm text-zinc-600 hover:border-amber-500/30 transition-all">
               <MessageCircle className="h-4 w-4 text-emerald-400" />
               WhatsApp
             </a>
           </div>
         </div>
 
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 space-y-5">
-          <h3 className="text-lg font-light text-white">Solicită Evaluare Gratuită</h3>
+        <div className="rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 space-y-5">
+          <h3 className="text-lg font-light text-zinc-900">Solicită Evaluare Gratuită</h3>
           <SellerLeadForm />
         </div>
       </section>
@@ -110,9 +110,9 @@ export default function SellerPage() {
       {/* Results */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {RESULTS.map((r) => (
-          <div key={r.label} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 text-center space-y-2">
+          <div key={r.label} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 text-center space-y-2">
             <p className="text-3xl font-light text-amber-400">{r.value}</p>
-            <p className="text-xs text-zinc-500 leading-relaxed">{r.label}</p>
+            <p className="text-xs text-zinc-400 leading-relaxed">{r.label}</p>
           </div>
         ))}
       </section>
@@ -120,19 +120,19 @@ export default function SellerPage() {
       {/* Services */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Ce facem pentru tine</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Ce facem pentru tine</h2>
           <p className="text-zinc-400">Marketing imobiliar la nivel internațional, aplicat proprietății tale.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SERVICES.map((s) => {
             const Icon = s.icon;
             return (
-              <div key={s.title} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-3 hover:border-zinc-700 transition-colors">
+              <div key={s.title} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-3 hover:border-zinc-300 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-amber-500/10 p-2.5">
                     <Icon className="h-5 w-5 text-amber-400" />
                   </div>
-                  <h3 className="font-medium text-white">{s.title}</h3>
+                  <h3 className="font-medium text-zinc-900">{s.title}</h3>
                 </div>
                 <p className="text-sm text-zinc-400 leading-relaxed">{s.desc}</p>
               </div>
@@ -144,13 +144,13 @@ export default function SellerPage() {
       {/* Process */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul de Vânzare AiX OS™</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Procesul de Vânzare AiX OS™</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {PROCESS.map((step) => (
-            <div key={step.step} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-3">
+            <div key={step.step} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-3">
               <span className="text-4xl font-light text-zinc-700">{step.step}</span>
-              <h3 className="font-medium text-white">{step.title}</h3>
+              <h3 className="font-medium text-zinc-900">{step.title}</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{step.desc}</p>
             </div>
           ))}
@@ -158,10 +158,10 @@ export default function SellerPage() {
       </section>
 
       {/* Marketing Package */}
-      <section className="rounded-3xl border border-zinc-800 bg-zinc-900/20 p-8 md:p-12">
+      <section className="rounded-3xl border border-zinc-200 bg-zinc-50/20 p-8 md:p-12">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-5">
-            <h2 className="text-2xl md:text-3xl font-light text-white">Pachetul Marketing Premium</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-zinc-900">Pachetul Marketing Premium</h2>
             <p className="text-zinc-400">Inclus în orice mandat de vânzare AiX OS™:</p>
             <ul className="space-y-3">
               {[
@@ -177,7 +177,7 @@ export default function SellerPage() {
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-zinc-300">{item}</span>
+                  <span className="text-sm text-zinc-600">{item}</span>
                 </li>
               ))}
             </ul>
@@ -185,7 +185,7 @@ export default function SellerPage() {
           <div className="space-y-6">
             <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 space-y-3">
               <p className="text-xs uppercase tracking-widest text-amber-500/80">Ecosistem Partener</p>
-              <p className="text-zinc-300 text-sm leading-relaxed">
+              <p className="text-zinc-600 text-sm leading-relaxed">
                 Proprietatea ta va fi prezentată și în rețeaua internațională AiXLuxury.com,
                 cu acces la cumpărători din România, Europa, Dubai și Monaco.
               </p>
@@ -194,17 +194,17 @@ export default function SellerPage() {
                 AiXLuxury.com <ArrowRight className="h-3.5 w-3.5" />
               </a>
             </div>
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-3">
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-3">
               <div className="flex gap-0.5 mb-2">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
                 ))}
               </div>
-              <p className="text-zinc-300 italic text-sm leading-relaxed">
+              <p className="text-zinc-600 italic text-sm leading-relaxed">
                 &ldquo;Am vândut apartamentul în 18 zile, cu 3% peste prețul cerut inițial.
                 Fotografia profesională și promovarea AI au atras cumpărători pe care nu i-aș fi găsit singur.&rdquo;
               </p>
-              <p className="text-xs text-zinc-500">— Mihai D., vânzător, Floreasca</p>
+              <p className="text-xs text-zinc-400">— Mihai D., vânzător, Floreasca</p>
             </div>
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function SellerPage() {
       {/* FAQ */}
       <section className="space-y-8 max-w-4xl mx-auto">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <h2 className="text-3xl font-light text-zinc-900">Întrebări Frecvente</h2>
           <p className="text-zinc-400">Despre procesul de vânzare AiX OS™.</p>
         </div>
         <div className="space-y-4">
@@ -222,8 +222,8 @@ export default function SellerPage() {
             { q: "Cum stabiliți prețul corect?", a: "Folosim algoritmul AiX Score, coroborat cu expertiza umană, analizând tranzacții similare recente din zonă, tendințele macroeconomice și dotările specifice ale proprietății." },
             { q: "Cât durează procesul de vânzare?", a: "În medie, proprietățile evaluate și promovate prin AiX OS™ primesc o ofertă validă în 27 de zile de la lansarea campaniei de marketing." },
           ].map((faq, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
-              <h3 className="font-medium text-white">{faq.q}</h3>
+            <div key={i} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-2">
+              <h3 className="font-medium text-zinc-900">{faq.q}</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
             </div>
           ))}
@@ -232,12 +232,12 @@ export default function SellerPage() {
 
       <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-8 md:p-12">
         <div className="md:col-span-7 space-y-6 text-left">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Evaluare gratuită, fără angajamente</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Evaluare gratuită, fără angajamente</h2>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
             Află în 24h care este prețul real al proprietății tale pe piața actuală. Completează formularul alăturat pentru evaluare.
           </p>
         </div>
-        <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+        <div className="md:col-span-5 bg-white/45 p-6 rounded-3xl border border-zinc-200">
           <SellerLeadForm />
         </div>
       </section>

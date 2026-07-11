@@ -24,9 +24,9 @@ export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-zinc-800 bg-zinc-900/50 min-h-screen p-4 flex flex-col">
+    <aside className="w-64 border-r border-zinc-200 bg-zinc-50/50 min-h-screen p-4 flex flex-col">
       <Link href="/" className="flex items-center gap-2 px-3 py-4 mb-4">
-        <span className="text-lg font-light tracking-[0.15em] text-white">AiX</span>
+        <span className="text-lg font-light tracking-[0.15em] text-zinc-900">AiX</span>
         <span className="text-lg font-light tracking-[0.15em] text-amber-500/80">OS</span>
         <span className="text-xs text-zinc-600 ml-1">Admin</span>
       </Link>
@@ -41,7 +41,7 @@ export function AdminSidebar() {
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                 active
                   ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                  : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-200/50"
               }`}
             >
               <link.icon className="h-4 w-4" />
@@ -53,7 +53,7 @@ export function AdminSidebar() {
 
       <Link
         href="/"
-        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-zinc-500 hover:text-zinc-300 transition-colors mt-4"
+        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-zinc-400 hover:text-zinc-600 transition-colors mt-4"
       >
         <LogOut className="h-4 w-4" />
         Înapoi la site

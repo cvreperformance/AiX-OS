@@ -23,17 +23,17 @@ export default function PrivacyPage() {
           { icon: Lock, title: "Securitate Maximă", desc: "Folosim encriptare avansată și protocoale securizate în baza Supabase." },
           { icon: Eye, title: "Transparență Totală", desc: "Nu vindem și nu transmitem datele dvs. către terțe părți neautorizate." },
         ].map((item, idx) => (
-          <div key={idx} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-3">
+          <div key={idx} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-3">
             <item.icon className="h-6 w-6 text-amber-500/80" />
-            <h3 className="text-base font-medium text-white">{item.title}</h3>
+            <h3 className="text-base font-medium text-zinc-900">{item.title}</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
 
-      <div className="prose prose-invert max-w-none text-zinc-300 space-y-6 text-sm leading-relaxed">
+      <div className="prose prose-invert max-w-none text-zinc-600 space-y-6 text-sm leading-relaxed">
         <section className="space-y-3">
-          <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
+          <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2">
             <FileText className="h-5 w-5 text-amber-500/80" />
             1. Informații Generale
           </h2>
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
+          <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2">
             <FileText className="h-5 w-5 text-amber-500/80" />
             2. Datele pe care le colectăm
           </h2>
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
+          <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2">
             <FileText className="h-5 w-5 text-amber-500/80" />
             3. Scopul Procesării Datelor
           </h2>
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
+          <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2">
             <FileText className="h-5 w-5 text-amber-500/80" />
             4. Drepturile Dvs. (GDPR)
           </h2>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-lg font-light text-white flex items-center gap-2 border-b border-zinc-800 pb-2">
+          <h2 className="text-lg font-light text-zinc-900 flex items-center gap-2 border-b border-zinc-200 pb-2">
             <FileText className="h-5 w-5 text-amber-500/80" />
             5. Securitate și Perioada de Păstrare
           </h2>
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
         </section>
       </div>
 
-      <div className="pt-6 border-t border-zinc-800 text-center text-xs text-zinc-500">
+      <div className="pt-6 border-t border-zinc-200 text-center text-xs text-zinc-400">
         Ultima actualizare: 1 Iulie 2026. Administrat de AiX OS™ Market Pulse.
       </div>
     </div>

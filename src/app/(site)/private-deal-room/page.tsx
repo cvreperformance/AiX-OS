@@ -60,7 +60,7 @@ export default function PrivateDealRoomPage() {
 
       {/* ─── LOCKED STATE (PASSCODE GATED) ────────────────────────────────── */}
       {!authorized ? (
-        <div className="max-w-md mx-auto p-8 rounded-3xl border border-amber-500/25 bg-[#080808]/85 backdrop-blur-2xl text-center space-y-6 relative overflow-hidden">
+        <div className="max-w-md mx-auto p-8 rounded-3xl border border-amber-500/25 bg-white/85 backdrop-blur-2xl text-center space-y-6 relative overflow-hidden">
           {/* Glowing background */}
           <div className="absolute inset-0 bg-amber-500/[0.01] blur-3xl pointer-events-none rounded-full" />
           
@@ -69,7 +69,7 @@ export default function PrivateDealRoomPage() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-base font-semibold text-white">
+            <h3 className="text-base font-semibold text-zinc-900">
               {language === "ro" ? "Portal Criptat Securizat" : "Access Key Decryption"}
             </h3>
             <p className="text-xs text-zinc-450 leading-relaxed max-w-sm mx-auto">
@@ -81,7 +81,7 @@ export default function PrivateDealRoomPage() {
 
           <form onSubmit={handleAuthSubmit} className="space-y-4">
             <div className="space-y-1.5 text-left">
-              <label className="text-[10px] uppercase font-mono font-bold text-zinc-500">
+              <label className="text-[10px] uppercase font-mono font-bold text-zinc-400">
                 {language === "ro" ? "Cod Acces Cameră" : "Room Passcode Key"}
               </label>
               <input
@@ -90,7 +90,7 @@ export default function PrivateDealRoomPage() {
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 placeholder="••••••"
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-3.5 py-3 text-center text-sm text-white placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-colors font-mono tracking-widest"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-3.5 py-3 text-center text-sm text-zinc-900 placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-colors font-mono tracking-widest"
               />
             </div>
 
@@ -106,7 +106,7 @@ export default function PrivateDealRoomPage() {
           </form>
 
           {/* Bypass demo info */}
-          <div className="pt-4 border-t border-zinc-900 flex justify-between items-center text-[10px] text-zinc-500">
+          <div className="pt-4 border-t border-zinc-200 flex justify-between items-center text-[10px] text-zinc-400">
             <span>Demo Passcode: <span className="font-mono text-amber-500">2030</span></span>
             <button onClick={bypassCode} className="text-amber-500 hover:underline cursor-pointer font-bold">
               Bypass Key &rarr;
@@ -123,15 +123,15 @@ export default function PrivateDealRoomPage() {
             
             {/* Active Transaction Status Card */}
             <div className={`p-6 rounded-3xl ${designSystem.glass} space-y-4`}>
-              <div className="flex items-center gap-2 border-b border-zinc-900 pb-3">
+              <div className="flex items-center gap-2 border-b border-zinc-200 pb-3">
                 <Shield className="h-4.5 w-4.5 text-emerald-400" />
-                <h3 className="text-xs font-semibold text-white uppercase tracking-wider font-mono">Deal Coordinates</h3>
+                <h3 className="text-xs font-semibold text-zinc-900 uppercase tracking-wider font-mono">Deal Coordinates</h3>
               </div>
 
               <div className="space-y-3.5 text-xs text-zinc-400">
                 <div>
                   <p className="text-[9px] uppercase tracking-wider text-zinc-550 font-mono">Asset Identifier</p>
-                  <p className="text-white font-semibold mt-0.5">Off-Market Villa Aviatorilor</p>
+                  <p className="text-zinc-900 font-semibold mt-0.5">Off-Market Villa Aviatorilor</p>
                 </div>
                 <div>
                   <p className="text-[9px] uppercase tracking-wider text-zinc-550 font-mono">Target Deal Value</p>
@@ -146,10 +146,10 @@ export default function PrivateDealRoomPage() {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-zinc-900">
+              <div className="pt-2 border-t border-zinc-200">
                 <button
                   onClick={() => setAuthorized(false)}
-                  className="w-full py-2 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white text-[10px] font-mono uppercase font-bold text-center block transition-all cursor-pointer"
+                  className="w-full py-2 rounded-lg bg-zinc-50 border border-zinc-200 hover:border-zinc-300 text-zinc-400 hover:text-zinc-900 text-[10px] font-mono uppercase font-bold text-center block transition-all cursor-pointer"
                 >
                   Lock Session
                 </button>
@@ -170,7 +170,7 @@ export default function PrivateDealRoomPage() {
           <div className="lg:col-span-8 space-y-6">
             
             {/* Navigation Tabs */}
-            <div className="flex gap-2 bg-zinc-950/60 p-1.5 border border-zinc-900 rounded-2xl">
+            <div className="flex gap-2 bg-white/60 p-1.5 border border-zinc-200 rounded-2xl">
               {[
                 { key: "asset" as const, label: language === "ro" ? "Dosar Activ" : "Asset Ledger", icon: FileText },
                 { key: "vault" as const, label: language === "ro" ? "Seif Acte" : "Document Vault", icon: Shield },
@@ -184,7 +184,7 @@ export default function PrivateDealRoomPage() {
                     className={`flex-1 text-center py-2 rounded-xl text-[11px] font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       activeSubTab === tab.key
                         ? "bg-amber-500 text-black shadow-md"
-                        : "text-zinc-500 hover:text-zinc-300"
+                        : "text-zinc-400 hover:text-zinc-600"
                     }`}
                   >
                     <TabIcon className="h-3.5 w-3.5" />
@@ -197,28 +197,28 @@ export default function PrivateDealRoomPage() {
             {/* TAB PANEL: ASSET LEDGER */}
             {activeSubTab === "asset" && (
               <div className={`p-6 rounded-3xl ${designSystem.glass} space-y-6`}>
-                <h3 className="text-sm font-semibold text-white border-b border-zinc-900 pb-3 uppercase tracking-wider font-mono">Confidential Ledger Data</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 border-b border-zinc-200 pb-3 uppercase tracking-wider font-mono">Confidential Ledger Data</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-zinc-400">
                   <div className="space-y-1">
-                    <p className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono">Plot Coordinates</p>
+                    <p className="text-[9px] uppercase tracking-wider text-zinc-400 font-mono">Plot Coordinates</p>
                     <p className="text-zinc-200">1,240 sqm premium land parcel, Aviatorilor Boulevard core corridor</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono">Gross Built Area</p>
+                    <p className="text-[9px] uppercase tracking-wider text-zinc-400 font-mono">Gross Built Area</p>
                     <p className="text-zinc-200">850 sqm internal usable layout with custom smart automation integrations</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono">Zoning Permission</p>
+                    <p className="text-[9px] uppercase tracking-wider text-zinc-400 font-mono">Zoning Permission</p>
                     <p className="text-zinc-200">Fully compliant with historical conservation guidelines. P + 2 building height allowed.</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono">Estimated Annual Yield</p>
+                    <p className="text-[9px] uppercase tracking-wider text-zinc-400 font-mono">Estimated Annual Yield</p>
                     <p className="text-zinc-200 font-mono">5.20% net ROI under luxury ambassador leasing scenarios</p>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl border border-zinc-900 bg-zinc-950/40 text-[11px] leading-relaxed text-zinc-500">
+                <div className="p-4 rounded-xl border border-zinc-200 bg-white/40 text-[11px] leading-relaxed text-zinc-400">
                   This transaction is handled exclusively. Sharing screenshots, links, or physical coordinates of this layout constitutes a direct NDA violation.
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function PrivateDealRoomPage() {
             {/* TAB PANEL: DOCUMENT VAULT */}
             {activeSubTab === "vault" && (
               <div className={`p-6 rounded-3xl ${designSystem.glass} space-y-4`}>
-                <h3 className="text-sm font-semibold text-white border-b border-zinc-900 pb-3 uppercase tracking-wider font-mono">Secured Documents Checklist</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 border-b border-zinc-200 pb-3 uppercase tracking-wider font-mono">Secured Documents Checklist</h3>
                 
                 <div className="space-y-3">
                   {[
@@ -236,7 +236,7 @@ export default function PrivateDealRoomPage() {
                     { name: "Notarial Purchase Pre-Agreement Draft v2", status: "PENDING LEGAL REVIEW", size: "8.6 MB" },
                     { name: "Soil Diagnostic & Seismic Stability Certifications", status: "VERIFIED BY AGENT", size: "12.2 MB" }
                   ].map((doc, i) => (
-                    <div key={i} className="flex justify-between items-center p-3 rounded-xl border border-zinc-900 bg-zinc-950/30 hover:bg-zinc-900/10 transition-colors text-xs">
+                    <div key={i} className="flex justify-between items-center p-3 rounded-xl border border-zinc-200 bg-white/30 hover:bg-zinc-100/10 transition-colors text-xs">
                       <div className="space-y-1 text-left">
                         <p className="font-semibold text-zinc-200">{doc.name}</p>
                         <div className="flex gap-2 text-[9px] font-mono text-zinc-550">
@@ -247,10 +247,10 @@ export default function PrivateDealRoomPage() {
                       </div>
                       
                       <div className="flex items-center gap-2 shrink-0">
-                        <button className="p-2 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+                        <button className="p-2 rounded-lg bg-zinc-50 text-zinc-400 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-300 cursor-pointer">
                           <Eye className="h-4 w-4" />
                         </button>
-                        <button className="p-2 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 hover:border-zinc-700 cursor-pointer">
+                        <button className="p-2 rounded-lg bg-zinc-50 text-zinc-400 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-300 cursor-pointer">
                           <Download className="h-4 w-4" />
                         </button>
                       </div>
@@ -263,9 +263,9 @@ export default function PrivateDealRoomPage() {
             {/* TAB PANEL: NEGOTIATIONS */}
             {activeSubTab === "negotiation" && (
               <div className={`p-6 rounded-3xl ${designSystem.glass} space-y-6`}>
-                <h3 className="text-sm font-semibold text-white border-b border-zinc-900 pb-3 uppercase tracking-wider font-mono">Negotiation Timeline Status</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 border-b border-zinc-200 pb-3 uppercase tracking-wider font-mono">Negotiation Timeline Status</h3>
                 
-                <div className="relative border-l border-zinc-800 ml-4 pl-6 space-y-8 text-xs text-zinc-400 text-left">
+                <div className="relative border-l border-zinc-200 ml-4 pl-6 space-y-8 text-xs text-zinc-400 text-left">
                   
                   {/* Step 3 */}
                   <div className="relative">
@@ -273,7 +273,7 @@ export default function PrivateDealRoomPage() {
                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                     </div>
                     <div>
-                      <p className="font-semibold text-white">Seller Counter-Offer Received</p>
+                      <p className="font-semibold text-zinc-900">Seller Counter-Offer Received</p>
                       <p className="text-[10px] text-zinc-550 font-mono mt-0.5">July 10, 2026 • 15:42</p>
                       <p className="mt-1 leading-relaxed text-zinc-450">
                         The vendor counter-proposed a final price of <span className="text-amber-400 font-bold">12.100.000 €</span>. Included clauses for progressive notarial releases and early handover escrow structures.
@@ -283,21 +283,21 @@ export default function PrivateDealRoomPage() {
 
                   {/* Step 2 */}
                   <div className="relative">
-                    <div className="absolute -left-[31px] top-0.5 h-4 w-4 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                    <div className="absolute -left-[31px] top-0.5 h-4 w-4 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center">
                       <div className="h-1.5 w-1.5 rounded-full bg-zinc-500" />
                     </div>
                     <div>
                       <p className="font-semibold text-zinc-200">Buyer Initial Offer Submitted</p>
                       <p className="text-[10px] text-zinc-550 font-mono mt-0.5">July 08, 2026 • 11:20</p>
                       <p className="mt-1 leading-relaxed text-zinc-450">
-                        Formal acquisition intent placed at <span className="text-zinc-300 font-bold">11.800.000 €</span> with standard bank escrow arrangements and 30-day compliance audits clauses.
+                        Formal acquisition intent placed at <span className="text-zinc-600 font-bold">11.800.000 €</span> with standard bank escrow arrangements and 30-day compliance audits clauses.
                       </p>
                     </div>
                   </div>
 
                   {/* Step 1 */}
-                  <div className="relative text-zinc-500">
-                    <div className="absolute -left-[31px] top-0.5 h-4 w-4 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                  <div className="relative text-zinc-400">
+                    <div className="absolute -left-[31px] top-0.5 h-4 w-4 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center">
                       <div className="h-1.5 w-1.5 rounded-full bg-zinc-750" />
                     </div>
                     <div>
@@ -308,8 +308,8 @@ export default function PrivateDealRoomPage() {
 
                 </div>
 
-                <div className="border-t border-zinc-900 pt-4 flex flex-wrap gap-3 justify-end">
-                  <button className="px-5 py-2 rounded-xl border border-zinc-800 hover:border-zinc-700 bg-zinc-900 text-xs text-zinc-300 cursor-pointer">
+                <div className="border-t border-zinc-200 pt-4 flex flex-wrap gap-3 justify-end">
+                  <button className="px-5 py-2 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-zinc-50 text-xs text-zinc-600 cursor-pointer">
                     Counter-Offer
                   </button>
                   <button className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-semibold cursor-pointer">

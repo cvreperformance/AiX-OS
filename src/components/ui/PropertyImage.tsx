@@ -86,7 +86,7 @@ export function PropertyImage({
     return (
       <div
         className={cn(
-          "flex flex-col items-center justify-center bg-zinc-900 text-zinc-600",
+          "flex flex-col items-center justify-center bg-zinc-50 text-zinc-600",
           fill && "absolute inset-0",
           aspectClassName,
           className
@@ -105,7 +105,7 @@ export function PropertyImage({
       {!loaded && (
         <div
           className={cn(
-            "animate-pulse bg-zinc-800",
+            "animate-pulse bg-zinc-100",
             fill && "absolute inset-0",
             aspectClassName
           )}
@@ -150,7 +150,7 @@ export function PropertyImagePlaceholder({ className }: { className?: string }) 
   return (
     <div
       className={cn(
-        "flex items-center justify-center bg-zinc-900 text-zinc-600",
+        "flex items-center justify-center bg-zinc-50 text-zinc-600",
         className
       )}
     >

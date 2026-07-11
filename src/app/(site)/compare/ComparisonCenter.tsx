@@ -109,7 +109,7 @@ export default function ComparisonCenter() {
       />
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2.5 bg-zinc-950/60 p-2 rounded-2xl border border-zinc-850 justify-center max-w-xl mx-auto">
+      <div className="flex flex-wrap gap-2.5 bg-white/60 p-2 rounded-2xl border border-zinc-200 justify-center max-w-xl mx-auto">
         {[
           { key: "properties" as const, label: language === "ro" ? "Proprietăți" : "Properties", icon: Building },
           { key: "developers" as const, label: language === "ro" ? "Dezvoltatori" : "Developers", icon: Compass },
@@ -125,7 +125,7 @@ export default function ComparisonCenter() {
               className={`flex-1 text-center py-2.5 px-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === tab.key
                   ? "bg-amber-500 text-black shadow-md"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900/50"
+                  : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100/50"
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -136,13 +136,13 @@ export default function ComparisonCenter() {
       </div>
 
       {/* Comparison Grid Table */}
-      <div className={`rounded-3xl border border-zinc-800 overflow-hidden bg-zinc-950/30 backdrop-blur-md shadow-2xl`}>
+      <div className={`rounded-3xl border border-zinc-200 overflow-hidden bg-white/30 backdrop-blur-md shadow-2xl`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-zinc-900 text-zinc-500 font-mono text-[9px] uppercase tracking-wider bg-black/40">
+              <tr className="border-b border-zinc-200 text-zinc-400 font-mono text-[9px] uppercase tracking-wider bg-white/40">
                 {activeDataset.headers.map((h, i) => (
-                  <th key={i} className="p-4 font-semibold text-white first:text-zinc-500">
+                  <th key={i} className="p-4 font-semibold text-zinc-900 first:text-zinc-400">
                     {h}
                   </th>
                 ))}
@@ -150,7 +150,7 @@ export default function ComparisonCenter() {
             </thead>
             <tbody className="divide-y divide-zinc-900 text-xs">
               {activeDataset.rows.map((row, rIdx) => (
-                <tr key={rIdx} className="hover:bg-zinc-900/10 transition-colors">
+                <tr key={rIdx} className="hover:bg-zinc-100/10 transition-colors">
                   {row.map((cell, cIdx) => {
                     const isYes = cell === "Yes" || cell.startsWith("Yes");
                     const isNo = cell === "No" || cell.startsWith("No");
@@ -161,7 +161,7 @@ export default function ComparisonCenter() {
                         className={`p-4 ${
                           cIdx === 0
                             ? "font-semibold text-zinc-450 font-mono uppercase text-[10px] tracking-wider"
-                            : "text-zinc-300"
+                            : "text-zinc-600"
                         }`}
                       >
                         {isYes ? (

@@ -104,7 +104,7 @@ export default function BuyerPage() {
           <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
             AiX OS™ · Buyer Representation
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
             Cumpără Orice Proprietate{" "}
             <span className="gradient-gold">cu un Expert</span> în Echipa Ta
           </h1>
@@ -124,7 +124,7 @@ export default function BuyerPage() {
               href="https://wa.me/436509536345"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-700 px-7 py-3.5 text-sm text-zinc-300 hover:border-amber-500/30 hover:text-white transition-all"
+              className="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-7 py-3.5 text-sm text-zinc-600 hover:border-amber-500/30 hover:text-zinc-900 transition-all"
             >
               <MessageCircle className="h-4 w-4 text-emerald-400" />
               WhatsApp
@@ -133,15 +133,15 @@ export default function BuyerPage() {
           <div className="flex items-center gap-6 pt-2">
             {[["€0", "Cost pentru cumpărător"], ["94%", "Rată succes negociere"], ["6%", "Economie medie din preț"]].map(([v, l]) => (
               <div key={l}>
-                <p className="text-2xl font-light text-white">{v}</p>
-                <p className="text-xs text-zinc-500">{l}</p>
+                <p className="text-2xl font-light text-zinc-900">{v}</p>
+                <p className="text-xs text-zinc-400">{l}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 space-y-5">
-          <h3 className="text-lg font-light text-white">Solicită Reprezentare</h3>
+        <div className="rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 space-y-5">
+          <h3 className="text-lg font-light text-zinc-900">Solicită Reprezentare</h3>
           <p className="text-sm text-zinc-400">Completează formularul și te contactăm în 24h.</p>
           <BuyerLeadForm />
         </div>
@@ -150,21 +150,21 @@ export default function BuyerPage() {
       {/* Comparison: alone vs with us */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Singur vs. cu AiX OS™</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Singur vs. cu AiX OS™</h2>
           <p className="text-zinc-400">Diferența dintre o decizie bună și una excelentă.</p>
         </div>
-        <div className="rounded-2xl border border-zinc-800 overflow-hidden">
-          <div className="grid grid-cols-3 bg-zinc-900/80 px-6 py-4">
-            <p className="text-sm font-medium text-zinc-300">Aspect</p>
-            <p className="text-sm font-medium text-zinc-500 text-center">Singur</p>
+        <div className="rounded-2xl border border-zinc-200 overflow-hidden">
+          <div className="grid grid-cols-3 bg-zinc-50/80 px-6 py-4">
+            <p className="text-sm font-medium text-zinc-600">Aspect</p>
+            <p className="text-sm font-medium text-zinc-400 text-center">Singur</p>
             <p className="text-sm font-medium text-amber-400 text-center">Cu AiX OS™</p>
           </div>
           {COMPARISON.map((row, i) => (
             <div
               key={row.aspect}
-              className={`grid grid-cols-3 px-6 py-4 ${i % 2 === 0 ? "bg-zinc-900/20" : ""}`}
+              className={`grid grid-cols-3 px-6 py-4 ${i % 2 === 0 ? "bg-zinc-50/20" : ""}`}
             >
-              <p className="text-sm text-zinc-300">{row.aspect}</p>
+              <p className="text-sm text-zinc-600">{row.aspect}</p>
               <div className="flex justify-center">
                 {row.alone ? (
                   <CheckCircle2 className="h-5 w-5 text-emerald-400" />
@@ -183,18 +183,18 @@ export default function BuyerPage() {
       {/* Advantages */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Ce obții cu AiX OS™</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Ce obții cu AiX OS™</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ADVANTAGES.map((adv) => {
             const Icon = adv.icon;
             return (
-              <div key={adv.title} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6 space-y-3 hover:border-zinc-700 transition-colors">
+              <div key={adv.title} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-3 hover:border-zinc-300 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-amber-500/10 p-2.5">
                     <Icon className="h-5 w-5 text-amber-400" />
                   </div>
-                  <h3 className="font-medium text-white">{adv.title}</h3>
+                  <h3 className="font-medium text-zinc-900">{adv.title}</h3>
                 </div>
                 <p className="text-sm text-zinc-400 leading-relaxed">{adv.desc}</p>
               </div>
@@ -206,14 +206,14 @@ export default function BuyerPage() {
       {/* Process */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-light text-white">Procesul AiX OS™</h2>
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900">Procesul AiX OS™</h2>
           <p className="text-zinc-400">De la prima discuție la cheile în mână.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {PROCESS.map((step) => (
-            <div key={step.step} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-3">
+            <div key={step.step} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-3">
               <span className="text-4xl font-light text-zinc-700">{step.step}</span>
-              <h3 className="font-medium text-white">{step.title}</h3>
+              <h3 className="font-medium text-zinc-900">{step.title}</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{step.desc}</p>
             </div>
           ))}
@@ -223,20 +223,20 @@ export default function BuyerPage() {
       {/* Testimonials */}
       <section className="space-y-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-light text-white">Ce spun clienții</h2>
+          <h2 className="text-3xl font-light text-zinc-900">Ce spun clienții</h2>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
           {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-8 space-y-4">
+            <div key={t.name} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-8 space-y-4">
               <div className="flex gap-0.5">
                 {Array.from({ length: t.score }).map((_, i) => (
                   <Star key={i} className="h-4 w-4 text-amber-400 fill-amber-400" />
                 ))}
               </div>
-              <p className="text-zinc-300 italic leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+              <p className="text-zinc-600 italic leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
               <div>
-                <p className="text-sm font-medium text-white">{t.name}</p>
-                <p className="text-xs text-zinc-500">{t.role}</p>
+                <p className="text-sm font-medium text-zinc-900">{t.name}</p>
+                <p className="text-xs text-zinc-400">{t.role}</p>
               </div>
             </div>
           ))}
@@ -246,7 +246,7 @@ export default function BuyerPage() {
       {/* FAQ */}
       <section className="space-y-8 max-w-4xl mx-auto">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <h2 className="text-3xl font-light text-zinc-900">Întrebări Frecvente</h2>
           <p className="text-zinc-400">Tot ce trebuie să știi despre reprezentarea exclusivă.</p>
         </div>
         <div className="space-y-4">
@@ -255,8 +255,8 @@ export default function BuyerPage() {
             { q: "Cum mă ajută AiX Score?", a: "AiX Score este algoritmul nostru proprietar care analizează peste 12 indicatori (randament, infrastructură, istoric prețuri, risc legal) pentru a-ți oferi o evaluare obiectivă, dincolo de marketingul vânzătorului." },
             { q: "Aveți acces la proprietăți care nu sunt online?", a: "Da, gestionăm un portofoliu semnificativ de proprietăți off-market din rețeaua noastră privată de investitori, accesibile doar clienților calificați." },
           ].map((faq, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
-              <h3 className="font-medium text-white">{faq.q}</h3>
+            <div key={i} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-2">
+              <h3 className="font-medium text-zinc-900">{faq.q}</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
             </div>
           ))}
@@ -266,19 +266,19 @@ export default function BuyerPage() {
       <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-8 md:p-12">
         <div className="md:col-span-7 space-y-6 text-left">
           <Shield className="h-10 w-10 text-amber-500/60" />
-          <h2 className="text-3xl md:text-4xl font-light text-white leading-tight">
+          <h2 className="text-3xl md:text-4xl font-light text-zinc-900 leading-tight">
             Gata să cumperi inteligent?
           </h2>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
             Prima consultație este gratuită. Nu există angajamente. Completează formularul alăturat pentru a primi cotații off-market și detalii exclusive.
           </p>
           <div className="flex gap-4">
-            <Link href="/proprietati" className="rounded-full border border-zinc-700 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-350 hover:text-white transition-all">
+            <Link href="/proprietati" className="rounded-full border border-zinc-300 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-350 hover:text-zinc-900 transition-all">
               Explorează Proprietăți →
             </Link>
           </div>
         </div>
-        <div className="md:col-span-5 bg-zinc-950/45 p-6 rounded-3xl border border-zinc-850">
+        <div className="md:col-span-5 bg-white/45 p-6 rounded-3xl border border-zinc-200">
           <BuyerLeadForm />
         </div>
       </section>

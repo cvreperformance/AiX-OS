@@ -240,14 +240,14 @@ export default function DevelopersPage() {
         
         {/* Developer Intelligence Spotlight Card */}
         <div className="lg:col-span-5 space-y-6">
-          <div className={`rounded-3xl border border-zinc-800 bg-zinc-950/60 p-6 space-y-6 shadow-2xl relative overflow-hidden`}>
+          <div className={`rounded-3xl border border-zinc-200 bg-white/60 p-6 space-y-6 shadow-2xl relative overflow-hidden`}>
             {/* Spotlight Header */}
-            <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+            <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
               <div className="rounded-xl bg-amber-500/10 p-2.5 border border-amber-500/20 text-amber-400">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-white uppercase tracking-wider">Spotlight: Top Developer</h2>
+                <h2 className="text-sm font-semibold text-zinc-900 uppercase tracking-wider">Spotlight: Top Developer</h2>
                 <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">Elite Rating Platform</p>
               </div>
             </div>
@@ -256,8 +256,8 @@ export default function DevelopersPage() {
             <div className="space-y-4">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-light text-white">Marzocco Group</h3>
-                  <p className="text-xs text-zinc-500 flex items-center gap-1 mt-1 font-mono">
+                  <h3 className="text-lg font-light text-zinc-900">Marzocco Group</h3>
+                  <p className="text-xs text-zinc-400 flex items-center gap-1 mt-1 font-mono">
                     <MapPin className="h-3.5 w-3.5" /> Monaco
                   </p>
                 </div>
@@ -266,13 +266,13 @@ export default function DevelopersPage() {
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Autorii celebrului turn rezidențial de lux Tour Odeon din Monaco, definind luxul absolut de pe Coastă. Constructor exclusiv de penthouse-uri ultra-scumpe, colaborări cu arhitecți reputați mondiali.
               </p>
-              <div className="grid grid-cols-2 gap-3 py-3 border-t border-b border-zinc-900/60 text-xs">
+              <div className="grid grid-cols-2 gap-3 py-3 border-t border-b border-zinc-200/60 text-xs">
                 <div>
-                  <p className="text-[10px] text-zinc-500">Active Projects</p>
+                  <p className="text-[10px] text-zinc-400">Active Projects</p>
                   <p className="font-semibold text-zinc-350 mt-0.5">8 proiecte active</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-zinc-500">Sector</p>
+                  <p className="text-[10px] text-zinc-400">Sector</p>
                   <p className="font-semibold text-zinc-350 mt-0.5 uppercase tracking-wide text-[10px] font-mono text-amber-400">Luxury Elite</p>
                 </div>
               </div>
@@ -287,7 +287,7 @@ export default function DevelopersPage() {
                   href="https://www.marzocco.mc"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2.5 rounded-xl border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-colors flex items-center justify-center"
+                  className="px-3 py-2.5 rounded-xl border border-zinc-200 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300 transition-colors flex items-center justify-center"
                 >
                   <Globe className="h-4 w-4" />
                 </a>
@@ -296,8 +296,8 @@ export default function DevelopersPage() {
           </div>
 
           {/* Quick Stats Panel */}
-          <div className={`rounded-3xl border border-zinc-800 bg-zinc-950/20 p-6 space-y-4`}>
-            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-semibold">Distribuție Evaluări</h3>
+          <div className={`rounded-3xl border border-zinc-200 bg-white/20 p-6 space-y-4`}>
+            <h3 className="text-xs uppercase tracking-widest text-zinc-400 font-semibold">Distribuție Evaluări</h3>
             <div className="space-y-3">
               {[
                 { label: "Elite Developers (>9.0)", count: 8, pct: "72%", color: "bg-emerald-500" },
@@ -307,9 +307,9 @@ export default function DevelopersPage() {
                 <div key={stat.label} className="space-y-1">
                   <div className="flex justify-between text-xs">
                     <span className="text-zinc-400">{stat.label}</span>
-                    <span className="font-semibold text-white">{stat.count} companii</span>
+                    <span className="font-semibold text-zinc-900">{stat.count} companii</span>
                   </div>
-                  <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-zinc-50 rounded-full overflow-hidden">
                     <div className={`h-full ${stat.color}`} style={{ width: stat.pct }} />
                   </div>
                 </div>
@@ -324,11 +324,11 @@ export default function DevelopersPage() {
           <div className={`p-4 rounded-3xl ${designSystem.glass} flex flex-wrap gap-4 items-center justify-between`}>
             {/* Region Select */}
             <div className="space-y-1">
-              <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-500">Regiune activă</p>
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-400">Regiune activă</p>
               <select
                 value={selectedRegion}
                 onChange={(e) => setSelectedRegion(e.target.value as DeveloperRegion)}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500/50 appearance-none"
+                className="rounded-xl border border-zinc-200 bg-zinc-50/60 px-3 py-1.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/50 appearance-none"
               >
                 <option value="all">Toate Țările</option>
                 <option value="România">România</option>
@@ -340,11 +340,11 @@ export default function DevelopersPage() {
 
             {/* Sector Select */}
             <div className="space-y-1">
-              <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-500">Sector principal</p>
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-zinc-400">Sector principal</p>
               <select
                 value={selectedSector}
                 onChange={(e) => setSelectedSector(e.target.value as DeveloperSector)}
-                className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500/50 appearance-none"
+                className="rounded-xl border border-zinc-200 bg-zinc-50/60 px-3 py-1.5 text-xs text-zinc-900 focus:outline-none focus:border-amber-500/50 appearance-none"
               >
                 <option value="all">Toate Sectoarele</option>
                 <option value="luxury">Luxury</option>
@@ -379,10 +379,10 @@ export default function DevelopersPage() {
                   <div className="flex justify-between items-start gap-4">
                     <div>
                       <span className={badgeStyle}>{dev.status}</span>
-                      <h3 className="text-sm font-semibold text-white mt-1.5 group-hover:text-amber-400 transition-colors">
+                      <h3 className="text-sm font-semibold text-zinc-900 mt-1.5 group-hover:text-amber-400 transition-colors">
                         {dev.name}
                       </h3>
-                      <p className="text-[10px] text-zinc-500 flex items-center gap-1.5 mt-1 font-mono">
+                      <p className="text-[10px] text-zinc-400 flex items-center gap-1.5 mt-1 font-mono">
                         <MapPin className="h-3.5 w-3.5 text-zinc-650" />
                         {dev.city}, {dev.country}
                       </p>
@@ -394,16 +394,16 @@ export default function DevelopersPage() {
                     {dev.description}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-3 py-3 border-t border-b border-zinc-900 text-xs">
+                  <div className="grid grid-cols-2 gap-3 py-3 border-t border-b border-zinc-200 text-xs">
                     <div>
-                      <p className="text-[9px] text-zinc-500 uppercase tracking-widest">Sector</p>
+                      <p className="text-[9px] text-zinc-400 uppercase tracking-widest">Sector</p>
                       <p className="text-zinc-350 font-semibold mt-0.5 uppercase tracking-wide text-[9px] font-mono flex items-center gap-1">
                         <Briefcase className="h-3.5 w-3.5 text-amber-500/30" />
                         {dev.sector}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[9px] text-zinc-500 uppercase tracking-widest">Active Projects</p>
+                      <p className="text-[9px] text-zinc-400 uppercase tracking-widest">Active Projects</p>
                       <p className="text-zinc-350 font-semibold mt-0.5 flex items-center gap-1 font-mono">
                         <Layers className="h-3.5 w-3.5 text-amber-500/30" />
                         {dev.projects_count} unități
@@ -414,7 +414,7 @@ export default function DevelopersPage() {
                   <div className="flex gap-2.5 pt-1">
                     <Link
                       href={`/dezvoltatori/${dev.slug}`}
-                      className="flex-1 text-center py-2 rounded-xl border border-zinc-850 hover:border-amber-500/40 text-xs font-semibold text-zinc-300 hover:text-white transition-all bg-zinc-900/10"
+                      className="flex-1 text-center py-2 rounded-xl border border-zinc-200 hover:border-amber-500/40 text-xs font-semibold text-zinc-600 hover:text-zinc-900 transition-all bg-zinc-50/10"
                     >
                       Analiză Completă
                     </Link>
@@ -423,7 +423,7 @@ export default function DevelopersPage() {
                         href={dev.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-2 rounded-xl border border-zinc-850 text-xs text-zinc-500 hover:text-white hover:border-zinc-700 transition-all flex items-center justify-center bg-zinc-900/10"
+                        className="px-3 py-2 rounded-xl border border-zinc-200 text-xs text-zinc-400 hover:text-zinc-900 hover:border-zinc-300 transition-all flex items-center justify-center bg-zinc-50/10"
                         title="Website Oficial"
                       >
                         <Globe className="h-4 w-4" />

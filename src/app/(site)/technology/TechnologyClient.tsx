@@ -71,7 +71,7 @@ export default function TechnologyClient() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           {language === "ro" ? "AiX OS™ · Hub Tehnologic" : "AiX OS™ · Technology Hub"}
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           {language === "ro" ? "Securitate, Automatizare &" : "Security, Automation &"} <br />
           <span className="gradient-gold">{language === "ro" ? "Infrastructură Digitală" : "Tech Stack Intelligence"}</span>
         </h1>
@@ -93,16 +93,16 @@ export default function TechnologyClient() {
                   <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                  <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                     {tech.category}
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{tech.title}</h3>
+                  <h3 className="text-sm font-semibold text-zinc-900">{tech.title}</h3>
                   <p className="text-xs text-zinc-450 leading-relaxed mt-2">{tech.desc}</p>
                 </div>
               </div>
-              <div className="pt-4 border-t border-zinc-900/60 mt-4">
+              <div className="pt-4 border-t border-zinc-200/60 mt-4">
                 <a
                   href={tech.link}
                   target="_blank"
@@ -120,11 +120,11 @@ export default function TechnologyClient() {
 
       {/* Devops & Threat Audit Desk */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-red-500/10 p-2.5 text-red-400 max-w-fit">
             <Lock className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Ghid Securizare Tranzacții UHNW" : "UHNW Cyber Risk Prevention Desk"}
           </h3>
           <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">
@@ -140,11 +140,11 @@ export default function TechnologyClient() {
           </ul>
         </div>
 
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 max-w-fit">
             <Cpu className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Checklist Automatizare Dev" : "Serverless Automation Checklists"}
           </h3>
           <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">

@@ -131,7 +131,7 @@ export default function JoinPage() {
         {/* Left Col: Benefits */}
         <div className="lg:col-span-3 space-y-8">
           <div>
-            <h2 className="text-2xl font-light text-white leading-tight mb-2">
+            <h2 className="text-2xl font-light text-zinc-900 leading-tight mb-2">
               {language === "ro"
                 ? "Transformați deciziile din emoție în matematică."
                 : "Transform decisions from emotion into mathematics."}
@@ -147,12 +147,12 @@ export default function JoinPage() {
             {benefits.map((benefit, i) => {
               const Icon = benefit.icon;
               return (
-                <div key={i} className={`p-6 rounded-2xl ${designSystem.glass} border border-zinc-800`}>
-                  <div className="h-10 w-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-4">
+                <div key={i} className={`p-6 rounded-2xl ${designSystem.glass} border border-zinc-200`}>
+                  <div className="h-10 w-10 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center mb-4">
                     <Icon className="h-5 w-5 text-amber-500" />
                   </div>
-                  <h4 className="text-sm font-semibold text-white">{benefit.title}</h4>
-                  <p className="text-xs text-zinc-500 leading-relaxed mt-1.5">{benefit.desc}</p>
+                  <h4 className="text-sm font-semibold text-zinc-900">{benefit.title}</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed mt-1.5">{benefit.desc}</p>
                 </div>
               );
             })}
@@ -160,12 +160,12 @@ export default function JoinPage() {
         </div>
 
         {/* Right Col: Signup Form */}
-        <div className={`lg:col-span-2 p-8 rounded-3xl border border-zinc-800 bg-zinc-950 flex flex-col relative overflow-hidden h-full min-h-[400px]`}>
+        <div className={`lg:col-span-2 p-8 rounded-3xl border border-zinc-200 bg-white flex flex-col relative overflow-hidden h-full min-h-[400px]`}>
           <div className="absolute -top-32 -right-32 w-64 h-64 bg-amber-500/10 blur-3xl rounded-full pointer-events-none" />
           
           <div className="mb-8">
             <UserPlus className="h-8 w-8 text-amber-500 mb-4" />
-            <h3 className="text-xl font-semibold text-white">
+            <h3 className="text-xl font-semibold text-zinc-900">
               {language === "ro" ? "Înregistrare Rapidă" : "Quick Registration"}
             </h3>
             <p className="text-xs text-zinc-400 mt-2">
@@ -181,10 +181,10 @@ export default function JoinPage() {
                 <CheckCircle2 className="h-8 w-8 text-emerald-500" />
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-white">
+                <h4 className="text-lg font-semibold text-zinc-900">
                   {language === "ro" ? "V-ați înscris cu succes!" : "Successfully registered!"}
                 </h4>
-                <p className="text-sm text-zinc-500 mt-2">
+                <p className="text-sm text-zinc-400 mt-2">
                   {language === "ro"
                     ? "Veți primi un email de confirmare și linkul de configurare a contului în scurt timp."
                     : "You will receive a confirmation email and account setup link shortly."}
@@ -192,7 +192,7 @@ export default function JoinPage() {
               </div>
               <button 
                 onClick={() => setSuccess(false)}
-                className="mt-6 rounded-xl bg-zinc-900 hover:bg-zinc-850 px-5 py-2 text-xs font-semibold text-zinc-300 transition-colors"
+                className="mt-6 rounded-xl bg-zinc-50 hover:bg-zinc-850 px-5 py-2 text-xs font-semibold text-zinc-600 transition-colors"
               >
                 {language === "ro" ? "Înapoi" : "Back"}
               </button>
@@ -218,7 +218,7 @@ export default function JoinPage() {
                 )}
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">
                     {language === "ro" ? "Nume Complet" : "Full Name"}
                   </label>
                   <input 
@@ -226,13 +226,13 @@ export default function JoinPage() {
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-2.5 px-4 text-xs text-white placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
                     placeholder={language === "ro" ? "Numele tău" : "Your name"}
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">
                     {language === "ro" ? "Număr Telefon" : "Phone Number"}
                   </label>
                   <input 
@@ -240,13 +240,13 @@ export default function JoinPage() {
                     type="tel" 
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-2.5 px-4 text-xs text-white placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
                     placeholder="+43 650..."
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">
                     {language === "ro" ? "Adresa de Email" : "Email Address"}
                   </label>
                   <div className="relative">
@@ -256,7 +256,7 @@ export default function JoinPage() {
                       type="email" 
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                      className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-3 pl-12 pr-4 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" 
                       placeholder="name@example.com"
                     />
                   </div>
@@ -295,13 +295,13 @@ export default function JoinPage() {
       </section>
 
       {/* Partner Teaser */}
-      <section className="p-8 sm:p-10 rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-950 to-zinc-900/50 flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="p-8 sm:p-10 rounded-3xl border border-zinc-200 bg-gradient-to-br from-zinc-950 to-zinc-900/50 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex-1 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-3 py-1 border border-zinc-800 text-[10px] font-semibold uppercase tracking-wider text-amber-500">
+          <div className="inline-flex items-center gap-2 rounded-full bg-zinc-50 px-3 py-1 border border-zinc-200 text-[10px] font-semibold uppercase tracking-wider text-amber-500">
             <Building2 className="h-3 w-3" />
             {language === "ro" ? "Pentru Agenții și Dezvoltatori" : "For Agencies & Developers"}
           </div>
-          <h3 className="text-2xl font-light text-white">
+          <h3 className="text-2xl font-light text-zinc-900">
             {language === "ro" ? "Programul de Parteneriat AiX" : "AiX Partnership Program"}
           </h3>
           <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">
@@ -311,7 +311,7 @@ export default function JoinPage() {
           </p>
         </div>
         <div className="shrink-0">
-          <a href="/agentii" className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-6 py-3 text-sm font-semibold text-white hover:bg-zinc-850 hover:border-zinc-700 transition-all">
+          <a href="/agentii" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-6 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-850 hover:border-zinc-300 transition-all">
             <Bell className="h-4 w-4 text-amber-500" />
             {language === "ro" ? "Detalii Parteneriat" : "Partnership Details"}
           </a>

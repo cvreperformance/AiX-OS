@@ -22,13 +22,13 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-[#0a0a0a]/80 backdrop-blur-xl p-8 rounded-3xl border border-zinc-800/50 relative overflow-hidden">
+      <div className="max-w-md w-full space-y-8 bg-zinc-50/80 backdrop-blur-xl p-8 rounded-3xl border border-zinc-200/50 relative overflow-hidden">
         {/* Subtle glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-amber-500/10 blur-[80px] pointer-events-none" />
 
         <Link
           href="/"
-          className="absolute top-6 left-6 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-zinc-500 hover:text-white transition-all z-10"
+          className="absolute top-6 left-6 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-zinc-400 hover:text-zinc-900 transition-all z-10"
         >
           <Home className="h-3.5 w-3.5" />
           Home
@@ -36,7 +36,7 @@ export default function RegisterPage() {
 
         <div className="relative text-center">
           <Brain className="mx-auto h-12 w-12 text-amber-500" />
-          <h2 className="mt-6 text-3xl font-light text-white">
+          <h2 className="mt-6 text-3xl font-light text-zinc-900">
             Join AiX OS™
           </h2>
           <p className="mt-2 text-sm text-zinc-400">
@@ -58,7 +58,7 @@ export default function RegisterPage() {
                 name="full_name"
                 type="text"
                 required
-                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                 placeholder="Full Name"
               />
             </div>
@@ -68,7 +68,7 @@ export default function RegisterPage() {
                 name="email"
                 type="email"
                 required
-                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                 placeholder="Email address"
               />
             </div>
@@ -79,7 +79,7 @@ export default function RegisterPage() {
                 type="password"
                 required
                 minLength={6}
-                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
                 placeholder="Password (min. 6 characters)"
               />
             </div>
@@ -101,7 +101,7 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <div className="text-center text-sm relative text-zinc-500">
+        <div className="text-center text-sm relative text-zinc-400">
           Already have an account?{" "}
           <Link
             href="/login"

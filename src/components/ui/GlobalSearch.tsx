@@ -219,11 +219,11 @@ export function GlobalSearch() {
       <div
         className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl border transition-all ${
           focused
-            ? "border-amber-500/40 bg-zinc-950 shadow-lg shadow-amber-500/[0.03]"
-            : "border-zinc-800 bg-[#080808]/75"
+            ? "border-amber-500/40 bg-white shadow-lg shadow-amber-500/[0.03]"
+            : "border-zinc-200 bg-white/75"
         }`}
       >
-        <Search className="h-5 w-5 text-zinc-500 flex-shrink-0" />
+        <Search className="h-5 w-5 text-zinc-400 flex-shrink-0" />
         <input
           ref={inputRef}
           value={query}
@@ -234,10 +234,10 @@ export function GlobalSearch() {
               ? "Caută proprietăți, dezvoltatori, instrumente financiare..."
               : "Search properties, developers, investment tools..."
           }
-          className="bg-transparent text-sm text-white placeholder-zinc-500 w-full focus:outline-none"
+          className="bg-transparent text-sm text-zinc-900 placeholder-zinc-500 w-full focus:outline-none"
         />
         {!query && !focused && (
-          <div className="hidden sm:flex items-center gap-1 text-[10px] text-zinc-500 bg-zinc-900/50 px-2 py-1 rounded-md border border-zinc-800 font-mono">
+          <div className="hidden sm:flex items-center gap-1 text-[10px] text-zinc-400 bg-zinc-50/50 px-2 py-1 rounded-md border border-zinc-200 font-mono">
             <Command className="h-3 w-3" />
             <span>K</span>
           </div>
@@ -248,7 +248,7 @@ export function GlobalSearch() {
               setQuery("");
               inputRef.current?.focus();
             }}
-            className="text-xs text-zinc-500 hover:text-white uppercase font-mono font-semibold"
+            className="text-xs text-zinc-400 hover:text-zinc-900 uppercase font-mono font-semibold"
           >
             Clear
           </button>
@@ -258,7 +258,7 @@ export function GlobalSearch() {
       {/* Dropdown Results Box */}
       {focused && (
         <div
-          className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-850 bg-[#080808]/98 backdrop-blur-3xl shadow-2xl p-4 space-y-4 max-h-[500px] overflow-y-auto ${
+          className={`absolute top-full inset-x-0 mt-2.5 rounded-2xl border border-zinc-200 bg-white/98 backdrop-blur-3xl shadow-2xl p-4 space-y-4 max-h-[500px] overflow-y-auto ${
             query ? "animate-in fade-in slide-in-from-top-2 duration-150" : ""
           }`}
         >
@@ -282,7 +282,7 @@ export function GlobalSearch() {
           {results.length > 0 ? (
             Object.entries(groupedResults).map(([category, items]) => (
               <div key={category} className="space-y-2 text-left">
-                <span className="text-[8.5px] uppercase tracking-[0.15em] text-zinc-500 font-bold font-mono block border-b border-zinc-900 pb-1">
+                <span className="text-[8.5px] uppercase tracking-[0.15em] text-zinc-400 font-bold font-mono block border-b border-zinc-200 pb-1">
                   {category}
                 </span>
                 <div className="space-y-1">
@@ -299,8 +299,8 @@ export function GlobalSearch() {
                         data-search-active={isActive}
                         className={`flex items-center justify-between p-3 rounded-xl border transition-all group ${
                           isActive
-                            ? "border-amber-500/40 bg-zinc-900/40"
-                            : "border-transparent hover:border-zinc-850 hover:bg-zinc-900/25"
+                            ? "border-amber-500/40 bg-zinc-50/40"
+                            : "border-transparent hover:border-zinc-200 hover:bg-zinc-100/25"
                         }`}
                       >
                         <Link
@@ -312,7 +312,7 @@ export function GlobalSearch() {
                             className={`rounded-lg border p-2 flex-shrink-0 transition-all ${
                               isActive
                                 ? "bg-amber-500/10 border-amber-500/30 text-amber-400"
-                                : "border-zinc-900 bg-zinc-950 text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20"
+                                : "border-zinc-200 bg-white text-zinc-400 group-hover:text-amber-400 group-hover:border-amber-500/20"
                             }`}
                           >
                             <IconComponent className="h-4 w-4" />
@@ -320,12 +320,12 @@ export function GlobalSearch() {
                           <div className="min-w-0">
                             <span
                               className={`text-xs font-semibold block transition-colors ${
-                                isActive ? "text-amber-400" : "text-white group-hover:text-amber-400"
+                                isActive ? "text-amber-400" : "text-zinc-900 group-hover:text-amber-400"
                               }`}
                             >
                               {item.title}
                             </span>
-                            <p className="text-[10px] text-zinc-500 mt-0.5 truncate leading-relaxed">
+                            <p className="text-[10px] text-zinc-400 mt-0.5 truncate leading-relaxed">
                               {item.subtitle}
                             </p>
                           </div>
@@ -338,21 +338,21 @@ export function GlobalSearch() {
                             <button
                               onClick={(e) => handleSaveToFavorites(e, item)}
                               title={language === "ro" ? "Salvează la Favorite" : "Save to Favorites"}
-                              className="p-1.5 rounded-lg bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-amber-400 hover:border-amber-500/20 transition-all"
+                              className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-400 hover:text-amber-400 hover:border-amber-500/20 transition-all"
                             >
                               <Bookmark className="h-3.5 w-3.5" />
                             </button>
                             <button
                               onClick={(e) => handleAddToCompare(e, item)}
                               title={language === "ro" ? "Adaugă la Comparare" : "Add to Comparison"}
-                              className="p-1.5 rounded-lg bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-amber-400 hover:border-amber-500/20 transition-all"
+                              className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-400 hover:text-amber-400 hover:border-amber-500/20 transition-all"
                             >
                               <GitCompare className="h-3.5 w-3.5" />
                             </button>
                             <button
                               onClick={(e) => handleCopyLink(e, item.deepLink, item.title)}
                               title={language === "ro" ? "Copiază link-ul" : "Copy Link"}
-                              className="p-1.5 rounded-lg bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-amber-400 hover:border-amber-500/20 transition-all"
+                              className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-400 hover:text-amber-400 hover:border-amber-500/20 transition-all"
                             >
                               {copiedId === item.title ? (
                                 <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -366,7 +366,7 @@ export function GlobalSearch() {
                             href={item.deepLink}
                             onClick={() => setFocused(false)}
                             className={`flex items-center gap-1 text-[9px] font-mono uppercase tracking-wider transition-all ${
-                              isActive ? "text-amber-400" : "text-zinc-500 group-hover:text-white"
+                              isActive ? "text-amber-400" : "text-zinc-400 group-hover:text-zinc-900"
                             }`}
                           >
                             <span>{item.action}</span>
@@ -407,7 +407,7 @@ export function GlobalSearch() {
                       setQuery(tag.q);
                       inputRef.current?.focus();
                     }}
-                    className="text-[10px] px-3 py-1.5 rounded-lg border border-zinc-850 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all bg-zinc-900/20"
+                    className="text-[10px] px-3 py-1.5 rounded-lg border border-zinc-200 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300 transition-all bg-zinc-50/20"
                   >
                     {tag.label}
                   </button>

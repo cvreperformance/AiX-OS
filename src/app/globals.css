@@ -2,12 +2,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080808;
-  --foreground: #f4f4f5;
+  --background: #ffffff;
+  --foreground: #09090b;
   --gold: #c9a962;
   --gold-light: #e8d5a3;
-  --card: #111111;
-  --border: #27272a;
+  --card: #fafafa;
+  --border: #e4e4e7;
   --font-dm-sans: "DM Sans", system-ui, sans-serif;
   --font-cormorant: "Cormorant Garamond", Georgia, serif;
 }

@@ -96,12 +96,12 @@ export default function NewsroomPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: "Sync Status", val: "CONNECTED", detail: "RSS/API Ready", color: "text-emerald-400 border-emerald-500/15 bg-emerald-500/5" },
-          { label: "Scanned Registries", val: "42 active", detail: "ANCPI, BNR, ECB, Fed", color: "text-zinc-300 border-zinc-900 bg-zinc-950/40" },
-          { label: "Scan Frequency", val: "120 / min", detail: "Autopilot scanning", color: "text-zinc-300 border-zinc-900 bg-zinc-950/40" },
+          { label: "Scanned Registries", val: "42 active", detail: "ANCPI, BNR, ECB, Fed", color: "text-zinc-600 border-zinc-200 bg-white/40" },
+          { label: "Scan Frequency", val: "120 / min", detail: "Autopilot scanning", color: "text-zinc-600 border-zinc-200 bg-white/40" },
           { label: "AI Summarizer", val: "Active v5.0", detail: "Semantic parsing", color: "text-amber-400 border-amber-500/15 bg-amber-500/5" }
         ].map((item, idx) => (
           <div key={idx} className={`p-4 rounded-2xl border ${item.color} font-mono text-xs text-left`}>
-            <p className="text-[9px] uppercase tracking-wider text-zinc-500 font-bold">{item.label}</p>
+            <p className="text-[9px] uppercase tracking-wider text-zinc-400 font-bold">{item.label}</p>
             <p className="text-sm font-semibold mt-1">{item.val}</p>
             <p className="text-[9px] text-zinc-550 mt-0.5">{item.detail}</p>
           </div>
@@ -109,7 +109,7 @@ export default function NewsroomPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-2 border-b border-zinc-900 pb-3 overflow-x-auto scrollbar-none">
+      <div className="flex gap-2 border-b border-zinc-200 pb-3 overflow-x-auto scrollbar-none">
         {[
           { key: "ALL" as const, label: language === "ro" ? "Toate Semnalele" : "All Feeds" },
           { key: "MACRO" as const, label: language === "ro" ? "Macroeconomie" : "Macro Economy" },
@@ -122,7 +122,7 @@ export default function NewsroomPage() {
             className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer border ${
               activeTab === tab.key
                 ? "border-amber-500/50 bg-amber-500/10 text-amber-400 font-bold"
-                : "border-zinc-900 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700 bg-zinc-950/20"
+                : "border-zinc-200 text-zinc-400 hover:text-zinc-600 hover:border-zinc-300 bg-white/20"
             }`}
           >
             {tab.label}
@@ -135,9 +135,9 @@ export default function NewsroomPage() {
         {filteredBriefs.map((brief) => (
           <div
             key={brief.id}
-            className={`p-6 rounded-3xl ${designSystem.glass} border-zinc-900/60 text-left space-y-4`}
+            className={`p-6 rounded-3xl ${designSystem.glass} border-zinc-200/60 text-left space-y-4`}
           >
-            <div className="flex justify-between items-center border-b border-zinc-900/60 pb-3">
+            <div className="flex justify-between items-center border-b border-zinc-200/60 pb-3">
               <div className="flex items-center gap-2">
                 <span className={`text-[8.5px] font-bold font-mono px-2 py-0.5 border rounded-full ${
                   brief.category === "MACRO" ? "border-sky-500/25 bg-sky-500/5 text-sky-400" :
@@ -151,14 +151,14 @@ export default function NewsroomPage() {
               
               <span className={`text-[8.5px] font-bold font-mono px-2 py-0.5 border rounded ${
                 brief.priority === "HIGH" ? "border-rose-500/20 bg-rose-500/5 text-rose-400" :
-                "border-zinc-800 bg-zinc-950 text-zinc-500"
+                "border-zinc-200 bg-white text-zinc-400"
               }`}>
                 {brief.priority} priority
               </span>
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-white leading-snug">{brief.title}</h3>
+              <h3 className="text-sm font-semibold text-zinc-900 leading-snug">{brief.title}</h3>
               <p className="text-xs text-zinc-400 leading-relaxed font-light">{brief.summary}</p>
             </div>
 

@@ -47,7 +47,7 @@ export default function BuyerLeadForm() {
     return (
       <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center space-y-2 animate-in fade-in duration-300">
         <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto" />
-        <h4 className="text-sm font-semibold text-white">
+        <h4 className="text-sm font-semibold text-zinc-900">
           {language === "ro" ? "Solicitare Trimisă!" : "Request Submitted!"}
         </h4>
         <p className="text-xs text-zinc-400">
@@ -85,7 +85,7 @@ export default function BuyerLeadForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={language === "ro" ? "Numele tău" : "Your name"}
-          className="col-span-1 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="col-span-1 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
         <input
           required
@@ -93,7 +93,7 @@ export default function BuyerLeadForm() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder={language === "ro" ? "Telefon" : "Phone"}
-          className="col-span-1 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+          className="col-span-1 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
         />
       </div>
 
@@ -102,20 +102,20 @@ export default function BuyerLeadForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={language === "ro" ? "E-mail (opțional)" : "E-mail (optional)"}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
       <input
         value={budget}
         onChange={(e) => setBudget(e.target.value)}
         placeholder={language === "ro" ? "Buget estimat (€)" : "Estimated budget (€)"}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
       />
 
       <select
         value={propertyType}
         onChange={(e) => setPropertyType(e.target.value)}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
       >
         <option value="">{language === "ro" ? "Tipul proprietății dorite" : "Desired property type"}</option>
         <option value="Apartament">{language === "ro" ? "Apartament" : "Apartment"}</option>
@@ -131,7 +131,7 @@ export default function BuyerLeadForm() {
         onChange={(e) => setDetails(e.target.value)}
         placeholder={language === "ro" ? "Detalii suplimentare (locație, suprafață, obiectiv...)" : "Additional details (location, area, goal...)"}
         rows={3}
-        className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none"
+        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none"
       />
 
       <button

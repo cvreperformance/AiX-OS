@@ -41,8 +41,8 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-light text-white mb-2">Dashboard</h1>
-      <p className="text-zinc-500 text-sm mb-8">
+      <h1 className="text-2xl font-light text-zinc-900 mb-2">Dashboard</h1>
+      <p className="text-zinc-400 text-sm mb-8">
         Panou de administrare AiX OS™ — gestionează conținutul platformei.
       </p>
 
@@ -51,11 +51,11 @@ export default async function AdminDashboard() {
           <a
             key={s.label}
             href={s.href}
-            className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6 hover:border-amber-500/30 transition-all group"
+            className="rounded-xl border border-zinc-200 bg-zinc-50/30 p-6 hover:border-amber-500/30 transition-all group"
           >
             <div className="flex items-center justify-between mb-3">
               <s.icon className="h-5 w-5 text-amber-500/70 group-hover:text-amber-400 transition-colors" />
-              <span className="text-2xl font-light text-white">{s.value}</span>
+              <span className="text-2xl font-light text-zinc-900">{s.value}</span>
             </div>
             <p className="text-sm text-zinc-400">{s.label}</p>
           </a>
@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
           Site-ul funcționează acum cu date demo. Pentru administrare reală (add/edit/delete),
           conectează Supabase gratuit — vezi README.md pentru pașii exacti.
         </p>
-        <ol className="text-sm text-zinc-500 space-y-1 list-decimal list-inside">
+        <ol className="text-sm text-zinc-400 space-y-1 list-decimal list-inside">
           <li>Creează cont pe supabase.com (free)</li>
           <li>Rulează <code className="text-amber-400/80">supabase/schema.sql</code></li>
           <li>Copiază URL + anon key în <code className="text-amber-400/80">.env.local</code></li>

@@ -95,7 +95,7 @@ export default function InsuranceClient() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           {language === "ro" ? "AiX OS™ · Asigurări Premium" : "AiX OS™ · Premium Insurance"}
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           {language === "ro" ? "Protecție de Portofoliu &" : "Portfolio Protection &"} <br />
           <span className="gradient-gold">{language === "ro" ? "Consultanță Asigurări AI" : "AI Insurance Brokerage"}</span>
         </h1>
@@ -110,10 +110,10 @@ export default function InsuranceClient() {
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Sliders Card */}
         <div className={`lg:col-span-2 rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Calculator className="h-5 w-5 text-amber-400" />
             <div>
-              <h2 className="text-lg font-light text-white">
+              <h2 className="text-lg font-light text-zinc-900">
                 {language === "ro" ? "Calculator Primă Locuință" : "Home Premium Estimator"}
               </h2>
               <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">
@@ -125,8 +125,8 @@ export default function InsuranceClient() {
           <div className="space-y-6">
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-300 font-medium">{language === "ro" ? "Valoare proprietate / reconstructie:" : "Property reconstruction value:"}</span>
-                <span className="font-mono font-bold text-white">€{propertyValue.toLocaleString()}</span>
+                <span className="text-zinc-600 font-medium">{language === "ro" ? "Valoare proprietate / reconstructie:" : "Property reconstruction value:"}</span>
+                <span className="font-mono font-bold text-zinc-900">€{propertyValue.toLocaleString()}</span>
               </div>
               <input
                 type="range"
@@ -135,12 +135,12 @@ export default function InsuranceClient() {
                 step="10000"
                 value={propertyValue}
                 onChange={(e) => setPropertyValue(parseInt(e.target.value) || 50000)}
-                className="w-full h-1 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                className="w-full h-1 bg-zinc-50 rounded-lg appearance-none cursor-pointer accent-amber-500"
               />
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs text-zinc-300 block">{language === "ro" ? "Nivel Risc Locație (Clădiri vechi, seism):" : "Location Risk Parameters (Seismic risk, construction age):"}</span>
+              <span className="text-xs text-zinc-600 block">{language === "ro" ? "Nivel Risc Locație (Clădiri vechi, seism):" : "Location Risk Parameters (Seismic risk, construction age):"}</span>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   { id: "low", label: language === "ro" ? "Redus" : "Low" },
@@ -152,7 +152,7 @@ export default function InsuranceClient() {
                     type="button"
                     onClick={() => setRiskTier(r.id)}
                     className={`py-2 rounded-xl text-xs font-bold transition-all border ${
-                      riskTier === r.id ? "bg-amber-500 border-amber-500 text-black" : "border-zinc-800 text-zinc-400 bg-zinc-950/20"
+                      riskTier === r.id ? "bg-amber-500 border-amber-500 text-black" : "border-zinc-200 text-zinc-400 bg-white/20"
                     }`}
                   >
                     {r.label}
@@ -168,18 +168,18 @@ export default function InsuranceClient() {
           <div className="space-y-4">
             <span className="text-[10px] uppercase tracking-widest text-zinc-550 font-bold block">{language === "ro" ? "Cotație Estimată" : "Estimated Premium Breakdown"}</span>
             <div className="space-y-2 text-xs font-mono">
-              <div className="flex justify-between text-zinc-450 border-b border-zinc-900 pb-1.5">
+              <div className="flex justify-between text-zinc-450 border-b border-zinc-200 pb-1.5">
                 <span>{language === "ro" ? "Poliță PAD (Obligatorie):" : "PAD (Mandatory):"}</span>
-                <span className="text-white">€{calculatedPAD} / an</span>
+                <span className="text-zinc-900">€{calculatedPAD} / an</span>
               </div>
-              <div className="flex justify-between text-zinc-450 border-b border-zinc-900 pb-1.5">
+              <div className="flex justify-between text-zinc-450 border-b border-zinc-200 pb-1.5">
                 <span>{language === "ro" ? "Facultativă (Clauze complete):" : "Optional (All-risk policy):"}</span>
-                <span className="text-white">~€{calculatedFacultativa} / an</span>
+                <span className="text-zinc-900">~€{calculatedFacultativa} / an</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-zinc-900/60 text-center">
+          <div className="pt-4 border-t border-zinc-200/60 text-center">
             <span className="text-[9px] uppercase text-zinc-550 font-semibold block">{language === "ro" ? "Total Estimat" : "Total Estimated"}</span>
             <span className="text-3xl font-light text-amber-400 font-mono">~€{totalEstimatedPremium}</span>
             <span className="text-[9px] text-zinc-550 block mt-0.5">{language === "ro" ? "/ an (plată unică)" : "/ year (single payment)"}</span>
@@ -204,11 +204,11 @@ export default function InsuranceClient() {
 
       {/* Comparisons Card Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 max-w-fit">
             <Shield className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Polița Obligatorie PAD" : "PAD Mandatory Coverage"}
           </h3>
           <ul className="space-y-2 text-xs text-zinc-400 leading-relaxed">
@@ -227,11 +227,11 @@ export default function InsuranceClient() {
           </ul>
         </div>
 
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-emerald-500/10 p-2.5 text-emerald-450 max-w-fit">
             <CheckCircle2 className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Asigurarea Facultativă Completă" : "All-Risk Optional Home Insurance"}
           </h3>
           <ul className="space-y-2 text-xs text-zinc-400 leading-relaxed">
@@ -253,11 +253,11 @@ export default function InsuranceClient() {
 
       {/* Claims Guidance & Risk Assessment */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400 max-w-fit">
             <AlertCircle className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Ghid de Procedură în caz de Daună" : "Insurance Claims Action Guide"}
           </h3>
           <ol className="space-y-3 text-xs text-zinc-400 list-decimal pl-4 leading-relaxed">
@@ -276,11 +276,11 @@ export default function InsuranceClient() {
           </ol>
         </div>
 
-        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 space-y-4`}>
+        <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-4`}>
           <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 max-w-fit">
             <Shield className="h-5 w-5" />
           </div>
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             {language === "ro" ? "Evaluarea Riscurilor Imobiliare" : "Real Estate Risk Assessment Parameters"}
           </h3>
           <ul className="space-y-3 text-xs text-zinc-400 leading-relaxed">
@@ -299,13 +299,13 @@ export default function InsuranceClient() {
 
       {/* FAQ */}
       <section className="space-y-6 max-w-4xl mx-auto">
-        <h2 className="text-xl font-light text-white text-center">
+        <h2 className="text-xl font-light text-zinc-900 text-center">
           {language === "ro" ? "Întrebări Frecvente" : "Frequently Asked Questions"}
         </h2>
         <div className="space-y-4">
           {faqItems.map((faq, idx) => (
-            <div key={idx} className="rounded-2xl border border-zinc-900 bg-zinc-950/20 p-5 space-y-2">
-              <h3 className="text-xs font-semibold text-white flex items-center gap-2">
+            <div key={idx} className="rounded-2xl border border-zinc-200 bg-white/20 p-5 space-y-2">
+              <h3 className="text-xs font-semibold text-zinc-900 flex items-center gap-2">
                 <HelpCircle className="h-4 w-4 text-amber-500/60 shrink-0" />
                 {faq.q}
               </h3>
@@ -316,9 +316,9 @@ export default function InsuranceClient() {
       </section>
 
       {/* Quote Submission Form */}
-      <section className="rounded-3xl border border-zinc-800 bg-[#080808]/70 backdrop-blur-xl p-8 max-w-3xl mx-auto shadow-2xl space-y-6">
+      <section className="rounded-3xl border border-zinc-200 bg-white/70 backdrop-blur-xl p-8 max-w-3xl mx-auto shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <h2 className="text-xl font-light text-white">
+          <h2 className="text-xl font-light text-zinc-900">
             {language === "ro" ? "Solicită Consultanță Asigurări" : "Request Free Insurance Review"}
           </h2>
           <p className="text-xs text-zinc-550">
@@ -329,10 +329,10 @@ export default function InsuranceClient() {
         {submitted ? (
           <div className="text-center p-6 border border-emerald-500/20 bg-emerald-500/5 rounded-2xl animate-in fade-in duration-300">
             <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-white">
+            <p className="text-xs font-semibold text-zinc-900">
               {language === "ro" ? "Solicitare Trimisă cu Succes!" : "Quote Requested Successfully!"}
             </p>
-            <p className="text-[11px] text-zinc-500 mt-1">
+            <p className="text-[11px] text-zinc-400 mt-1">
               {language === "ro" ? "Consilierii noștri de asigurare te vor contacta în scurt timp." : "Our specialist advisors will review and contact you shortly."}
             </p>
           </div>
@@ -344,14 +344,14 @@ export default function InsuranceClient() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={language === "ro" ? "Numele tău" : "Your Name"}
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
               />
               <input
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder={language === "ro" ? "Telefon" : "Phone Number"}
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
               />
             </div>
             <input
@@ -359,12 +359,12 @@ export default function InsuranceClient() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={language === "ro" ? "Email (opțional)" : "Email Address (optional)"}
-              className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
             />
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-zinc-300 focus:border-amber-500/50 focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors"
             >
               <option value="Locuință / Home">{language === "ro" ? "Asigurare Locuință" : "Home / Property Insurance"}</option>
               <option value="Viață / Life">{language === "ro" ? "Asigurare de Viață" : "Life & Mortgage Insurance"}</option>

@@ -20,7 +20,7 @@ export function YachtsClient() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {YACHTS.map((yacht, index) => (
           <div key={yacht.title} className={`rounded-3xl overflow-hidden ${designSystem.glass} ${designSystem.glassHover}`}>
-            <div className="relative h-64 w-full overflow-hidden bg-zinc-900">
+            <div className="relative h-64 w-full overflow-hidden bg-zinc-50">
               <Image
                 src={yacht.img}
                 alt={yacht.title}
@@ -32,13 +32,13 @@ export function YachtsClient() {
             </div>
             <div className="p-6 space-y-4">
               <div className="flex justify-between items-start">
-                <h4 className="text-base font-medium text-white">{yacht.title}</h4>
+                <h4 className="text-base font-medium text-zinc-900">{yacht.title}</h4>
                 <span className="text-sm text-amber-400 font-mono font-semibold">{yacht.price}</span>
               </div>
               <p className="text-xs text-zinc-400 font-mono">{yacht.spec}</p>
               <button
                 onClick={openContact}
-                className="w-full text-center py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
+                className="w-full text-center py-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200 transition-colors"
               >
                 Detalii & Disponibilitate
               </button>
@@ -50,7 +50,7 @@ export function YachtsClient() {
       {/* CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-14 text-center space-y-6">
         <Ship className="h-10 w-10 text-amber-500/60 mx-auto" />
-        <h2 className="text-2xl md:text-3xl font-light text-white">Planifici un Yacht Charter?</h2>
+        <h2 className="text-2xl md:text-3xl font-light text-zinc-900">Planifici un Yacht Charter?</h2>
         <p className="text-zinc-400 max-w-lg mx-auto">
           Consultanții noștri brokeri de yachting se vor ocupa de întregul itinerariu, selecția echipajului și logistica VIP.
         </p>

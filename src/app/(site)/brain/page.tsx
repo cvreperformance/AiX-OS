@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function BrainPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-xs text-zinc-500 font-mono animate-pulse">Loading Decision Engine...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-xs text-zinc-400 font-mono animate-pulse">Loading Decision Engine...</div>}>
       <BrainClient />
     </Suspense>
   );

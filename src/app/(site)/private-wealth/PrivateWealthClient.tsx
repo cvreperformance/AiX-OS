@@ -95,7 +95,7 @@ function NetworkTab() {
         </span>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+            <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
               Rețeaua Privată a<br />
               <span className="gradient-gold">Investitorilor de Top</span>
             </h1>
@@ -106,7 +106,7 @@ function NetworkTab() {
               {MEMBER_STATS.map(({ value, label }) => (
                 <div key={label} className={`text-center rounded-2xl ${designSystem.glass} p-4`}>
                   <p className="text-xl font-light text-amber-400">{value}</p>
-                  <p className="text-[10px] text-zinc-500 mt-0.5">{label}</p>
+                  <p className="text-[10px] text-zinc-400 mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
@@ -121,18 +121,18 @@ function NetworkTab() {
 
           {/* Live location map grid */}
           <div className={`rounded-3xl ${designSystem.glass} p-6 space-y-4`}>
-            <h3 className="text-xs uppercase tracking-widest text-zinc-500 font-semibold flex items-center gap-2">
+            <h3 className="text-xs uppercase tracking-widest text-zinc-400 font-semibold flex items-center gap-2">
               <Activity className="h-4 w-4 text-amber-500/80" />
               Distribuție Geografică Membri
             </h3>
             <div className="space-y-2.5">
               {LOCATIONS.map((loc) => (
-                <div key={loc.city} className="flex items-center justify-between rounded-xl border border-zinc-900 bg-zinc-950/40 px-4 py-3 hover:border-zinc-800 transition-colors">
+                <div key={loc.city} className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white/40 px-4 py-3 hover:border-zinc-300 transition-colors">
                   <div className="flex items-center gap-3">
                     <span className="text-base">{loc.flag}</span>
                     <div>
-                      <p className="text-xs font-semibold text-white">{loc.city}</p>
-                      <p className="text-[10px] text-zinc-500">{loc.focus}</p>
+                      <p className="text-xs font-semibold text-zinc-900">{loc.city}</p>
+                      <p className="text-[10px] text-zinc-400">{loc.focus}</p>
                     </div>
                   </div>
                   <span className="text-[9px] uppercase tracking-widest text-amber-400 font-mono font-semibold bg-amber-500/5 border border-amber-500/15 rounded-full px-2 py-0.5">
@@ -147,7 +147,7 @@ function NetworkTab() {
 
       {/* Benefits Grid */}
       <section className="space-y-6">
-        <h2 className="text-xl font-light text-white">Avantajele Membrilor</h2>
+        <h2 className="text-xl font-light text-zinc-900">Avantajele Membrilor</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {BENEFITS.map((b) => {
             const Icon = b.icon;
@@ -156,7 +156,7 @@ function NetworkTab() {
                 <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400 w-fit">
                   <Icon className="h-5 w-5" />
                 </div>
-                <h3 className="text-sm font-semibold text-white">{b.title}</h3>
+                <h3 className="text-sm font-semibold text-zinc-900">{b.title}</h3>
                 <p className="text-xs text-zinc-450 leading-relaxed">{b.desc}</p>
               </div>
             );
@@ -167,8 +167,8 @@ function NetworkTab() {
       {/* Membership Tiers */}
       <section className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-light text-white">Membership Tiers</h2>
-          <p className="text-xs text-zinc-500">Selectează nivelul de acces care corespunde obiectivelor tale de investiție.</p>
+          <h2 className="text-xl font-light text-zinc-900">Membership Tiers</h2>
+          <p className="text-xs text-zinc-400">Selectează nivelul de acces care corespunde obiectivelor tale de investiție.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-5">
@@ -180,10 +180,10 @@ function NetworkTab() {
                 selectedTier === idx
                   ? tier.highlight
                     ? "border-amber-500/40 bg-amber-500/5 ring-1 ring-amber-500/20 shadow-lg shadow-amber-500/5"
-                    : "border-zinc-700 bg-zinc-900/40 ring-1 ring-zinc-700/40"
+                    : "border-zinc-300 bg-zinc-50/40 ring-1 ring-zinc-700/40"
                   : tier.highlight
                     ? "border-amber-500/20 bg-amber-500/[0.02]"
-                    : "border-zinc-900 bg-zinc-950/40"
+                    : "border-zinc-200 bg-white/40"
               }`}
             >
               {tier.highlight && (
@@ -194,7 +194,7 @@ function NetworkTab() {
               <div>
                 <div className="flex items-center gap-2">
                   <Award className="h-4 w-4 text-amber-400" />
-                  <h3 className="text-sm font-semibold text-white">{tier.name}</h3>
+                  <h3 className="text-sm font-semibold text-zinc-900">{tier.name}</h3>
                 </div>
                 <p className="text-xl font-light text-amber-400 mt-1">{tier.price}</p>
                 <p className="text-[11px] text-zinc-450 mt-2 leading-relaxed">{tier.description}</p>
@@ -210,7 +210,7 @@ function NetworkTab() {
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
                 className={`block w-full rounded-xl py-2.5 text-center text-xs font-semibold transition-all ${
-                  tier.highlight ? "bg-amber-500 text-black hover:bg-amber-400" : "border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700"
+                  tier.highlight ? "bg-amber-500 text-black hover:bg-amber-400" : "border border-zinc-200 text-zinc-400 hover:text-zinc-900 hover:border-zinc-300"
                 }`}
               >
                 Solicită {tier.name} Access
@@ -223,7 +223,7 @@ function NetworkTab() {
       {/* FAQ */}
       <section className="space-y-8 max-w-4xl mx-auto py-8">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl font-light text-white">Întrebări Frecvente</h2>
+          <h2 className="text-3xl font-light text-zinc-900">Întrebări Frecvente</h2>
           <p className="text-zinc-400">Despre apartenența la AiX Luxury Network.</p>
         </div>
         <div className="space-y-4">
@@ -232,8 +232,8 @@ function NetworkTab() {
             { q: "Pot participa la deal-uri off-market chiar dacă nu am tot capitalul necesar?", a: "Da, avantajul principal al rețelei este posibilitatea de co-investiții (Joint Ventures) alături de alți membri, permițând accesul la active mari (ex: dezvoltări rezidențiale, clădiri de birouri) cu fracțiuni de capital." },
             { q: "Ce fel de evenimente private se organizează?", a: "Organizăm vizionări private (property tours) pentru proprietăți luxury exclusive, întâlniri restrânse cu dezvoltatorii înainte de lansarea publică a proiectelor și evenimente anuale de networking în Monaco, Dubai sau București." },
           ].map((faq, i) => (
-            <div key={i} className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6 space-y-2">
-              <h3 className="font-medium text-white">{faq.q}</h3>
+            <div key={i} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-2">
+              <h3 className="font-medium text-zinc-900">{faq.q}</h3>
               <p className="text-sm text-zinc-400 leading-relaxed">{faq.a}</p>
             </div>
           ))}
@@ -243,8 +243,8 @@ function NetworkTab() {
       {/* Invitation CTA */}
       <section className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent p-10 md:p-14 text-center space-y-5">
         <Globe className="h-10 w-10 text-amber-500/60 mx-auto" />
-        <h2 className="text-2xl font-light text-white">Membership pe bază de invitație</h2>
-        <p className="text-xs text-zinc-500 max-w-md mx-auto">
+        <h2 className="text-2xl font-light text-zinc-900">Membership pe bază de invitație</h2>
+        <p className="text-xs text-zinc-400 max-w-md mx-auto">
           Rețeaua AiX Luxury Network este selectivă. Calitatea comunității este prioritatea noastră. Aplică pentru a fi evaluat pentru membership.
         </p>
         <button
@@ -337,7 +337,7 @@ function WealthTab() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           {language === "ro" ? "AiX OS™ · Managementul Portofoliului" : "AiX OS™ · Portfolio Manager"}
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           {language === "ro" ? "Private Wealth Desk &" : "Private Wealth Desk &"} <br />
           <span className="gradient-gold">{language === "ro" ? "Alocator de Active Live" : "Live Asset Allocator"}</span>
         </h1>
@@ -352,10 +352,10 @@ function WealthTab() {
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Sliders Card */}
         <div className={`lg:col-span-2 rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Calculator className="h-5 w-5 text-amber-400" />
             <div>
-              <h2 className="text-lg font-light text-white">{language === "ro" ? "Modelator Alocare Active" : "Asset Allocation Modeler"}</h2>
+              <h2 className="text-lg font-light text-zinc-900">{language === "ro" ? "Modelator Alocare Active" : "Asset Allocation Modeler"}</h2>
               <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">{language === "ro" ? "Simulare structură capital" : "Capital Structure Simulation"}</p>
             </div>
           </div>
@@ -364,11 +364,11 @@ function WealthTab() {
             {allocationTypes.map(({ key, label, bg }) => (
               <div key={key} className="space-y-2">
                 <div className="flex justify-between text-xs">
-                  <span className="flex items-center gap-2 text-zinc-300 font-medium">
+                  <span className="flex items-center gap-2 text-zinc-600 font-medium">
                     <span className={`w-2.5 h-2.5 rounded-full ${bg}`} />
                     {label}
                   </span>
-                  <span className="font-mono font-bold text-white">{allocation[key]}%</span>
+                  <span className="font-mono font-bold text-zinc-900">{allocation[key]}%</span>
                 </div>
                 <input
                   type="range"
@@ -376,13 +376,13 @@ function WealthTab() {
                   max="100"
                   value={allocation[key]}
                   onChange={(e) => handleSliderChange(key, parseInt(e.target.value) || 0)}
-                  className="w-full h-1 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full h-1 bg-zinc-50 rounded-lg appearance-none cursor-pointer accent-amber-500"
                 />
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between items-center pt-4 border-t border-zinc-900/60 text-xs">
+          <div className="flex justify-between items-center pt-4 border-t border-zinc-200/60 text-xs">
             <span className="text-zinc-550">{language === "ro" ? "Total structură:" : "Total distribution:"}</span>
             <span className={`font-mono font-bold ${totalAlloc === 100 ? "text-emerald-400" : "text-amber-500"}`}>{totalAlloc}%</span>
           </div>
@@ -390,7 +390,7 @@ function WealthTab() {
 
         {/* Visual Allocation Graph Card */}
         <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl flex flex-col items-center justify-center text-center min-h-[360px]`}>
-          <p className="text-xs font-semibold text-white uppercase tracking-wider mb-2">{language === "ro" ? "Diagramă Portofoliu" : "Visual Balance"}</p>
+          <p className="text-xs font-semibold text-zinc-900 uppercase tracking-wider mb-2">{language === "ro" ? "Diagramă Portofoliu" : "Visual Balance"}</p>
           <div className="relative w-44 h-44 flex items-center justify-center">
             {/* SVG Donut Chart */}
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
@@ -422,17 +422,17 @@ function WealthTab() {
               })}
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
-              <span className="text-2xl font-light font-mono text-white">100%</span>
+              <span className="text-2xl font-light font-mono text-zinc-900">100%</span>
               <span className="text-[9px] uppercase tracking-widest text-zinc-550 font-semibold mt-0.5">{language === "ro" ? "Active" : "Portfolio"}</span>
             </div>
           </div>
 
-          <div className="w-full grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] mt-4 border-t border-zinc-900/60 pt-4">
+          <div className="w-full grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] mt-4 border-t border-zinc-200/60 pt-4">
             {allocationTypes.map(({ key, label, bg }) => (
               <div key={key} className="flex items-center gap-1.5 justify-start">
                 <span className={`w-2 h-2 rounded-full ${bg} flex-shrink-0`} />
                 <span className="text-zinc-450 truncate">{label}:</span>
-                <span className="font-mono text-white font-semibold ml-auto">{allocation[key]}%</span>
+                <span className="font-mono text-zinc-900 font-semibold ml-auto">{allocation[key]}%</span>
               </div>
             ))}
           </div>
@@ -441,22 +441,22 @@ function WealthTab() {
 
       {/* Live Market Pulse Indicators */}
       <section className="space-y-6">
-        <div className="border-b border-zinc-900 pb-3">
-          <h2 className="text-lg font-light text-white uppercase tracking-wider">
+        <div className="border-b border-zinc-200 pb-3">
+          <h2 className="text-lg font-light text-zinc-900 uppercase tracking-wider">
             {language === "ro" ? "Indicatori Macro & Valutari Live" : "Live Macro & Currency Feeds"}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {marketData?.macro?.map((item: MarketItem) => (
-            <div key={item.label} className={`p-5 rounded-2xl border border-zinc-900 bg-zinc-950/40 flex justify-between items-center`}>
+            <div key={item.label} className={`p-5 rounded-2xl border border-zinc-200 bg-white/40 flex justify-between items-center`}>
               <div className="space-y-1">
                 <p className="text-[10px] text-zinc-550 uppercase tracking-wider font-mono font-semibold">{item.label}</p>
                 <p className="text-xs text-zinc-400 font-medium">{item.desc}</p>
               </div>
               <div className="text-right space-y-1">
-                <p className="text-sm font-bold text-white font-mono">{item.value}</p>
-                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${item.trend === "up" ? "text-emerald-400 bg-emerald-500/5 border border-emerald-500/10" : item.trend === "down" ? "text-red-400 bg-red-500/5 border border-red-500/10" : "text-zinc-500"}`}>
+                <p className="text-sm font-bold text-zinc-900 font-mono">{item.value}</p>
+                <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${item.trend === "up" ? "text-emerald-400 bg-emerald-500/5 border border-emerald-500/10" : item.trend === "down" ? "text-red-400 bg-red-500/5 border border-red-500/10" : "text-zinc-400"}`}>
                   {item.change}
                 </span>
               </div>
@@ -469,10 +469,10 @@ function WealthTab() {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Forbes HNWI Card */}
         <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Trophy className="h-5 w-5 text-amber-400 font-semibold" />
             <div>
-              <h2 className="text-lg font-light text-white">{language === "ro" ? "Top Investitori & HNWI România" : "Top Investors & HNWI Romania"}</h2>
+              <h2 className="text-lg font-light text-zinc-900">{language === "ro" ? "Top Investitori & HNWI România" : "Top Investors & HNWI Romania"}</h2>
               <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">{language === "ro" ? "Clasament Forbes estimat" : "Estimated Forbes Wealth Rankings"}</p>
             </div>
           </div>
@@ -484,15 +484,15 @@ function WealthTab() {
               { rank: "4", name: "Ion Stoica & Matei Zaharia", source: "Databricks / Tech", wealth: "€1.4 Billion" },
               { rank: "5", name: "Ștefan Vuza", source: "Chimcomplex / Industrie", wealth: "€1.1 Billion" },
             ].map((hnwi) => (
-              <div key={hnwi.rank} className="flex justify-between items-center p-3 rounded-xl border border-zinc-900 bg-zinc-950/20 text-xs">
+              <div key={hnwi.rank} className="flex justify-between items-center p-3 rounded-xl border border-zinc-200 bg-white/20 text-xs">
                 <div className="flex items-center gap-3">
                   <span className="font-mono font-bold text-amber-500 w-4">{hnwi.rank}.</span>
                   <div>
-                    <span className="font-semibold text-white block">{hnwi.name}</span>
-                    <span className="text-[10px] text-zinc-500 block">{hnwi.source}</span>
+                    <span className="font-semibold text-zinc-900 block">{hnwi.name}</span>
+                    <span className="text-[10px] text-zinc-400 block">{hnwi.source}</span>
                   </div>
                 </div>
-                <span className="font-mono text-white font-semibold">{hnwi.wealth}</span>
+                <span className="font-mono text-zinc-900 font-semibold">{hnwi.wealth}</span>
               </div>
             ))}
           </div>
@@ -500,10 +500,10 @@ function WealthTab() {
 
         {/* Corporate Index Card */}
         <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Landmark className="h-5 w-5 text-amber-400 font-semibold" />
             <div>
-              <h2 className="text-lg font-light text-white">{language === "ro" ? "Cele mai Mari Companii (BVB)" : "Largest Romanian Companies (BSE)"}</h2>
+              <h2 className="text-lg font-light text-zinc-900">{language === "ro" ? "Cele mai Mari Companii (BVB)" : "Largest Romanian Companies (BSE)"}</h2>
               <p className="text-[10px] text-zinc-550 uppercase tracking-widest font-mono">{language === "ro" ? "Capitalizare bursieră de top" : "Top Market Cap Indexing"}</p>
             </div>
           </div>
@@ -515,15 +515,15 @@ function WealthTab() {
               { symbol: "SNG", name: "Romgaz", sector: "Gaze Naturale", cap: "RON 22.1 Billion" },
               { symbol: "BRD", name: "BRD Groupe SG", sector: "Financiar-Bancar", cap: "RON 12.6 Billion" },
             ].map((corp) => (
-              <div key={corp.symbol} className="flex justify-between items-center p-3 rounded-xl border border-zinc-900 bg-zinc-950/20 text-xs">
+              <div key={corp.symbol} className="flex justify-between items-center p-3 rounded-xl border border-zinc-200 bg-white/20 text-xs">
                 <div className="flex items-center gap-3">
                   <span className="font-mono font-bold text-indigo-450 w-10">{corp.symbol}</span>
                   <div>
-                    <span className="font-semibold text-white block">{corp.name}</span>
-                    <span className="text-[10px] text-zinc-500 block">{corp.sector}</span>
+                    <span className="font-semibold text-zinc-900 block">{corp.name}</span>
+                    <span className="text-[10px] text-zinc-400 block">{corp.sector}</span>
                   </div>
                 </div>
-                <span className="font-mono text-white font-semibold">{corp.cap}</span>
+                <span className="font-mono text-zinc-900 font-semibold">{corp.cap}</span>
               </div>
             ))}
           </div>
@@ -534,25 +534,25 @@ function WealthTab() {
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         {/* Economic Calendar events list */}
         <div className={`md:col-span-2 rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Calendar className="h-5 w-5 text-amber-400" />
             <div>
-              <h2 className="text-lg font-light text-white">{language === "ro" ? "Calendar Economic" : "Economic Calendar"}</h2>
+              <h2 className="text-lg font-light text-zinc-900">{language === "ro" ? "Calendar Economic" : "Economic Calendar"}</h2>
               <p className="text-[10px] text-zinc-555 uppercase tracking-widest font-mono">{language === "ro" ? "Date cheie macro" : "Key Macro Releases"}</p>
             </div>
           </div>
 
           <div className="space-y-4">
             {calendarEvents.map((evt, idx) => (
-              <div key={idx} className="flex gap-4 p-4 rounded-2xl border border-zinc-900 bg-zinc-950/30">
+              <div key={idx} className="flex gap-4 p-4 rounded-2xl border border-zinc-200 bg-white/30">
                 <div className="flex-shrink-0 text-center w-20 px-2.5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                   <span className="text-[10px] uppercase font-bold text-amber-400 font-mono leading-none block">{evt.date.split(" ")[1]}</span>
-                  <span className="text-lg font-light text-white font-mono block mt-1">{evt.date.split(" ")[0]}</span>
-                  <span className="text-[8px] text-zinc-500 uppercase block leading-none mt-1">{evt.date.split(" ")[2]}</span>
+                  <span className="text-lg font-light text-zinc-900 font-mono block mt-1">{evt.date.split(" ")[0]}</span>
+                  <span className="text-[8px] text-zinc-400 uppercase block leading-none mt-1">{evt.date.split(" ")[2]}</span>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xs font-semibold text-white">{evt.event}</p>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">{evt.desc}</p>
+                  <p className="text-xs font-semibold text-zinc-900">{evt.event}</p>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed">{evt.desc}</p>
                 </div>
               </div>
             ))}
@@ -561,10 +561,10 @@ function WealthTab() {
 
         {/* Wealth Resources list */}
         <div className={`rounded-3xl ${designSystem.glass} p-6 sm:p-8 space-y-6 shadow-2xl`}>
-          <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+          <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
             <Briefcase className="h-5 w-5 text-amber-400" />
             <div>
-              <h2 className="text-lg font-light text-white">{language === "ro" ? "Ghidul Investitorului" : "Wealth Resources"}</h2>
+              <h2 className="text-lg font-light text-zinc-900">{language === "ro" ? "Ghidul Investitorului" : "Wealth Resources"}</h2>
               <p className="text-[10px] text-zinc-555 uppercase tracking-widest font-mono">{language === "ro" ? "Checklist-uri active" : "Asset management lists"}</p>
             </div>
           </div>
@@ -575,9 +575,9 @@ function WealthTab() {
               { label: language === "ro" ? "Calculatoare Randament" : "ROI and Mortgage Calculators", desc: language === "ro" ? "Calculează randamentul net din chirii (Yield) și rate." : "Calculate net rental yields and monthly mortgage amortization.", href: "/convenience" },
               { label: language === "ro" ? "Evaluare Riscuri Proprietăți" : "Real Estate Risk Scanning", desc: language === "ro" ? "Evită litigii, vicii cadastrale și probleme cadastru." : "Avoid court litigations, land registry claims, and cadastre loops.", href: "/anti-teapa" },
             ].map((res, idx) => (
-              <li key={idx} className="group border-b border-zinc-900/60 pb-3 last:border-0 last:pb-0">
+              <li key={idx} className="group border-b border-zinc-200/60 pb-3 last:border-0 last:pb-0">
                 <a href={res.href} className="block space-y-1">
-                  <span className="text-xs font-semibold text-zinc-300 group-hover:text-amber-400 transition-colors flex items-center gap-1">
+                  <span className="text-xs font-semibold text-zinc-600 group-hover:text-amber-400 transition-colors flex items-center gap-1">
                     {res.label}
                     <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </span>
@@ -650,7 +650,7 @@ function OffMarketTab() {
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-500">
             <Lock className="h-3 w-3" /> Rețea Privată
           </div>
-          <h2 className="text-3xl font-light text-white leading-tight">
+          <h2 className="text-3xl font-light text-zinc-900 leading-tight">
             De ce cele mai bune oportunități sunt invizibile?
           </h2>
           <p className="text-sm text-zinc-400 leading-relaxed">
@@ -664,12 +664,12 @@ function OffMarketTab() {
               { title: "Concurență Redusă", desc: "Cumpărătorii accesează active unice (penthouse-uri rare, terenuri strategice) fără licitații publice." }
             ].map((benefit, idx) => (
               <li key={idx} className="flex gap-4">
-                <div className="h-10 w-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0 mt-1">
+                <div className="h-10 w-10 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center shrink-0 mt-1">
                   <ShieldCheck className="h-5 w-5 text-amber-500" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-white">{benefit.title}</h4>
-                  <p className="text-xs text-zinc-500 leading-relaxed mt-1">{benefit.desc}</p>
+                  <h4 className="text-sm font-semibold text-zinc-900">{benefit.title}</h4>
+                  <p className="text-xs text-zinc-400 leading-relaxed mt-1">{benefit.desc}</p>
                 </div>
               </li>
             ))}
@@ -677,12 +677,12 @@ function OffMarketTab() {
         </div>
 
         {/* NDA & Form Card */}
-        <div className={`p-8 sm:p-10 rounded-3xl ${designSystem.glass} border border-zinc-800 relative overflow-hidden`}>
+        <div className={`p-8 sm:p-10 rounded-3xl ${designSystem.glass} border border-zinc-200 relative overflow-hidden`}>
           <div className={designSystem.glowTop} />
           
           <div className="mb-8">
             <EyeOff className="h-8 w-8 text-amber-500 mb-4" />
-            <h3 className="text-xl font-light text-white">Solicitare Acces Off-Market</h3>
+            <h3 className="text-xl font-light text-zinc-900">Solicitare Acces Off-Market</h3>
             <p className="text-xs text-zinc-400 mt-2">
               Lăsați datele de contact și specificațiile căutării dumneavoastră. Un Private Broker AiX vă va contacta pentru semnarea NDA-ului.
             </p>
@@ -694,8 +694,8 @@ function OffMarketTab() {
                 <ShieldCheck className="h-8 w-8 text-emerald-500" />
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-white">Cerere Înregistrată Confidențial</h4>
-                <p className="text-sm text-zinc-500 mt-2 max-w-xs mx-auto">
+                <h4 className="text-lg font-semibold text-zinc-900">Cerere Înregistrată Confidențial</h4>
+                <p className="text-sm text-zinc-400 mt-2 max-w-xs mx-auto">
                   Veți fi contactat telefonic în maxim 24 de ore pentru validarea profilului.
                 </p>
               </div>
@@ -727,34 +727,34 @@ function OffMarketTab() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Nume Complet</label>
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Nume Complet</label>
                   <div className="relative">
                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="Ion Popescu" />
+                    <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="Ion Popescu" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Telefon / WhatsApp</label>
+                  <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Telefon / WhatsApp</label>
                   <div className="relative">
                     <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="+40 700 000 000" />
+                    <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="+40 700 000 000" />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Email Corporate/Personal</label>
+                <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Email Corporate/Personal</label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="adresa@companie.com" />
+                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="adresa@companie.com" />
                 </div>
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <label className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold pl-1">Ce fel de proprietate căutați/vindeți?</label>
+                <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Ce fel de proprietate căutați/vindeți?</label>
                 <div className="relative">
                   <Home className="absolute left-3.5 top-4 h-4 w-4 text-zinc-600" />
-                  <textarea required rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full bg-zinc-950/50 border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none" placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." />
+                  <textarea required rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none" placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." />
                 </div>
               </div>
 
@@ -782,20 +782,20 @@ function OffMarketTab() {
       </section>
       
       {/* Target Audience */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-zinc-900 pt-12">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-zinc-200 pt-12">
         <div className="space-y-2">
-          <Briefcase className="h-5 w-5 text-zinc-500" />
-          <h4 className="text-sm font-semibold text-white">Pentru Cumpărători</h4>
+          <Briefcase className="h-5 w-5 text-zinc-400" />
+          <h4 className="text-sm font-semibold text-zinc-900">Pentru Cumpărători</h4>
           <p className="text-xs text-zinc-400 leading-relaxed">Acces la proprietăți excepționale care nu apar niciodată în listările publice sau pe site-urile agențiilor obișnuite.</p>
         </div>
         <div className="space-y-2">
-          <Key className="h-5 w-5 text-zinc-500" />
-          <h4 className="text-sm font-semibold text-white">Pentru Vânzători</h4>
+          <Key className="h-5 w-5 text-zinc-400" />
+          <h4 className="text-sm font-semibold text-zinc-900">Pentru Vânzători</h4>
           <p className="text-xs text-zinc-400 leading-relaxed">Vindem proprietatea dumneavoastră direct bazei noastre de clienți calificați, fără a expune adresa sau prețul pe internet.</p>
         </div>
         <div className="space-y-2">
-          <ShieldCheck className="h-5 w-5 text-zinc-500" />
-          <h4 className="text-sm font-semibold text-white">Protecție Garantată</h4>
+          <ShieldCheck className="h-5 w-5 text-zinc-400" />
+          <h4 className="text-sm font-semibold text-zinc-900">Protecție Garantată</h4>
           <p className="text-xs text-zinc-400 leading-relaxed">Toate detaliile financiare și vizitele sunt protejate prin acorduri de confidențialitate semnate în prealabil de ambele părți.</p>
         </div>
       </section>
@@ -808,11 +808,11 @@ export default function PrivateWealthClient() {
   const [activeTab, setActiveTab] = useState('wealth');
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 space-y-8 animate-in">
-      <div className="flex justify-center border-b border-zinc-800 pb-4">
+      <div className="flex justify-center border-b border-zinc-200 pb-4">
         <div className="flex gap-4">
-          <button onClick={() => setActiveTab('wealth')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'wealth' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-900/50 text-zinc-400 hover:text-white'}`}>Wealth Manager</button>
-          <button onClick={() => setActiveTab('network')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'network' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-900/50 text-zinc-400 hover:text-white'}`}>Private Network</button>
-          <button onClick={() => setActiveTab('offmarket')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'offmarket' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-900/50 text-zinc-400 hover:text-white'}`}>Off-Market Deals</button>
+          <button onClick={() => setActiveTab('wealth')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'wealth' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-50/50 text-zinc-400 hover:text-zinc-900'}`}>Wealth Manager</button>
+          <button onClick={() => setActiveTab('network')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'network' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-50/50 text-zinc-400 hover:text-zinc-900'}`}>Private Network</button>
+          <button onClick={() => setActiveTab('offmarket')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'offmarket' ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-zinc-50/50 text-zinc-400 hover:text-zinc-900'}`}>Off-Market Deals</button>
         </div>
       </div>
       <div>

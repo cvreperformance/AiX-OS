@@ -36,7 +36,7 @@ export default function HomeFindClientPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-brand-purple/30 selection:text-white pb-24">
+    <div className="min-h-screen bg-white text-zinc-900 selection:bg-brand-purple/30 selection:text-zinc-900 pb-24">
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-50 opacity-5" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}></div>
       <style dangerouslySetInnerHTML={{__html: `
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
@@ -78,7 +78,7 @@ export default function HomeFindClientPage() {
                 </p>
                 <div className="flex flex-wrap items-center gap-4">
                     <a href="#about" className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform text-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">Explore Platform</a>
-                    <a href="#pricing" className="px-8 py-4 bg-transparent text-white font-semibold rounded-full hover:bg-white/5 transition-colors border border-white/10 text-center">View Ecosystem</a>
+                    <a href="#pricing" className="px-8 py-4 bg-transparent text-zinc-900 font-semibold rounded-full hover:bg-white/5 transition-colors border border-white/10 text-center">View Ecosystem</a>
                 </div>
             </div>
             
@@ -91,7 +91,7 @@ export default function HomeFindClientPage() {
                         <div className="w-3 h-3 rounded-full bg-white/20"></div>
                     </div>
                     {/* Search Bar Mock */}
-                    <div className="bg-black/50 border border-white/10 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-inner">
+                    <div className="bg-white/50 border border-white/10 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-inner">
                         <MapPin    className="text-gray-400 w-5 h-5" />
                         <div className="text-gray-400 font-medium text-sm flex-1">Where do you want to live?</div>
                         <div className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold shadow-lg">Search</div>
@@ -102,7 +102,7 @@ export default function HomeFindClientPage() {
                             <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Villa Mockup" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                             <div className="absolute bottom-4 left-4 z-20">
-                                <div className="text-xl font-display font-bold text-white">$4,250,000</div>
+                                <div className="text-xl font-display font-bold text-zinc-900">$4,250,000</div>
                                 <div className="text-xs text-gray-300 font-medium">Beverly Hills, CA</div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@ export default function HomeFindClientPage() {
                             <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Penthouse Mockup" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                             <div className="absolute bottom-4 left-4 z-20">
-                                <div className="text-xl font-display font-bold text-white">$2,890,000</div>
+                                <div className="text-xl font-display font-bold text-zinc-900">$2,890,000</div>
                                 <div className="text-xs text-gray-300 font-medium">Miami Beach, FL</div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ export default function HomeFindClientPage() {
                 </div>
                 <div className="glass-card p-10 card-hover reveal delay-200">
                     <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 border border-white/10">
-                        <Globe    className="w-7 h-7 text-white" />
+                        <Globe    className="w-7 h-7 text-zinc-900" />
                     </div>
                     <h4 className="text-2xl font-display font-bold mb-4">Global Reach</h4>
                     <p className="text-gray-400 leading-relaxed font-light">A beautifully designed, borderless platform ensuring your premium property is seen by a verified worldwide audience.</p>
@@ -168,7 +168,7 @@ export default function HomeFindClientPage() {
                     <div className="space-y-10 mt-12">
                         <div className="flex gap-6 items-start group">
                             <div className="mt-1 bg-white/5 p-4 rounded-2xl border border-white/10 group-hover:bg-white/10 transition-colors shadow-lg">
-                                <LayoutDashboard    className="w-6 h-6 text-white" />
+                                <LayoutDashboard    className="w-6 h-6 text-zinc-900" />
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold mb-2">Centralized Dashboard</h4>
@@ -177,7 +177,7 @@ export default function HomeFindClientPage() {
                         </div>
                         <div className="flex gap-6 items-start group">
                             <div className="mt-1 bg-white/5 p-4 rounded-2xl border border-white/10 group-hover:bg-white/10 transition-colors shadow-lg">
-                                <Search    className="w-6 h-6 text-white" />
+                                <Search    className="w-6 h-6 text-zinc-900" />
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold mb-2">Advanced Filtering</h4>
@@ -198,7 +198,7 @@ export default function HomeFindClientPage() {
                 
                 <div className="reveal delay-200 relative">
                     <div className="glow-orb glow-purple opacity-50"></div>
-                    <div className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-black shadow-2xl">
+                    <div className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-white shadow-2xl">
                         <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=1200&auto=format&fit=crop" alt="Dashboard Interface Visualization" className="w-full h-auto opacity-60 mix-blend-overlay" />
                         <div className="absolute inset-0 flex items-center justify-center z-10 p-8">
                             <div className="glass-card p-8 w-full max-w-md shadow-2xl backdrop-blur-3xl border-t border-white/30">
@@ -212,7 +212,7 @@ export default function HomeFindClientPage() {
                                 <div className="flex justify-between items-end">
                                     <div>
                                         <div className="text-xs text-gray-400 mb-1">Listed Price</div>
-                                        <div className="text-3xl font-display font-bold text-white">$5,900,000</div>
+                                        <div className="text-3xl font-display font-bold text-zinc-900">$5,900,000</div>
                                     </div>
                                     <div className="bg-white text-black px-6 py-3 rounded-full text-sm font-bold shadow-lg">Contact</div>
                                 </div>
@@ -241,7 +241,7 @@ export default function HomeFindClientPage() {
                     <div className="flex-1">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 shadow-inner">
-                                <Cpu    className="text-white w-7 h-7" />
+                                <Cpu    className="text-zinc-900 w-7 h-7" />
                             </div>
                             <div>
                                 <h4 className="text-2xl font-bold font-display">Valuation Engine</h4>
@@ -254,7 +254,7 @@ export default function HomeFindClientPage() {
                         </p>
                     </div>
                     
-                    <div className="flex-1 space-y-8 bg-black/40 p-6 rounded-2xl border border-white/5">
+                    <div className="flex-1 space-y-8 bg-white/40 p-6 rounded-2xl border border-white/5">
                         <div>
                             <div className="flex justify-between text-sm mb-3">
                                 <span className="text-gray-300 font-medium">Market Accuracy Confidence</span>
@@ -275,7 +275,7 @@ export default function HomeFindClientPage() {
                         </div>
                         <div className="pt-4 border-t border-white/10 flex justify-between items-center">
                             <span className="text-xs text-gray-500 uppercase tracking-wider font-bold">System Status</span>
-                            <span className="flex items-center gap-2 text-xs font-bold text-white bg-white/10 px-3 py-1 rounded-full"><span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Online</span>
+                            <span className="flex items-center gap-2 text-xs font-bold text-zinc-900 bg-white/10 px-3 py-1 rounded-full"><span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Online</span>
                         </div>
                     </div>
                 </div>
@@ -333,9 +333,9 @@ export default function HomeFindClientPage() {
                         <h4 className="text-xl font-bold text-gray-400 mb-2 font-display">Essential</h4>
                         <div className="text-5xl font-display font-bold mb-8">Free</div>
                         <ul className="space-y-5 text-gray-400 font-light mb-10">
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-white" /> 1 Property Listing</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-white" /> Standard Support</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-white" /> Direct Buyer Contact</li>
+                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> 1 Property Listing</li>
+                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> Standard Support</li>
+                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> Direct Buyer Contact</li>
                             <li className="flex items-center gap-4 opacity-40"><Minus    className="w-5 h-5 text-gray-500" /> No Featured Status</li>
                         </ul>
                     </div>
@@ -344,7 +344,7 @@ export default function HomeFindClientPage() {
                 
                 {/* Tier 2 */}
                 <div className="glass-card p-10 reveal delay-100 flex flex-col justify-between relative border-brand-blue/50 transform lg:-translate-y-6 shadow-[0_20px_50px_rgba(59,130,246,0.15)]">
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-blue text-white px-6 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Most Popular</div>
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-blue text-zinc-900 px-6 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Most Popular</div>
                     <div>
                         <h4 className="text-xl font-bold text-brand-blue mb-2 font-display">Premium</h4>
                         <div className="text-5xl font-display font-bold mb-8">$99<span className="text-xl text-gray-500 font-normal">/mo</span></div>

@@ -56,10 +56,10 @@ export default function PricingClientPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-300 selection:bg-amber-500/30">
+    <div className="min-h-screen bg-white text-zinc-600 selection:bg-amber-500/30">
       
       {/* ─── HERO ───────────────────────────────────────────────────────── */}
-      <div className="relative pt-32 pb-20 overflow-hidden border-b border-zinc-900">
+      <div className="relative pt-32 pb-20 overflow-hidden border-b border-zinc-200">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-amber-500/10 blur-[120px] pointer-events-none" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 mb-6">
@@ -68,7 +68,7 @@ export default function PricingClientPage() {
               Premium Ecosystem
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-light text-white tracking-tight mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-light text-zinc-900 tracking-tight mb-6 leading-tight">
             The Complete <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 font-normal">
               AiX Monetization
@@ -85,36 +85,36 @@ export default function PricingClientPage() {
         {/* ─── 1. AiX OS™ Membership ───────────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">1. AiX OS™ Membership</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">1. AiX OS™ Membership</h2>
             <p className="text-zinc-400">Access the core intelligence engine.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* FREE */}
-            <div className="rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 flex flex-col hover:border-zinc-700 transition-all">
+            <div className="rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 flex flex-col hover:border-zinc-300 transition-all">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-2">FREE ACCESS</h3>
-                <p className="text-3xl font-light text-zinc-300 mb-2">FREE</p>
-                <p className="text-xs text-zinc-500">Basic ecosystem entry</p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-2">FREE ACCESS</h3>
+                <p className="text-3xl font-light text-zinc-600 mb-2">FREE</p>
+                <p className="text-xs text-zinc-400">Basic ecosystem entry</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
                 {["Learning Center", "Market insights", "Basic AI tools", "Public resources", "Basic calculators"].map((f,i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
-                    <CheckCircle2 className="h-4 w-4 text-zinc-500 mt-0.5" /> <span>{f}</span>
+                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
+                    <CheckCircle2 className="h-4 w-4 text-zinc-400 mt-0.5" /> <span>{f}</span>
                   </li>
                 ))}
               </ul>
-              <Link href="/register" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-800 text-white font-medium hover:bg-zinc-700 transition-colors">Start Free</Link>
+              <Link href="/register" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Start Free</Link>
             </div>
             {/* STARTER */}
             <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-8 flex flex-col hover:border-blue-500/40 transition-all">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-2">AiX STARTER</h3>
-                <p className="text-3xl font-light text-blue-400 mb-2">49€<span className="text-lg text-zinc-500">/mo</span></p>
-                <p className="text-xs text-zinc-500">Perfect for individuals</p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-2">AiX STARTER</h3>
+                <p className="text-3xl font-light text-blue-400 mb-2">49€<span className="text-lg text-zinc-400">/mo</span></p>
+                <p className="text-xs text-zinc-400">Perfect for individuals</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
                 {["Premium tools", "AI assistance", "Property utilities", "Market information", "Priority features"].map((f,i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-blue-400 mt-0.5" /> <span>{f}</span>
                   </li>
                 ))}
@@ -125,13 +125,13 @@ export default function PricingClientPage() {
             <div className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-8 flex flex-col relative shadow-2xl shadow-amber-500/10 md:-translate-y-4">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-black text-[10px] font-bold uppercase tracking-widest">Recommended</div>
               <div className="mb-8 mt-2">
-                <h3 className="text-xl font-bold text-white mb-2">AiX PROFESSIONAL</h3>
-                <p className="text-3xl font-light text-amber-400 mb-2">149€<span className="text-lg text-zinc-500">/mo</span></p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-2">AiX PROFESSIONAL</h3>
+                <p className="text-3xl font-light text-amber-400 mb-2">149€<span className="text-lg text-zinc-400">/mo</span></p>
                 <p className="text-xs text-amber-500/80">For professionals</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
                 {["Advanced AI", "Professional calculators", "Market intelligence", "Business tools", "Automation", "Premium dashboards"].map((f,i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-amber-400 mt-0.5" /> <span>{f}</span>
                   </li>
                 ))}
@@ -141,13 +141,13 @@ export default function PricingClientPage() {
             {/* BUSINESS */}
             <div className="rounded-3xl border border-purple-500/20 bg-purple-500/5 p-8 flex flex-col hover:border-purple-500/40 transition-all">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-2">AiX BUSINESS</h3>
+                <h3 className="text-xl font-bold text-zinc-900 mb-2">AiX BUSINESS</h3>
                 <p className="text-3xl font-light text-purple-400 mb-2">Custom</p>
-                <p className="text-xs text-zinc-500">For agencies & companies</p>
+                <p className="text-xs text-zinc-400">For agencies & companies</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
                 {["Full API Access", "Custom Integration", "White-label options", "Dedicated support", "Enterprise scale"].map((f,i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-purple-400 mt-0.5" /> <span>{f}</span>
                   </li>
                 ))}
@@ -159,16 +159,16 @@ export default function PricingClientPage() {
 
         {/* ─── 2. AiX OS™ + Home Find ──────────────────────────────────────── */}
         <section>
-          <div className="rounded-[40px] bg-gradient-to-br from-zinc-900/80 to-zinc-950 border border-zinc-800 p-8 md:p-16">
+          <div className="rounded-[40px] bg-gradient-to-br from-zinc-50/80 to-zinc-100 border border-zinc-200 p-8 md:p-16">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
-                <h2 className="text-3xl md:text-5xl font-light text-white mb-6">2. AiX OS™ + Home Find</h2>
+                <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">2. AiX OS™ + Home Find</h2>
                 <p className="text-zinc-400 leading-relaxed mb-8">
                   Complete integration between AI, property marketing, automation and business management. Seamless workflow from lead to closing.
                 </p>
                 <ul className="space-y-4">
                   {["AI property descriptions", "Lead management", "Market analysis", "Workflow automation", "CRM support", "Productivity tools"].map((f,i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-zinc-300">
+                    <li key={i} className="flex items-center gap-3 text-sm text-zinc-600">
                       <div className="h-1.5 w-1.5 rounded-full bg-amber-500" /> {f}
                     </li>
                   ))}
@@ -180,8 +180,8 @@ export default function PricingClientPage() {
                   { name: "PRO", price: "299€/month" },
                   { name: "BUSINESS", price: "499€/month" }
                 ].map(p => (
-                  <div key={p.name} className="flex items-center justify-between p-6 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-amber-500/30 transition-all">
-                    <span className="font-bold text-white">{p.name}</span>
+                  <div key={p.name} className="flex items-center justify-between p-6 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-amber-500/30 transition-all">
+                    <span className="font-bold text-zinc-900">{p.name}</span>
                     <span className="font-light text-xl text-amber-400">{p.price}</span>
                   </div>
                 ))}
@@ -193,26 +193,26 @@ export default function PricingClientPage() {
         {/* ─── 3. Complete Digital Presence ─────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">3. Complete Digital Presence</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">3. Complete Digital Presence</h2>
             <p className="text-zinc-400">Complete premium positioning across the entire digital ecosystem.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {["AiX OS™", "Home Find", "CristianVaduva.com", "AiXLuxury.com"].map(brand => (
-              <span key={brand} className="px-4 py-2 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs font-mono text-zinc-300">{brand}</span>
+              <span key={brand} className="px-4 py-2 rounded-full border border-zinc-200 bg-zinc-50/50 text-xs font-mono text-zinc-600">{brand}</span>
             ))}
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-900/30 text-center">
-              <h3 className="text-xl font-bold text-white mb-2">DIGITAL PRESENCE</h3>
-              <p className="text-3xl font-light text-zinc-300 mb-6">499€<span className="text-lg text-zinc-500">/mo</span></p>
+            <div className="p-8 rounded-3xl border border-zinc-200 bg-zinc-50/30 text-center">
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">DIGITAL PRESENCE</h3>
+              <p className="text-3xl font-light text-zinc-600 mb-6">499€<span className="text-lg text-zinc-400">/mo</span></p>
             </div>
             <div className="p-8 rounded-3xl border border-amber-500/30 bg-amber-500/10 text-center shadow-2xl shadow-amber-500/10 md:-translate-y-4">
-              <h3 className="text-xl font-bold text-white mb-2">PREMIUM PRESENCE</h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">PREMIUM PRESENCE</h3>
               <p className="text-3xl font-light text-amber-400 mb-6">799€<span className="text-lg text-amber-500/50">/mo</span></p>
             </div>
-            <div className="p-8 rounded-3xl border border-zinc-800 bg-zinc-900/30 text-center">
-              <h3 className="text-xl font-bold text-white mb-2">LUXURY ECOSYSTEM</h3>
-              <p className="text-3xl font-light text-zinc-300 mb-6">Custom</p>
+            <div className="p-8 rounded-3xl border border-zinc-200 bg-zinc-50/30 text-center">
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">LUXURY ECOSYSTEM</h3>
+              <p className="text-3xl font-light text-zinc-600 mb-6">Custom</p>
             </div>
           </div>
         </section>
@@ -222,18 +222,18 @@ export default function PricingClientPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-zinc-900/80 backdrop-blur-3xl" />
           <div className="relative p-12 md:p-20 text-center">
             <Globe className="h-12 w-12 text-amber-400 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-6">4. Full Real Estate Ecosystem</h2>
-            <p className="text-lg text-zinc-300 max-w-2xl mx-auto mb-10">
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">4. Full Real Estate Ecosystem</h2>
+            <p className="text-lg text-zinc-600 max-w-2xl mx-auto mb-10">
               Maximum visibility, automation, AI integration and premium exposure across the complete ecosystem including AiX OS™, Home Find, CristianVaduva.com, AiXLuxury.com, and doar-inchirieri.ro.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <div className="px-8 py-6 rounded-2xl bg-black/40 border border-amber-500/30 backdrop-blur-md">
+              <div className="px-8 py-6 rounded-2xl bg-white/40 border border-amber-500/30 backdrop-blur-md">
                 <p className="text-sm text-zinc-400 mb-1">ALL PLATFORM ACCESS</p>
                 <p className="text-3xl font-light text-amber-400">999€<span className="text-lg text-amber-500/50">/mo</span></p>
               </div>
-              <div className="px-8 py-6 rounded-2xl bg-black/40 border border-zinc-800 backdrop-blur-md">
+              <div className="px-8 py-6 rounded-2xl bg-white/40 border border-zinc-200 backdrop-blur-md">
                 <p className="text-sm text-zinc-400 mb-1">Enterprise</p>
-                <p className="text-3xl font-light text-white">Custom</p>
+                <p className="text-3xl font-light text-zinc-900">Custom</p>
               </div>
             </div>
           </div>
@@ -242,25 +242,25 @@ export default function PricingClientPage() {
         {/* ─── 5. doar-inchirieri.ro ────────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">5. doar-inchirieri.ro</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">5. doar-inchirieri.ro</h2>
             <p className="text-zinc-400">Specialized rental platform access.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 text-center">
-              <h3 className="font-bold text-white mb-1">FREE RENTAL</h3>
+            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
+              <h3 className="font-bold text-zinc-900 mb-1">FREE RENTAL</h3>
               <p className="text-2xl font-light text-zinc-400">FREE</p>
-              <p className="text-xs text-zinc-500 mt-2">3 months</p>
+              <p className="text-xs text-zinc-400 mt-2">3 months</p>
             </div>
-            <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 text-center">
-              <h3 className="font-bold text-white mb-1">STARTER</h3>
+            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
+              <h3 className="font-bold text-zinc-900 mb-1">STARTER</h3>
               <p className="text-2xl font-light text-blue-400">49€<span className="text-sm">/mo</span></p>
             </div>
-            <div className="p-6 rounded-2xl bg-zinc-900/30 border border-amber-500/30 text-center shadow-[0_0_30px_rgba(245,158,11,0.05)]">
-              <h3 className="font-bold text-white mb-1">PRO</h3>
+            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-amber-500/30 text-center shadow-[0_0_30px_rgba(245,158,11,0.05)]">
+              <h3 className="font-bold text-zinc-900 mb-1">PRO</h3>
               <p className="text-2xl font-light text-amber-400">149€<span className="text-sm">/mo</span></p>
             </div>
-            <div className="p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800 text-center">
-              <h3 className="font-bold text-white mb-1">BUSINESS</h3>
+            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
+              <h3 className="font-bold text-zinc-900 mb-1">BUSINESS</h3>
               <p className="text-2xl font-light text-purple-400">Custom</p>
             </div>
           </div>
@@ -270,18 +270,18 @@ export default function PricingClientPage() {
         <section>
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
-              <h2 className="text-3xl md:text-5xl font-light text-white">6. Social Media <br/>Management</h2>
+              <h2 className="text-3xl md:text-5xl font-light text-zinc-900">6. Social Media <br/>Management</h2>
               <p className="text-zinc-400">Professional brand building across all major platforms. Allow clients to publish using their own accounts.</p>
               <div className="flex flex-wrap gap-2">
                 {["Facebook", "Instagram", "LinkedIn", "YouTube", "TikTok"].map(plat => (
-                  <span key={plat} className="px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300">{plat}</span>
+                  <span key={plat} className="px-3 py-1.5 rounded-full bg-zinc-50 border border-zinc-200 text-xs text-zinc-600">{plat}</span>
                 ))}
               </div>
             </div>
             <div className="lg:col-span-7 grid sm:grid-cols-3 gap-4">
-              <div className="p-6 rounded-3xl bg-zinc-900/30 border border-zinc-800">
-                <h3 className="text-sm font-bold text-white mb-4">SOCIAL STARTER</h3>
-                <p className="text-2xl font-light text-zinc-300 mb-6">299€</p>
+              <div className="p-6 rounded-3xl bg-zinc-50/30 border border-zinc-200">
+                <h3 className="text-sm font-bold text-zinc-900 mb-4">SOCIAL STARTER</h3>
+                <p className="text-2xl font-light text-zinc-600 mb-6">299€</p>
                 <ul className="space-y-2 text-xs text-zinc-400">
                   <li>• Content creation</li>
                   <li>• Posting</li>
@@ -289,7 +289,7 @@ export default function PricingClientPage() {
                 </ul>
               </div>
               <div className="p-6 rounded-3xl bg-blue-500/5 border border-blue-500/20">
-                <h3 className="text-sm font-bold text-white mb-4">SOCIAL GROWTH</h3>
+                <h3 className="text-sm font-bold text-zinc-900 mb-4">SOCIAL GROWTH</h3>
                 <p className="text-2xl font-light text-blue-400 mb-6">599€</p>
                 <ul className="space-y-2 text-xs text-zinc-400">
                   <li>• Strategy</li>
@@ -298,7 +298,7 @@ export default function PricingClientPage() {
                 </ul>
               </div>
               <div className="p-6 rounded-3xl bg-amber-500/10 border border-amber-500/30">
-                <h3 className="text-sm font-bold text-white mb-4">SOCIAL AUTHORITY</h3>
+                <h3 className="text-sm font-bold text-zinc-900 mb-4">SOCIAL AUTHORITY</h3>
                 <p className="text-2xl font-light text-amber-400 mb-6">999€</p>
                 <ul className="space-y-2 text-xs text-zinc-400">
                   <li>• Premium branding</li>
@@ -314,7 +314,7 @@ export default function PricingClientPage() {
         {/* ─── 7. Subscription Plans & Add-ons ───────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">7. Subscriptions & Add-Ons</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">7. Subscriptions & Add-Ons</h2>
             <p className="text-zinc-400">Scale your access as you grow.</p>
           </div>
           
@@ -327,22 +327,22 @@ export default function PricingClientPage() {
               { n: "DEVELOPER", p: "399€/mo" },
               { n: "ENTERPRISE", p: "Custom" }
             ].map(plan => (
-              <div key={plan.n} className={`w-40 p-5 rounded-2xl text-center relative ${plan.tag ? 'bg-amber-500/10 border border-amber-500/40' : 'bg-zinc-900/30 border border-zinc-800'}`}>
+              <div key={plan.n} className={`w-40 p-5 rounded-2xl text-center relative ${plan.tag ? 'bg-amber-500/10 border border-amber-500/40' : 'bg-zinc-50/30 border border-zinc-200'}`}>
                 {plan.tag && <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px] uppercase tracking-widest font-bold bg-amber-500 text-black px-2 py-0.5 rounded-full whitespace-nowrap">{plan.tag}</div>}
                 <p className="text-xs font-bold text-zinc-400 mb-2">{plan.n}</p>
-                <p className={`text-xl font-light ${plan.tag ? 'text-amber-400' : 'text-white'}`}>{plan.p}</p>
-                {plan.sub && <p className="text-[10px] text-zinc-500 mt-1">{plan.sub}</p>}
+                <p className={`text-xl font-light ${plan.tag ? 'text-amber-400' : 'text-zinc-900'}`}>{plan.p}</p>
+                {plan.sub && <p className="text-[10px] text-zinc-400 mt-1">{plan.sub}</p>}
               </div>
             ))}
           </div>
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/20 p-8 md:p-12">
-            <h3 className="text-2xl font-light text-white mb-8 text-center">Premium Add-ons</h3>
+          <div className="rounded-3xl border border-zinc-200 bg-zinc-50/20 p-8 md:p-12">
+            <h3 className="text-2xl font-light text-zinc-900 mb-8 text-center">Premium Add-ons</h3>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
               {["Premium Listing", "Featured Listing", "AI Boost", "Priority Placement", "Premium Analytics", "Automation Package"].map(add => (
-                <div key={add} className="flex items-center gap-3 p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/60">
+                <div key={add} className="flex items-center gap-3 p-4 rounded-xl bg-white/50 border border-zinc-200/60">
                   <Activity className="h-4 w-4 text-amber-500" />
-                  <span className="text-sm text-zinc-300">{add}</span>
+                  <span className="text-sm text-zinc-600">{add}</span>
                 </div>
               ))}
             </div>
@@ -359,16 +359,16 @@ export default function PricingClientPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 grid grid-cols-2 gap-4">
                {["Vehicle", "Apartment", "Villa", "Commercial", "Luxury Asset"].map(ex => (
-                 <div key={ex} className="p-4 rounded-xl bg-zinc-900/30 border border-zinc-800 text-center text-sm text-zinc-400">{ex}</div>
+                 <div key={ex} className="p-4 rounded-xl bg-zinc-50/30 border border-zinc-200 text-center text-sm text-zinc-400">{ex}</div>
                ))}
             </div>
             <div className="order-1 lg:order-2 space-y-6">
-              <h2 className="text-3xl md:text-5xl font-light text-white">8. Flexible <br/>Commission Model</h2>
-              <p className="text-zinc-400">Users choose between <strong className="text-white">Fixed Price</strong> or <strong className="text-white">Percentage</strong>.</p>
-              <p className="text-sm text-zinc-500">Pricing adapts dynamically based on:</p>
+              <h2 className="text-3xl md:text-5xl font-light text-zinc-900">8. Flexible <br/>Commission Model</h2>
+              <p className="text-zinc-400">Users choose between <strong className="text-zinc-900">Fixed Price</strong> or <strong className="text-zinc-900">Percentage</strong>.</p>
+              <p className="text-sm text-zinc-400">Pricing adapts dynamically based on:</p>
               <ul className="space-y-2">
                 {["Asset category", "Complexity", "Exposure", "Marketing effort", "Property value"].map((item,i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-zinc-300">
+                  <li key={i} className="flex items-center gap-2 text-sm text-zinc-600">
                     <ChevronRight className="h-4 w-4 text-amber-500" /> {item}
                   </li>
                 ))}
@@ -378,11 +378,11 @@ export default function PricingClientPage() {
         </section>
 
         {/* ─── 9. Exceptional Full Representation ────────────────────────── */}
-        <section className="rounded-[40px] bg-black border border-zinc-800 p-8 md:p-16 relative overflow-hidden">
+        <section className="rounded-[40px] bg-white border border-zinc-200 p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none" />
           <div className="text-center mb-16 relative z-10">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">9. Exceptional Full Representation</h2>
-            <p className="text-zinc-500">Premium luxury advisory and discrete off-market access.</p>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">9. Exceptional Full Representation</h2>
+            <p className="text-zinc-400">Premium luxury advisory and discrete off-market access.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-12">
             {[
@@ -390,9 +390,9 @@ export default function PricingClientPage() {
               "Off Market", "Professional Marketing", "Negotiation", "Insurance Consulting", 
               "Wealth Strategy", "AI Market Intelligence"
             ].map(srv => (
-              <div key={srv} className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80">
+              <div key={srv} className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-50/40 border border-zinc-200/80">
                 <Crown className="h-5 w-5 text-amber-700/80" />
-                <span className="text-zinc-300 text-sm">{srv}</span>
+                <span className="text-zinc-600 text-sm">{srv}</span>
               </div>
             ))}
           </div>
@@ -406,18 +406,18 @@ export default function PricingClientPage() {
         {/* ─── 10. Smart Pricing Calculator ─────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-white mb-4">10. Smart Pricing Calculator</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">10. Smart Pricing Calculator</h2>
             <p className="text-zinc-400">Intelligent bracket-based fee estimation.</p>
           </div>
-          <div className="max-w-3xl mx-auto rounded-3xl border border-zinc-800 bg-zinc-900/30 p-8 md:p-12">
+          <div className="max-w-3xl mx-auto rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 md:p-12">
             <form onSubmit={handleCalculate} className="space-y-6">
               
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-300">Asset Category</label>
+                <label className="text-sm font-semibold text-zinc-600">Asset Category</label>
                 <select 
                   value={calcAsset} 
                   onChange={e => setCalcAsset(e.target.value)}
-                  className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                  className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                 >
                   {["Apartment", "House", "Land", "Commercial", "Car", "Luxury Asset", "Other"].map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -426,23 +426,23 @@ export default function PricingClientPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-300">Estimated Value (€)</label>
+                <label className="text-sm font-semibold text-zinc-600">Estimated Value (€)</label>
                 <input 
                   type="text" 
                   value={calcValue} 
                   onChange={e => setCalcValue(e.target.value)}
                   placeholder="e.g. 150000"
-                  className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                  className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-zinc-300">Service Type</label>
+                <label className="text-sm font-semibold text-zinc-600">Service Type</label>
                 <select 
                   value={calcService} 
                   onChange={e => setCalcService(e.target.value)}
-                  className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                  className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                 >
                   {["Standard", "Premium", "Featured", "Exclusive"].map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -461,7 +461,7 @@ export default function PricingClientPage() {
               </div>
             )}
 
-            <div className="mt-8 p-5 rounded-2xl bg-red-950/20 border border-red-900/30 text-xs text-zinc-500 text-center space-y-2">
+            <div className="mt-8 p-5 rounded-2xl bg-red-950/20 border border-red-900/30 text-xs text-zinc-400 text-center space-y-2">
               <p>⚠️ &quot;Declared values may be reviewed according to available market information.&quot;</p>
               <p>&quot;AiX OS™ reserves the right to verify submitted information. Incorrect or misleading data may result in pricing adjustments or listing removal.&quot;</p>
             </div>
@@ -469,32 +469,32 @@ export default function PricingClientPage() {
         </section>
 
         {/* ─── CONTACT SECTION ────────────────────────────────────────────── */}
-        <section className="pt-16 border-t border-zinc-900 text-center">
-          <h2 className="text-2xl font-light text-white mb-8">Ready to upgrade your reality?</h2>
+        <section className="pt-16 border-t border-zinc-200 text-center">
+          <h2 className="text-2xl font-light text-zinc-900 mb-8">Ready to upgrade your reality?</h2>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <a href={CONTACT_LINKS.email} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-amber-500/50 hover:text-amber-400 transition-colors">
+            <a href={CONTACT_LINKS.email} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-amber-500/50 hover:text-amber-400 transition-colors">
               <Mail className="h-4 w-4" /> Email
             </a>
-            <a href={CONTACT_LINKS.whatsapp} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#25D366]/50 hover:text-[#25D366] transition-colors">
+            <a href={CONTACT_LINKS.whatsapp} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#25D366]/50 hover:text-[#25D366] transition-colors">
               <MessageCircle className="h-4 w-4" /> WhatsApp
             </a>
-            <a href={CONTACT_LINKS.telegram} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#0088cc]/50 hover:text-[#0088cc] transition-colors">
+            <a href={CONTACT_LINKS.telegram} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#0088cc]/50 hover:text-[#0088cc] transition-colors">
               <Send className="h-4 w-4" /> Telegram
             </a>
-            <a href={CONTACT_LINKS.linkedin} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#0A66C2]/50 hover:text-[#0A66C2] transition-colors">
+            <a href={CONTACT_LINKS.linkedin} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#0A66C2]/50 hover:text-[#0A66C2] transition-colors">
                LinkedIn
             </a>
-            <a href={CONTACT_LINKS.facebook} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#1877F2]/50 hover:text-[#1877F2] transition-colors">
+            <a href={CONTACT_LINKS.facebook} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#1877F2]/50 hover:text-[#1877F2] transition-colors">
                Facebook
             </a>
-            <a href={CONTACT_LINKS.instagram} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#E4405F]/50 hover:text-[#E4405F] transition-colors">
+            <a href={CONTACT_LINKS.instagram} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#E4405F]/50 hover:text-[#E4405F] transition-colors">
                Instagram
             </a>
-            <a href={CONTACT_LINKS.youtube} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 border border-zinc-800 hover:border-[#FF0000]/50 hover:text-[#FF0000] transition-colors">
+            <a href={CONTACT_LINKS.youtube} className="flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 hover:border-[#FF0000]/50 hover:text-[#FF0000] transition-colors">
                YouTube
             </a>
           </div>
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-zinc-500">
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-zinc-400">
             <a href={CONTACT_LINKS.cvcom} target="_blank" rel="noreferrer" className="hover:text-amber-400 transition-colors">CristianVaduva.com</a>
             <span>•</span>
             <a href={CONTACT_LINKS.aixlux} target="_blank" rel="noreferrer" className="hover:text-amber-400 transition-colors">AiXLuxury.com</a>

@@ -273,7 +273,7 @@ export default function ResearchCenterPage() {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className={`p-8 rounded-3xl ${designSystem.glass} relative overflow-hidden flex flex-col justify-center`}>
           <div className={designSystem.glowTop} />
-          <h2 className="text-xl font-light text-white mb-4">Ce este OSINT și de ce te salvează de faliment?</h2>
+          <h2 className="text-xl font-light text-zinc-900 mb-4">Ce este OSINT și de ce te salvează de faliment?</h2>
           <p className="text-sm text-zinc-400 leading-relaxed mb-4">
             În real estate-ul premium, riscurile nu se află în culorile pereților, ci în istoricul firmei dezvoltatoare. 
             Tehnicile de Open-Source Intelligence te învață cum să investighezi public și complet legal orice entitate.
@@ -287,21 +287,21 @@ export default function ResearchCenterPage() {
             ].map((benefit, i) => (
               <li key={i} className="flex items-start gap-3">
                 <ShieldAlert className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
-                <span className="text-xs text-zinc-300 leading-relaxed">{benefit}</span>
+                <span className="text-xs text-zinc-600 leading-relaxed">{benefit}</span>
               </li>
             ))}
           </ul>
         </div>
         
         {/* Interactive OSINT Lookup tool */}
-        <div className={`p-8 rounded-3xl border border-zinc-800 bg-zinc-950 flex flex-col justify-between relative overflow-hidden min-h-[360px]`}>
+        <div className={`p-8 rounded-3xl border border-zinc-200 bg-white flex flex-col justify-between relative overflow-hidden min-h-[360px]`}>
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl" />
           
           <div className="space-y-4 text-center">
             <Globe className="h-10 w-10 text-amber-500/50 mx-auto" />
             <div>
-              <h3 className="text-lg font-semibold text-white">Căutare Rapidă Entități</h3>
-              <p className="text-xs text-zinc-500 mt-2 max-w-sm mx-auto">
+              <h3 className="text-lg font-semibold text-zinc-900">Căutare Rapidă Entități</h3>
+              <p className="text-xs text-zinc-400 mt-2 max-w-sm mx-auto">
                 Introduceți CUI-ul sau numele dezvoltatorului imobiliar pentru a efectua o scanare preliminară instantă.
               </p>
             </div>
@@ -316,9 +316,9 @@ export default function ResearchCenterPage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Ex: One United, RO22767862, CUI..." 
-                  className="w-full bg-zinc-900 border border-zinc-800 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-zinc-650 focus:outline-none focus:border-amber-500/50 transition-colors"
+                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl py-3 pl-4 pr-12 text-sm text-zinc-900 placeholder-zinc-650 focus:outline-none focus:border-amber-500/50 transition-colors"
                 />
-                <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               </div>
               <button 
                 type="submit"
@@ -338,13 +338,13 @@ export default function ResearchCenterPage() {
 
           {report && (
             <div className="space-y-4 mt-6 animate-in fade-in duration-300">
-              <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+              <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
                 <div className="text-left">
-                  <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h4 className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
                     <Building className="h-4 w-4 text-zinc-400" />
                     {report.companyName}
                   </h4>
-                  <p className="text-[10px] text-zinc-500 mt-0.5">CUI: {report.cui} &bull; Fondat: {report.foundedYear}</p>
+                  <p className="text-[10px] text-zinc-400 mt-0.5">CUI: {report.cui} &bull; Fondat: {report.foundedYear}</p>
                 </div>
                 <div className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono border ${
                   report.riskLevel === "low"
@@ -358,23 +358,23 @@ export default function ResearchCenterPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-left">
-                <div className="p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
-                  <span className="text-[9px] uppercase text-zinc-500 font-mono">Stare ANAF</span>
-                  <p className="text-xs font-semibold text-white mt-0.5">{report.status}</p>
+                <div className="p-3 bg-zinc-50/40 rounded-xl border border-zinc-200">
+                  <span className="text-[9px] uppercase text-zinc-400 font-mono">Stare ANAF</span>
+                  <p className="text-xs font-semibold text-zinc-900 mt-0.5">{report.status}</p>
                 </div>
-                <div className="p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
-                  <span className="text-[9px] uppercase text-zinc-500 font-mono">Litigii Instanțe</span>
-                  <p className="text-xs font-semibold text-white mt-0.5">{report.lawsuitsCount} dosare pe rol</p>
+                <div className="p-3 bg-zinc-50/40 rounded-xl border border-zinc-200">
+                  <span className="text-[9px] uppercase text-zinc-400 font-mono">Litigii Instanțe</span>
+                  <p className="text-xs font-semibold text-zinc-900 mt-0.5">{report.lawsuitsCount} dosare pe rol</p>
                 </div>
               </div>
 
-              <div className="text-left p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
-                <span className="text-[9px] uppercase text-zinc-500 font-mono">Datorii Bugetare</span>
-                <p className="text-xs font-semibold text-white mt-0.5">{report.taxDebts}</p>
+              <div className="text-left p-3 bg-zinc-50/40 rounded-xl border border-zinc-200">
+                <span className="text-[9px] uppercase text-zinc-400 font-mono">Datorii Bugetare</span>
+                <p className="text-xs font-semibold text-zinc-900 mt-0.5">{report.taxDebts}</p>
               </div>
 
               <div className="text-left space-y-1.5">
-                <span className="text-[9px] uppercase text-zinc-500 font-mono">Constatări Cheie:</span>
+                <span className="text-[9px] uppercase text-zinc-400 font-mono">Constatări Cheie:</span>
                 <ul className="space-y-1">
                   {report.findings.map((f, i) => (
                     <li key={i} className="text-[11px] text-zinc-400 flex items-start gap-2">
@@ -391,7 +391,7 @@ export default function ResearchCenterPage() {
                     setReport(null);
                     setQuery("");
                   }}
-                  className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-300 py-2.5 text-xs font-semibold uppercase hover:bg-zinc-800/80 transition-all"
+                  className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-600 py-2.5 text-xs font-semibold uppercase hover:bg-zinc-200/80 transition-all"
                 >
                   Nouă Căutare
                 </button>
@@ -410,30 +410,30 @@ export default function ResearchCenterPage() {
       
       {/* Directory of Links */}
       <section className="space-y-8 mb-16">
-        <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+        <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
           <Database className="h-6 w-6 text-amber-500" />
-          <h2 className="text-2xl font-light text-white">Registre Publice România</h2>
+          <h2 className="text-2xl font-light text-zinc-900">Registre Publice România</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {resourcesRO.map((res) => {
             const Icon = res.icon || Globe;
             return (
-              <div key={res.title} className="p-6 rounded-3xl bg-zinc-900/30 border border-zinc-800 flex flex-col justify-between min-h-[220px]">
+              <div key={res.title} className="p-6 rounded-3xl bg-zinc-50/30 border border-zinc-200 flex flex-col justify-between min-h-[220px]">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                       {res.category}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{res.title}</h3>
                     <p className="text-xs text-zinc-450 leading-relaxed mt-2">{res.desc}</p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                <div className="pt-4 border-t border-zinc-200/60 mt-4">
                   <a href={res.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-amber-500/70 hover:text-amber-400 font-semibold transition-colors">
                     Accesează Portal <ExternalLink className="h-3.5 w-3.5" />
                   </a>
@@ -445,30 +445,30 @@ export default function ResearchCenterPage() {
       </section>
 
       <section className="space-y-8 mb-16">
-        <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+        <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
           <Globe className="h-6 w-6 text-blue-500" />
-          <h2 className="text-2xl font-light text-white">Resurse & Date Uniunea Europeană</h2>
+          <h2 className="text-2xl font-light text-zinc-900">Resurse & Date Uniunea Europeană</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {resourcesEU.map((res) => {
             const Icon = res.icon || Globe;
             return (
-              <div key={res.title} className="p-6 rounded-3xl bg-zinc-900/30 border border-zinc-800 flex flex-col justify-between min-h-[220px]">
+              <div key={res.title} className="p-6 rounded-3xl bg-zinc-50/30 border border-zinc-200 flex flex-col justify-between min-h-[220px]">
                 <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                       {res.category}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{res.title}</h3>
                     <p className="text-xs text-zinc-450 leading-relaxed mt-2">{res.desc}</p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                <div className="pt-4 border-t border-zinc-200/60 mt-4">
                   <a href={res.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-400/80 hover:text-blue-400 font-semibold transition-colors">
                     Accesează Portal <ExternalLink className="h-3.5 w-3.5" />
                   </a>
@@ -482,21 +482,21 @@ export default function ResearchCenterPage() {
       {/* Directory of Links */}
 
       <section className="space-y-8">
-        <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
+        <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
           <Database className="h-6 w-6 text-amber-500" />
-          <h2 className="text-2xl font-light text-white">Director de Resurse Publice</h2>
+          <h2 className="text-2xl font-light text-zinc-900">Director de Resurse Publice</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {osintCategories.map((category, idx) => {
             const Icon = category.icon;
             return (
-              <div key={idx} className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border-t border-zinc-800 flex flex-col h-full`}>
+              <div key={idx} className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border-t border-zinc-200 flex flex-col h-full`}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-xl bg-zinc-900/80 flex items-center justify-center border border-zinc-800/50">
+                  <div className="h-10 w-10 rounded-xl bg-zinc-50/80 flex items-center justify-center border border-zinc-200/50">
                     <Icon className="h-5 w-5 text-amber-400" />
                   </div>
-                  <h3 className="text-base font-semibold text-white">{category.title}</h3>
+                  <h3 className="text-base font-semibold text-zinc-900">{category.title}</h3>
                 </div>
                 <p className="text-xs text-zinc-400 mb-6 leading-relaxed">{category.desc}</p>
                 
@@ -507,14 +507,14 @@ export default function ResearchCenterPage() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border border-zinc-800/40 bg-zinc-900/30 hover:bg-zinc-850 hover:border-zinc-700 transition-all gap-2"
+                      className="group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border border-zinc-200/40 bg-zinc-50/30 hover:bg-zinc-850 hover:border-zinc-300 transition-all gap-2"
                     >
                       <div className="flex items-center gap-2.5 overflow-hidden">
                         <Globe className="h-4 w-4 text-zinc-600 group-hover:text-amber-500 transition-colors shrink-0" />
-                        <span className="text-xs font-semibold text-zinc-300 truncate">{link.name}</span>
+                        <span className="text-xs font-semibold text-zinc-600 truncate">{link.name}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-[10px] text-zinc-500 truncate">{link.desc}</span>
+                        <span className="text-[10px] text-zinc-400 truncate">{link.desc}</span>
                         <ExternalLink className="h-3 w-3 text-zinc-600 shrink-0 group-hover:text-amber-500" />
                       </div>
                     </a>
@@ -532,7 +532,7 @@ export default function ResearchCenterPage() {
           <AlertTriangle className="h-5 w-5 text-amber-500" />
         </div>
         <div>
-          <h4 className="text-sm font-semibold text-white mb-1.5 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-zinc-900 mb-1.5 flex items-center gap-2">
             <Lock className="h-3.5 w-3.5 text-zinc-400" /> Avertisment Legal și Securitate (Privacy Policy)
           </h4>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-4xl">

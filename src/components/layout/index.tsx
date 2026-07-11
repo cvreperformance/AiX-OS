@@ -212,20 +212,20 @@ export function Header() {
       {/* ─── PRIMARY GLASS PANEL SERVICE HUB (TOP NAV REPLACEMENT) ───────── */}
       <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4 lg:pt-6">
         {/* Full Flat Grid Header - Visible on desktop at the top */}
-        <div className={`hidden lg:block rounded-3xl border border-zinc-900 bg-[#080808]/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
+        <div className={`hidden lg:block rounded-3xl border border-zinc-200 bg-white/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
           scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
         }`}>
           {/* Top Brand & Actions line */}
-        <div className="flex items-center justify-between border-b border-zinc-900 pb-5 mb-5 gap-4">
+        <div className="flex items-center justify-between border-b border-zinc-200 pb-5 mb-5 gap-4">
           <Link href="/" className="flex flex-col items-start group">
             <div className="flex items-center gap-1.5 min-h-8">
               <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-xl font-light tracking-[0.2em] text-white group-hover:text-amber-400 transition-colors">AiX</span>
+              <span className="text-xl font-light tracking-[0.2em] text-zinc-900 group-hover:text-amber-400 transition-colors">AiX</span>
               <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
                 OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
               </span>
             </div>
-            <span className="text-xs text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
+            <span className="text-xs text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
               Powered by CristianVaduva.com
             </span>
           </Link>
@@ -233,11 +233,11 @@ export function Header() {
           {/* Quick Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
               {/* Language Switcher */}
-              <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5 mr-1 font-mono">
+              <div className="flex items-center gap-0.5 border border-zinc-200 bg-white/60 rounded-full p-0.5 mr-1 font-mono">
                 <button
                   onClick={() => setLanguage("ro")}
                   className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
-                    language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
+                    language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-600"
                   }`}
                 >
                   RO
@@ -245,7 +245,7 @@ export function Header() {
                 <button
                   onClick={() => setLanguage("en")}
                   className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
-                    language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
+                    language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-600"
                   }`}
                 >
                   EN
@@ -266,9 +266,9 @@ export function Header() {
               const title = language === "ro" ? cat.title : cat.titleEn;
               return (
                 <div key={cat.id} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b border-zinc-900 pb-2">
+                  <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
                     <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-300 font-mono">
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
                       {title}
                     </h4>
                   </div>
@@ -279,7 +279,7 @@ export function Header() {
                         <li key={item.id}>
                           <Link
                             href={item.href}
-                            className="text-xs text-zinc-500 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium leading-relaxed"
+                            className="text-xs text-zinc-400 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium leading-relaxed"
                           >
                             {label}
                           </Link>
@@ -297,7 +297,7 @@ export function Header() {
 
       {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
-        className={`sticky top-0 z-[300] border-b border-zinc-900 bg-[#080808]/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
+        className={`sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
           scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"
         }`}
       >
@@ -305,12 +305,12 @@ export function Header() {
           <Link href="/" className="flex flex-col items-start group">
             <div className="flex items-center gap-1.5 min-h-8">
               <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
+              <span className="text-lg font-light tracking-[0.2em] text-zinc-900">AiX</span>
               <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
                 OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
               </span>
             </div>
-            <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
+            <span className="text-[10px] text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
               Powered by CristianVaduva.com
             </span>
           </Link>
@@ -323,7 +323,7 @@ export function Header() {
               className={`hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
                 showDeskDropdown
                   ? "bg-amber-500/20 border-amber-500/35 text-amber-400"
-                  : "border-zinc-800 text-zinc-300 hover:bg-zinc-900"
+                  : "border-zinc-200 text-zinc-600 hover:bg-zinc-100"
               }`}
             >
               <LayoutGrid className="h-4 w-4" />
@@ -334,7 +334,7 @@ export function Header() {
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={open ? closeMenu : openMenu}
-              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-850 bg-[#0f0f0f]/95 hover:bg-zinc-900 text-zinc-400 hover:text-white transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-200 bg-[#0f0f0f]/95 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
               aria-label={language === "ro" ? "Meniu Principal" : "Main Menu"}
               aria-expanded={open}
             >
@@ -344,7 +344,7 @@ export function Header() {
             {/* Global Language Toggle */}
             <button
               onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
-              className="flex min-h-12 min-w-12 items-center justify-center border border-zinc-850 bg-zinc-950/60 rounded-xl px-3 py-2 text-[10px] font-bold text-amber-400 hover:text-white uppercase font-mono transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+              className="flex min-h-12 min-w-12 items-center justify-center border border-zinc-200 bg-white/60 rounded-xl px-3 py-2 text-[10px] font-bold text-amber-400 hover:text-zinc-900 uppercase font-mono transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
             >
               {language === "ro" ? "EN" : "RO"}
             </button>
@@ -360,7 +360,7 @@ export function Header() {
         {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
         {showDeskDropdown && scrolled && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-900 bg-[#080808]/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-9 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
+            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-200 bg-white/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-9 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
             onMouseLeave={() => setShowDeskDropdown(false)}
           >
             {navigationCategories.map((cat) => {
@@ -368,9 +368,9 @@ export function Header() {
               const title = language === "ro" ? cat.title : cat.titleEn;
               return (
                 <div key={cat.id} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b border-zinc-900 pb-2">
+                  <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
                     <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-300 font-mono">
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
                       {title}
                     </h4>
                   </div>
@@ -379,7 +379,7 @@ export function Header() {
                       <li key={item.id}>
                         <Link
                           href={item.href}
-                          className="text-xs text-zinc-500 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium"
+                          className="text-xs text-zinc-400 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium"
                         >
                           {language === "ro" ? item.label : item.labelEn}
                         </Link>
@@ -412,7 +412,7 @@ export function Header() {
             e.preventDefault();
             if (!gestureDragging) openMenu();
           }}
-          className="group flex w-full max-w-[280px] items-center gap-3 rounded-[22px] border border-zinc-800 bg-[#0a0a0a]/86 px-4 py-3 text-left shadow-2xl backdrop-blur-2xl touch-none select-none"
+          className="group flex w-full max-w-[280px] items-center gap-3 rounded-[22px] border border-zinc-200 bg-zinc-50/86 px-4 py-3 text-left shadow-2xl backdrop-blur-2xl touch-none select-none"
           style={{ touchAction: "none" }}
           aria-label={language === "ro" ? "Glisează pentru a deschide meniul" : "Slide to open menu"}
         >
@@ -423,7 +423,7 @@ export function Header() {
             <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-400/90">
               {language === "ro" ? "Glisează pentru meniu" : "Slide to open menu"}
             </span>
-            <span className="block text-[11px] text-zinc-500 leading-tight mt-0.5">
+            <span className="block text-[11px] text-zinc-400 leading-tight mt-0.5">
               {language === "ro"
                 ? "Ridică pentru hub-ul complet de servicii"
                 : "Lift to reveal the full service hub"}
@@ -441,7 +441,7 @@ export function Header() {
         aria-hidden={!menuVisible}
       >
         <div
-          className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-white/75 backdrop-blur-sm transition-opacity duration-300 ${
             menuVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={closeMenu}
@@ -449,7 +449,7 @@ export function Header() {
         />
 
         <div
-          className={`absolute inset-x-0 bottom-0 flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-900 bg-[#080808] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute inset-x-0 bottom-0 flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
             menuVisible ? "translate-y-0" : "translate-y-full"
           }`}
           style={{
@@ -459,7 +459,7 @@ export function Header() {
           }}
         >
           <div
-            className="flex items-center justify-center px-5 pt-3 pb-2 flex-shrink-0 bg-[#080808] z-10"
+            className="flex items-center justify-center px-5 pt-3 pb-2 flex-shrink-0 bg-white z-10"
             onPointerDown={(e) => beginGesture("close", e)}
             onPointerMove={updateGesture}
             onPointerUp={finishGesture}
@@ -468,7 +468,7 @@ export function Header() {
           >
             <button
               type="button"
-              className="flex items-center gap-2 rounded-full border border-zinc-800/80 bg-zinc-950/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-zinc-500"
+              className="flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-zinc-400"
               aria-label={language === "ro" ? "Glisează pentru a închide" : "Slide to close"}
             >
               <span className="h-1.5 w-10 rounded-full bg-zinc-700/80" />
@@ -477,16 +477,16 @@ export function Header() {
             </button>
           </div>
 
-          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-850 flex-shrink-0 bg-[#080808] z-10">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 flex-shrink-0 bg-white z-10">
             <Link href="/" className="flex flex-col items-start group" onClick={closeMenu}>
               <div className="flex items-center gap-1.5 min-h-8">
                 <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-                <span className="text-lg font-light tracking-[0.2em] text-white">AiX</span>
+                <span className="text-lg font-light tracking-[0.2em] text-zinc-900">AiX</span>
                 <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
                   OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
                 </span>
               </div>
-              <span className="text-[10px] text-zinc-500 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
+              <span className="text-[10px] text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
                 Powered by CristianVaduva.com
               </span>
             </Link>
@@ -497,7 +497,7 @@ export function Header() {
               </div>
               <button
                 onClick={closeMenu}
-                className="flex items-center justify-center w-12 h-12 text-zinc-500 hover:text-white bg-zinc-900/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+                className="flex items-center justify-center w-12 h-12 text-zinc-400 hover:text-zinc-900 bg-zinc-50/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
                 aria-label={language === "ro" ? "Închide meniu" : "Close menu"}
               >
                 <X size={18} />
@@ -511,7 +511,7 @@ export function Header() {
               href="/"
               onClick={closeMenu}
               className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-300 hover:text-white hover:bg-zinc-900/40"
+                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
               }`}
             >
               <Home className="h-4.5 w-4.5 flex-shrink-0" />
@@ -536,13 +536,13 @@ export function Header() {
                     onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
                     className={`w-full flex items-center justify-between px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
                       isExpanded
-                        ? "bg-zinc-900/80 text-white"
-                        : "text-zinc-350 hover:text-white hover:bg-zinc-900/45"
+                        ? "bg-zinc-50/80 text-zinc-900"
+                        : "text-zinc-350 hover:text-zinc-900 hover:bg-zinc-100/45"
                     }`}
                     aria-expanded={isExpanded}
                   >
                     <span className="flex items-center gap-3">
-                      <div className={`p-1.5 rounded-lg border border-zinc-800 bg-zinc-950 flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-500"}`}>
+                      <div className={`p-1.5 rounded-lg border border-zinc-200 bg-white flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-400"}`}>
                         <Icon className="h-4 w-4" />
                       </div>
                       {title}
@@ -559,7 +559,7 @@ export function Header() {
                       isExpanded ? "max-h-[1400px] opacity-100 mt-1" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="ml-5 pl-4 border-l border-zinc-900 space-y-2 py-2 text-left">
+                    <div className="ml-5 pl-4 border-l border-zinc-200 space-y-2 py-2 text-left">
                       {category.items.map((sub) => {
                         const SubIcon = sub.icon;
                         const label = language === "ro" ? sub.label : sub.labelEn;
@@ -569,9 +569,9 @@ export function Header() {
                             key={sub.id}
                             href={sub.href}
                             onClick={closeMenu}
-                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-900/40 border border-transparent"
+                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-100/40 border border-transparent"
                           >
-                            <div className="mt-0.5 p-1.5 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-600">
+                            <div className="mt-0.5 p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600">
                               <SubIcon className="h-3.5 w-3.5" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -587,7 +587,7 @@ export function Header() {
               );
             })}
 
-            <div className="mt-2 mb-4 p-4 rounded-2xl bg-zinc-900/30 border border-zinc-800/50">
+            <div className="mt-2 mb-4 p-4 rounded-2xl bg-zinc-50/30 border border-zinc-200/50">
               <AccountMenuSection language={language} />
             </div>
           </nav>
@@ -601,12 +601,12 @@ export function Footer() {
   const { language, setLanguage, t } = useLanguage();
   
   return (
-    <footer className="border-t border-zinc-900 bg-[#050505] mt-auto pb-0">
+    <footer className="border-t border-zinc-200 bg-white mt-auto pb-0">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         
         {/* Minimized bottom indicators */}
         <div className="space-y-1">
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-400">
             &copy; {new Date().getFullYear()} AiX OS&trade; &bull; {language === "ro" ? "Sistem Decizional de Intelligence Imobiliar" : "Decision Intelligence System"}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-x-3 gap-y-1 text-[10px] text-zinc-600 font-mono font-medium">
@@ -617,7 +617,7 @@ export function Footer() {
             <span>&bull;</span>
             <span>
               {language === "ro" ? "Creat de" : "Powered by"}{" "}
-              <a href="https://cristianvaduva.com" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-amber-400 underline transition-colors">
+              <a href="https://cristianvaduva.com" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-amber-400 underline transition-colors">
                 CristianVaduva.com
               </a>
             </span>
@@ -627,11 +627,11 @@ export function Footer() {
         {/* Minimized social paths & language switches */}
         <div className="flex flex-col sm:flex-row items-center gap-5">
           {/* Language Switch */}
-          <div className="flex items-center gap-0.5 border border-zinc-850 bg-zinc-950/60 rounded-full p-0.5">
+          <div className="flex items-center gap-0.5 border border-zinc-200 bg-white/60 rounded-full p-0.5">
             <button
               onClick={() => setLanguage("ro")}
               className={`px-2.5 py-1 text-[9px] font-bold rounded-full transition-all ${
-                language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-300"
+                language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-600"
               }`}
             >
               RO
@@ -639,7 +639,7 @@ export function Footer() {
             <button
               onClick={() => setLanguage("en")}
               className={`px-2.5 py-1 text-[9px] font-bold rounded-full transition-all ${
-                language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-300"
+                language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-600"
               }`}
             >
               EN

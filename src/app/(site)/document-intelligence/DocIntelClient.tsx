@@ -117,11 +117,11 @@ export default function DocIntelClient() {
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleFileDrop}
-            className={`p-10 rounded-3xl border-2 border-dashed border-zinc-800 bg-zinc-950/20 hover:border-amber-500/35 transition-all text-center space-y-4 flex flex-col items-center justify-center cursor-pointer min-h-[280px]`}
+            className={`p-10 rounded-3xl border-2 border-dashed border-zinc-200 bg-white/20 hover:border-amber-500/35 transition-all text-center space-y-4 flex flex-col items-center justify-center cursor-pointer min-h-[280px]`}
           >
             <UploadCloud className="h-12 w-12 text-zinc-650 animate-pulse" />
             <div className="space-y-1">
-              <p className="text-xs font-semibold text-white">
+              <p className="text-xs font-semibold text-zinc-900">
                 {language === "ro" ? "Trage fișierele aici sau alege manual" : "Drag & drop files here or click to select"}
               </p>
               <p className="text-[10px] text-zinc-550">
@@ -142,15 +142,15 @@ export default function DocIntelClient() {
 
           {/* Progress bar */}
           {loading && (
-            <div className={`p-5 rounded-2xl border border-zinc-900 bg-zinc-950/40 space-y-3`}>
+            <div className={`p-5 rounded-2xl border border-zinc-200 bg-white/40 space-y-3`}>
               <div className="flex justify-between items-center text-xs">
                 <span className="flex items-center gap-2 text-zinc-450 font-medium">
                   <RefreshCw className="h-3.5 w-3.5 animate-spin text-amber-500" />
                   {language === "ro" ? "Procesare OCR & Audit..." : "OCR Parsing & Auditing..."}
                 </span>
-                <span className="font-mono text-white font-semibold">{progress}%</span>
+                <span className="font-mono text-zinc-900 font-semibold">{progress}%</span>
               </div>
-              <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
+              <div className="w-full bg-zinc-50 h-1.5 rounded-full overflow-hidden">
                 <div
                   className="bg-amber-500 h-full transition-all duration-200"
                   style={{ width: `${progress}%` }}
@@ -163,12 +163,12 @@ export default function DocIntelClient() {
         {/* Audit Results column */}
         <div className="lg:col-span-7 space-y-6">
           {audit ? (
-            <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-800 space-y-6 shadow-2xl animate-in fade-in duration-200`}>
-              <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
+            <div className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 space-y-6 shadow-2xl animate-in fade-in duration-200`}>
+              <div className="flex items-center justify-between border-b border-zinc-200 pb-4">
                 <div className="flex items-center gap-3">
                   <FileText className="h-5 w-5 text-amber-400" />
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{audit.fileName}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{audit.fileName}</h3>
                     <p className="text-[10px] text-zinc-550 font-mono">{audit.fileSize} · {audit.type}</p>
                   </div>
                 </div>
@@ -180,7 +180,7 @@ export default function DocIntelClient() {
                 <p className="text-[10px] uppercase tracking-wider text-zinc-550 font-mono font-semibold">
                   {language === "ro" ? "Rezumat Document" : "Document Summary"}
                 </p>
-                <p className="text-xs text-zinc-300 leading-relaxed bg-zinc-950/30 p-3.5 rounded-xl border border-zinc-900">
+                <p className="text-xs text-zinc-600 leading-relaxed bg-white/30 p-3.5 rounded-xl border border-zinc-200">
                   {language === "ro" ? audit.summaryRo : audit.summaryEn}
                 </p>
               </div>
@@ -203,18 +203,18 @@ export default function DocIntelClient() {
                             ? "border-red-500/20 bg-red-500/[0.02]"
                             : isMed
                             ? "border-amber-500/20 bg-amber-500/[0.02]"
-                            : "border-zinc-900 bg-zinc-950/20"
+                            : "border-zinc-200 bg-white/20"
                         }`}
                       >
                         <AlertTriangle
                           className={`h-4 w-4 shrink-0 mt-0.5 ${
-                            isHigh ? "text-red-400" : isMed ? "text-amber-400" : "text-zinc-500"
+                            isHigh ? "text-red-400" : isMed ? "text-amber-400" : "text-zinc-400"
                           }`}
                         />
                         <div className="space-y-1">
                           <p
                             className={`text-xs font-semibold ${
-                              isHigh ? "text-red-300" : isMed ? "text-amber-300" : "text-white"
+                              isHigh ? "text-red-300" : isMed ? "text-amber-300" : "text-zinc-900"
                             }`}
                           >
                             {language === "ro" ? risk.labelRo : risk.labelEn}
@@ -233,7 +233,7 @@ export default function DocIntelClient() {
               </div>
             </div>
           ) : (
-            <div className={`p-8 rounded-3xl ${designSystem.glass} border border-zinc-900 text-center space-y-4 py-16`}>
+            <div className={`p-8 rounded-3xl ${designSystem.glass} border border-zinc-200 text-center space-y-4 py-16`}>
               <Sparkles className="h-8 w-8 text-zinc-700 mx-auto" />
               <p className="text-sm text-zinc-400">
                 {language === "ro"

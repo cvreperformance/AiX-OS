@@ -129,7 +129,7 @@ export function PropertyGallery({
     return (
       <div
         className={cn(
-          "relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-900",
+          "relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-50",
           className
         )}
       >
@@ -145,7 +145,7 @@ export function PropertyGallery({
       <div className={cn("space-y-3", className)}>
         {/* Main image */}
         <div
-          className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 cursor-zoom-in group"
+          className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-50 border border-zinc-200 cursor-zoom-in group"
           onTouchStart={handleTouchStart}
           onTouchEnd={(e) => handleTouchEnd(e, false)}
           onClick={() => openLightbox(activeIndex)}
@@ -173,7 +173,7 @@ export function PropertyGallery({
                   e.stopPropagation();
                   goPrev(false);
                 }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/60 p-2 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/60 p-2 text-zinc-900 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/80"
                 aria-label="Imaginea anterioară"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -184,7 +184,7 @@ export function PropertyGallery({
                   e.stopPropagation();
                   goNext(false);
                 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-black/60 p-2 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/60 p-2 text-zinc-900 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white/80"
                 aria-label="Imaginea următoare"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -195,7 +195,7 @@ export function PropertyGallery({
           {/* Counter + expand button */}
           <div className="absolute bottom-3 right-3 z-10 flex items-center gap-2">
             {images.length > 1 && (
-              <span className="rounded-full bg-black/60 px-3 py-1 text-xs text-zinc-300 backdrop-blur-sm">
+              <span className="rounded-full bg-white/60 px-3 py-1 text-xs text-zinc-600 backdrop-blur-sm">
                 {activeIndex + 1} / {images.length}
               </span>
             )}
@@ -205,7 +205,7 @@ export function PropertyGallery({
                 e.stopPropagation();
                 openLightbox(activeIndex);
               }}
-              className="rounded-full bg-black/60 p-1.5 text-white backdrop-blur-sm hover:bg-black/80 transition-colors"
+              className="rounded-full bg-white/60 p-1.5 text-zinc-900 backdrop-blur-sm hover:bg-white/80 transition-colors"
               aria-label="Fullscreen"
             >
               <Expand className="h-4 w-4" />
@@ -225,7 +225,7 @@ export function PropertyGallery({
                   "relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-lg border transition-all",
                   index === activeIndex
                     ? "border-amber-500/60 ring-1 ring-amber-500/30"
-                    : "border-zinc-800 opacity-60 hover:opacity-100"
+                    : "border-zinc-200 opacity-60 hover:opacity-100"
                 )}
                 aria-label={`Selectează imaginea ${index + 1}`}
               >
@@ -244,7 +244,7 @@ export function PropertyGallery({
       {/* Lightbox */}
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-[100] bg-black/97 flex flex-col"
+          className="fixed inset-0 z-[100] bg-white/97 flex flex-col"
           role="dialog"
           aria-label="Galerie imagini"
           aria-modal="true"
@@ -258,7 +258,7 @@ export function PropertyGallery({
               <button
                 type="button"
                 onClick={() => setGridView((v) => !v)}
-                className="rounded-lg p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
+                className="rounded-lg p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-200 transition-all"
                 aria-label="Grid view"
               >
                 <Grid3X3 className="h-5 w-5" />
@@ -266,7 +266,7 @@ export function PropertyGallery({
               <button
                 type="button"
                 onClick={() => setLightboxOpen(false)}
-                className="rounded-lg p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
+                className="rounded-lg p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-200 transition-all"
                 aria-label="Închide galeria"
               >
                 <X className="h-5 w-5" />
@@ -290,7 +290,7 @@ export function PropertyGallery({
                       "relative aspect-square overflow-hidden rounded-xl border transition-all",
                       index === lightboxIndex
                         ? "border-amber-500/60 ring-2 ring-amber-500/30"
-                        : "border-zinc-800 hover:border-zinc-600"
+                        : "border-zinc-200 hover:border-zinc-600"
                     )}
                   >
                     <PropertyImage
@@ -315,7 +315,7 @@ export function PropertyGallery({
                 <button
                   type="button"
                   onClick={() => goPrev(true)}
-                  className="absolute left-4 z-10 rounded-full bg-zinc-800/80 p-3 text-white backdrop-blur-sm hover:bg-zinc-700 transition-all"
+                  className="absolute left-4 z-10 rounded-full bg-zinc-100/80 p-3 text-zinc-900 backdrop-blur-sm hover:bg-zinc-700 transition-all"
                   aria-label="Imaginea anterioară"
                 >
                   <ChevronLeft className="h-6 w-6" />
@@ -341,7 +341,7 @@ export function PropertyGallery({
                 <button
                   type="button"
                   onClick={() => goNext(true)}
-                  className="absolute right-4 z-10 rounded-full bg-zinc-800/80 p-3 text-white backdrop-blur-sm hover:bg-zinc-700 transition-all"
+                  className="absolute right-4 z-10 rounded-full bg-zinc-100/80 p-3 text-zinc-900 backdrop-blur-sm hover:bg-zinc-700 transition-all"
                   aria-label="Imaginea următoare"
                 >
                   <ChevronRight className="h-6 w-6" />
@@ -363,7 +363,7 @@ export function PropertyGallery({
                       "relative h-14 w-20 flex-shrink-0 overflow-hidden rounded-lg border transition-all",
                       index === lightboxIndex
                         ? "border-amber-500/60 ring-1 ring-amber-500/30"
-                        : "border-zinc-700 opacity-50 hover:opacity-100"
+                        : "border-zinc-300 opacity-50 hover:opacity-100"
                     )}
                   >
                     <PropertyImage

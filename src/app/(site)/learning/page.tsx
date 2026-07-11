@@ -347,7 +347,7 @@ export default function LearningPage() {
 
       <section
         id="word-of-the-day"
-        className="rounded-3xl border border-amber-500/20 bg-[#080808]/70 p-6 sm:p-8 backdrop-blur-xl"
+        className="rounded-3xl border border-amber-500/20 bg-white/70 p-6 sm:p-8 backdrop-blur-xl"
       >
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3 max-w-2xl text-left">
@@ -355,24 +355,24 @@ export default function LearningPage() {
               {language === "ro" ? "Word of the Day" : "Word of the Day"}
             </p>
             <div className="space-y-2">
-              <h2 className="text-2xl sm:text-3xl font-light text-white">
+              <h2 className="text-2xl sm:text-3xl font-light text-zinc-900">
                 {wordOfDay.word}
               </h2>
               {wordOfDay.pronunciation && (
-                <p className="text-xs text-zinc-500 font-mono">
+                <p className="text-xs text-zinc-400 font-mono">
                   / {wordOfDay.pronunciation} /
                 </p>
               )}
             </div>
-            <p className="text-sm leading-relaxed text-zinc-300">
+            <p className="text-sm leading-relaxed text-zinc-600">
               {language === "ro" ? wordOfDay.explanationRo : wordOfDay.explanationEn}
             </p>
           </div>
-          <div className="rounded-2xl border border-zinc-850 bg-zinc-950/40 p-4 text-left lg:max-w-md">
-            <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-500 font-bold">
+          <div className="rounded-2xl border border-zinc-200 bg-white/40 p-4 text-left lg:max-w-md">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-zinc-400 font-bold">
               {language === "ro" ? "Exemplu practic" : "Practical example"}
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-white">
+            <p className="mt-2 text-sm leading-relaxed text-zinc-900">
               {language === "ro" ? wordOfDay.exampleRo : wordOfDay.exampleEn}
             </p>
           </div>
@@ -380,11 +380,11 @@ export default function LearningPage() {
       </section>
 
       {/* Categories Filter Tabs */}
-      <div className="flex flex-wrap gap-2 pb-4 border-b border-zinc-900">
+      <div className="flex flex-wrap gap-2 pb-4 border-b border-zinc-200">
         <button
           onClick={() => setActiveCategory("all")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-            activeCategory === "all" ? "bg-amber-500 text-black" : "border border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950/20"
+            activeCategory === "all" ? "bg-amber-500 text-black" : "border border-zinc-200 text-zinc-400 hover:text-zinc-900 bg-white/20"
           }`}
         >
           {language === "ro" ? "Toate Ghidurile" : "All Guides"}
@@ -394,7 +394,7 @@ export default function LearningPage() {
             key={g.id}
             onClick={() => setActiveCategory(g.id)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeCategory === g.id ? "bg-amber-500 text-black" : "border border-zinc-800 text-zinc-400 hover:text-white bg-zinc-950/20"
+              activeCategory === g.id ? "bg-amber-500 text-black" : "border border-zinc-200 text-zinc-400 hover:text-zinc-900 bg-white/20"
             }`}
           >
             {language === "ro" ? g.titleRo.split(" (")[0] : g.titleEn}
@@ -419,14 +419,14 @@ export default function LearningPage() {
           const badgeClass = colorClassMap[guide.color] || "text-zinc-400 bg-zinc-500/10 border-zinc-500/20";
 
           return (
-            <div key={idx} className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border-t border-zinc-800 flex flex-col justify-between space-y-6`}>
+            <div key={idx} className={`p-6 sm:p-8 rounded-3xl ${designSystem.glass} border-t border-zinc-200 flex flex-col justify-between space-y-6`}>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className={`h-12 w-12 rounded-xl flex items-center justify-center border shrink-0 ${badgeClass}`}>
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="pt-1">
-                    <h3 className="text-base font-semibold text-white leading-tight">
+                    <h3 className="text-base font-semibold text-zinc-900 leading-tight">
                       {language === "ro" ? guide.titleRo : guide.titleEn}
                     </h3>
                   </div>
@@ -434,12 +434,12 @@ export default function LearningPage() {
 
                 {/* Checklist items */}
                 <div className="space-y-2">
-                  <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-mono font-semibold">Checklist</p>
+                  <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-mono font-semibold">Checklist</p>
                   <ul className="space-y-2">
                     {(language === "ro" ? guide.checklistRo : guide.checklistEn).map((item, iIdx) => (
                       <li key={iIdx} className="flex items-start gap-2.5">
                         <CheckCircle2 className="h-4 w-4 text-amber-500/70 shrink-0 mt-0.5" />
-                        <span className="text-xs text-zinc-300 leading-relaxed">{item}</span>
+                        <span className="text-xs text-zinc-600 leading-relaxed">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -447,7 +447,7 @@ export default function LearningPage() {
               </div>
 
               {/* Warnings & Next Steps */}
-              <div className="pt-4 border-t border-zinc-900 space-y-3">
+              <div className="pt-4 border-t border-zinc-200 space-y-3">
                 <div className="flex items-start gap-2 text-xs text-red-400">
                   <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
                   <p>
@@ -459,12 +459,12 @@ export default function LearningPage() {
                 <div className="flex items-start gap-2 text-xs text-zinc-400">
                   <ArrowRight className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                   <p>
-                    <strong className="font-semibold text-white">{language === "ro" ? "Următorul Pas: " : "Next Step: "}</strong>
+                    <strong className="font-semibold text-zinc-900">{language === "ro" ? "Următorul Pas: " : "Next Step: "}</strong>
                     {language === "ro" ? guide.nextStepsRo : guide.nextStepsEn}
                   </p>
                 </div>
 
-                <div className="flex items-start gap-2 text-xs text-zinc-500">
+                <div className="flex items-start gap-2 text-xs text-zinc-400">
                   <FileText className="h-4 w-4 shrink-0 mt-0.5" />
                   <p>
                     <strong className="font-semibold">{language === "ro" ? "Resurse Recomandate: " : "Recommended: "}</strong>
@@ -479,14 +479,14 @@ export default function LearningPage() {
 
       {/* Recommended Reading CTA */}
       <section>
-        <div className={`p-8 sm:p-10 rounded-3xl border border-amber-500/20 bg-[#080808]/70 backdrop-blur-xl text-center space-y-4 relative overflow-hidden`}>
+        <div className={`p-8 sm:p-10 rounded-3xl border border-amber-500/20 bg-white/70 backdrop-blur-xl text-center space-y-4 relative overflow-hidden`}>
           <div className="absolute -left-20 -top-20 w-44 h-44 bg-amber-500/5 blur-3xl rounded-full pointer-events-none" />
           <BookOpen className="h-7 w-7 text-amber-500/40 mx-auto" />
           <div>
-            <h2 className="text-xl sm:text-2xl font-light text-white">
+            <h2 className="text-xl sm:text-2xl font-light text-zinc-900">
               {language === "ro" ? "Vrei să aprofundezi studiul?" : "Expand Your Reading List"}
             </h2>
-            <p className="text-xs text-zinc-500 mt-2 max-w-md mx-auto leading-relaxed">
+            <p className="text-xs text-zinc-400 mt-2 max-w-md mx-auto leading-relaxed">
               {language === "ro"
                 ? "Descoperă biblioteca noastră de cărți recomandate despre investiții, psihologia piețelor și negocieri de lux."
                 : "Explore our curated books collection focusing on luxury markets, financial charts, and asset valuation strategy."}

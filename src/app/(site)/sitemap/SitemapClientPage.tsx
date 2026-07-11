@@ -32,9 +32,9 @@ export default function SitemapClientPage() {
 
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Core Pages */}
-        <section className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-6 sm:p-8 space-y-6 h-fit">
-          <div className="border-b border-zinc-900 pb-4">
-            <h2 className="text-xl text-white font-medium">
+        <section className="rounded-3xl border border-zinc-200 bg-white/60 p-6 sm:p-8 space-y-6 h-fit">
+          <div className="border-b border-zinc-200 pb-4">
+            <h2 className="text-xl text-zinc-900 font-medium">
               {language === "ro" ? "Pagini Principale" : "Core Pages"}
             </h2>
           </div>
@@ -45,13 +45,13 @@ export default function SitemapClientPage() {
                 <Link
                   key={page.href}
                   href={page.href}
-                  className="group flex items-center justify-between rounded-2xl border border-zinc-850/60 bg-zinc-950/20 p-4 transition-all hover:border-amber-500/25 hover:bg-zinc-900/40"
+                  className="group flex items-center justify-between rounded-2xl border border-zinc-200/60 bg-white/20 p-4 transition-all hover:border-amber-500/25 hover:bg-zinc-100/40"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 text-zinc-400 group-hover:text-amber-400 transition-colors">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-400 group-hover:text-amber-400 transition-colors">
                       <Icon className="h-4.5 w-4.5" />
                     </div>
-                    <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                    <span className="text-sm font-medium text-zinc-200 group-hover:text-zinc-900 transition-colors">
                       {page.label}
                     </span>
                   </div>
@@ -67,12 +67,12 @@ export default function SitemapClientPage() {
           {navigationCategories.map((cat) => {
             const Icon = cat.icon;
             return (
-              <section key={cat.id} className="rounded-3xl border border-zinc-850 bg-[#080808]/60 p-6 sm:p-8 space-y-6">
-                <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950 ${cat.color}`}>
+              <section key={cat.id} className="rounded-3xl border border-zinc-200 bg-white/60 p-6 sm:p-8 space-y-6">
+                <div className="flex items-center gap-3 border-b border-zinc-200 pb-4">
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white ${cat.color}`}>
                     <Icon className="h-4.5 w-4.5" />
                   </div>
-                  <h2 className="text-lg text-white font-medium">
+                  <h2 className="text-lg text-zinc-900 font-medium">
                     {language === "ro" ? cat.title : cat.titleEn}
                   </h2>
                 </div>
@@ -81,12 +81,12 @@ export default function SitemapClientPage() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className="group flex flex-col gap-1 rounded-xl border border-transparent p-3 transition-all hover:bg-zinc-900/40 hover:border-zinc-800"
+                      className="group flex flex-col gap-1 rounded-xl border border-transparent p-3 transition-all hover:bg-zinc-100/40 hover:border-zinc-300"
                     >
-                      <span className="text-sm font-medium text-zinc-300 group-hover:text-amber-400 transition-colors">
+                      <span className="text-sm font-medium text-zinc-600 group-hover:text-amber-400 transition-colors">
                         {language === "ro" ? item.label : item.labelEn}
                       </span>
-                      <span className="text-xs text-zinc-500 line-clamp-1">
+                      <span className="text-xs text-zinc-400 line-clamp-1">
                         {language === "ro" ? item.desc : item.descEn}
                       </span>
                     </Link>

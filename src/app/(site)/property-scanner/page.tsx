@@ -83,9 +83,9 @@ export default function PropertyScannerPage() {
         <div className={`lg:col-span-5 p-6 rounded-3xl ${designSystem.glass} space-y-6 relative overflow-hidden`}>
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/[0.02] blur-3xl pointer-events-none rounded-full" />
           
-          <div className="flex items-center gap-2 border-b border-zinc-900 pb-3">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-3">
             <Search className="h-4.5 w-4.5 text-amber-500" />
-            <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-zinc-900 uppercase tracking-wider">
               {language === "ro" ? "Parametri Scanare" : "Scanner Inputs"}
             </h3>
           </div>
@@ -100,7 +100,7 @@ export default function PropertyScannerPage() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://www.imobiliare.ro/vanzare-apartamente/..."
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-3.5 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-3.5 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none transition-colors"
               />
             </div>
 
@@ -117,7 +117,7 @@ export default function PropertyScannerPage() {
                     ? "Apartament 3 camere, 85 mp, etaj 3, Pipera, finisaje premium..."
                     : "Penthouse apartment, 120 sqm, 5th floor, Floreasca, net yields estimated at..."
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-3.5 py-2.5 text-xs text-white placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none transition-colors resize-none"
+                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-3.5 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none transition-colors resize-none"
               />
             </div>
 
@@ -145,15 +145,15 @@ export default function PropertyScannerPage() {
         <div className="lg:col-span-7 space-y-6">
           {/* Default state */}
           {!scanning && !showResult && (
-            <div className={`p-8 rounded-3xl border border-zinc-900 bg-zinc-950/20 backdrop-blur-xl text-center space-y-4`}>
-              <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center mx-auto text-zinc-500 border border-zinc-850">
+            <div className={`p-8 rounded-3xl border border-zinc-200 bg-white/20 backdrop-blur-xl text-center space-y-4`}>
+              <div className="w-12 h-12 rounded-full bg-zinc-50 flex items-center justify-center mx-auto text-zinc-400 border border-zinc-200">
                 <Search className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-zinc-900">
                   {language === "ro" ? "Sandbox Audit Inactiv" : "Audit Sandbox Idle"}
                 </h3>
-                <p className="text-xs text-zinc-500 max-w-sm mx-auto leading-relaxed">
+                <p className="text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
                   {language === "ro"
                     ? "Completează datele din stânga pentru a activa motorul de conformitate cadastrală."
                     : "Fill in the coordinates on the left to trigger our automated compliance engine."}
@@ -164,14 +164,14 @@ export default function PropertyScannerPage() {
 
           {/* Scanning Live State */}
           {scanning && (
-            <div className={`p-8 rounded-3xl border border-amber-500/20 bg-zinc-950/40 backdrop-blur-xl text-left space-y-6`}>
+            <div className={`p-8 rounded-3xl border border-amber-500/20 bg-white/40 backdrop-blur-xl text-left space-y-6`}>
               <div className="flex items-center gap-3">
                 <RefreshCw className="h-5 w-5 text-amber-500 animate-spin" />
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-zinc-900">
                     {language === "ro" ? "Audit Imobiliar în Desfășurare" : "AI Property Audit Running"}
                   </h3>
-                  <p className="text-[10px] text-zinc-500 font-mono mt-0.5">COMPLIANCE SIMULATION ACTIVE</p>
+                  <p className="text-[10px] text-zinc-400 font-mono mt-0.5">COMPLIANCE SIMULATION ACTIVE</p>
                 </div>
               </div>
 
@@ -191,7 +191,7 @@ export default function PropertyScannerPage() {
                     ) : idx === scanStep ? (
                       <Activity className="h-4 w-4 text-amber-400 shrink-0 animate-spin" style={{ animationDuration: "3s" }} />
                     ) : (
-                      <span className="h-1.5 w-1.5 rounded-full bg-zinc-800 shrink-0 ml-1.5 mr-1" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-zinc-100 shrink-0 ml-1.5 mr-1" />
                     )}
                     <span>{step}</span>
                   </div>
@@ -205,17 +205,17 @@ export default function PropertyScannerPage() {
             <div className="space-y-6">
               
               {/* Report Header Card */}
-              <div className={`p-6 sm:p-8 rounded-3xl border border-zinc-850 bg-[#080808]/85 backdrop-blur-xl relative overflow-hidden space-y-6`}>
+              <div className={`p-6 sm:p-8 rounded-3xl border border-zinc-200 bg-white/85 backdrop-blur-xl relative overflow-hidden space-y-6`}>
                 <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/[0.02] blur-3xl pointer-events-none rounded-full" />
                 
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-900 pb-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-200 pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="rounded-xl bg-emerald-500/10 p-2.5 text-emerald-400 border border-emerald-500/25">
                       <Shield className="h-5 w-5" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-semibold text-white">AiX Verified Audit Report</h3>
+                        <h3 className="text-sm font-semibold text-zinc-900">AiX Verified Audit Report</h3>
                         <span className="text-[8px] font-bold font-mono px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/5 text-emerald-400">PASSED</span>
                       </div>
                       <p className="text-[10px] text-zinc-550 font-mono mt-0.5">ID: SCAN-8422A6 • July 2026</p>
@@ -233,7 +233,7 @@ export default function PropertyScannerPage() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                   
                   {/* Circular Dial Column */}
-                  <div className="md:col-span-4 flex flex-col items-center justify-center p-4 border border-zinc-900 rounded-2xl bg-zinc-950/40">
+                  <div className="md:col-span-4 flex flex-col items-center justify-center p-4 border border-zinc-200 rounded-2xl bg-white/40">
                     <div className="relative h-24 w-24">
                       {/* Circle Gauge SVG */}
                       <svg viewBox="0 0 36 36" className="h-24 w-24 -rotate-90">
@@ -253,7 +253,7 @@ export default function PropertyScannerPage() {
                         </defs>
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-2xl font-light text-white font-mono leading-none">9.2</span>
+                        <span className="text-2xl font-light text-zinc-900 font-mono leading-none">9.2</span>
                         <span className="text-[9px] text-zinc-550 font-mono">/ 10</span>
                       </div>
                     </div>
@@ -272,10 +272,10 @@ export default function PropertyScannerPage() {
                       <div key={i} className="space-y-1.5">
                         <div className="flex justify-between text-[10px] font-semibold text-zinc-400">
                           <span>{sub.label}</span>
-                          <span className="font-mono text-white">{sub.isRisk ? sub.status : `${sub.val}/100`}</span>
+                          <span className="font-mono text-zinc-900">{sub.isRisk ? sub.status : `${sub.val}/100`}</span>
                         </div>
                         {/* Bar */}
-                        <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
+                        <div className="h-1.5 w-full bg-zinc-50 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
                               sub.isRisk ? "bg-emerald-500" : "bg-amber-500"
@@ -290,8 +290,8 @@ export default function PropertyScannerPage() {
                 </div>
 
                 {/* Checklist Verification Seals */}
-                <div className="border-t border-zinc-900 pt-5 space-y-3">
-                  <h4 className="text-[9px] font-bold uppercase tracking-widest text-zinc-500 font-mono">AiX Verified™ Certification Details</h4>
+                <div className="border-t border-zinc-200 pt-5 space-y-3">
+                  <h4 className="text-[9px] font-bold uppercase tracking-widest text-zinc-400 font-mono">AiX Verified™ Certification Details</h4>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5 text-[10.5px]">
                     {[
@@ -301,7 +301,7 @@ export default function PropertyScannerPage() {
                       { label: language === "ro" ? "Randament ROI" : "Yield Verified", valid: true },
                       { label: language === "ro" ? "Evaluare AI" : "AI Core Rating", valid: true }
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-1.5 p-2 rounded-xl bg-zinc-950/50 border border-zinc-900">
+                      <div key={idx} className="flex items-center gap-1.5 p-2 rounded-xl bg-white/50 border border-zinc-200">
                         <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" />
                         <span className="text-zinc-350 truncate">{item.label}</span>
                       </div>
@@ -310,7 +310,7 @@ export default function PropertyScannerPage() {
                 </div>
 
                 {/* AI Text Verdict summary */}
-                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-900 text-xs text-zinc-400 leading-relaxed italic border-l-4 border-l-emerald-500">
+                <div className="p-4 rounded-2xl bg-white/60 border border-zinc-200 text-xs text-zinc-400 leading-relaxed italic border-l-4 border-l-emerald-500">
                   <Sparkles className="h-4 w-4 text-amber-500 mb-1.5" />
                   <p>
                     {language === "ro"

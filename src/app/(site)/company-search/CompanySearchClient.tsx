@@ -90,7 +90,7 @@ export default function CompanySearchClient() {
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
           {language === "ro" ? "AiX OS™ · Verificare Companii" : "AiX OS™ · Business Lookup"}
         </span>
-        <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">
+        <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           {language === "ro" ? "Rapoarte Clienți &" : "Corporate Intelligence &"} <br />
           <span className="gradient-gold">{language === "ro" ? "Verificări Firme Oficiale" : "Business Registries"}</span>
         </h1>
@@ -103,9 +103,9 @@ export default function CompanySearchClient() {
 
       {/* Romania Section */}
       <section className="space-y-6">
-        <div className="flex items-center gap-3 border-b border-zinc-900 pb-3">
+        <div className="flex items-center gap-3 border-b border-zinc-200 pb-3">
           <span className="text-xl">🇷🇴</span>
-          <h2 className="text-lg font-light text-white uppercase tracking-wider">
+          <h2 className="text-lg font-light text-zinc-900 uppercase tracking-wider">
             {language === "ro" ? "Verificare Firme România" : "Romania Company Lookup"}
           </h2>
         </div>
@@ -119,16 +119,16 @@ export default function CompanySearchClient() {
                     <div className="rounded-xl bg-amber-500/10 p-2.5 text-amber-400">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                       {res.purpose}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{res.title}</h3>
                     <p className="text-xs text-zinc-455 leading-relaxed mt-2">{res.desc}</p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                <div className="pt-4 border-t border-zinc-200/60 mt-4">
                   <a
                     href={res.url}
                     target="_blank"
@@ -147,9 +147,9 @@ export default function CompanySearchClient() {
 
       {/* Europe Section */}
       <section className="space-y-6">
-        <div className="flex items-center gap-3 border-b border-zinc-900 pb-3">
+        <div className="flex items-center gap-3 border-b border-zinc-200 pb-3">
           <span className="text-xl">🇪🇺</span>
-          <h2 className="text-lg font-light text-white uppercase tracking-wider">
+          <h2 className="text-lg font-light text-zinc-900 uppercase tracking-wider">
             {language === "ro" ? "Registre Europene de Business" : "European Business Registries"}
           </h2>
         </div>
@@ -163,16 +163,16 @@ export default function CompanySearchClient() {
                     <div className="rounded-xl bg-blue-500/10 p-2.5 text-blue-400">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-900 px-2 py-0.5 rounded-full bg-zinc-950/20">
+                    <span className="text-[9px] font-mono text-zinc-550 uppercase tracking-widest border border-zinc-200 px-2 py-0.5 rounded-full bg-white/20">
                       {res.purpose}
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{res.title}</h3>
+                    <h3 className="text-sm font-semibold text-zinc-900">{res.title}</h3>
                     <p className="text-xs text-zinc-455 leading-relaxed mt-2">{res.desc}</p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-zinc-900/60 mt-4">
+                <div className="pt-4 border-t border-zinc-200/60 mt-4">
                   <a
                     href={res.url}
                     target="_blank"

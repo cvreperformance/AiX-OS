@@ -206,7 +206,7 @@ export default function AntiTeapaPage() {
         
         <div className="grid lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-6">
-            <h1 className="text-3xl sm:text-5xl font-light text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-light text-zinc-900 leading-tight">
               {language === "ro" ? "Verifică Orice Proprietate" : "Audit Any Asset"} <br />
               <span className="text-red-400">{language === "ro" ? "Înainte de Semnare." : "Before Signing."}</span>
             </h1>
@@ -228,7 +228,7 @@ export default function AntiTeapaPage() {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder={language === "ro" ? "Adresa completă sau codul poștal" : "Full street address or postal code"}
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
+                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                 />
 
                 <div className="grid grid-cols-2 gap-3">
@@ -237,21 +237,21 @@ export default function AntiTeapaPage() {
                     value={cadastru}
                     onChange={(e) => setCadastru(e.target.value)}
                     placeholder={language === "ro" ? "Număr cadastral / CF" : "Cadastre ID / Land Registry CF"}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
+                    className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                   />
                   <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     placeholder={language === "ro" ? "Preț solicitat (€)" : "Asking Price (€)"}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 px-4 py-2.5 text-xs text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
+                    className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-xl bg-red-600 text-white py-3 text-xs font-semibold uppercase tracking-wider hover:bg-red-500 transition-all flex items-center justify-center gap-1.5"
+                  className="w-full rounded-xl bg-red-600 text-zinc-900 py-3 text-xs font-semibold uppercase tracking-wider hover:bg-red-500 transition-all flex items-center justify-center gap-1.5"
                 >
                   {loading 
                     ? (language === "ro" ? "Scanare registre active..." : "Querying database registers...") 
@@ -261,7 +261,7 @@ export default function AntiTeapaPage() {
 
               {/* Dynamic Due Diligence Output */}
               {report && (
-                <div className="pt-4 border-t border-zinc-900/80 space-y-4 animate-in fade-in duration-200">
+                <div className="pt-4 border-t border-zinc-200/80 space-y-4 animate-in fade-in duration-200">
                   <div className="flex justify-between items-center">
                     <span className={designSystem.badgeElite}>AI Risk Report</span>
                     <span className={`text-[10px] uppercase tracking-widest font-mono font-bold ${
@@ -271,12 +271,12 @@ export default function AntiTeapaPage() {
                     </span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border border-zinc-900 bg-zinc-950/60 text-[10px] space-y-2 text-zinc-450 font-mono">
-                    <div className="flex justify-between border-b border-zinc-900 pb-1.5">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 bg-white/60 text-[10px] space-y-2 text-zinc-450 font-mono">
+                    <div className="flex justify-between border-b border-zinc-200 pb-1.5">
                       <span>{language === "ro" ? "Cartea Funciară:" : "Registry Status:"}</span>
                       <span className="text-zinc-350">{report.cadastruStatus}</span>
                     </div>
-                    <div className="flex justify-between border-b border-zinc-900 pb-1.5">
+                    <div className="flex justify-between border-b border-zinc-200 pb-1.5">
                       <span>{language === "ro" ? "Ipoteci active:" : "Active Mortgages:"}</span>
                       <span className={report.safetyLevel === "low" ? "text-red-400 font-bold" : "text-zinc-350"}>
                         {report.ipoteci}
@@ -299,8 +299,8 @@ export default function AntiTeapaPage() {
                   </p>
 
                   {/* Audit Lead Form */}
-                  <div className="pt-4 border-t border-zinc-900/80 space-y-3">
-                    <p className="text-[10px] text-zinc-300 uppercase tracking-wider font-semibold">
+                  <div className="pt-4 border-t border-zinc-200/80 space-y-3">
+                    <p className="text-[10px] text-zinc-600 uppercase tracking-wider font-semibold">
                       {language === "ro" ? "Solicită Raport Complet Certificat" : "Request Certified Notary Audit"}
                     </p>
                     {leadSuccess ? (
@@ -329,7 +329,7 @@ export default function AntiTeapaPage() {
                             value={leadName}
                             onChange={(e) => setLeadName(e.target.value)}
                             placeholder="Numele dvs."
-                            className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                            className="rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
                           />
                           <input
                             required
@@ -337,7 +337,7 @@ export default function AntiTeapaPage() {
                             value={leadPhone}
                             onChange={(e) => setLeadPhone(e.target.value)}
                             placeholder="Telefon"
-                            className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                            className="rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
                           />
                         </div>
                         <input
@@ -345,12 +345,12 @@ export default function AntiTeapaPage() {
                           value={leadEmail}
                           onChange={(e) => setLeadEmail(e.target.value)}
                           placeholder="E-mail (opțional)"
-                          className="w-full rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-[11px] text-white placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
+                          className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-red-500/50 focus:outline-none transition-colors"
                         />
                         <button
                           type="submit"
                           disabled={leadLoading}
-                          className="w-full rounded-lg bg-red-600 hover:bg-red-500 text-white py-2 text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1"
+                          className="w-full rounded-lg bg-red-600 hover:bg-red-500 text-zinc-900 py-2 text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1"
                         >
                           {leadLoading ? "Se trimite..." : "Solicită Audit Juridic"}
                         </button>
@@ -364,7 +364,7 @@ export default function AntiTeapaPage() {
 
           <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-7 space-y-4">
             <AlertTriangle className="h-8 w-8 text-red-400" />
-            <h3 className="text-lg font-light text-white">{language === "ro" ? "Statistici de Risc" : "Property Risk Stats"}</h3>
+            <h3 className="text-lg font-light text-zinc-900">{language === "ro" ? "Statistici de Risc" : "Property Risk Stats"}</h3>
             <ul className="space-y-3">
               {(language === "ro" 
                 ? [
@@ -380,7 +380,7 @@ export default function AntiTeapaPage() {
               ).map((fact) => (
                 <li key={fact} className="flex items-start gap-3 text-xs">
                   <span className="text-red-400 mt-0.5 flex-shrink-0">⚠</span>
-                  <p className="text-zinc-300">{fact}</p>
+                  <p className="text-zinc-600">{fact}</p>
                 </li>
               ))}
             </ul>
@@ -391,11 +391,11 @@ export default function AntiTeapaPage() {
       {/* Red flags list */}
       <section className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-light text-white flex items-center gap-2">
+          <h2 className="text-xl font-light text-zinc-900 flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-400" />
             {language === "ro" ? "Semnale de alarmă (Red Flags)" : "Property Red Flags"}
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-400">
             {language === "ro" 
               ? "Dacă întâlnești aceste situații, oprește-te înainte de plata avansului."
               : "If you encounter any of these scenarios, halt the transaction before wiring deposits."}
@@ -420,10 +420,10 @@ export default function AntiTeapaPage() {
       {/* Checklist */}
       <section className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-light text-white">
+          <h2 className="text-xl font-light text-zinc-900">
             {language === "ro" ? "Ce acoperă auditul AntiȚeapă" : "What the Audit Inspects"}
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-400">
             {language === "ro" 
               ? "Verificăm registre active și detalii cadastrale fizice."
               : "We inspect active government registries and cadastral outlines."}
@@ -433,14 +433,14 @@ export default function AntiTeapaPage() {
           {CHECKS.map((c) => {
             const Icon = c.icon;
             return (
-              <div key={c.title} className={`rounded-2xl border ${designSystem.borderMuted} bg-zinc-950/40 p-5 space-y-3`}>
+              <div key={c.title} className={`rounded-2xl border ${designSystem.borderMuted} bg-white/40 p-5 space-y-3`}>
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-emerald-500/10 p-2 text-emerald-450">
                     <Icon className="h-4 w-4" />
                   </div>
-                  <h3 className="text-xs font-semibold text-white">{c.title}</h3>
+                  <h3 className="text-xs font-semibold text-zinc-900">{c.title}</h3>
                 </div>
-                <p className="text-[11px] text-zinc-500 leading-relaxed">{c.desc}</p>
+                <p className="text-[11px] text-zinc-400 leading-relaxed">{c.desc}</p>
               </div>
             );
           })}
