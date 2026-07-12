@@ -108,12 +108,7 @@ export function AuthNavLinks() {
         >
           Login
         </Link>
-        <Link
-          href="/register"
-          className="rounded-full bg-amber-500 hover:bg-amber-400 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-950 transition-all shadow-sm whitespace-nowrap"
-        >
-          Create Account
-        </Link>
+        
       </div>
     </div>
   );

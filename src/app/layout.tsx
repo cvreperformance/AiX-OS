@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/config";
+import SystemBackgroundLayer from "@/components/layout/SystemBackgroundLayer";
 import { organizationSchema } from "@/lib/seo";
 import "./globals.css";
 
@@ -71,7 +72,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
       </head>
-      <body className="min-h-full antialiased bg-white text-zinc-100" suppressHydrationWarning>
+      <body className="min-h-full antialiased bg-black text-zinc-100" suppressHydrationWarning>
+        <SystemBackgroundLayer />
         {children}
       </body>
     </html>

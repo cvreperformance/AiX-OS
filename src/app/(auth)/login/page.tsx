@@ -99,15 +99,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="text-center text-sm relative text-zinc-400">
-          Not a member?{" "}
-          <Link
-            href="/register"
-            className="font-medium text-amber-500 hover:text-amber-400 transition-colors"
-          >
-            Create an account
-          </Link>
-        </div>
+        <p className="text-center text-sm text-zinc-400">Need an account? Contact support.</p>
       </div>
     </div>
   );

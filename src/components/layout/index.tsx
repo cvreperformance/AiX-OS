@@ -212,7 +212,7 @@ export function Header() {
       {/* ─── PRIMARY GLASS PANEL SERVICE HUB (TOP NAV REPLACEMENT) ───────── */}
       <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4 lg:pt-6">
         {/* Full Flat Grid Header - Visible on desktop at the top */}
-        <div className={`hidden lg:block rounded-3xl border border-zinc-200 bg-white/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
+        <div className={`hidden lg:block rounded-3xl border border-zinc-200 bg-black/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
           scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
         }`}>
           {/* Top Brand & Actions line */}
@@ -297,7 +297,7 @@ export function Header() {
 
       {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
-        className={`sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
+        className={`sticky top-0 z-[300] border-b border-zinc-200 bg-black/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
           scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"
         }`}
       >
@@ -441,7 +441,7 @@ export function Header() {
         aria-hidden={!menuVisible}
       >
         <div
-          className={`absolute inset-0 bg-white/75 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
             menuVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={closeMenu}

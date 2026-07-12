@@ -4,6 +4,7 @@ create table public.profiles (
   email text,
   full_name text,
   role text default 'user'::text,
+  approval_status text default 'pending'::text,
   avatar_url text,
   phone text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
@@ -43,13 +44,14 @@ create policy "Admins can delete any profile." on profiles
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, email, full_name, avatar_url)
-  values (
-    new.id,
-    new.email,
-    new.raw_user_meta_data->>'full_name',
-    new.raw_user_meta_data->>'avatar_url'
-  );
+   insert into public.profiles (id, email, full_name, avatar_url, approval_status)
+   values (
+     new.id,
+     new.email,
+     new.raw_user_meta_data->>'full_name',
+     new.raw_user_meta_data->>'avatar_url',
+     'pending'
+   );
   return new;
 end;
 $$ language plpgsql security definer;

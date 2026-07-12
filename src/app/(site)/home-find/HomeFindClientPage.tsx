@@ -197,7 +197,6 @@ export default function HomeFindClientPage() {
                 </div>
                 
                 <div className="reveal delay-200 relative">
-                    <div className="glow-orb glow-purple opacity-50"></div>
                     <div className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-white shadow-2xl">
                         <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=1200&auto=format&fit=crop" alt="Dashboard Interface Visualization" className="w-full h-auto opacity-60 mix-blend-overlay" />
                         <div className="absolute inset-0 flex items-center justify-center z-10 p-8">
@@ -226,7 +225,6 @@ export default function HomeFindClientPage() {
 
     {/* AI Features: Smart Pricing Calculator */}
     <section id="aix" className="py-32 relative">
-        <div className="glow-orb glow-blue opacity-30"></div>
         <div className="max-w-7xl mx-auto px-6 text-center reveal">
             <h2 className="text-sm font-bold tracking-[0.2em] text-brand-purple uppercase mb-4">AI Features</h2>
             <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Smart Pricing Calculator</h3>
@@ -308,7 +306,6 @@ export default function HomeFindClientPage() {
                 </ul>
             </div>
             <div className="reveal delay-200 relative">
-                <div className="glow-orb glow-gold opacity-40"></div>
                 <div className="glass-card p-2 border-brand-gold/30 shadow-[0_0_60px_rgba(212,175,55,0.15)] rounded-3xl relative overflow-hidden">
                     <div className="absolute inset-0 border border-brand-gold/50 rounded-3xl z-20 pointer-events-none m-2"></div>
                     <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1200&auto=format&fit=crop" alt="Luxury Representation" className="w-full rounded-2xl opacity-90 mix-blend-luminosity hover:mix-blend-normal transition-all duration-1000 object-cover h-[500px]" />
@@ -381,7 +378,6 @@ export default function HomeFindClientPage() {
     {/* Powered by AiX / CTA */}
     <section className="py-40 relative text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-blue/10 pointer-events-none"></div>
-        <div className="glow-orb glow-gold opacity-20 left-1/2 -translate-x-1/2 bottom-0"></div>
         
         <div className="max-w-4xl mx-auto px-6 relative z-10 reveal">
             <h2 className="text-6xl md:text-7xl font-display font-bold mb-8 text-gradient-gold drop-shadow-2xl">Powered by AiX OS™</h2>

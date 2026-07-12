@@ -117,12 +117,12 @@ export function FloatingCTA() {
     <>
       {/* ─── ASK AiX™ OVERLAY DRAWER ───────────────────────────────────────── */}
       {chatOpen && (
-        <div className="fixed bottom-24 right-4 sm:right-6 w-[350px] sm:w-[400px] h-[520px] z-[9999] rounded-3xl border border-zinc-200 bg-white/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden animate-in">
+        <div className="fixed bottom-24 right-4 sm:right-6 w-[350px] sm:w-[400px] h-[520px] z-[9999] rounded-3xl border border-zinc-800 bg-black/95 backdrop-blur-2xl shadow-2xl flex flex-col overflow-hidden animate-in">
           {/* Glowing Top Line */}
           <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-amber-500 via-amber-300 to-transparent" />
 
           {/* Chat Header */}
-          <div className="p-4 border-b border-zinc-200 flex items-center justify-between bg-white/40">
+          <div className="p-4 border-b border-zinc-800 flex items-center justify-between bg-black/40">
             <div className="flex items-center gap-2">
               <div className="rounded-xl bg-amber-500/10 p-2 border border-amber-500/25 text-amber-500 animate-pulse">
                 <Brain className="h-4 w-4" />
@@ -177,7 +177,7 @@ export function FloatingCTA() {
               <button
                 key={idx}
                 onClick={() => handleSuggestion(s.label)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-200 bg-white/40 text-[9.5px] text-zinc-400 hover:text-zinc-900 hover:border-zinc-300 transition-all whitespace-nowrap cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-zinc-800 bg-black/40 text-[9.5px] text-zinc-300 hover:text-zinc-100 hover:border-zinc-600 transition-all whitespace-nowrap cursor-pointer"
               >
                 <s.icon className="h-3 w-3 text-amber-500/60" />
                 <span>{s.label}</span>
@@ -186,7 +186,7 @@ export function FloatingCTA() {
           </div>
 
           {/* Chat Form */}
-          <form onSubmit={handleSend} className="p-3 border-t border-zinc-200/60 bg-white/40 flex gap-2">
+          <form onSubmit={handleSend} className="p-3 border-t border-zinc-800/60 bg-black/40 flex gap-2">
             <input
               required
               value={query}

@@ -96,15 +96,7 @@ export function AccountMenuSection({ language }: { language: string }) {
           </>
         ) : (
           <>
-            <li>
-              <Link
-                href="/register"
-                className="flex items-center gap-2 text-xs text-amber-500 hover:text-amber-400 transition-all font-bold"
-              >
-                <UserPlus className="w-3.5 h-3.5" />
-                {language === "ro" ? "Creare Cont" : "Create Account"}
-              </Link>
-            </li>
+
             <li>
               <Link
                 href="/login"

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { sendTelegramAlert } from '@/lib/notifications';
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
@@ -83,6 +84,24 @@ export async function signup(formData: FormData) {
     };
 
     const { error } = await supabase.auth.signUp(data);
+
+  // If sign‑up succeeded, dispatch a Telegram alert (non‑blocking)
+  if (!error) {
+    try {
+      await sendTelegramAlert({
+        service: 'User Registration',
+        page: '/register',
+        name: data.options?.data?.full_name ?? 'N/A',
+        phone: 'N/A',
+        email: data.email,
+        message: undefined,
+        source: 'website',
+        created_at: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.warn('[AiX] Telegram notification failed for registration:', e);
+    }
+  }
 
     if (error) {
       const msg = error.message.toLowerCase();

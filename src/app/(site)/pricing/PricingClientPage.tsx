@@ -103,7 +103,7 @@ export default function PricingClientPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/register" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Start Free</Link>
+              <Link href="/login" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Login to Access</Link>
             </div>
             {/* STARTER */}
             <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-8 flex flex-col hover:border-blue-500/40 transition-all">
