@@ -3,24 +3,24 @@ import type { NextRequest } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 /**
- * Global middleware to enforce user approval status.
- * - Allows unauthenticated routes (auth pages, public API, static assets).
- * - Allows admins unrestricted access.
+ * Global middleware to enforce route protection.
+ * - Public routes are accessible to everyone.
+ * - Protected routes (/dashboard, /admin) require authentication.
  * - Redirects users with `approval_status !== 'approved'` to the pending approval page.
  */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Public routes that do not require auth or approval
-  const publicPaths = [
-    '/login',
-    '/register',
-    '/api/',
-    '/_next/',
-    '/favicon.ico',
-    '/pending-approval',
+  // Define protected routes that require authentication
+  const protectedPaths = [
+    '/dashboard',
+    '/admin'
   ];
-  if (publicPaths.some((p) => pathname.startsWith(p))) {
+
+  const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
+
+  // If the route is public, allow access immediately
+  if (!isProtected) {
     return NextResponse.next();
   }
 
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // No user → redirect to login
+  // No user trying to access a protected route → redirect to login
   if (!user) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/login';
@@ -59,5 +59,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/:path*', // Run for all routes
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - api/ (API routes are usually protected within the handlers)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|api/.*|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 };
