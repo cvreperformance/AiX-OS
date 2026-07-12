@@ -156,9 +156,9 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
             AiX OS™ &bull; FUTURE 2030 INTELLIGENCE
           </span>
-          <h1 className="text-5xl sm:text-6xl font-light text-zinc-900 tracking-tight leading-none">
-            The AI Operating System <br />
-            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600">for Capital & Property</span>
+          <h1 className="text-5xl sm:text-7xl font-light text-zinc-900 tracking-tight leading-none">
+            AiX OS™ <br />
+            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600 text-4xl sm:text-5xl mt-2 inline-block">Your second brain.<br />Think faster.</span>
           </h1>
           <p className="text-base sm:text-lg font-light text-zinc-600 max-w-xl leading-relaxed">
             {language === "ro" 
