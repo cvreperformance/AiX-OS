@@ -6,6 +6,8 @@ import { sendTelegramAlert } from '@/lib/notifications';
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
+  let redirectUrl = "/dashboard";
+  
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     if (!supabaseUrl || !supabaseUrl.startsWith("http")) {
@@ -42,11 +44,11 @@ export async function login(formData: FormData) {
         .single();
 
       if (profile?.role === "admin") {
-        redirect("/admin");
+        redirectUrl = "/admin";
       }
     }
   } catch (err: any) {
-    if (err.message && err.message === "NEXT_REDIRECT") {
+    if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
       throw err;
     }
     const errMsg = err?.message?.toLowerCase() || "";
@@ -57,7 +59,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect(redirectUrl);
 }
 
 export async function signup(formData: FormData) {

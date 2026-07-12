@@ -348,10 +348,10 @@ export default function UserDashboard({ user, profile }: UserDashboardProps) {
                     {language === "ro" ? "Autentificare" : "Access Workspace"}
                   </Link>
                   <Link
-                    href="/join"
+                    href="/contact"
                     className="rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 px-6 py-2.5 text-xs text-zinc-600 transition-all"
                   >
-                    {language === "ro" ? "Creează Cont" : "Register"}
+                    {language === "ro" ? "Solicită Acces" : "Request Access"}
                   </Link>
                 </div>
               </div>

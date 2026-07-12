@@ -47,12 +47,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If not approved – send to pending page
-  if (profile?.approval_status !== 'approved') {
-    const pendingUrl = request.nextUrl.clone();
-    pendingUrl.pathname = '/pending-approval';
-    return NextResponse.redirect(pendingUrl);
-  }
 
   // All checks passed – allow request
   return NextResponse.next();

@@ -99,7 +99,16 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-zinc-400">Need an account? Contact support.</p>
+        <div className="text-center border-t border-zinc-200/50 pt-6 mt-6">
+          <p className="text-sm font-medium text-zinc-900 mb-1">Need access?</p>
+          <p className="text-sm text-zinc-500 mb-4">Contact us to request platform access.</p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-200 transition-colors"
+          >
+            Request Access
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "nav.join": "Alătură-te AiX",
     "nav.call": "Sună Acum",
     "nav.whatsapp": "WhatsApp",
-    "nav.cta": "Creează Cont AiX",
+    "nav.cta": "Solicită Acces",
     
     "hero.badge": "Sistemul tău secundar de inteligență imobiliară",
     "hero.title": "AiX OS™",
@@ -62,7 +62,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "nav.join": "Join AiX",
     "nav.call": "Call Now",
     "nav.whatsapp": "WhatsApp",
-    "nav.cta": "Create AiX Account",
+    "nav.cta": "Request Access",
     
     "hero.badge": "Your secondary real estate intelligence system",
     "hero.title": "AiX OS™",
