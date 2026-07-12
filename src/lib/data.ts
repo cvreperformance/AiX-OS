@@ -55,12 +55,14 @@ async function fetchFromSupabase<T>(
 export async function getProperties(): Promise<
   Array<Property & { resolved_image_url: string | null; resolved_gallery: string[] }>
 > {
-  const data = await fetchFromSupabase<Property>("properties", "created_at", false, {
-    column: "status",
-    value: "active",
-  });
+  const supabase = getSupabase();
+  let data: any[] | null = null;
+  if (supabase) {
+    const { data: res, error } = await supabase.from("properties").select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url:cover_image, status, created_at, gallery, features").eq("status", "Published").order("created_at", { ascending: false });
+    if (!error) data = res;
+  }
 
-  const list = data ?? demoProperties;
+  const list = (data as Property[]) ?? demoProperties;
   const enriched = enrichProperties(list);
 
   if (process.env.NODE_ENV === "development" && enriched[0]) {
@@ -78,7 +80,7 @@ export async function getProperty(slug: string): Promise<
   if (supabase) {
     const { data, error } = await supabase
       .from("properties")
-      .select("*")
+      .select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url:cover_image, status, created_at, gallery, features")
       .eq("slug", slug)
       .maybeSingle();
 
