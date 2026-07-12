@@ -104,11 +104,10 @@ export function AuthNavLinks() {
       <div className="hidden sm:flex items-center gap-2">
         <Link
           href="/login"
-          className="rounded-full border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-200 hover:text-zinc-900 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400 transition-all whitespace-nowrap"
+          className="rounded-full border border-zinc-200 bg-white/90 hover:bg-white text-zinc-900 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all shadow-sm whitespace-nowrap"
         >
           Login
         </Link>
-        
       </div>
     </div>
   );

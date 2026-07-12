@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -22,6 +22,92 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { designSystem } from "@/styles/designSystem";
+
+function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number, prefix?: string, suffix?: string }) {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    let start = 0;
+    const duration = 2000;
+    const increment = end / (duration / 16);
+    
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    
+    return () => clearInterval(timer);
+  }, [end]);
+
+  return <span>{prefix}{count.toLocaleString()}{suffix}</span>;
+}
+
+function LiveTerminalWall({ language }: { language: string }) {
+  const [events, setEvents] = useState<string[]>([]);
+  
+  const allEvents = language === "ro" ? [
+    "AI a detectat activitate pe piața de lux",
+    "Oportunitate de investiție identificată",
+    "Actualizare rutare Concierge",
+    "Semnal de piață detectat",
+    "Analiza AiX Brain completată"
+  ] : [
+    "AI detected luxury market activity",
+    "Investment opportunity identified",
+    "Concierge routing update",
+    "Market signal detected",
+    "AiX Brain analysis completed"
+  ];
+
+  useEffect(() => {
+    // Initial events
+    setEvents([
+      `[${new Date().toLocaleTimeString()}] System Initialized`,
+      `[${new Date().toLocaleTimeString()}] Connecting to AiX Brain...`,
+      `[${new Date().toLocaleTimeString()}] Secure connection established.`
+    ]);
+
+    const interval = setInterval(() => {
+      const randomEvent = allEvents[Math.floor(Math.random() * allEvents.length)];
+      setEvents(prev => {
+        const newEvents = [...prev, `[${new Date().toLocaleTimeString()}] ${randomEvent}`];
+        if (newEvents.length > 8) return newEvents.slice(newEvents.length - 8);
+        return newEvents;
+      });
+    }, 2500);
+    
+    return () => clearInterval(interval);
+  }, [language]);
+
+  return (
+    <div className="rounded-2xl bg-zinc-950 p-6 border border-zinc-800 shadow-2xl overflow-hidden font-mono text-[11px] leading-relaxed flex flex-col h-full min-h-[280px]">
+      <div className="flex items-center gap-2 mb-4 border-b border-zinc-800 pb-3">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+        </div>
+        <div className="text-zinc-500 text-[10px] uppercase tracking-widest ml-2">Terminal Live Feed</div>
+      </div>
+      <div className="flex-1 space-y-2 overflow-hidden flex flex-col justify-end">
+        {events.map((ev, i) => (
+          <div key={i} className="text-emerald-400/90 animate-in slide-in-from-bottom-2 fade-in duration-300">
+            <span className="text-zinc-600 mr-2">{'>'}</span> {ev}
+          </div>
+        ))}
+        <div className="text-emerald-400/90 flex items-center">
+          <span className="text-zinc-600 mr-2">{'>'}</span>
+          <span className="w-1.5 h-3 bg-emerald-400/80 animate-pulse" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 interface HomeClientPageProps {
   featuredProperties: any[];
@@ -473,6 +559,99 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </div>
         </div>
 
+      </section>
+
+      {/* ─── LIVE INTELLIGENCE PREVIEW ─────────────────────────────────────────── */}
+      <section className="space-y-8 text-left py-8 relative">
+        <div className="space-y-2 relative z-10">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 font-mono">
+              {language === "ro" ? "AiX OS™ Live Intelligence Preview" : "AiX OS™ Live Intelligence"}
+            </h2>
+          </div>
+          <p className="text-2xl font-light text-zinc-900">
+            {language === "ro" ? "Nucleul Analitic în Timp Real" : "Real-Time Analytical Core"}
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
+          {[
+            { label: language === "ro" ? "Proprietăți Scanate" : "Properties Scanned", val: 14204 },
+            { label: language === "ro" ? "Semnale Piață" : "Market Signals", val: 3192 },
+            { label: language === "ro" ? "Oportunități Corelate" : "Correlated Opportunities", val: 847 },
+            { label: language === "ro" ? "Active Monitorizate" : "Luxury Assets Monitored", val: 1024 },
+            { label: language === "ro" ? "Rapoarte Generate" : "Reports Generated", val: 5420 },
+          ].map((stat, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-zinc-200 bg-white/60 backdrop-blur-md shadow-sm">
+              <div className="text-3xl font-light text-zinc-900 tracking-tight">
+                <AnimatedCounter end={stat.val} />
+              </div>
+              <div className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono mt-2">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Terminal Wall & AI Agents Preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+          {/* Terminal Wall */}
+          <LiveTerminalWall language={language} />
+          
+          {/* AI Agents Preview Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {AI_AGENTS.map((agent, i) => {
+              const AgentIcon = agent.icon;
+              return (
+                <div key={i} className="p-4 rounded-2xl border border-zinc-200 bg-white/60 backdrop-blur-md flex flex-col justify-between space-y-4">
+                  <div className="flex items-start justify-between">
+                    <div className="p-2 rounded-xl bg-zinc-100 text-zinc-900">
+                      <AgentIcon className="h-4 w-4" />
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-mono text-emerald-600 font-bold uppercase">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Active
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-semibold text-zinc-900">{agent.name}</h3>
+                    <p className="text-[10px] text-zinc-500 mt-1 line-clamp-2">{agent.desc}</p>
+                  </div>
+                  <div className="pt-3 border-t border-zinc-200/60">
+                    <span className="text-[9px] font-semibold uppercase tracking-wider text-zinc-400 block text-center">
+                      {language === "ro" ? "Disponibil în AiX OS™" : "Available inside AiX OS™"}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Dashboard CTA */}
+        <div className="p-8 sm:p-12 rounded-3xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100/50 text-center space-y-6 relative z-10 mt-8 shadow-sm">
+          <div className="mx-auto w-fit p-3.5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+            <Lock className="h-6 w-6 text-zinc-400" />
+          </div>
+          <div className="space-y-2 max-w-lg mx-auto">
+            <h3 className="text-xl sm:text-2xl font-semibold text-zinc-900 tracking-tight">
+              {language === "ro" ? "Experimentează Dashboard-ul de Inteligență AiX OS™" : "Experience the complete AiX OS™ Intelligence Dashboard"}
+            </h3>
+            <p className="text-sm text-zinc-500 leading-relaxed">
+              {language === "ro" 
+                ? "Funcționalitatea completă este disponibilă exclusiv pentru utilizatorii aprobați."
+                : "The complete Dashboard remains available only to approved users."}
+            </p>
+          </div>
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <Link href="/login" className="px-6 py-3 rounded-xl bg-zinc-900 text-white text-xs font-semibold hover:bg-zinc-800 transition-all shadow-md">
+              {language === "ro" ? "Autentificare" : "Login"}
+            </Link>
+            <Link href="/pricing" className="px-6 py-3 rounded-xl bg-white border border-zinc-200 text-zinc-900 text-xs font-semibold hover:bg-zinc-50 transition-all shadow-sm">
+              {language === "ro" ? "Solicită Acces" : "Request Access"}
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* ─── ROADMAP TIMELINE ────────────────────────────────────────────── */}
