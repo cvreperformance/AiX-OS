@@ -70,7 +70,7 @@ export default function CreatePropertyWizard() {
       year_built: Number(formData.year_built) || null,
       features: formData.features,
       gallery: formData.gallery,
-      cover_image: formData.gallery.length > 0 ? formData.gallery[0] : null,
+      image_url: formData.gallery.length > 0 ? formData.gallery[0] : null,
       published_at: publish ? new Date().toISOString() : null
     };
 

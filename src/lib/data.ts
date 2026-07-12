@@ -58,7 +58,7 @@ export async function getProperties(): Promise<
   const supabase = getSupabase();
   let data: any[] | null = null;
   if (supabase) {
-    const { data: res, error } = await supabase.from("properties").select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url:cover_image, status, created_at, gallery, features").eq("status", "Published").order("created_at", { ascending: false });
+    const { data: res, error } = await supabase.from("properties").select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url, status, created_at, gallery, features").eq("status", "Published").order("created_at", { ascending: false });
     if (!error) data = res;
   }
 
@@ -80,7 +80,7 @@ export async function getProperty(slug: string): Promise<
   if (supabase) {
     const { data, error } = await supabase
       .from("properties")
-      .select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url:cover_image, status, created_at, gallery, features")
+      .select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url, status, created_at, gallery, features")
       .eq("slug", slug)
       .maybeSingle();
 

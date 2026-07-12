@@ -104,8 +104,8 @@ export default function PropertiesDashboardPage() {
           filteredProperties.map(property => (
             <div key={property.id} className="rounded-2xl border border-zinc-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
               <div className="h-48 bg-zinc-100 relative overflow-hidden">
-                {property.cover_image ? (
-                  <img src={property.cover_image} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                {property.image_url ? (
+                  <img src={property.image_url} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Building className="w-8 h-8 text-zinc-300" />

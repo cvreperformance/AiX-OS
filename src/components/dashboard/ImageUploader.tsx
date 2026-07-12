@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Upload, X, Check, Image as ImageIcon, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -81,12 +81,19 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
     }
   };
 
+  const onImagesChangeRef = useRef(onImagesChange);
+  useEffect(() => {
+    onImagesChangeRef.current = onImagesChange;
+  }, [onImagesChange]);
+
   // Whenever images array changes and no upload is in progress, notify parent
   useEffect(() => {
-    if (images.every(img => !img.uploading)) {
-      onImagesChange(images.map(img => img.url));
+    if (images.length > 0 && images.every(img => !img.uploading)) {
+      onImagesChangeRef.current(images.map(img => img.url));
+    } else if (images.length === 0) {
+      onImagesChangeRef.current([]);
     }
-  }, [images, onImagesChange]);
+  }, [images]);
 
   const removeImage = (id: string) => {
     setImages(prev => prev.filter(img => img.id !== id));
