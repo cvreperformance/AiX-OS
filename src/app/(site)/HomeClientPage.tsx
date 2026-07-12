@@ -148,7 +148,45 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 space-y-28 text-center animate-in">
+    <>
+      {/* ─── AI NEURAL NETWORK BACKGROUND (DEEP CYAN/BLUE) ─────────────── */}
+      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden flex items-start justify-end">
+        {/* Subtle ambient cyan glow radiating from brain position */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-cyan-900/15 blur-[120px] rounded-full translate-x-1/4 -translate-y-1/4" />
+        <div className="absolute top-40 right-40 w-[600px] h-[600px] bg-blue-900/10 blur-[100px] rounded-full" />
+        
+        {/* Neural Connections SVG */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.35]" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="cyanGradient" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#1e3a8a" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <g stroke="url(#cyanGradient)" strokeWidth="0.15" fill="none">
+            {/* Connections expanding outward from brain (x:75, y:20) */}
+            <path d="M 75 20 Q 50 40 20 50" />
+            <path d="M 75 20 Q 60 60 30 80" />
+            <path d="M 75 20 Q 85 50 90 90" />
+            <path d="M 75 20 Q 40 30 10 20" />
+            <path d="M 75 20 Q 50 70 10 90" />
+            
+            {/* Interconnecting web */}
+            <path d="M 20 50 Q 25 65 30 80" strokeOpacity="0.4" />
+            <path d="M 30 80 Q 60 85 90 90" strokeOpacity="0.3" />
+            
+            {/* Neural nodes */}
+            <circle cx="20" cy="50" r="0.3" fill="#06b6d4" />
+            <circle cx="30" cy="80" r="0.2" fill="#3b82f6" />
+            <circle cx="90" cy="90" r="0.4" fill="#06b6d4" />
+            <circle cx="10" cy="20" r="0.2" fill="#0ea5e9" />
+            <circle cx="10" cy="90" r="0.3" fill="#3b82f6" />
+          </g>
+        </svg>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 space-y-28 text-center animate-in">
       
       {/* ─── HOLOGRAM HERO EXPERIENCE ────────────────────────────────────── */}
       <section className="relative grid lg:grid-cols-12 gap-8 items-center text-left py-6 overflow-hidden">
@@ -465,7 +503,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           ))}
         </div>
       </section>
-
     </div>
+    </>
   );
 }
