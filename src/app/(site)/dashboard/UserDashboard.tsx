@@ -53,7 +53,7 @@ const DEFAULT_BOOKS = [
 
 export default function UserDashboard({ user, profile }: UserDashboardProps) {
   const { language } = useLanguage();
-  const [activeTab, setActiveTab] = useState<"terminal" | "agents" | "saved" | "history">("terminal");
+  const [activeTab, setActiveTab] = useState<"terminal" | "properties" | "agents" | "saved" | "history">("terminal");
   
   // States
   const [properties, setProperties] = useState<FavoriteItem[]>([]);
@@ -169,6 +169,16 @@ export default function UserDashboard({ user, profile }: UserDashboardProps) {
         }
       />
 
+      <div className="flex justify-center mt-4">
+        <Link
+          href="/dashboard/properties"
+          className="rounded-xl bg-amber-500 text-black px-8 py-3.5 text-sm font-semibold hover:bg-amber-400 transition-all shadow-md flex items-center gap-2"
+        >
+          <Building className="w-4 h-4" />
+          {language === "ro" ? "Management Proprietăți" : "Manage Properties"}
+        </Link>
+      </div>
+
       {/* ─── LIVE STATISTICS GRID ─────────────────────────────────────────── */}
       <section className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
@@ -197,11 +207,24 @@ export default function UserDashboard({ user, profile }: UserDashboardProps) {
       <div className="flex flex-wrap gap-2.5 bg-white/60 p-2 rounded-2xl border border-zinc-200 justify-center max-w-lg mx-auto">
         {[
           { key: "terminal" as const, label: language === "ro" ? "Live Command" : "Live Terminal", icon: Terminal },
+          { key: "properties" as const, label: language === "ro" ? "Proprietăți" : "Properties", icon: Building, href: "/dashboard/properties" },
           { key: "agents" as const, label: language === "ro" ? "Agenți AI" : "AI Agents", icon: Cpu },
           { key: "saved" as const, label: language === "ro" ? "Saved Intel" : "Saved Intel", icon: Bookmark },
           { key: "history" as const, label: language === "ro" ? "Trail" : "Audit Trail", icon: History },
         ].map((tab) => {
           const Icon = tab.icon;
+          if (tab.href) {
+            return (
+              <Link
+                key={tab.key}
+                href={tab.href}
+                className={`flex-1 text-center py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100/50`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {tab.label}
+              </Link>
+            );
+          }
           return (
             <button
               key={tab.key}

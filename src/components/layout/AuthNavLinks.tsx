@@ -77,6 +77,12 @@ export function AuthNavLinks() {
             <UserIcon className="w-3.5 h-3.5" />
             Dashboard
           </Link>
+          <Link
+            href="/dashboard/properties/create"
+            className="flex items-center gap-1.5 rounded-full bg-amber-500 hover:bg-amber-400 text-black px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all shadow-sm whitespace-nowrap"
+          >
+            Publish Property
+          </Link>
           <button
             onClick={() => signout()}
             className="flex items-center justify-center rounded-full border border-zinc-300/50 hover:bg-zinc-200 px-2 py-1.5 text-zinc-400 hover:text-zinc-900 transition-all shadow-sm"
