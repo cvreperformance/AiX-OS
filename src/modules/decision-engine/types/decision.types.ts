@@ -12,4 +12,7 @@ export interface Decision {
   relatedOpportunity?: string;
   explanation?: string;
   impact?: string;
+  probability?: number;
+  urgencyMultiplier?: number;
+  potentialCommission?: number;
 }

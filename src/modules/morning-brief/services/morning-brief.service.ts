@@ -1,15 +1,51 @@
 import { MorningBrief, MBOpportunity, MBTask, MBCalendarEvent, MBFollowUp } from '../types/morning-brief.types';
+import { RevenueFeedService } from '../../revenue-feed/services/revenue-feed.service';
+import { RevenueIntelligenceService } from '../../revenue-intelligence/services/revenue-intelligence.service';
+import { CompanyIntelligenceService } from '../../company-intelligence/services/company-intelligence.service';
 
 export class MorningBriefService {
-  public generate(
+  private feedService = new RevenueFeedService();
+  private intelligenceService = new RevenueIntelligenceService();
+  private companyService = new CompanyIntelligenceService();
+
+  public async generate(
     opportunities: MBOpportunity[],
     tasks: MBTask[],
     calendarEvents: MBCalendarEvent[],
     followUps: MBFollowUp[],
     currentDate: string = new Date().toISOString().split('T')[0]
-  ): MorningBrief {
+  ): Promise<MorningBrief> {
+    
+    // Try to load LIVE feeds
+    let finalOpps: MBOpportunity[] = [...opportunities];
+    try {
+      const liveFeeds = await this.feedService.loadFeeds();
+      const intelligenceFeeds = this.intelligenceService.analyzeAll(liveFeeds);
+      const companies = this.companyService.ingest(intelligenceFeeds);
+      
+      if (companies.length > 0) {
+        // Map CompanyProfile to MBOpportunity
+        finalOpps = companies.map(company => ({
+          id: company.id,
+          title: company.name,
+          value: company.estimatedCommissionPotential,
+          score: company.opportunityScore,
+          isNew: true,
+          targetCompany: company.name,
+          contactTarget: company.contacts[0] || 'Unknown',
+          suggestedService: company.articles[0]?.suggestedService || 'Unknown',
+          potentialCommission: company.estimatedCommissionPotential,
+          probability: Math.max(...company.articles.map(a => a.probability)),
+          urgency: 'Today', // Companies pulled from live feed are active
+          intelligenceRecommendation: `Contact ${company.contacts[0] || 'stakeholders'} at ${company.name}`
+        }));
+      }
+    } catch (e) {
+      console.warn('RevenueFeedService failed, falling back to mock opportunities.');
+    }
+
     // 1. Sort opportunities by Score (Descending)
-    const sortedOpps = [...opportunities].sort((a, b) => b.score - a.score);
+    const sortedOpps = [...finalOpps].sort((a, b) => b.score - a.score);
     
     // 2. Take Top 5
     const topPriorities = sortedOpps.slice(0, 5);
@@ -52,9 +88,15 @@ export class MorningBriefService {
       }
     });
 
-    // Rule: High value property added today
+    // Rule: Top Companies from Live Feeds
     topPriorities.forEach(opp => {
-      if (opp.isNew && opp.value >= 1000000) {
+      if (opp.targetCompany) {
+        recommendations.push(
+          `[${opp.urgency}] ${opp.targetCompany} | Contact: ${opp.contactTarget} | Service: ${opp.suggestedService} | Est. Commission: €${opp.potentialCommission?.toLocaleString()} | Prob: ${opp.probability}% | Rec: ${opp.intelligenceRecommendation}`
+        );
+      } else if (opp.why && opp.nextStep) {
+        recommendations.push(`[${opp.score}/100] ${opp.title}: ${opp.why} NEXT STEP: ${opp.nextStep}`);
+      } else if (opp.isNew && opp.value >= 1000000) {
         recommendations.push(`High value opportunity added today: "${opp.title}" (Value: ${opp.value.toLocaleString()}).`);
       }
     });

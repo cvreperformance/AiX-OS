@@ -6,7 +6,7 @@ import { sendTelegramAlert } from '@/lib/notifications';
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
-  let redirectUrl = "/dashboard";
+  let redirectUrl = "/workspace/today";
   
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -130,7 +130,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect("/workspace/today");
 }
 
 export async function signout() {

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { ActionCenterService } from '@/modules/action-center/services/action-center.service';
 import { mockActions } from '@/modules/action-center/mock/actions';
 import { ActionCard } from '@/modules/action-center/components/ActionCard';
+import { getLiveActions } from '@/app/actions/revenue.actions';
 
 export default function ActionCenterPage() {
   // Initialize service once
@@ -11,6 +12,17 @@ export default function ActionCenterPage() {
   
   // State to trigger re-renders
   const [actions, setActions] = useState(service.loadActions());
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    getLiveActions().then(liveActions => {
+      // Create a fresh service instance containing both mocks and live feeds
+      // This allows the Decision Engine inside ActionCenterService to resort them together
+      const combinedService = new ActionCenterService([...mockActions, ...liveActions]);
+      setActions(combinedService.loadActions());
+      setIsLoading(false);
+    });
+  }, []);
 
   const handleStart = (id: string) => setActions([...service.start(id)]);
   const handleComplete = (id: string) => setActions([...service.complete(id)]);
@@ -47,7 +59,11 @@ export default function ActionCenterPage() {
             <span className="w-2 h-2 rounded-full bg-amber-500 mr-2"></span>
             Priority Queue
           </h2>
-          {pendingActions.length === 0 ? (
+          {isLoading ? (
+            <div className="p-8 border border-zinc-800 rounded-xl bg-zinc-900/30 text-center text-zinc-500">
+              Loading live intelligence feeds...
+            </div>
+          ) : pendingActions.length === 0 ? (
             <div className="p-8 border border-zinc-800 rounded-xl bg-zinc-900/30 text-center text-zinc-500">
               No pending actions. You're all caught up!
             </div>

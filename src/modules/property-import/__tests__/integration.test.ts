@@ -1,9 +1,17 @@
 import { runEndToEndPipeline } from '../mock/integration-runner';
-import { expect, describe, it } from 'vitest';
+import { expect, describe, it, vi } from 'vitest';
+
+vi.mock('../../revenue-feed/services/revenue-feed.service', () => ({
+  RevenueFeedService: class {
+    async loadFeeds() {
+      return [];
+    }
+  }
+}));
 
 describe('Local Property Pipeline Integration', () => {
-  it('should pass imported properties through radar and into the morning brief', () => {
-    const brief = runEndToEndPipeline();
+  it('should pass imported properties through radar and into the morning brief', async () => {
+    const brief = await runEndToEndPipeline();
 
     // The Vila has owner, urgent, premium. Should have high score and be recommended.
     expect(brief.topPriorities.length).toBe(3); // Only 3 valid imports

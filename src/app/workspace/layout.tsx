@@ -15,15 +15,23 @@ export default function WorkspaceLayout({
         </div>
         <nav className="flex-1 px-4 space-y-2 overflow-y-auto scrollbar-thin">
           {[
+            { name: 'Today', href: '/workspace/today' },
+            { name: 'Capture', href: '/workspace/capture' },
+            { name: 'Reminders', href: '/workspace/reminders' },
+            { name: 'Ideas', href: '/workspace/ideas' },
+            { name: 'Calendar', href: '/workspace/calendar' },
             { name: 'Overview', href: '/workspace' },
             { name: 'Dashboard', href: '/workspace/dashboard' },
+            { name: 'Action Center', href: '/workspace/actions' },
+            { name: 'Market Radar', href: '/workspace/radar' },
+            { name: 'Companies', href: '/workspace/companies' },
+            { name: 'Agent Center', href: '/workspace/agents' },
             { name: 'CRM', href: '/workspace/crm' },
             { name: 'Knowledge', href: '/workspace/knowledge' },
             { name: 'Memory', href: '/workspace/memory' },
             { name: 'Projects', href: '/workspace/projects' },
             { name: 'Documents', href: '/workspace/documents' },
             { name: 'Tasks', href: '/workspace/tasks' },
-            { name: 'Calendar', href: '/workspace/calendar' },
             { name: 'AI', href: '/workspace/ai' },
             { name: 'Settings', href: '/workspace/settings' },
           ].map((item) => (

@@ -11,6 +11,8 @@ export interface ActionItem {
   dueTime: string;
   status: ActionStatus;
   explanation?: string;
+  confidence?: number;
+  type?: string;
 }
 
 export interface ActionStatistics {

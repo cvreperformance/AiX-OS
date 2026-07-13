@@ -3,19 +3,26 @@ import { Decision } from '../types/decision.types';
 
 export class RevenueFirstStrategy implements DecisionStrategy {
   name = 'RevenueFirstStrategy';
+  description = 'Prioritizes decisions strictly based on commission × probability × urgency';
 
-  public prioritize(decisions: Decision[]): Decision[] {
+  prioritize(decisions: Decision[]): Decision[] {
     return [...decisions].sort((a, b) => {
-      // 1. Highest Revenue First
-      if (b.estimatedRevenue !== a.estimatedRevenue) {
-        return b.estimatedRevenue - a.estimatedRevenue;
-      }
-      // 2. Then Priority (Score)
-      if (b.priority !== a.priority) {
+      const scoreA = this.calculateScore(a);
+      const scoreB = this.calculateScore(b);
+      
+      // Fallback to priority if scores are perfectly equal
+      if (scoreA === scoreB) {
         return b.priority - a.priority;
       }
-      // 3. Then Urgency (Deadline)
-      return a.deadline.localeCompare(b.deadline);
+      return scoreB - scoreA;
     });
+  }
+
+  private calculateScore(decision: Decision): number {
+    const commission = decision.potentialCommission || decision.estimatedRevenue || 0;
+    const probability = (decision.probability ?? 100) / 100;
+    const urgency = decision.urgencyMultiplier ?? 1;
+
+    return commission * probability * urgency;
   }
 }

@@ -30,6 +30,15 @@ export interface MBOpportunity {
   value: number;
   score: number;
   isNew: boolean;
+  why?: string;
+  nextStep?: string;
+  targetCompany?: string | null;
+  contactTarget?: string;
+  suggestedService?: string;
+  potentialCommission?: number;
+  probability?: number;
+  urgency?: string;
+  intelligenceRecommendation?: string;
 }
 
 export interface MorningBrief {

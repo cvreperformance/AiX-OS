@@ -6,7 +6,7 @@ import { MBOpportunity } from '../../morning-brief/types/morning-brief.types';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-export function runEndToEndPipeline() {
+export async function runEndToEndPipeline() {
   console.log('--- STARTING AIX OS LOCAL PIPELINE ---\n');
 
   // 1. IMPORT PIPELINE
@@ -32,7 +32,7 @@ export function runEndToEndPipeline() {
 
   // 3. MORNING BRIEF ENGINE
   const mbService = new MorningBriefService();
-  const brief = mbService.generate(opportunities, mockTasks, mockCalendarEvents, mockFollowUps, '2026-07-14');
+  const brief = await mbService.generate(opportunities, mockTasks, mockCalendarEvents, mockFollowUps, '2026-07-14');
 
   console.log('\n--- MORNING BRIEF RESULT ---');
   console.log(JSON.stringify(brief, null, 2));
