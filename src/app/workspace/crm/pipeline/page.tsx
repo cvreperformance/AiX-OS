@@ -1,52 +1,31 @@
 export default function PipelinePage() {
-  const columns = [
-    { title: 'New', count: 3, cards: [{ id: 1, name: 'Alice Johnson', value: '€150k', company: 'Self' }] },
-    { title: 'Qualified', count: 2, cards: [{ id: 2, name: 'Tech Solutions Inc', value: '€450k', company: 'Tech Solutions' }] },
-    { title: 'Meeting', count: 1, cards: [{ id: 3, name: 'Global Retail', value: '€1.2M', company: 'Global Retail' }] },
-    { title: 'Proposal', count: 2, cards: [] },
-    { title: 'Negotiation', count: 1, cards: [] },
-    { title: 'Won', count: 12, cards: [] },
-    { title: 'Lost', count: 5, cards: [] },
-  ];
-
   return (
-    <div className="flex flex-col h-full space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-medium text-white">Pipeline</h2>
-        <button className="px-4 py-2 bg-white text-black text-sm font-medium rounded-md hover:bg-zinc-200 transition-colors">
-          Add Deal
-        </button>
+    <div className="space-y-8 py-8 max-w-5xl mx-auto">
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-display font-bold text-white tracking-tight">Pipeline</h1>
+          <p className="text-zinc-400 mt-2">Deal stages and revenue tracking.</p>
+        </div>
       </div>
 
-      {/* Kanban Board */}
-      <div className="flex-1 overflow-x-auto pb-4">
-        <div className="flex space-x-4 h-full items-start min-w-max">
-          {columns.map((col) => (
-            <div key={col.title} className="w-72 flex flex-col max-h-full">
-              <div className="flex items-center justify-between mb-3 px-1">
-                <h3 className="text-sm font-medium text-zinc-400">{col.title}</h3>
-                <span className="text-xs bg-zinc-800 text-zinc-500 px-2 py-0.5 rounded-full">{col.count}</span>
-              </div>
-              
-              <div className="flex-1 bg-zinc-900/30 border border-zinc-800/50 rounded-xl p-2 space-y-2 overflow-y-auto">
-                {col.cards.map(card => (
-                  <div key={card.id} className="bg-[#121212] border border-zinc-800 p-3 rounded-lg shadow-sm hover:border-zinc-700 cursor-pointer transition-colors group">
-                    <h4 className="font-medium text-sm text-zinc-200 group-hover:text-white transition-colors">{card.name}</h4>
-                    <p className="text-xs text-zinc-500 mt-1">{card.company}</p>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xs font-medium text-emerald-500/90">{card.value}</span>
-                      <div className="w-5 h-5 rounded-full bg-zinc-800 flex items-center justify-center text-[10px] text-zinc-400">
-                        {card.name.charAt(0)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                
-                {/* Empty State placeholder if needed, just a visual drop zone */}
-                <div className="h-2 rounded bg-transparent"></div>
-              </div>
-            </div>
-          ))}
+      <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 rounded-2xl p-16 text-center shadow-2xl backdrop-blur-md flex flex-col items-center justify-center mt-12">
+        <div className="w-20 h-20 bg-zinc-900 rounded-full flex items-center justify-center mb-6 border border-zinc-800 shadow-inner">
+          <svg className="w-8 h-8 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-3">No active deals.</h2>
+        <p className="text-zinc-400 max-w-md mx-auto mb-10 text-lg">
+          Your pipeline is currently empty. Convert leads or create new opportunities to start tracking your revenue.
+        </p>
+        
+        <div className="flex gap-4">
+          <button className="bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 px-8 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Create Deal
+          </button>
         </div>
       </div>
     </div>

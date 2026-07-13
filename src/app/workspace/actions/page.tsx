@@ -2,24 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { ActionCenterService } from '@/modules/action-center/services/action-center.service';
-import { mockActions } from '@/modules/action-center/mock/actions';
 import { ActionCard } from '@/modules/action-center/components/ActionCard';
 import { getLiveActions } from '@/app/actions/revenue.actions';
+import { ActionItem } from '@/modules/action-center/types/action.types';
 
 export default function ActionCenterPage() {
-  // Initialize service once
-  const [service] = useState(() => new ActionCenterService(mockActions));
+  const [service] = useState(() => new ActionCenterService([]));
   
-  // State to trigger re-renders
-  const [actions, setActions] = useState(service.loadActions());
+  const [actions, setActions] = useState<ActionItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getLiveActions().then(liveActions => {
-      // Create a fresh service instance containing both mocks and live feeds
-      // This allows the Decision Engine inside ActionCenterService to resort them together
-      const combinedService = new ActionCenterService([...mockActions, ...liveActions]);
+      const combinedService = new ActionCenterService(liveActions);
       setActions(combinedService.loadActions());
+      setIsLoading(false);
+    }).catch(e => {
+      console.error(e);
       setIsLoading(false);
     });
   }, []);

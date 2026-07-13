@@ -129,7 +129,7 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
   while (attempt < MAX_RETRIES) {
     attempt++;
     try {
-      console.log(`[AiX Telegram] Attempt ${attempt}/${MAX_RETRIES} — dispatching alert for "${lead.service}" from ${lead.name}…`);
+      console.info(`[AiX Telegram] Attempt ${attempt}/${MAX_RETRIES} — dispatching alert for "${lead.service}" from ${lead.name}…`);
 
       const response = await fetchWithTimeout(
         url,
@@ -138,7 +138,7 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
       );
 
       if (response.ok) {
-        console.log(`[AiX Telegram] ✓ Delivered on attempt ${attempt}.`);
+        console.info(`[AiX Telegram] ✓ Delivered on attempt ${attempt}.`);
         return true;
       }
 
@@ -156,7 +156,7 @@ export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
     }
 
     if (attempt < MAX_RETRIES) {
-      console.log(`[AiX Telegram] Retrying in ${backoff}ms…`);
+      console.info(`[AiX Telegram] Retrying in ${backoff}ms…`);
       await sleep(backoff);
       backoff *= 2;
     }
@@ -223,7 +223,7 @@ export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
   while (attempt < MAX_RETRIES) {
     attempt++;
     try {
-      console.log(`[AiX Email] Attempt ${attempt}/${MAX_RETRIES} — dispatching to ${toEmail}…`);
+      console.info(`[AiX Email] Attempt ${attempt}/${MAX_RETRIES} — dispatching to ${toEmail}…`);
       const response = await fetchWithTimeout(
         "https://api.resend.com/emails",
         {
@@ -238,7 +238,7 @@ export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
       );
 
       if (response.ok) {
-        console.log(`[AiX Email] ✓ Delivered on attempt ${attempt}.`);
+        console.info(`[AiX Email] ✓ Delivered on attempt ${attempt}.`);
         return true;
       }
 
@@ -253,7 +253,7 @@ export async function sendEmailAlert(lead: LeadData): Promise<boolean> {
     }
 
     if (attempt < MAX_RETRIES) {
-      console.log(`[AiX Email] Retrying in ${backoff}ms…`);
+      console.info(`[AiX Email] Retrying in ${backoff}ms…`);
       await sleep(backoff);
       backoff *= 2;
     }

@@ -103,6 +103,6 @@ export class PropertyImportService {
   }
 
   private logStats(stats: ImportStats): void {
-    console.log(`\n[Import Statistics] Imported: ${stats.imported} | Skipped: ${stats.skipped} | Invalid: ${stats.invalid} | Duplicates: ${stats.duplicates}\n`);
+    console.info(`\n[Import Statistics] Imported: ${stats.imported} | Skipped: ${stats.skipped} | Invalid: ${stats.invalid} | Duplicates: ${stats.duplicates}\n`);
   }
 }

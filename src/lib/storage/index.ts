@@ -42,7 +42,7 @@ export function debugPropertyImages(property: {
 }): void {
   if (process.env.NODE_ENV !== "development") return;
   const { primary, gallery } = getPropertyImages(property);
-  console.log(`[AiX OS™ Images] ${property.slug ?? "unknown"}`, {
+  console.info(`[AiX OS™ Images] ${property.slug ?? "unknown"}`, {
     bucket: storageConfig.bucket,
     supabaseUrl: storageConfig.supabaseUrl ? "configured" : "missing",
     raw_image_url: property.image_url,

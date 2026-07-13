@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     // Honeypot spam check
     if (body.botfield && body.botfield.trim() !== "") {
-      console.log("[Honeypot Triggered] Ignored spam bot lead submission:", body.name);
+      console.info("[Honeypot Triggered] Ignored spam bot lead submission:", body.name);
       return NextResponse.json({
         success: true,
         message: "Request processed successfully.",
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
       const { error } = await supabase.from("leads").insert(lead);
       if (!error) {
         storedInSupabase = true;
-        console.log("[AiX Leads] Stored in Supabase.");
+        console.info("[AiX Leads] Stored in Supabase.");
       } else {
         console.warn("[AiX Leads] Supabase insert failed:", error.message);
       }

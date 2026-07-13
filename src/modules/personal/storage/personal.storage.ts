@@ -19,8 +19,117 @@ export class PersonalStorage {
       return [];
     }
 
-    // Map snake_case to camelCase
     return (data || []).map(this.mapEventToCamel);
+  }
+
+  async getEventsForMonth(yearMonth: string): Promise<CalendarEvent[]> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
+
+    const startDate = `${yearMonth}-01`;
+    const endDate = `${yearMonth}-31`; // Approx, it works for querying text based dates usually, or we can use >= and <=
+
+    const { data, error } = await supabase
+      .from('calendar_events')
+      .select('*')
+      .eq('user_id', user.id)
+      .gte('date', startDate)
+      .lte('date', endDate)
+      .order('date', { ascending: true })
+      .order('time', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching calendar events for month:', error);
+      return [];
+    }
+
+    return (data || []).map(this.mapEventToCamel);
+  }
+
+  async createCalendarEvent(event: Partial<CalendarEvent>): Promise<CalendarEvent | null> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const dbEvent = {
+      user_id: user.id,
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      time: event.time,
+      priority: event.priority,
+      estimated_revenue: event.estimatedRevenue,
+      status: event.status,
+      category: event.category,
+      linked_company: event.linkedCompany,
+      linked_property: event.linkedProperty,
+      linked_client: event.linkedClient,
+      notes: event.notes
+    };
+
+    const { data, error } = await supabase
+      .from('calendar_events')
+      .insert(dbEvent)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating calendar event:', error);
+      return null;
+    }
+
+    return this.mapEventToCamel(data);
+  }
+
+  async updateCalendarEvent(id: string, updates: Partial<CalendarEvent>): Promise<CalendarEvent | null> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const dbUpdates: any = {};
+    if (updates.title !== undefined) dbUpdates.title = updates.title;
+    if (updates.description !== undefined) dbUpdates.description = updates.description;
+    if (updates.date !== undefined) dbUpdates.date = updates.date;
+    if (updates.time !== undefined) dbUpdates.time = updates.time;
+    if (updates.priority !== undefined) dbUpdates.priority = updates.priority;
+    if (updates.estimatedRevenue !== undefined) dbUpdates.estimated_revenue = updates.estimatedRevenue;
+    if (updates.status !== undefined) dbUpdates.status = updates.status;
+    if (updates.category !== undefined) dbUpdates.category = updates.category;
+
+    const { data, error } = await supabase
+      .from('calendar_events')
+      .update(dbUpdates)
+      .eq('id', id)
+      .eq('user_id', user.id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating calendar event:', error);
+      return null;
+    }
+
+    return this.mapEventToCamel(data);
+  }
+
+  async deleteCalendarEvent(id: string): Promise<boolean> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return false;
+
+    const { error } = await supabase
+      .from('calendar_events')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Error deleting calendar event:', error);
+      return false;
+    }
+
+    return true;
   }
 
   async getRecentCaptures(limit: number = 5): Promise<Capture[]> {

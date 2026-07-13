@@ -33,11 +33,21 @@ export class RevenueFeedService {
 
     const results = await Promise.allSettled(fetchPromises);
     
-    results.forEach(result => {
+    let hasFailures = false;
+    let failureReasons: string[] = [];
+
+    results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
         allOpportunities.push(...result.value);
+      } else {
+        hasFailures = true;
+        failureReasons.push(result.reason?.message || 'Unknown error');
       }
     });
+
+    if (allOpportunities.length === 0 && hasFailures) {
+      throw new Error(`Revenue feeds failed to load: ${failureReasons.join(', ')}`);
+    }
 
     const deduplicated = this.deduplicate(allOpportunities);
     const classified = this.classifyAll(deduplicated);

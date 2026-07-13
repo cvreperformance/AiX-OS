@@ -1,56 +1,37 @@
 export default function LeadsPage() {
-  const leads = [
-    { id: 1, name: 'Alice Johnson', source: 'Website', status: 'New', value: '€150k', owner: 'Mike T.', lastContact: '2 hrs ago', nextFollowUp: 'Tomorrow' },
-    { id: 2, name: 'Tech Solutions Inc', source: 'Referral', status: 'Contacted', value: '€450k', owner: 'Sarah L.', lastContact: 'Yesterday', nextFollowUp: 'Next Week' },
-    { id: 3, name: 'Bob Smith', source: 'LinkedIn', status: 'Qualified', value: '€80k', owner: 'Mike T.', lastContact: '3 days ago', nextFollowUp: 'Today' },
-  ];
-
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-medium text-white">Leads</h2>
-        <button className="px-4 py-2 bg-white text-black text-sm font-medium rounded-md hover:bg-zinc-200 transition-colors">
-          Add Lead
-        </button>
+    <div className="space-y-8 py-8 max-w-5xl mx-auto">
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-display font-bold text-white tracking-tight">Leads</h1>
+          <p className="text-zinc-400 mt-2">Manage your incoming prospects.</p>
+        </div>
       </div>
 
-      <div className="glass-card border border-zinc-800/50 rounded-xl overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-zinc-900/50 border-b border-zinc-800/50 text-zinc-400">
-              <tr>
-                <th className="px-4 py-3 font-medium">Lead Name</th>
-                <th className="px-4 py-3 font-medium">Source</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Value</th>
-                <th className="px-4 py-3 font-medium">Owner</th>
-                <th className="px-4 py-3 font-medium">Last Contact</th>
-                <th className="px-4 py-3 font-medium">Next Follow-up</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/50 text-zinc-300">
-              {leads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-zinc-900/30 transition-colors group cursor-pointer">
-                  <td className="px-4 py-3 font-medium text-white">{lead.name}</td>
-                  <td className="px-4 py-3">{lead.source}</td>
-                  <td className="px-4 py-3">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-zinc-800 text-zinc-300">
-                      {lead.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">{lead.value}</td>
-                  <td className="px-4 py-3 flex items-center space-x-2">
-                    <div className="w-5 h-5 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] text-zinc-300">
-                      {lead.owner.charAt(0)}
-                    </div>
-                    <span>{lead.owner}</span>
-                  </td>
-                  <td className="px-4 py-3 text-zinc-500">{lead.lastContact}</td>
-                  <td className="px-4 py-3 text-zinc-500">{lead.nextFollowUp}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 rounded-2xl p-16 text-center shadow-2xl backdrop-blur-md flex flex-col items-center justify-center">
+        <div className="w-20 h-20 bg-zinc-900 rounded-full flex items-center justify-center mb-6 border border-zinc-800 shadow-inner">
+          <svg className="w-8 h-8 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-3">No leads yet.</h2>
+        <p className="text-zinc-400 max-w-md mx-auto mb-10 text-lg">
+          Your pipeline is empty. Start adding prospects or import them to get started with AiX OS Intelligence.
+        </p>
+        
+        <div className="flex gap-4">
+          <button className="bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 border border-zinc-700 hover:border-zinc-500 flex items-center gap-2 shadow-lg">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            Import Lead
+          </button>
+          <button className="bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 px-8 rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Create Lead
+          </button>
         </div>
       </div>
     </div>
