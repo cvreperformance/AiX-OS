@@ -1,0 +1,35 @@
+[
+  {
+    "id": "1001",
+    "title": "Apartament 3 camere Pipera",
+    "description": "Proprietar vand apartament lux urgent. Aproape de metrou.",
+    "address": "Strada Aviatiei, Bucuresti",
+    "price": "150,000",
+    "currency": "euro",
+    "sqm": 85,
+    "propertyType": "Apartment"
+  },
+  {
+    "id": "1002",
+    "title": "Teren extravilan Ilfov",
+    "description": "Agentie imobiliara. Teren in litigiu momentan.",
+    "address": "Ilfov",
+    "price": 20000,
+    "currency": "EUR"
+  },
+  {
+    "title": "Vila Herastrau Nord",
+    "description": "Vila premium langa parc. Proprietar, pret negociabil, ocazie.",
+    "price": 1200000,
+    "currency": "€",
+    "propertyType": "House"
+  },
+  {
+    "id": "1001",
+    "title": "Apartament 3 camere Pipera",
+    "price": "150,000"
+  },
+  {
+    "description": "Fara titlu si pret. Invalid."
+  }
+]
