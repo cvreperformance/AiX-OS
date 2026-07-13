@@ -14,7 +14,8 @@ export async function middleware(request: NextRequest) {
   // Define protected routes that require authentication
   const protectedPaths = [
     '/dashboard',
-    '/admin'
+    '/admin',
+    '/workspace'
   ];
 
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
