@@ -56,8 +56,9 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
       const fileExt = img.file.name.split('.').pop();
       const fileName = `${user.id}/${Math.random()}.${fileExt}`;
 
+      const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'property-images';
       const { data, error } = await supabase.storage
-        .from('property-images')
+        .from(STORAGE_BUCKET)
         .upload(fileName, img.file, {
           cacheControl: '3600',
           upsert: false
@@ -65,7 +66,7 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
 
       if (!error && data) {
         const { data: { publicUrl } } = supabase.storage
-          .from('property-images')
+          .from(STORAGE_BUCKET)
           .getPublicUrl(data.path);
           
         setImages(prev => prev.map(p => {
@@ -76,6 +77,8 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
         }));
       } else {
         // Handle error by removing the failed image
+        console.error("Image upload failed:", error);
+        alert(language === "ro" ? `Încărcarea a eșuat: ${error.message}` : `Upload failed: ${error.message}`);
         setImages(prev => prev.filter(p => p.id !== img.id));
       }
     }

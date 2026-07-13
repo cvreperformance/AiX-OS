@@ -45,8 +45,25 @@ export default function CreatePropertyWizard() {
 
   const handleSave = async (publish: boolean) => {
     setLoading(true);
+
+    if (publish) {
+      if (!formData.title || !formData.category || !formData.price) {
+        alert(language === "ro" ? "Vă rugăm să completați titlul, categoria și prețul." : "Please fill in title, category, and price.");
+        setLoading(false);
+        return;
+      }
+      if (formData.gallery.length === 0) {
+        alert(language === "ro" ? "Vă rugăm să așteptați încărcarea imaginilor sau să adăugați cel puțin una." : "Please wait for images to finish uploading or add at least one.");
+        setLoading(false);
+        return;
+      }
+    }
+
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const payload = {
       owner_id: user.id,
@@ -70,7 +87,7 @@ export default function CreatePropertyWizard() {
       year_built: Number(formData.year_built) || null,
       features: formData.features,
       gallery: formData.gallery,
-      image_url: formData.gallery.length > 0 ? formData.gallery[0] : null,
+      cover_image: formData.gallery.length > 0 ? formData.gallery[0] : null,
       published_at: publish ? new Date().toISOString() : null
     };
 
@@ -80,7 +97,8 @@ export default function CreatePropertyWizard() {
     if (!error) {
       router.push("/dashboard/properties");
     } else {
-      console.error(error);
+      console.error("Database insert error:", error);
+      alert(language === "ro" ? `Eroare la salvare: ${error.message}` : `Save error: ${error.message}`);
     }
   };
 

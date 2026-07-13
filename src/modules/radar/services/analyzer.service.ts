@@ -34,10 +34,10 @@ export class RadarAnalyzerService {
     score = Math.max(0, Math.min(100, score));
 
     // Handle derived fields if not explicitly overriden by the rule engine effects
-    let riskLevel = finalState.riskLevel !== 'Unknown' ? finalState.riskLevel : (score < 40 ? 'High' : (score > 70 ? 'Low' : 'Medium'));
-    let revenuePotential = finalState.revenuePotential !== 'Unknown' ? finalState.revenuePotential : (score > 80 ? 'High' : (score < 50 ? 'Low' : 'Medium'));
+    const riskLevel = finalState.riskLevel !== 'Unknown' ? finalState.riskLevel : (score < 40 ? 'High' : (score > 70 ? 'Low' : 'Medium'));
+    const revenuePotential = finalState.revenuePotential !== 'Unknown' ? finalState.revenuePotential : (score > 80 ? 'High' : (score < 50 ? 'Low' : 'Medium'));
     
-    let recommendation = finalState.recommendation !== 'Proceed with standard follow-up.' 
+    const recommendation = finalState.recommendation !== 'Proceed with standard follow-up.' 
       ? finalState.recommendation 
       : (score >= 80 ? 'High priority. Contact immediately and prioritize pipeline.' : (score < 40 ? 'Low priority. Proceed with caution or archive.' : 'Proceed with standard follow-up.'));
 
