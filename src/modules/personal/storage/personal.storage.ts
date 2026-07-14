@@ -28,7 +28,7 @@ export class PersonalStorage {
     if (!user) return [];
 
     const startDate = `${yearMonth}-01`;
-    const endDate = `${yearMonth}-31`; // Approx, it works for querying text based dates usually, or we can use >= and <=
+    const endDate = `${yearMonth}-31`;
 
     const { data, error } = await supabase
       .from('calendar_events')
@@ -50,22 +50,22 @@ export class PersonalStorage {
   async createCalendarEvent(event: Partial<CalendarEvent>): Promise<CalendarEvent | null> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+    if (!user) throw new Error('Not authenticated. Please log in again.');
 
     const dbEvent = {
       user_id: user.id,
       title: event.title,
-      description: event.description,
+      description: event.description || null,
       date: event.date,
       time: event.time,
-      priority: event.priority,
-      estimated_revenue: event.estimatedRevenue,
-      status: event.status,
-      category: event.category,
-      linked_company: event.linkedCompany,
-      linked_property: event.linkedProperty,
-      linked_client: event.linkedClient,
-      notes: event.notes
+      priority: event.priority || 'Medium',
+      estimated_revenue: event.estimatedRevenue || 0,
+      status: event.status || 'Scheduled',
+      category: event.category || 'Meeting',
+      linked_company: event.linkedCompany || null,
+      linked_property: event.linkedProperty || null,
+      linked_client: event.linkedClient || null,
+      notes: event.notes || null,
     };
 
     const { data, error } = await supabase
@@ -76,7 +76,7 @@ export class PersonalStorage {
 
     if (error) {
       console.error('Error creating calendar event:', error);
-      return null;
+      throw new Error(`Database error: ${error.message} (code: ${error.code})`);
     }
 
     return this.mapEventToCamel(data);
@@ -85,9 +85,9 @@ export class PersonalStorage {
   async updateCalendarEvent(id: string, updates: Partial<CalendarEvent>): Promise<CalendarEvent | null> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+    if (!user) throw new Error('Not authenticated. Please log in again.');
 
-    const dbUpdates: any = {};
+    const dbUpdates: Record<string, any> = {};
     if (updates.title !== undefined) dbUpdates.title = updates.title;
     if (updates.description !== undefined) dbUpdates.description = updates.description;
     if (updates.date !== undefined) dbUpdates.date = updates.date;
@@ -107,7 +107,7 @@ export class PersonalStorage {
 
     if (error) {
       console.error('Error updating calendar event:', error);
-      return null;
+      throw new Error(`Database error: ${error.message} (code: ${error.code})`);
     }
 
     return this.mapEventToCamel(data);
@@ -116,7 +116,7 @@ export class PersonalStorage {
   async deleteCalendarEvent(id: string): Promise<boolean> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return false;
+    if (!user) throw new Error('Not authenticated. Please log in again.');
 
     const { error } = await supabase
       .from('calendar_events')
@@ -126,7 +126,7 @@ export class PersonalStorage {
 
     if (error) {
       console.error('Error deleting calendar event:', error);
-      return false;
+      throw new Error(`Database error: ${error.message} (code: ${error.code})`);
     }
 
     return true;
@@ -155,7 +155,7 @@ export class PersonalStorage {
   async createCapture(rawText: string): Promise<Capture | null> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+    if (!user) throw new Error('Not authenticated. Please log in again.');
 
     const { data, error } = await supabase
       .from('captures')
@@ -165,7 +165,7 @@ export class PersonalStorage {
 
     if (error) {
       console.error('Error creating capture:', error);
-      return null;
+      throw new Error(`Database error: ${error.message} (code: ${error.code})`);
     }
 
     return this.mapCaptureToCamel(data);
@@ -230,7 +230,7 @@ export class PersonalStorage {
       linkedClient: row.linked_client,
       notes: row.notes,
       createdAt: row.created_at,
-      updatedAt: row.updated_at
+      updatedAt: row.updated_at,
     };
   }
 
@@ -240,7 +240,7 @@ export class PersonalStorage {
       userId: row.user_id,
       rawText: row.raw_text,
       createdAt: row.created_at,
-      updatedAt: row.updated_at
+      updatedAt: row.updated_at,
     };
   }
 
@@ -251,10 +251,10 @@ export class PersonalStorage {
       title: row.title,
       description: row.description,
       priority: row.priority,
-      tags: row.tags,
+      tags: row.tags || [],
       status: row.status,
       createdAt: row.created_at,
-      updatedAt: row.updated_at
+      updatedAt: row.updated_at,
     };
   }
 
@@ -269,7 +269,7 @@ export class PersonalStorage {
       linkedCapture: row.linked_capture,
       linkedIdea: row.linked_idea,
       createdAt: row.created_at,
-      updatedAt: row.updated_at
+      updatedAt: row.updated_at,
     };
   }
 }
