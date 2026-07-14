@@ -34,7 +34,7 @@ export class RevenueFeedService {
     const results = await Promise.allSettled(fetchPromises);
     
     let hasFailures = false;
-    let failureReasons: string[] = [];
+    const failureReasons: string[] = [];
 
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {

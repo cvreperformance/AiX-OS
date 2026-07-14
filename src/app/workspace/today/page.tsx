@@ -10,7 +10,7 @@ export default async function TodayPage() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-display font-bold text-white tracking-tight">Good Morning, Cristian</h1>
-          <p className="text-zinc-400 mt-2">Today's Mission: <span className="text-emerald-400 font-semibold">{data.mission}</span></p>
+          <p className="text-zinc-400 mt-2">Today&apos;s Mission: <span className="text-emerald-400 font-semibold">{data.mission}</span></p>
         </div>
         <div className="text-right">
           <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">Est. Pipeline</p>
@@ -61,7 +61,7 @@ export default async function TodayPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
               <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
-              Today's Calendar
+              Today&apos;s Calendar
             </h2>
             <div className="space-y-4">
               {data.calendarEvents.length === 0 ? (
@@ -86,7 +86,7 @@ export default async function TodayPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
               <span className="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
-              Today's Reminders
+              Today&apos;s Reminders
             </h2>
             <div className="bg-[#0a0a0a]/80 border border-zinc-800/80 rounded-xl overflow-hidden">
               {data.reminders.length === 0 ? (
@@ -110,7 +110,7 @@ export default async function TodayPage() {
                 <div className="p-6 border border-zinc-800 rounded-xl bg-zinc-900/30 text-zinc-500 text-sm">No recent captures.</div>
               ) : data.recentCaptures.map(cap => (
                 <div key={cap.id} className="bg-zinc-900/50 border border-zinc-800/50 p-4 rounded-xl">
-                  <p className="text-sm text-zinc-300 italic">"{cap.rawText}"</p>
+                  <p className="text-sm text-zinc-300 italic">&quot;{cap.rawText}&quot;</p>
                 </div>
               ))}
             </div>

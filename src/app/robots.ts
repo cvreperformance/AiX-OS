@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://aix-os.com/sitemap.xml",
+    sitemap: "https://aixos.ro/sitemap.xml",
   };
 }

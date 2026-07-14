@@ -81,7 +81,7 @@ export default function ActionCenterPage() {
             </div>
           ) : pendingActions.length === 0 ? (
             <div className="p-8 border border-zinc-800 rounded-xl bg-zinc-900/30 text-center text-zinc-500">
-              No pending actions. You're all caught up!
+              No pending actions. You&apos;re all caught up!
             </div>
           ) : (
             <div className="space-y-4">
