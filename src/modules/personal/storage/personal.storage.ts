@@ -171,6 +171,85 @@ export class PersonalStorage {
     return this.mapCaptureToCamel(data);
   }
 
+  async deleteCapture(id: string): Promise<void> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated. Please log in again.');
+
+    const { error } = await supabase
+      .from('captures')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Error deleting capture:', error);
+      throw new Error(`Database error: ${error.message}`);
+    }
+  }
+
+  async completeReminder(id: string): Promise<void> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated.');
+
+    const { error } = await supabase
+      .from('reminders')
+      .update({ completed: true })
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Error completing reminder:', error);
+      throw new Error(`Database error: ${error.message}`);
+    }
+  }
+
+  async createReminder(data: { title: string; date: string; priority: string }): Promise<Reminder | null> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated.');
+
+    const { data: row, error } = await supabase
+      .from('reminders')
+      .insert({ user_id: user.id, title: data.title, date: data.date, priority: data.priority, completed: false })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating reminder:', error);
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    return this.mapReminderToCamel(row);
+  }
+
+  async createIdea(data: Partial<Idea>): Promise<Idea | null> {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated.');
+
+    const { data: row, error } = await supabase
+      .from('ideas')
+      .insert({
+        user_id: user.id,
+        title: data.title,
+        description: data.description || null,
+        priority: data.priority || 'Medium',
+        tags: data.tags || [],
+        status: 'New',
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating idea:', error);
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    return this.mapIdeaToCamel(row);
+  }
+
   async getRecentIdeas(limit: number = 5): Promise<Idea[]> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();

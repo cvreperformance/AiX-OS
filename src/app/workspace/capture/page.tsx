@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { saveCapture, getRecentCaptures } from '@/app/actions/personal.actions';
+import { saveCapture, getRecentCaptures, deleteCapture } from '@/app/actions/personal.actions';
 import { Capture } from '@/modules/personal/types/personal.types';
 
 type Status = 'idle' | 'saving' | 'saved' | 'error';
@@ -101,8 +101,22 @@ export default function CapturePage() {
           </div>
         ) : (
           captures.map((capture) => (
-            <div key={capture.id} className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl">
-              <p className="text-zinc-300 whitespace-pre-wrap">{capture.rawText}</p>
+            <div key={capture.id} className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl group">
+              <div className="flex justify-between items-start gap-4">
+                <p className="text-zinc-300 whitespace-pre-wrap flex-1">{capture.rawText}</p>
+                <button
+                  onClick={async () => {
+                    setCaptures(prev => prev.filter(c => c.id !== capture.id));
+                    try { await deleteCapture(capture.id); } catch (e) { await loadCaptures(); }
+                  }}
+                  className="text-zinc-700 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 shrink-0 mt-0.5"
+                  title="Delete capture"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
               <p className="text-xs text-zinc-600 mt-2">
                 {new Date(capture.createdAt).toLocaleString()}
               </p>
