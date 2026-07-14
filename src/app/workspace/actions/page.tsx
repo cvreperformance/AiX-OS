@@ -7,14 +7,14 @@ import { getLiveActions } from '@/app/actions/revenue.actions';
 import { ActionItem } from '@/modules/action-center/types/action.types';
 
 export default function ActionCenterPage() {
-  const [service] = useState(() => new ActionCenterService([]));
-  
+  const [service, setService] = useState<ActionCenterService | null>(null);
   const [actions, setActions] = useState<ActionItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getLiveActions().then(liveActions => {
       const combinedService = new ActionCenterService(liveActions);
+      setService(combinedService);
       setActions(combinedService.loadActions());
       setIsLoading(false);
     }).catch(e => {
@@ -23,12 +23,29 @@ export default function ActionCenterPage() {
     });
   }, []);
 
-  const handleStart = (id: string) => setActions([...service.start(id)]);
-  const handleComplete = (id: string) => setActions([...service.complete(id)]);
-  const handleIgnore = (id: string) => setActions([...service.ignore(id)]);
-  const handleDefer = (id: string) => setActions([...service.defer(id)]);
+  const handleStart = (id: string) => {
+    if (service) setActions([...service.start(id)]);
+  };
+  const handleComplete = (id: string) => {
+    if (service) setActions([...service.complete(id)]);
+  };
+  const handleIgnore = (id: string) => {
+    if (service) setActions([...service.ignore(id)]);
+  };
+  const handleDefer = (id: string) => {
+    if (service) setActions([...service.defer(id)]);
+  };
 
-  const stats = service.statistics();
+  const stats = service
+    ? service.statistics()
+    : {
+        pendingCount: 0,
+        completedCount: 0,
+        ignoredCount: 0,
+        completionRate: 0,
+        estimatedRevenueCompleted: 0,
+        estimatedRevenueRemaining: 0,
+      };
 
   // Filter actions for display
   const pendingActions = actions.filter(a => a.status === 'Pending' || a.status === 'In Progress');
