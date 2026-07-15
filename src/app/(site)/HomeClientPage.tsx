@@ -122,35 +122,35 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
   const QUICK_GRID = [
     {
       title: language === "ro" ? "Cumpără & Vinde" : "Buy & Sell",
-      desc: language === "ro" ? "Proprietăți selectate, profile dezvoltatori și asistență directă la achiziție." : "Handpicked properties, builder audits, and dedicated buyer representation.",
+      desc: language === "ro" ? "Evită intermediarii și economisește până la 3% din costul tranzacției." : "Acquire properties directly from owners to save up to 3% in fees.",
       icon: Building2,
       color: "text-blue-400 border-blue-500/10 hover:bg-blue-500/[0.02]",
       href: "/proprietati"
     },
     {
       title: language === "ro" ? "Investește & Protejează" : "Invest & Protect",
-      desc: language === "ro" ? "Market Pulse, dobânzi BNR active, portofolii și asigurări active." : "Macro ticker metrics, tax guidelines, asset allocations, and home insurance.",
+      desc: language === "ro" ? "Protejează-ți economiile de inflație și calculează cotațiile de asigurare în 3 minute." : "Protect assets against inflation and compare 15+ property insurance rates in 3 minutes.",
       icon: Shield,
       color: "text-rose-400 border-rose-500/10 hover:bg-rose-500/[0.02]",
       href: "/stiri"
     },
     {
       title: language === "ro" ? "Învață & Cercetează" : "Learn & Research",
-      desc: language === "ro" ? "Biblioteca de cărți, checklist-uri, cursuri practice și cuvântul zilei." : "Business reading list, document templates, investor guides, and the daily word.",
+      desc: language === "ro" ? "Accesează ghiduri practice de tranzacționare pentru a evita greșelile costisitoare." : "Access transaction templates and investor checklists to avoid common buying errors.",
       icon: BookOpen,
       color: "text-amber-400 border-amber-500/10 hover:bg-amber-500/[0.02]",
       href: "/learning"
     },
     {
-      title: language === "ro" ? "Instrumente" : "Tools",
-      desc: language === "ro" ? "Calculatoare credite imobiliare, randament yield și convertoare." : "Mortgage interest estimators, cash flow ROI sheets, and currency values.",
+      title: language === "ro" ? "Calculatoare & Modele" : "Calculators & Templates",
+      desc: language === "ro" ? "Calculează instant dobânzile, creditele și randamentele nete de chirie." : "Calculate net rental yields, interest rates, and cash flow benchmarks instantly.",
       icon: Wrench,
       color: "text-teal-400 border-teal-500/10 hover:bg-teal-500/[0.02]",
       href: "/convenience"
     },
     {
-      title: language === "ro" ? "Sistem AI" : "AI System",
-      desc: language === "ro" ? "Nucleul central AiX Brain și asistentul tău financiar AI Advisor." : "The central decision cockpit routing queries across registries.",
+      title: language === "ro" ? "Analiză Automatizată" : "Automated Analysis",
+      desc: language === "ro" ? "Scanează automat documentele de cadastru pentru a detecta riscurile în 10 secunde." : "Scan land registry files to flag legal and structural liabilities in 10 seconds.",
       icon: Brain,
       color: "text-violet-400 border-violet-500/10 hover:bg-violet-500/[0.02]",
       href: "/brain"
@@ -160,8 +160,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
   const AI_AGENTS = [
     {
       id: "property",
-      name: language === "ro" ? "Agent Proprietăți" : "Property Agent",
-      desc: language === "ro" ? "Scanează automat documentațiile cadastrale și identifică riscurile ascunse." : "Scans land registry files automatically and flags structural or legal liabilities.",
+      name: language === "ro" ? "Verificare Cadastru" : "Land Registry Scan",
+      desc: language === "ro" ? "Detectează servituți, ipoteci și litigii din actele cadastrale în sub 10 secunde." : "Flag hidden easements, active mortgages, and title disputes in under 10 seconds.",
       capabilities: language === "ro" 
         ? ["Verificare istoric titlu proprietate", "Detecție drum de servitute", "Sarcini bancare active"] 
         : ["Ownership title chain analysis", "Easement road audit", "Active mortgages check"],
@@ -170,8 +170,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       id: "investment",
-      name: language === "ro" ? "Agent Investiții" : "Investment Agent",
-      desc: language === "ro" ? "Identifică oportunități nelistate public și calculează randamentul net." : "Locates unlisted properties and models dynamic net ROI benchmarks.",
+      name: language === "ro" ? "Modelare Randamente" : "Yield Estimator",
+      desc: language === "ro" ? "Calculează randamentul net real din chirie și compară prețurile pe metru pătrat." : "Model cash-flow yields and compare sub-zone price-per-square-meter data.",
       capabilities: language === "ro" 
         ? ["Simulare yield cash flow", "Comparație preț/mp pe sub-zone", "Arbitraj imobiliar"] 
         : ["Cash-flow yield modeling", "Sub-market price benchmarking", "Real estate arbitrage flags"],
@@ -180,8 +180,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       id: "insurance",
-      name: language === "ro" ? "Agent Asigurări" : "Insurance Agent",
-      desc: language === "ro" ? "Calculează cotațiile de asigurare pentru a vă proteja activele împotriva riscurilor." : "Finds the best insurance quotes to protect your property and investments.",
+      name: language === "ro" ? "Asigurări Directe" : "Insurance Matcher",
+      desc: language === "ro" ? "Obține cotații de la 15+ asigurători și redu costul asigurării cu până la 20%." : "Compare coverage options from 15+ insurers to lower your premium rates by up to 20%.",
       capabilities: language === "ro" 
         ? ["Estimator cotații PAD", "Evaluare risc seismic regional", "Garanții contractuale"] 
         : ["Optional PAD insurance estimates", "Seismic risk mapping", "Bespoke liability clauses"],
@@ -190,8 +190,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       id: "market",
-      name: language === "ro" ? "Agent Piață" : "Market Agent",
-      desc: language === "ro" ? "Urmărește indicii BNR, inflația CPI și trendurile globale macro." : "Tracks BNR policy rates, inflation shifts, and sovereign macro indicators.",
+      name: language === "ro" ? "Radar Prețuri" : "Price Radar",
+      desc: language === "ro" ? "Urmărește indicii ROBOR, IRCC și inflația în timp real pentru a proteja capitalul." : "Track policy rates and inflation indexes to time your acquisitions correctly.",
       capabilities: language === "ro" 
         ? ["Urmărire indici ROBOR/IRCC", "Monitorizare cotații active", "Sentimentul general al pieței"] 
         : ["ROBOR/IRCC tracking", "Commodity & crypto feed scans", "Sentiment analysis indexes"],
@@ -200,8 +200,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       id: "concierge",
-      name: language === "ro" ? "Agent Servicii" : "Services Agent",
-      desc: language === "ro" ? "Ajută la coordonarea transportului privat, a ambarcațiunilor și a serviciilor de relocare." : "Helps coordinate private transport, charters, and relocation services.",
+      name: language === "ro" ? "Coordonator Relocare" : "Relocation & Transport Coordinator",
+      desc: language === "ro" ? "Planifică relocarea și zborurile private direct din dashboard, fără intermediari." : "Coordinate international relocation and private transport without third-party brokers.",
       capabilities: language === "ro" 
         ? ["Coordonare zboruri private", "Închiriere ambarcațiuni", "Asistență relocare"] 
         : ["Private flight coordination", "Boat charters", "Relocation assistance"],
@@ -281,27 +281,27 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             AiX OS™ &bull; DECISION SUPPORT SYSTEM
           </span>
           <h1 className="text-5xl sm:text-7xl font-light text-zinc-900 tracking-tight leading-none">
-            AiX OS™ <br />
-            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600 text-4xl sm:text-5xl mt-2 inline-block">Your second brain.<br />Think faster.</span>
+            Stop overpaying <br />
+            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600 text-3xl sm:text-5xl mt-2 inline-block">and wasting hours on due diligence</span>
           </h1>
           <p className="text-base sm:text-lg font-light text-zinc-600 max-w-xl leading-relaxed">
             {language === "ro" 
-              ? "Experimentează prima platformă de inteligență imobiliară concepută pentru a de-risca achizițiile, a simula portofolii și a vă proteja activele imobiliare."
-              : "Use an outcome-focused dashboard built to de-risk acquisitions, model wealth portfolios, and manage your properties."}
+              ? "Evită achizițiile supraevaluate și orele pierdute cu verificarea actelor. Folosește scanări automate de riscuri și simulări de randament bazate pe date reale."
+              : "Use local transaction data, automated risk scans, and yield modeling to secure assets at the correct price and secure transactions."}
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
               href="/property-scanner"
               className="rounded-xl bg-amber-500 text-black px-6 py-3 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
             >
-              <span>{language === "ro" ? "Deschide Scanner AI" : "Launch AI Scanner"}</span>
+              <span>{language === "ro" ? "Verifică Titlul Proprietății Instante" : "Verify Property Titles Instantly"}</span>
               <ChevronRight className="h-4 w-4" />
             </Link>
             <Link
               href="/dashboard"
               className="rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 px-6 py-3 text-xs text-zinc-600 hover:text-zinc-900 transition-all flex items-center gap-1.5"
             >
-              <span>{language === "ro" ? "Command Center" : "Command Center"}</span>
+              <span>{language === "ro" ? "Accesează Dashboard Investiții" : "Access Investment Dashboard"}</span>
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>

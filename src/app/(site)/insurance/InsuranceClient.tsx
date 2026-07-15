@@ -96,13 +96,13 @@ export default function InsuranceClient() {
           {language === "ro" ? "AiX OS™ · Asigurări Bunuri & Active" : "AiX OS™ · Asset Insurance"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
-          {language === "ro" ? "Protecție de Portofoliu &" : "Portfolio Protection &"} <br />
-          <span className="gradient-gold">{language === "ro" ? "Consultanță Asigurări AI" : "AI Insurance Brokerage"}</span>
+          {language === "ro" ? "Protejează-ți clădirile și afacerile" : "Protect your property assets"} <br />
+          <span className="gradient-gold">{language === "ro" ? "împotriva pierderilor financiare" : "against damage and liability"}</span>
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed">
           {language === "ro"
-            ? "Comparăm și structurăm cotații de la primii 15 asigurători autorizați pentru a securiza activele tale imobiliare, rezidențiale sau comerciale la cele mai bune costuri."
-            : "We structure and compare customized quotes across the top 15 accredited insurers to protect your real estate portfolio, liability, and private corporate assets."}
+            ? "Compară automat polițele de la 15 asigurători autorizați pentru a obține o reducere de până la 20% la prima de asigurare."
+            : "Compare quotes from 15+ accredited insurers instantly to lower your coverage costs by up to 20% while securing full asset protection."}
         </p>
       </section>
 

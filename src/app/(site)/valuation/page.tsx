@@ -106,18 +106,18 @@ export default function ValuationPage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-20 py-12 animate-in">
       <PageHeader
         badge="AI Valuation Desk"
-        title="Evaluare Automată Active"
-        subtitle="Calculează estimarea de piață a proprietății tale în timp real bazată pe 50.000+ tranzacții din regiuni exclusiviste."
+        title="Află valoarea reală de vânzare a casei tale în 60 de secunde"
+        subtitle="Evită stabilirea unui preț greșit care îți blochează vânzarea. Calculează valoarea pe baza a 50.000+ tranzacții reale."
       />
 
       {/* Hero layout and Form */}
       <section className="grid lg:grid-cols-2 gap-12 items-start">
         <div className="space-y-6">
           <h1 className="text-3xl font-light text-zinc-900 leading-tight">
-            Valoarea reală de piață a activelor imobiliare.
+            Nu lăsa bani pe masă la tranzacționare.
           </h1>
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Față de evaluatorul clasic, motorul AiX corelează tranzacțiile istorice cu finisajele interioare și AI Score-ul regional pentru a asigura o precizie de ±3%.
+            Sistemul analizează automat contractele de vânzare din zonă și calitatea finisajelor pentru a oferi o estimare de preț precisă cu o marjă de ±3%.
           </p>
           
           <div className="grid grid-cols-3 gap-4">

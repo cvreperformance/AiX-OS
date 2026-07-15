@@ -96,11 +96,11 @@ function NetworkTab() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
-              Rețeaua Privată a<br />
-              <span className="gradient-gold">Investitorilor de Top</span>
+              Găsește parteneri de capital<br />
+              <span className="gradient-gold">și co-investește în active mari</span>
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed">
-              Connect with buyers, investors and professionals faster. Access opportunities that are not publicly listed and pool resources to acquire larger assets.
+              Conectează-te cu investitori verificați și pool-uiește resursele pentru a achiziționa active cu randament ridicat, fără a fi nevoie să finanțezi totul singur.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {MEMBER_STATS.map(({ value, label }) => (

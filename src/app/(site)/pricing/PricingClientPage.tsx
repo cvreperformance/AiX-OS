@@ -69,9 +69,9 @@ export default function PricingClientPage() {
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-light text-zinc-900 tracking-tight mb-6 leading-tight">
-            The Complete <br />
+            Unlock local yield data <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 font-normal">
-              AiX Monetization
+              and scan transactions instantly
             </span>
           </h1>
           <p className="text-xl text-zinc-400 font-light max-w-3xl mx-auto leading-relaxed">
@@ -85,8 +85,8 @@ export default function PricingClientPage() {
         {/* ─── 1. AiX OS™ Membership ───────────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">1. AiX OS™ Membership</h2>
-            <p className="text-zinc-400">Access the core intelligence engine.</p>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">1. Access properties and analyze data</h2>
+            <p className="text-zinc-400">Select the plan matching your transaction volume to scan properties and calculate net yields.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* FREE */}
@@ -103,7 +103,7 @@ export default function PricingClientPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/login" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Login to Access</Link>
+              <Link href="/login" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Start free search</Link>
             </div>
             {/* STARTER */}
             <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-8 flex flex-col hover:border-blue-500/40 transition-all">
@@ -119,7 +119,7 @@ export default function PricingClientPage() {
                   </li>
                 ))}
               </ul>
-              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-blue-500/20 text-blue-400 font-medium hover:bg-blue-500/30 transition-colors">Upgrade Starter</Link>
+              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-blue-500/20 text-blue-400 font-medium hover:bg-blue-500/30 transition-colors">Get property tools</Link>
             </div>
             {/* PROFESSIONAL */}
             <div className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-8 flex flex-col relative shadow-2xl shadow-amber-500/10 md:-translate-y-4">
@@ -136,7 +136,7 @@ export default function PricingClientPage() {
                   </li>
                 ))}
               </ul>
-              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors">Get Professional</Link>
+              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors">Get professional features</Link>
             </div>
             {/* BUSINESS */}
             <div className="rounded-3xl border border-purple-500/20 bg-purple-500/5 p-8 flex flex-col hover:border-purple-500/40 transition-all">
@@ -152,7 +152,7 @@ export default function PricingClientPage() {
                   </li>
                 ))}
               </ul>
-              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center border border-purple-500/50 text-purple-400 font-medium hover:bg-purple-500/10 transition-colors">Contact Sales</Link>
+              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center border border-purple-500/50 text-purple-400 font-medium hover:bg-purple-500/10 transition-colors">Connect custom systems</Link>
             </div>
           </div>
         </section>
@@ -193,7 +193,7 @@ export default function PricingClientPage() {
         {/* ─── 3. Complete Digital Presence ─────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">3. Complete Digital Presence</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">3. Attract buyers online directly</h2>
             <p className="text-zinc-400">Maximize asset reach and client conversion through integrated digital infrastructure.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -222,7 +222,7 @@ export default function PricingClientPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-amber-900/20 to-zinc-900/80 backdrop-blur-3xl" />
           <div className="relative p-12 md:p-20 text-center">
             <Globe className="h-12 w-12 text-amber-400 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">4. Full Real Estate Ecosystem</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">4. Get direct exposure on all portals</h2>
             <p className="text-lg text-zinc-600 max-w-2xl mx-auto mb-10">
               Appear higher in search results, save hours of manual writing with AI integration, and get maximum visibility across AiX OS™, Home Find, CristianVaduva.com, AiXLuxury.com, and doar-inchirieri.ro.
             </p>
@@ -242,7 +242,7 @@ export default function PricingClientPage() {
         {/* ─── 5. doar-inchirieri.ro ────────────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">5. doar-inchirieri.ro</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">5. List rentals on specialized networks</h2>
             <p className="text-zinc-400">Specialized rental platform access.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -381,7 +381,7 @@ export default function PricingClientPage() {
         <section className="rounded-[40px] bg-white border border-zinc-200 p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none" />
           <div className="text-center mb-16 relative z-10">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">9. Dedicated Client Representation</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">9. Hire specialists to close transactions</h2>
             <p className="text-zinc-400">Specialized property sales representation and off-market deal matching.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-12">
@@ -406,7 +406,7 @@ export default function PricingClientPage() {
         {/* ─── 10. Smart Pricing Calculator ─────────────────────────────── */}
         <section>
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">10. Smart Pricing Calculator</h2>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">10. Calculate transactional fees instantly</h2>
             <p className="text-zinc-400">Intelligent bracket-based fee estimation.</p>
           </div>
           <div className="max-w-3xl mx-auto rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 md:p-12">

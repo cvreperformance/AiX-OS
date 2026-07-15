@@ -53,11 +53,11 @@ export default function ConciergePage() {
           AiX OS™ · Support Desk
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
-          Lifestyle Management & <br />
-          <span className="gradient-gold">Asistență și Mobilitate Globală</span>
+          Administrează relocarea, zborurile și proprietatea <br />
+          <span className="gradient-gold">dintr-un singur dashboard</span>
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed">
-          Coordonăm transportul privat, zborurile charter și serviciile conexe pentru proprietățile sau investițiile dumneavoastră. Vă ajutăm să gestionați activele și deplasările fără stres și efort administrativ.
+          Coordonăm transportul privat, zborurile charter și relocarea administrativă. Vă ajutăm să gestionați activele și deplasările fără stres și efort suplimentar.
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <button

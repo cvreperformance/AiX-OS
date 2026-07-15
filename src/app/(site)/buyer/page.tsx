@@ -105,19 +105,18 @@ export default function BuyerPage() {
             AiX OS™ · Buyer Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
-            Cumpără Orice Proprietate{" "}
-            <span className="gradient-gold">cu un Expert</span> în Echipa Ta
+            Evită achizițiile supraevaluate{" "}
+            <span className="gradient-gold">și capcanele juridice</span> din acte
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Reprezentare exclusivă a cumpărătorului. AI-powered market intelligence,
-            negociere profesională și due diligence complet. De la căutare la cheie.
+            Verificăm automat istoricul cadastral pentru a găsi sarcini ascunse, identificăm proprietăți din baze off-market și negociem cu 4-8% sub prețul cerut.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all"
             >
-              Consultație Gratuită
+              Programează apel de verificare
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a

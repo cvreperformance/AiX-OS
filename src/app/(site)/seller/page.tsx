@@ -79,17 +79,17 @@ export default function SellerPage() {
             AiX OS™ · Seller Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
-            Vinzi la{" "}
-            <span className="gradient-gold">Prețul Maxim</span>
+            Vinde proprietatea{" "}
+            <span className="gradient-gold">fără reduceri de preț</span>
             <br />
-            în Timp Minim
+            sau vizite inutile
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Atrageți cumpărători calificați folosind fotografii de înaltă calitate, promovare targetată și conexiuni directe. Evaluare corectă, expunere maximă, rezultate garantate.
+            Promovăm listarea direct către cumpărători cu bugete verificate. Obțineți evaluarea reală a pieței pentru a stabili cel mai bun preț de tranzacționare în sub 30 de zile.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all">
-              Evaluare Gratuită
+              Calculează valoarea pieței
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a href="https://wa.me/436509536345" target="_blank" rel="noopener noreferrer"

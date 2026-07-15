@@ -70,15 +70,15 @@ export default function HomeFindClientPage() {
                     The Next Generation of Real Estate
                 </div>
                 <h1 className="text-6xl md:text-8xl font-display font-bold leading-[1.05] mb-6 tracking-tight">
-                    Find a home you&apos;ll <br />
-                    <span className="text-gradient">truly love.</span>
+                    Find unlisted homes <br />
+                    <span className="text-gradient">and save 3% in fees.</span>
                 </h1>
                 <p className="text-xl text-gray-400 font-light mb-10 max-w-lg leading-relaxed">
                     Connect directly with owners of high-value homes. Pay zero commissions and no hidden fees, while automated filtering saves you hours of manual search.
                 </p>
                 <div className="flex flex-wrap items-center gap-4">
-                    <a href="#about" className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform text-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">Explore Platform</a>
-                    <a href="#pricing" className="px-8 py-4 bg-transparent text-zinc-900 font-semibold rounded-full hover:bg-white/5 transition-colors border border-white/10 text-center">View Ecosystem</a>
+                    <a href="#about" className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform text-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">See how it works</a>
+                    <a href="#pricing" className="px-8 py-4 bg-transparent text-zinc-900 font-semibold rounded-full hover:bg-white/5 transition-colors border border-white/10 text-center">Compare plan rates</a>
                 </div>
             </div>
             
@@ -124,8 +124,8 @@ export default function HomeFindClientPage() {
     <section id="about" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-24 reveal">
-                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">What is Home Find</h2>
-                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">A Seamless <span className="text-gradient">Ecosystem</span></h3>
+                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">Cut out middlemen</h2>
+                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Connect and transact <span className="text-gradient">directly with owners</span></h3>
                 <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
                     A modern real estate platform connecting owners directly with buyers. No middlemen, no friction. Just beautifully crafted technology.
                 </p>
@@ -136,22 +136,22 @@ export default function HomeFindClientPage() {
                     <div className="w-14 h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center mb-8 border border-brand-blue/20">
                         <ShieldCheck    className="w-7 h-7 text-brand-blue" />
                     </div>
-                    <h4 className="text-2xl font-display font-bold mb-4">Zero Commissions</h4>
-                    <p className="text-gray-400 leading-relaxed font-light">Transact directly through our secure platform. We eliminate the middlemen so buyers and sellers retain maximum value.</p>
+                    <h4 className="text-2xl font-display font-bold mb-4">Keep 100% of value</h4>
+                    <p className="text-gray-400 leading-relaxed font-light">By transacting directly with the owner, you bypass standard 3% agent commissions, keeping more cash in your bank account.</p>
                 </div>
                 <div className="glass-card p-10 card-hover reveal delay-100">
                     <div className="w-14 h-14 rounded-2xl bg-brand-purple/10 flex items-center justify-center mb-8 border border-brand-purple/20">
                         <Sparkles    className="w-7 h-7 text-brand-purple" />
                     </div>
-                    <h4 className="text-2xl font-display font-bold mb-4">AI Matching</h4>
-                    <p className="text-gray-400 leading-relaxed font-light">Our proprietary AiX algorithms match high-end properties with the perfect buyers based on precise lifestyle data.</p>
+                    <h4 className="text-2xl font-display font-bold mb-4">Filter properties in seconds</h4>
+                    <p className="text-gray-400 leading-relaxed font-light">Locate properties matching your exact yield target, budget, and neighborhood specifications automatically without scrolling listings.</p>
                 </div>
                 <div className="glass-card p-10 card-hover reveal delay-200">
                     <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 border border-white/10">
                         <Globe    className="w-7 h-7 text-zinc-900" />
                     </div>
-                    <h4 className="text-2xl font-display font-bold mb-4">Global Reach</h4>
-                    <p className="text-gray-400 leading-relaxed font-light">Get seen by more qualified buyers across a verified worldwide audience on a clean, global layout.</p>
+                    <h4 className="text-2xl font-display font-bold mb-4">Reach international capital</h4>
+                    <p className="text-gray-400 leading-relaxed font-light">Get your property in front of pre-verified international buyers in London, Dubai, and Monaco without global agency overhead.</p>
                 </div>
             </div>
         </div>
@@ -162,8 +162,8 @@ export default function HomeFindClientPage() {
         <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-20 items-center">
                 <div className="reveal">
-                    <h2 className="text-sm font-bold tracking-[0.2em] text-gray-500 uppercase mb-4">Platform Features</h2>
-                    <h3 className="text-4xl md:text-5xl font-display font-bold mb-10 leading-tight">Built for owners.<br />Designed for buyers.</h3>
+                    <h2 className="text-sm font-bold tracking-[0.2em] text-gray-500 uppercase mb-4">Simplify your workflow</h2>
+                    <h3 className="text-4xl md:text-5xl font-display font-bold mb-10 leading-tight">Track, edit, and negotiate<br />from one unified dashboard.</h3>
                     
                     <div className="space-y-10 mt-12">
                         <div className="flex gap-6 items-start group">
@@ -171,8 +171,8 @@ export default function HomeFindClientPage() {
                                 <LayoutDashboard    className="w-6 h-6 text-zinc-900" />
                             </div>
                             <div>
-                                <h4 className="text-xl font-bold mb-2">Centralized Dashboard</h4>
-                                <p className="text-gray-400 font-light leading-relaxed">Manage all your listings from a highly intuitive interface. Edit details, upload high-res galleries, and track performance.</p>
+                                <h4 className="text-xl font-bold mb-2">Manage listings in one place</h4>
+                                <p className="text-gray-400 font-light leading-relaxed">Instantly update prices, edit details, upload property documents, and monitor active buyer views from your account dashboard.</p>
                             </div>
                         </div>
                         <div className="flex gap-6 items-start group">
@@ -180,8 +180,8 @@ export default function HomeFindClientPage() {
                                 <Search    className="w-6 h-6 text-zinc-900" />
                             </div>
                             <div>
-                                <h4 className="text-xl font-bold mb-2">Targeted Filtering</h4>
-                                <p className="text-gray-400 font-light leading-relaxed">Lightning-fast search capabilities. Filter by city, property type, price range, and custom architectural tags.</p>
+                                <h4 className="text-xl font-bold mb-2">Find target criteria instantly</h4>
+                                <p className="text-gray-400 font-light leading-relaxed">Search and filter active options by exact price-per-square-meter boundaries, building age, and regional seismic risk ratings.</p>
                             </div>
                         </div>
                         <div className="flex gap-6 items-start group">
@@ -189,8 +189,8 @@ export default function HomeFindClientPage() {
                                 <Star    className="w-6 h-6 text-brand-gold" />
                             </div>
                             <div>
-                                <h4 className="text-xl font-bold mb-2">Exceptional Placements</h4>
-                                <p className="text-gray-400 font-light leading-relaxed">Appear higher in search results to receive more visibility and attract active buyers faster.</p>
+                                <h4 className="text-xl font-bold mb-2">Attract 3x more views</h4>
+                                <p className="text-gray-400 font-light leading-relaxed">Elevate your property to the top of regional search results to increase buyer inquiries and accelerate your closing timeline.</p>
                             </div>
                         </div>
                     </div>
@@ -227,9 +227,9 @@ export default function HomeFindClientPage() {
     <section id="aix" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 text-center reveal">
             <h2 className="text-sm font-bold tracking-[0.2em] text-brand-purple uppercase mb-4">AI Features</h2>
-            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Smart Pricing Calculator</h3>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Know your property&apos;s actual value before listing</h3>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light mb-16 leading-relaxed">
-                Integrated anti-manipulation logic and real-time market analysis. Home Find algorithms ensure optimal property valuations and fair market integrity.
+                Analyze thousands of local transaction points instantly to prevent leaving money on the table or setting unrealistic asking prices that stall sales.
             </p>
             
             <div className="max-w-4xl mx-auto glass-card p-12 text-left border-t border-white/20 relative overflow-hidden card-hover">
@@ -285,10 +285,10 @@ export default function HomeFindClientPage() {
     <section className="py-32 relative border-t border-white/5 bg-dark">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             <div className="reveal">
-                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-gold uppercase mb-4">Complete Support</h2>
-                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Dedicated <span className="text-gradient-gold">Sales Assistance</span></h3>
+                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-gold uppercase mb-4">Full hands-off execution</h2>
+                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Let us handle the <span className="text-gradient-gold">paperwork and negotiation</span></h3>
                 <p className="text-xl text-gray-400 font-light mb-8 leading-relaxed">
-                    Receive complete support from listing to close. We manage the details, marketing, and negotiation so you can focus on making final decisions.
+                    From title verification and contract preparation to final buyer negotiation, our team coordinates the entire process to secure your transaction.
                 </p>
                 <ul className="space-y-6 text-gray-300 mb-10">
                     <li className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/5">
@@ -319,8 +319,8 @@ export default function HomeFindClientPage() {
         <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-24 reveal">
                 <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">Monetization</h2>
-                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Pricing Tiers Tailored for You</h3>
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">Find the right plan to list your properties and reach buyers effectively.</p>
+                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Choose a plan that fits your transaction volume</h3>
+                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">Get the exact level of exposure, verification, and support required to close your next deal.</p>
             </div>
             
             <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -336,7 +336,7 @@ export default function HomeFindClientPage() {
                             <li className="flex items-center gap-4 opacity-40"><Minus    className="w-5 h-5 text-gray-500" /> No Featured Status</li>
                         </ul>
                     </div>
-                    <button className="w-full py-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors font-semibold text-lg">Get Started</button>
+                    <button className="w-full py-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors font-semibold text-lg">List property free</button>
                 </div>
                 
                 {/* Tier 2 */}
@@ -352,7 +352,7 @@ export default function HomeFindClientPage() {
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> See what works so you can make decisions faster</li>
                         </ul>
                     </div>
-                    <button className="w-full py-4 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-semibold text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)]">Subscribe Now</button>
+                    <button className="w-full py-4 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-semibold text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)]">Boost listing visibility</button>
                 </div>
                 
                 {/* Tier 3 */}
@@ -368,7 +368,7 @@ export default function HomeFindClientPage() {
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Custom Commission Model</li>
                         </ul>
                     </div>
-                    <button className="relative z-10 w-full py-4 rounded-full border border-brand-gold/50 text-brand-gold hover:bg-brand-gold hover:text-black transition-all font-semibold text-lg hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">Contact Us</button>
+                    <button className="relative z-10 w-full py-4 rounded-full border border-brand-gold/50 text-brand-gold hover:bg-brand-gold hover:text-black transition-all font-semibold text-lg hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">Get dedicated agent support</button>
                 </div>
             </div>
         </div>
@@ -380,12 +380,12 @@ export default function HomeFindClientPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-blue/10 pointer-events-none"></div>
         
         <div className="max-w-4xl mx-auto px-6 relative z-10 reveal">
-            <h2 className="text-6xl md:text-7xl font-display font-bold mb-8 text-gradient-gold drop-shadow-2xl">Powered by AiX OS™</h2>
+            <h2 className="text-6xl md:text-7xl font-display font-bold mb-8 text-gradient-gold drop-shadow-2xl">Secure your real estate transactions</h2>
             <p className="text-2xl text-gray-400 mb-12 font-light leading-relaxed">
-                Acquire, manage, and protect your properties from a single platform. <br className="hidden md:block" />Built to simplify complex transactions.
+                Scan for legal risks, compare local yield metrics, and close deals directly from a single portal.
             </p>
             <a href="https://aixluxury.com" target="_blank" className="inline-flex items-center justify-center px-10 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-lg shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-                Get Started
+                Create your free account
             </a>
         </div>
     </section>
