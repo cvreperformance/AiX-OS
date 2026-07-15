@@ -65,7 +65,7 @@ export default function PricingClientPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 mb-6">
             <Gem className="h-4 w-4 text-amber-500" />
             <span className="text-xs font-semibold uppercase tracking-widest text-amber-500">
-              Premium Ecosystem
+              Property & Investment Ecosystem
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-light text-zinc-900 tracking-tight mb-6 leading-tight">
@@ -113,7 +113,7 @@ export default function PricingClientPage() {
                 <p className="text-xs text-zinc-400">Perfect for individuals</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
-                {["Premium tools", "AI assistance", "Property utilities", "Market information", "Priority features"].map((f,i) => (
+                {["Track market trends", "Automated description builder", "Property analysis tools", "Real-time pricing data", "Priority support"].map((f,i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-blue-400 mt-0.5" /> <span>{f}</span>
                   </li>
@@ -130,7 +130,7 @@ export default function PricingClientPage() {
                 <p className="text-xs text-amber-500/80">For professionals</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
-                {["Advanced AI", "Professional calculators", "Market intelligence", "Business tools", "Automation", "Premium dashboards"].map((f,i) => (
+                {["AI-assisted valuation scans", "Financial yield models", "Detailed price trend reports", "Business management tools", "Automated listing workflows", "Complete portfolio tracking"].map((f,i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-amber-400 mt-0.5" /> <span>{f}</span>
                   </li>
@@ -194,7 +194,7 @@ export default function PricingClientPage() {
         <section>
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">3. Complete Digital Presence</h2>
-            <p className="text-zinc-400">Complete premium positioning across the entire digital ecosystem.</p>
+            <p className="text-zinc-400">Maximize asset reach and client conversion through integrated digital infrastructure.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {["AiX OS™", "Home Find", "CristianVaduva.com", "AiXLuxury.com"].map(brand => (
@@ -207,11 +207,11 @@ export default function PricingClientPage() {
               <p className="text-3xl font-light text-zinc-600 mb-6">499€<span className="text-lg text-zinc-400">/mo</span></p>
             </div>
             <div className="p-8 rounded-3xl border border-amber-500/30 bg-amber-500/10 text-center shadow-2xl shadow-amber-500/10 md:-translate-y-4">
-              <h3 className="text-xl font-bold text-zinc-900 mb-2">PREMIUM PRESENCE</h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">ENHANCED EXPOSURE</h3>
               <p className="text-3xl font-light text-amber-400 mb-6">799€<span className="text-lg text-amber-500/50">/mo</span></p>
             </div>
             <div className="p-8 rounded-3xl border border-zinc-200 bg-zinc-50/30 text-center">
-              <h3 className="text-xl font-bold text-zinc-900 mb-2">LUXURY ECOSYSTEM</h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">INTEGRATED ECOSYSTEM</h3>
               <p className="text-3xl font-light text-zinc-600 mb-6">Custom</p>
             </div>
           </div>
@@ -224,7 +224,7 @@ export default function PricingClientPage() {
             <Globe className="h-12 w-12 text-amber-400 mx-auto mb-6" />
             <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">4. Full Real Estate Ecosystem</h2>
             <p className="text-lg text-zinc-600 max-w-2xl mx-auto mb-10">
-              Maximum visibility, automation, AI integration and premium exposure across the complete ecosystem including AiX OS™, Home Find, CristianVaduva.com, AiXLuxury.com, and doar-inchirieri.ro.
+              Appear higher in search results, save hours of manual writing with AI integration, and get maximum visibility across AiX OS™, Home Find, CristianVaduva.com, AiXLuxury.com, and doar-inchirieri.ro.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <div className="px-8 py-6 rounded-2xl bg-white/40 border border-amber-500/30 backdrop-blur-md">
@@ -232,7 +232,7 @@ export default function PricingClientPage() {
                 <p className="text-3xl font-light text-amber-400">999€<span className="text-lg text-amber-500/50">/mo</span></p>
               </div>
               <div className="px-8 py-6 rounded-2xl bg-white/40 border border-zinc-200 backdrop-blur-md">
-                <p className="text-sm text-zinc-400 mb-1">Enterprise</p>
+                <p className="text-sm text-zinc-400 mb-1">Custom Plan</p>
                 <p className="text-3xl font-light text-zinc-900">Custom</p>
               </div>
             </div>
@@ -337,9 +337,9 @@ export default function PricingClientPage() {
           </div>
 
           <div className="rounded-3xl border border-zinc-200 bg-zinc-50/20 p-8 md:p-12">
-            <h3 className="text-2xl font-light text-zinc-900 mb-8 text-center">Premium Add-ons</h3>
+            <h3 className="text-2xl font-light text-zinc-900 mb-8 text-center">Performance Add-ons</h3>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
-              {["Premium Listing", "Featured Listing", "AI Boost", "Priority Placement", "Premium Analytics", "Automation Package"].map(add => (
+              {["Priority Listing Placement", "Featured Property Styling", "AI Copywriting Boost", "Top Search Placement", "Actionable Performance Metrics", "Automated Workflow Pack"].map(add => (
                 <div key={add} className="flex items-center gap-3 p-4 rounded-xl bg-white/50 border border-zinc-200/60">
                   <Activity className="h-4 w-4 text-amber-500" />
                   <span className="text-sm text-zinc-600">{add}</span>
@@ -358,7 +358,7 @@ export default function PricingClientPage() {
         <section>
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 grid grid-cols-2 gap-4">
-               {["Vehicle", "Apartment", "Villa", "Commercial", "Luxury Asset"].map(ex => (
+               {["Vehicle", "Apartment", "Villa", "Commercial Property", "High-Value Asset"].map(ex => (
                  <div key={ex} className="p-4 rounded-xl bg-zinc-50/30 border border-zinc-200 text-center text-sm text-zinc-400">{ex}</div>
                ))}
             </div>
@@ -381,14 +381,14 @@ export default function PricingClientPage() {
         <section className="rounded-[40px] bg-white border border-zinc-200 p-8 md:p-16 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 blur-[100px] pointer-events-none" />
           <div className="text-center mb-16 relative z-10">
-            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">9. Exceptional Full Representation</h2>
-            <p className="text-zinc-400">Premium luxury advisory and discrete off-market access.</p>
+            <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">9. Dedicated Client Representation</h2>
+            <p className="text-zinc-400">Specialized property sales representation and off-market deal matching.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 mb-12">
             {[
-              "Buyer Representation", "Seller Representation", "Investment Advisory", "Private Network", 
-              "Off Market", "Professional Marketing", "Negotiation", "Insurance Consulting", 
-              "Wealth Strategy", "AI Market Intelligence"
+              "Dedicated Buyer Representation", "Dedicated Seller Representation", "Return-on-Investment Advisory", "Capital Partner Network", 
+              "Unlisted Property Deals", "Targeted Listing Marketing", "Expert Deal Negotiation", "Asset Risk Assessment", 
+              "Portfolio Wealth Strategy", "Price Trend Analysis"
             ].map(srv => (
               <div key={srv} className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-50/40 border border-zinc-200/80">
                 <Crown className="h-5 w-5 text-amber-700/80" />
@@ -419,7 +419,7 @@ export default function PricingClientPage() {
                   onChange={e => setCalcAsset(e.target.value)}
                   className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                 >
-                  {["Apartment", "House", "Land", "Commercial", "Car", "Luxury Asset", "Other"].map(opt => (
+                  {["Apartment", "House", "Land", "Commercial", "Car", "High-Value Asset", "Other"].map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>
@@ -444,7 +444,7 @@ export default function PricingClientPage() {
                   onChange={e => setCalcService(e.target.value)}
                   className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                 >
-                  {["Standard", "Premium", "Featured", "Exclusive"].map(opt => (
+                  {["Standard", "Enhanced", "Featured", "Dedicated"].map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>

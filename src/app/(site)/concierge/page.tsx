@@ -4,9 +4,9 @@ import { Gem, Globe, Clock, Phone, Star, MessageCircle, Shield, Plane, Compass, 
 import { designSystem } from "@/styles/designSystem";
 
 const SERVICES = [
-  { icon: Globe, title: "Relocare Internațională", desc: "Gestionăm complet relocarea ta sau a companiei tale. Proprietăți, școli premium și servicii administrative." },
-  { icon: Gem, title: "Proprietăți Off-Market", desc: "Acces exclusiv la portofolii rezidențiale care nu apar niciodată pe listările publice." },
-  { icon: Shield, title: "Due Diligence Premium", desc: "Verificare juridică și tehnică rapidă completată în sub 48h de experți calificați." },
+  { icon: Globe, title: "Relocare Internațională", desc: "Gestionăm complet relocarea ta sau a companiei tale. Proprietăți, școli potrivite și servicii administrative." },
+  { icon: Gem, title: "Proprietăți Off-Market", desc: "Acces direct la portofolii rezidențiale care nu apar niciodată pe listările publice." },
+  { icon: Shield, title: "Due Diligence Complet", desc: "Verificare juridică și tehnică rapidă completată în sub 48h de experți calificați." },
   { icon: Clock, title: "Suport Dedicated 24/7", desc: "Lifestyle manager personal disponibil oricând, asigurând rezolvarea oricărei solicitări." },
   { icon: Star, title: "Networking UHNW", desc: "Acces cu invitație la dineurile private din cercurile de parteneri investitori AiX OS™." },
   { icon: Phone, title: "Planificare Fiscală", desc: "Asistență în optimizare fiscală transfrontalieră pentru achiziții mari de active." },
@@ -36,7 +36,7 @@ const TRAVEL_SERVICES = [
   },
   {
     title: "Planificatoare Itinerarii VIP",
-    desc: "Platforme recomandate pentru planificarea de călătorii premium: cazări verificate, transport dedicat și ghiduri lifestyle locale.",
+    desc: "Platforme recomandate pentru planificarea de călătorii organizate: cazări verificate, transport dedicat și ghiduri lifestyle locale.",
     icon: Compass,
     category: "Lifestyle Planning",
     link: "https://www.virtuoso.com/",
@@ -50,14 +50,14 @@ export default function ConciergePage() {
       {/* Hero section */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          AiX OS™ · Luxury Concierge Desk
+          AiX OS™ · Support Desk
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           Lifestyle Management & <br />
-          <span className="gradient-gold">Mobilitate Premium Globală</span>
+          <span className="gradient-gold">Asistență și Mobilitate Globală</span>
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed">
-          O singură poartă de acces pentru mobilitate privată terestră, maritimă și asistență imobiliară premium. Conceput exclusiv pentru deținătorii de portofolii HNWI și familii din cercurile noastre elite.
+          Coordonăm transportul privat, zborurile charter și serviciile conexe pentru proprietățile sau investițiile dumneavoastră. Vă ajutăm să gestionați activele și deplasările fără stres și efort administrativ.
         </p>
         <div className="flex flex-wrap gap-4 pt-2">
           <button

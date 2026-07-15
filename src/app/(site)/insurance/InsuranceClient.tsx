@@ -72,7 +72,7 @@ export default function InsuranceClient() {
       q: language === "ro" ? "De ce să folosesc un broker și să nu merg direct la asigurător?" : "Why use a broker instead of going direct to an insurer?",
       a: language === "ro"
         ? "Un broker compară simultan toate ofertele din piață și negociază reduceri de volum, obținând un preț adesea mai mic. De asemenea, te asistăm gratuit în caz de daună."
-        : "A broker compares all active market offerings at once and leverages volume discounts, often delivering a better premium. We also assist you during claims.",
+        : "A broker compares all active market offerings at once and leverages volume discounts, often delivering better rates. We also assist you during claims.",
     },
     {
       q: language === "ro" ? "Ce este polița PAD și este ea obligatorie?" : "What is the PAD policy and is it mandatory?",
@@ -81,10 +81,10 @@ export default function InsuranceClient() {
         : "PAD is the mandatory national home insurance covering natural disasters: earthquakes, floods, and landslides. It is required by Romanian law.",
     },
     {
-      q: language === "ro" ? "Pot asigura proprietăți premium la valoarea lor reală?" : "Can I insure high-value premium properties at full value?",
+      q: language === "ro" ? "Pot asigura proprietăți de mare valoare la valoarea lor reală?" : "Can I insure high-value properties at full value?",
       a: language === "ro"
-        ? "Da, polițele standard au limite reduse de despăgubire. Pentru segmentul luxury oferim polițe dedicate cu acoperiri complete pentru artă, finisaje premium și bunuri de preț."
-        : "Yes. Standard policies cap payouts. For luxury portfolios, we broker dedicated high-limit coverage protecting custom finishes, art collections, and high-value structures.",
+        ? "Da, polițele standard au limite reduse de despăgubire. Pentru active imobiliare de valoare oferim polițe dedicate cu acoperiri complete pentru artă, finisaje superioare și bunuri de preț."
+        : "Yes. Standard policies cap payouts. For high-value portfolios, we broker dedicated high-limit coverage protecting custom finishes, art collections, and high-value structures.",
     },
   ];
 
@@ -93,7 +93,7 @@ export default function InsuranceClient() {
       {/* Header */}
       <section className="space-y-6 max-w-3xl">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          {language === "ro" ? "AiX OS™ · Asigurări Premium" : "AiX OS™ · Premium Insurance"}
+          {language === "ro" ? "AiX OS™ · Asigurări Bunuri & Active" : "AiX OS™ · Asset Insurance"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
           {language === "ro" ? "Protecție de Portofoliu &" : "Portfolio Protection &"} <br />
@@ -101,8 +101,8 @@ export default function InsuranceClient() {
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed">
           {language === "ro"
-            ? "Comparăm și structurăm cotații de la primii 15 asigurători autorizați pentru a securiza activele tale imobiliare, rezidențiale sau comerciale la cota optimă de primă."
-            : "We structure and compare customized quotes across the top 15 accredited insurers to protect your luxury real estate portfolio, liability, and private corporate assets."}
+            ? "Comparăm și structurăm cotații de la primii 15 asigurători autorizați pentru a securiza activele tale imobiliare, rezidențiale sau comerciale la cele mai bune costuri."
+            : "We structure and compare customized quotes across the top 15 accredited insurers to protect your real estate portfolio, liability, and private corporate assets."}
         </p>
       </section>
 
@@ -241,7 +241,7 @@ export default function InsuranceClient() {
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-450" />
-              <span>{language === "ro" ? "Furt, vandalism și daune geamuri/finisaje" : "Theft, vandalism, structural windows, or luxury finishes"}</span>
+              <span>{language === "ro" ? "Furt, vandalism și daune geamuri/finisaje" : "Theft, vandalism, structural windows, or custom finishes"}</span>
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-450" />

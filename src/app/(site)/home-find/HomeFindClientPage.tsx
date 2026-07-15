@@ -74,7 +74,7 @@ export default function HomeFindClientPage() {
                     <span className="text-gradient">truly love.</span>
                 </h1>
                 <p className="text-xl text-gray-400 font-light mb-10 max-w-lg leading-relaxed">
-                    Premium properties directly from owners. Zero commissions. No hidden fees. Powered by advanced artificial intelligence.
+                    Connect directly with owners of high-value homes. Pay zero commissions and no hidden fees, while automated filtering saves you hours of manual search.
                 </p>
                 <div className="flex flex-wrap items-center gap-4">
                     <a href="#about" className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform text-center shadow-[0_0_30px_rgba(255,255,255,0.2)]">Explore Platform</a>
@@ -151,7 +151,7 @@ export default function HomeFindClientPage() {
                         <Globe    className="w-7 h-7 text-zinc-900" />
                     </div>
                     <h4 className="text-2xl font-display font-bold mb-4">Global Reach</h4>
-                    <p className="text-gray-400 leading-relaxed font-light">A beautifully designed, borderless platform ensuring your premium property is seen by a verified worldwide audience.</p>
+                    <p className="text-gray-400 leading-relaxed font-light">Get seen by more qualified buyers across a verified worldwide audience on a clean, global layout.</p>
                 </div>
             </div>
         </div>
@@ -180,7 +180,7 @@ export default function HomeFindClientPage() {
                                 <Search    className="w-6 h-6 text-zinc-900" />
                             </div>
                             <div>
-                                <h4 className="text-xl font-bold mb-2">Advanced Filtering</h4>
+                                <h4 className="text-xl font-bold mb-2">Targeted Filtering</h4>
                                 <p className="text-gray-400 font-light leading-relaxed">Lightning-fast search capabilities. Filter by city, property type, price range, and custom architectural tags.</p>
                             </div>
                         </div>
@@ -190,7 +190,7 @@ export default function HomeFindClientPage() {
                             </div>
                             <div>
                                 <h4 className="text-xl font-bold mb-2">Exceptional Placements</h4>
-                                <p className="text-gray-400 font-light leading-relaxed">Featured listings get priority placement, dedicated luxury styling, and increased visibility across the platform.</p>
+                                <p className="text-gray-400 font-light leading-relaxed">Appear higher in search results to receive more visibility and attract active buyers faster.</p>
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ export default function HomeFindClientPage() {
                         </div>
                         
                         <p className="text-gray-400 font-light leading-relaxed mb-8">
-                            Our proprietary systems analyze thousands of data points instantly to prevent market manipulation and guarantee premium pricing accuracy for high-end real estate.
+                            Verify pricing accuracy instantly to prevent market manipulation and protect the value of your high-end real estate transactions.
                         </p>
                     </div>
                     
@@ -285,10 +285,10 @@ export default function HomeFindClientPage() {
     <section className="py-32 relative border-t border-white/5 bg-dark">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             <div className="reveal">
-                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-gold uppercase mb-4">Elite Tier</h2>
-                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Professional <span className="text-gradient-gold">Representation</span></h3>
+                <h2 className="text-sm font-bold tracking-[0.2em] text-brand-gold uppercase mb-4">Complete Support</h2>
+                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Dedicated <span className="text-gradient-gold">Sales Assistance</span></h3>
                 <p className="text-xl text-gray-400 font-light mb-8 leading-relaxed">
-                    For our most exclusive listings, Home Find offers elite professional representation. We don&apos;t just list your property; we curate an experience.
+                    Receive complete support from listing to close. We manage the details, marketing, and negotiation so you can focus on making final decisions.
                 </p>
                 <ul className="space-y-6 text-gray-300 mb-10">
                     <li className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/5">
@@ -319,8 +319,8 @@ export default function HomeFindClientPage() {
         <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-24 reveal">
                 <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">Monetization</h2>
-                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Premium Pricing Ecosystem</h3>
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">Flexible tiers designed for individuals, top-tier agencies, and elite representations.</p>
+                <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Pricing Tiers Tailored for You</h3>
+                <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">Find the right plan to list your properties and reach buyers effectively.</p>
             </div>
             
             <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -343,13 +343,13 @@ export default function HomeFindClientPage() {
                 <div className="glass-card p-10 reveal delay-100 flex flex-col justify-between relative border-brand-blue/50 transform lg:-translate-y-6 shadow-[0_20px_50px_rgba(59,130,246,0.15)]">
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-blue text-zinc-900 px-6 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Most Popular</div>
                     <div>
-                        <h4 className="text-xl font-bold text-brand-blue mb-2 font-display">Premium</h4>
+                        <h4 className="text-xl font-bold text-brand-blue mb-2 font-display">Growth</h4>
                         <div className="text-5xl font-display font-bold mb-8">$99<span className="text-xl text-gray-500 font-normal">/mo</span></div>
                         <ul className="space-y-5 text-gray-200 font-light mb-10">
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> Up to 10 Listings</li>
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> Featured Priority Status</li>
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> Social Media Package</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> Advanced Analytics</li>
+                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-blue" /> See what works so you can make decisions faster</li>
                         </ul>
                     </div>
                     <button className="w-full py-4 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-semibold text-lg shadow-[0_0_20px_rgba(255,255,255,0.2)]">Subscribe Now</button>
@@ -359,11 +359,11 @@ export default function HomeFindClientPage() {
                 <div className="glass-card p-10 reveal delay-200 flex flex-col justify-between border-brand-gold/30 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/10 rounded-full blur-2xl"></div>
                     <div className="relative z-10">
-                        <h4 className="text-xl font-bold text-brand-gold mb-2 font-display">AiX Elite</h4>
+                        <h4 className="text-xl font-bold text-brand-gold mb-2 font-display">AiX Partner</h4>
                         <div className="text-5xl font-display font-bold mb-8 text-gradient-gold">Custom</div>
                         <ul className="space-y-5 text-gray-300 font-light mb-10">
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Unlimited Listings</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Professional Representation</li>
+                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Dedicated Agent Support</li>
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Dedicated Agent</li>
                             <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-brand-gold" /> Custom Commission Model</li>
                         </ul>
@@ -382,10 +382,10 @@ export default function HomeFindClientPage() {
         <div className="max-w-4xl mx-auto px-6 relative z-10 reveal">
             <h2 className="text-6xl md:text-7xl font-display font-bold mb-8 text-gradient-gold drop-shadow-2xl">Powered by AiX OS™</h2>
             <p className="text-2xl text-gray-400 mb-12 font-light leading-relaxed">
-                Experience the pinnacle of real estate technology. <br className="hidden md:block" />Architected and designed by AiX Luxury.
+                Acquire, manage, and protect your properties from a single platform. <br className="hidden md:block" />Built to simplify complex transactions.
             </p>
             <a href="https://aixluxury.com" target="_blank" className="inline-flex items-center justify-center px-10 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-lg shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-                Discover AiX Luxury
+                Get Started
             </a>
         </div>
     </section>

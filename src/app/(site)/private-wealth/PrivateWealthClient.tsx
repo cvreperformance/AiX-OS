@@ -8,11 +8,11 @@ import { formatPrice } from "@/lib/format";
 import { PageHeader } from "@/components/ui";
 
 const BENEFITS = [
-  { icon: Lock, title: "Acces Exclusiv Off-Market", desc: "Proprietăți care nu sunt listate public. Disponibile doar membrilor rețelei noastre private." },
-  { icon: Users, title: "Networking cu Investitori HNWI", desc: "Conectează-te direct cu investitori, developeri și family offices cu capital alocat." },
-  { icon: Globe, title: "Oportunități Internaționale", desc: "Deal-uri în România, Dubai, Monaco, Abu Dhabi și alte destinații premium europene." },
+  { icon: Lock, title: "Acces la oferte nelistate", desc: "Accesați oportunități care nu sunt listate public, disponibile prin rețeaua noastră privată." },
+  { icon: Users, title: "Networking cu Investitori", desc: "Conectează-te direct cu investitori, developeri și family offices cu capital alocat." },
+  { icon: Globe, title: "Oportunități Internaționale", desc: "Deal-uri în România, Dubai, Monaco, Abu Dhabi și alte destinații căutate europene." },
   { icon: Handshake, title: "Co-investiții & JV", desc: "Structurăm parteneriate de investiție pentru proiecte mari. Putere colectivă, risc distribuit." },
-  { icon: Star, title: "Evenimente Private", desc: "Lansări exclusive, property tours private și sesiuni de networking pentru membri." },
+  { icon: Star, title: "Evenimente Private", desc: "Vizite organizate la proprietăți, property tours private și sesiuni de networking pentru membri." },
   { icon: Building2, title: "Acces Prioritar la Noi Proiecte", desc: "Developerii parteneri prezintă proiectele membrilor rețelei înainte de lansarea publică." },
 ];
 
@@ -20,12 +20,12 @@ const TIERS = [
   {
     name: "Silver",
     price: "€299 / an",
-    description: "Acces la comunitatea de investitori și newsletter premium.",
+    description: "Acces la comunitatea de investitori și newsletter cu oportunități nelistate.",
     features: [
-      "Newsletter lunar cu deal-flow exclusiv",
-      "Acces la 2 eventi private/an",
+      "Newsletter lunar cu oportunități nelistate public",
+      "Acces la 2 evenimente private/an",
       "Profil în directorul de membri",
-      "Raport lunar piețe premium",
+      "Raport lunar despre prețuri și tendințe",
     ],
     highlight: false,
   },
@@ -37,7 +37,7 @@ const TIERS = [
       "Tot din Silver",
       "Acces off-market database complet",
       "Participare co-investiții platformă",
-      "4 eventi exclusive / an",
+      "4 întâlniri organizate de networking / an",
       "Consultanță lunară cu advisor dedicat",
     ],
     highlight: true,
@@ -68,8 +68,8 @@ const MEMBER_STATS = [
 const LOCATIONS = [
   { city: "București", flag: "🇷🇴", members: "85 membri", focus: "Residential + Commercial" },
   { city: "Cluj-Napoca", flag: "🇷🇴", members: "32 membri", focus: "Student Housing + Tech HQ" },
-  { city: "Dubai", flag: "🇦🇪", members: "42 membri", focus: "Off-Plan + Marina Luxury" },
-  { city: "Monaco", flag: "🇲🇨", members: "18 membri", focus: "Ultra-Luxury Boutique" },
+  { city: "Dubai", flag: "🇦🇪", members: "42 membri", focus: "Off-Plan + Marina Properties" },
+  { city: "Monaco", flag: "🇲🇨", members: "18 membri", focus: "Bespoke Properties Portfolio" },
   { city: "Londra", flag: "🇬🇧", members: "12 membri", focus: "Prime Central London" },
   { city: "Lisabona", flag: "🇵🇹", members: "9 membri", focus: "Golden Visa + NHR" },
 ];
@@ -91,7 +91,7 @@ function NetworkTab() {
       {/* Hero */}
       <section className="space-y-6">
         <span className="inline-block text-xs uppercase tracking-[0.2em] text-amber-500/80 border border-amber-500/20 rounded-full px-3 py-1">
-          AiX OS™ · Luxury Network Platform
+          AiX OS™ · Investment Network
         </span>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
@@ -100,7 +100,7 @@ function NetworkTab() {
               <span className="gradient-gold">Investitorilor de Top</span>
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed">
-              Un cerc select de investitori, proprietari și experți imobiliari conectați prin AiX OS™. Oportunități exclusive, deal-uri private și capital cu care să co-investești în piețe globale.
+              Connect with buyers, investors and professionals faster. Access opportunities that are not publicly listed and pool resources to acquire larger assets.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {MEMBER_STATS.map(({ value, label }) => (
@@ -224,13 +224,13 @@ function NetworkTab() {
       <section className="space-y-8 max-w-4xl mx-auto py-8">
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-light text-zinc-900">Întrebări Frecvente</h2>
-          <p className="text-zinc-400">Despre apartenența la AiX Luxury Network.</p>
+          <p className="text-zinc-400">Despre apartenența la AiX Real Estate Network.</p>
         </div>
         <div className="space-y-4">
           {[
             { q: "Cum se face selecția membrilor?", a: "Toți membrii sunt validați (KYC) și trebuie să îndeplinească anumite criterii de portofoliu sau expertiză. Acest proces asigură un mediu de încredere pentru co-investiții și networking de înaltă calitate." },
             { q: "Pot participa la deal-uri off-market chiar dacă nu am tot capitalul necesar?", a: "Da, avantajul principal al rețelei este posibilitatea de co-investiții (Joint Ventures) alături de alți membri, permițând accesul la active mari (ex: dezvoltări rezidențiale, clădiri de birouri) cu fracțiuni de capital." },
-            { q: "Ce fel de evenimente private se organizează?", a: "Organizăm vizionări private (property tours) pentru proprietăți luxury exclusive, întâlniri restrânse cu dezvoltatorii înainte de lansarea publică a proiectelor și evenimente anuale de networking în Monaco, Dubai sau București." },
+            { q: "Ce fel de evenimente private se organizează?", a: "Organizăm vizionări private (property tours) pentru proprietăți rare nelistate public, întâlniri restrânse cu dezvoltatorii înainte de lansarea publică a proiectelor și evenimente anuale de networking în Monaco, Dubai sau București." },
           ].map((faq, i) => (
             <div key={i} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-2">
               <h3 className="font-medium text-zinc-900">{faq.q}</h3>
@@ -245,7 +245,7 @@ function NetworkTab() {
         <Globe className="h-10 w-10 text-amber-500/60 mx-auto" />
         <h2 className="text-2xl font-light text-zinc-900">Membership pe bază de invitație</h2>
         <p className="text-xs text-zinc-400 max-w-md mx-auto">
-          Rețeaua AiX Luxury Network este selectivă. Calitatea comunității este prioritatea noastră. Aplică pentru a fi evaluat pentru membership.
+          Rețeaua AiX Real Estate Network este selectivă. Calitatea comunității este prioritatea noastră. Aplică pentru a fi evaluat pentru membership.
         </p>
         <button
           onClick={() => window.dispatchEvent(new CustomEvent("open-contact-popup"))}
@@ -654,7 +654,7 @@ function OffMarketTab() {
             De ce cele mai bune oportunități sunt invizibile?
           </h2>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            În segmentul premium și super-premium, proprietarii doresc discreție. Nu vor anunțuri pe portaluri publice, nu vor vizite de curiozitate și nu doresc expunerea prețului pe internet. Tranzacțiile off-market (în circuit închis) protejează atât vânzătorul cât și cumpărătorul.
+            La proprietățile cu valoare ridicată, proprietarii doresc discreție. Nu vor anunțuri pe portaluri publice, nu vor vizite de curiozitate și nu doresc expunerea prețului pe internet. Tranzacțiile în circuit închis protejează atât vânzătorul cât și cumpărătorul.
           </p>
           
           <ul className="space-y-4 pt-2">

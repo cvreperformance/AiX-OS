@@ -51,15 +51,15 @@ function LiveTerminalWall({ language }: { language: string }) {
   const [events, setEvents] = useState<string[]>([]);
   
   const allEvents = language === "ro" ? [
-    "AI a detectat activitate pe piața de lux",
+    "AI a detectat oportunități noi pe piață",
     "Oportunitate de investiție identificată",
-    "Actualizare rutare Concierge",
+    "Actualizare asistență și servicii proprietăți",
     "Semnal de piață detectat",
     "Analiza AiX Brain completată"
   ] : [
-    "AI detected luxury market activity",
+    "AI detected new market opportunities",
     "Investment opportunity identified",
-    "Concierge routing update",
+    "Property services update",
     "Market signal detected",
     "AiX Brain analysis completed"
   ];
@@ -122,7 +122,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
   const QUICK_GRID = [
     {
       title: language === "ro" ? "Cumpără & Vinde" : "Buy & Sell",
-      desc: language === "ro" ? "Proprietăți premium, profile dezvoltatori și consultanță exclusivă." : "Premium units, builder audits, and exclusive buyer representation.",
+      desc: language === "ro" ? "Proprietăți selectate, profile dezvoltatori și asistență directă la achiziție." : "Handpicked properties, builder audits, and dedicated buyer representation.",
       icon: Building2,
       color: "text-blue-400 border-blue-500/10 hover:bg-blue-500/[0.02]",
       href: "/proprietati"
@@ -171,7 +171,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     {
       id: "investment",
       name: language === "ro" ? "Agent Investiții" : "Investment Agent",
-      desc: language === "ro" ? "Identifică oportunități premium off-market și calculează randamentul net." : "Locates off-market options and models dynamic net ROI benchmarks.",
+      desc: language === "ro" ? "Identifică oportunități nelistate public și calculează randamentul net." : "Locates unlisted properties and models dynamic net ROI benchmarks.",
       capabilities: language === "ro" 
         ? ["Simulare yield cash flow", "Comparație preț/mp pe sub-zone", "Arbitraj imobiliar"] 
         : ["Cash-flow yield modeling", "Sub-market price benchmarking", "Real estate arbitrage flags"],
@@ -181,7 +181,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     {
       id: "insurance",
       name: language === "ro" ? "Agent Asigurări" : "Insurance Agent",
-      desc: language === "ro" ? "Calculează cotațiile optime de primă și protejează activele împotriva riscurilor." : "Extracts optimal premium quotes and insulates high-value portfolios.",
+      desc: language === "ro" ? "Calculează cotațiile de asigurare pentru a vă proteja activele împotriva riscurilor." : "Finds the best insurance quotes to protect your property and investments.",
       capabilities: language === "ro" 
         ? ["Estimator cotații PAD", "Evaluare risc seismic regional", "Garanții contractuale"] 
         : ["Optional PAD insurance estimates", "Seismic risk mapping", "Bespoke liability clauses"],
@@ -200,11 +200,11 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       id: "concierge",
-      name: language === "ro" ? "Agent Concierge" : "Concierge Agent",
-      desc: language === "ro" ? "Gestionează cererile VIP pentru avioane private, iahturi și stil de viață de lux." : "Handles premium private aviation, marine chartering, and lifestyle management.",
+      name: language === "ro" ? "Agent Servicii" : "Services Agent",
+      desc: language === "ro" ? "Ajută la coordonarea transportului privat, a ambarcațiunilor și a serviciilor de relocare." : "Helps coordinate private transport, charters, and relocation services.",
       capabilities: language === "ro" 
-        ? ["Charter avioane private", "Închiriere super-iahturi", "Management relocare HNWI"] 
-        : ["Private jet booking", "Luxury yacht charters", "Bespoke HNWI lifestyle services"],
+        ? ["Coordonare zboruri private", "Închiriere ambarcațiuni", "Asistență relocare"] 
+        : ["Private flight coordination", "Boat charters", "Relocation assistance"],
       icon: Sparkles,
       href: "/concierge"
     }
@@ -224,7 +224,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     {
       year: "2028",
       title: language === "ro" ? "Rețea Globală" : "Global Network Integration",
-      desc: language === "ro" ? "Integrarea piețelor premium internaționale (Dubai, Monaco, Londra) și a camerelor private securizate." : "Onboarding top international markets (Dubai, Monaco, London) and secure deal spaces."
+      desc: language === "ro" ? "Conectează piețele imobiliare din Dubai, Monaco și Londra într-un spațiu securizat." : "Connects real estate markets in Dubai, Monaco, and London in a secure space."
     },
     {
       year: "2030",
@@ -278,7 +278,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       <section className="relative grid lg:grid-cols-12 gap-8 items-center text-left py-6 overflow-hidden">
         <div className="lg:col-span-7 space-y-6">
           <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500 border border-amber-500/20 rounded-full px-4 py-1.5 bg-amber-500/5">
-            AiX OS™ &bull; FUTURE 2030 INTELLIGENCE
+            AiX OS™ &bull; DECISION SUPPORT SYSTEM
           </span>
           <h1 className="text-5xl sm:text-7xl font-light text-zinc-900 tracking-tight leading-none">
             AiX OS™ <br />
@@ -286,8 +286,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </h1>
           <p className="text-base sm:text-lg font-light text-zinc-600 max-w-xl leading-relaxed">
             {language === "ro" 
-              ? "Experimentează prima platformă de inteligență imobiliară concepută pentru a de-risca achizițiile, a simula portofolii și a automatiza investițiile de lux."
-              : "Experience the premier intelligence operating system built to de-risk acquisitions, model wealth portfolios, and manage luxury assets."}
+              ? "Experimentează prima platformă de inteligență imobiliară concepută pentru a de-risca achizițiile, a simula portofolii și a vă proteja activele imobiliare."
+              : "Use an outcome-focused dashboard built to de-risk acquisitions, model wealth portfolios, and manage your properties."}
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
@@ -581,7 +581,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             { label: language === "ro" ? "Proprietăți Scanate" : "Properties Scanned", val: 14204 },
             { label: language === "ro" ? "Semnale Piață" : "Market Signals", val: 3192 },
             { label: language === "ro" ? "Oportunități Corelate" : "Correlated Opportunities", val: 847 },
-            { label: language === "ro" ? "Active Monitorizate" : "Luxury Assets Monitored", val: 1024 },
+            { label: language === "ro" ? "Active Monitorizate" : "Properties Monitored", val: 1024 },
             { label: language === "ro" ? "Rapoarte Generate" : "Reports Generated", val: 5420 },
           ].map((stat, i) => (
             <div key={i} className="p-5 rounded-2xl border border-zinc-200 bg-white/60 backdrop-blur-md shadow-sm">
@@ -661,7 +661,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
             {language === "ro" ? "Evoluția Ecosistemului" : "Ecosystem Evolution"}
           </h2>
           <p className="text-2xl font-light text-zinc-900">
-            {language === "ro" ? "Drumul către Autonomie Imobiliară" : "AiX OS™ Future Roadmap"}
+            {language === "ro" ? "Drumul către Autonomie Imobiliară" : "AiX OS™ Roadmap"}
           </p>
         </div>
 

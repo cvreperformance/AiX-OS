@@ -17,7 +17,7 @@ import SellerLeadForm from "./SellerLeadForm";
 export const metadata: Metadata = {
   title: "Seller Representation — Vinzi la Prețul Corect | AiX OS™",
   description:
-    "Vinde-ți proprietatea cu maximum de expunere și prețul corect. Marketing premium, fotografie profesională, AI promotion și analiză de piață.",
+    "Vinde-ți proprietatea mai rapid și la prețul corect. Ajungem direct la cumpărători calificați folosind fotografii clare, promovare targetată și date reale de piață.",
 };
 
 const SERVICES = [
@@ -28,8 +28,8 @@ const SERVICES = [
   },
   {
     icon: Camera,
-    title: "Marketing Premium",
-    desc: "Fotografie profesională, video drone, virtual tour 3D și materiale de prezentare de calitate luxury.",
+    title: "Prezentare Completă pentru Cumpărători",
+    desc: "Atrageți cumpărători serioși cu fotografii clare, filmări din dronă și tururi virtuale interactive.",
   },
   {
     icon: Globe,
@@ -62,7 +62,7 @@ const RESULTS = [
 
 const PROCESS = [
   { step: "01", title: "Evaluare & Strategie", desc: "Stabilim prețul corect și strategia de marketing personalizată." },
-  { step: "02", title: "Pregătirea Proprietății", desc: "Fotografie, video, home staging consultanță și materiale premium." },
+  { step: "02", title: "Pregătirea Proprietății", desc: "Pregătim fotografii, video, prezentări detaliate și aranjăm locuința pentru a atrage cumpărători." },
   { step: "03", title: "Lansarea Campaniei", desc: "Listare multiplă, outreach activ și promovare AI-powered." },
   { step: "04", title: "Calificarea Lead-urilor", desc: "Filtrăm și calificăm fiecare interes. Prezentăm doar cumpărători serioși." },
   { step: "05", title: "Negociere & Ofertă", desc: "Negociem în interesul tău. Maximizăm prețul și minimizăm riscurile." },
@@ -85,8 +85,7 @@ export default function SellerPage() {
             în Timp Minim
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Marketing premium, AI promotion și acces la baza noastră de cumpărători calificați.
-            Evaluare corectă, expunere maximă, rezultate garantate.
+            Atrageți cumpărători calificați folosind fotografii de înaltă calitate, promovare targetată și conexiuni directe. Evaluare corectă, expunere maximă, rezultate garantate.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all">
@@ -161,14 +160,14 @@ export default function SellerPage() {
       <section className="rounded-3xl border border-zinc-200 bg-zinc-50/20 p-8 md:p-12">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-5">
-            <h2 className="text-2xl md:text-3xl font-light text-zinc-900">Pachetul Marketing Premium</h2>
+            <h2 className="text-2xl md:text-3xl font-light text-zinc-900">Servicii Complete de Prezentare</h2>
             <p className="text-zinc-400">Inclus în orice mandat de vânzare AiX OS™:</p>
             <ul className="space-y-3">
               {[
                 "Fotografie profesională (20+ imagini HDR)",
                 "Video drone exterior",
                 "Virtual tour 3D interactiv",
-                "Materiale de prezentare premium PDF",
+                "Materiale de prezentare detaliate în format PDF",
                 "Listare pe toate portalele majore (imobiliare.ro, storia.ro, OLX Pro)",
                 "Promovare Social Media (Facebook, Instagram, LinkedIn)",
                 "Outreach direct la baza de cumpărători qualificați",

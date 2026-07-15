@@ -184,9 +184,9 @@ export default function ValuationPage() {
                 onChange={(e) => setFinishes(e.target.value)}
                 className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-400 focus:border-amber-500/50 focus:outline-none transition-colors"
               >
-                <option value="premium">Finisaje Premium</option>
-                <option value="luxury">Luxury Elite</option>
-                <option value="ultra-luxury">Ultra Luxury Concept</option>
+                <option value="premium">Calitate superioară</option>
+                <option value="luxury">Finisaje de înaltă calitate</option>
+                <option value="ultra-luxury">Finisaje personalizate la comandă</option>
               </select>
             </div>
 

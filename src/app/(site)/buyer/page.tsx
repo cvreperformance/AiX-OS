@@ -270,7 +270,7 @@ export default function BuyerPage() {
             Gata să cumperi inteligent?
           </h2>
           <p className="text-xs text-zinc-400 leading-relaxed max-w-lg">
-            Prima consultație este gratuită. Nu există angajamente. Completează formularul alăturat pentru a primi cotații off-market și detalii exclusive.
+            Prima consultație este gratuită. Nu există angajamente. Completează formularul alăturat pentru a primi cotații off-market și detalii despre oportunități nelistate public.
           </p>
           <div className="flex gap-4">
             <Link href="/proprietati" className="rounded-full border border-zinc-300 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-350 hover:text-zinc-900 transition-all">
