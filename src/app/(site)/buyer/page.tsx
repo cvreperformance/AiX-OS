@@ -39,7 +39,7 @@ const ADVANTAGES = [
   {
     icon: TrendingUp,
     title: "Negociere Expertă",
-    desc: "Negociem în interesul tău exclusiv. Economii medii de 4–8% față de prețul cerut.",
+    desc: "Negociem în interesul tău exclusiv, obținând un preț corect, sub cel cerut inițial.",
   },
   {
     icon: Search,
@@ -61,7 +61,7 @@ const ADVANTAGES = [
 const PROCESS = [
   { step: "01", title: "Consultație Inițială", desc: "Definim criteriile, bugetul și obiectivele tale de investiție. Gratuită, fără angajamente." },
   { step: "02", title: "Căutare Activă", desc: "Identificăm proprietăți pe piață și off-market. Filtrăm și prezentăm doar ce se potrivește." },
-  { step: "03", title: "Analiză AiX Score", desc: "Fiecare proprietate primește un scor bazat pe 12+ indicatori. Compari cu piața." },
+  { step: "03", title: "Analiză AiX Score", desc: "Fiecare proprietate primește un scor bazat pe indicatori multipli. Compari cu piața." },
   { step: "04", title: "Due Diligence", desc: "Verificăm legal, tehnic și financiar. Nimic nu scapă necontrolat." },
   { step: "05", title: "Negociere & Ofertă", desc: "Negociem prețul și clauzele contractuale în interesul tău." },
   { step: "06", title: "Closing & Post-vânzare", desc: "Suport la notar, transfer utilități și servicii post-achiziție." },
@@ -83,7 +83,7 @@ const TESTIMONIALS = [
     name: "Alexandru M.",
     role: "Investitor imobiliar, București",
     quote:
-      "Cu ajutorul echipei AiX OS™ am identificat și achiziționat un apartament cu 6% sub prețul de piață. Due diligence-ul a identificat o problemă juridică pe care o treceam cu vederea. Economie reală: €14,000.",
+      "Cu ajutorul echipei AiX OS™ am identificat și achiziționat un apartament sub prețul inițial de listare. Due diligence-ul a identificat o problemă juridică pe care o treceam cu vederea. Economie reală semnificativă.",
     score: 5,
   },
   {
@@ -109,7 +109,7 @@ export default function BuyerPage() {
             <span className="gradient-gold">și capcanele juridice</span> din acte
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Verificăm automat istoricul cadastral pentru a găsi sarcini ascunse, identificăm proprietăți din baze off-market și negociem cu 4-8% sub prețul cerut.
+            Verificăm automat istoricul cadastral pentru a găsi sarcini ascunse, identificăm proprietăți din baze off-market și negociem direct pentru a obține prețul optim.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -130,7 +130,7 @@ export default function BuyerPage() {
             </a>
           </div>
           <div className="flex items-center gap-6 pt-2">
-            {[["€0", "Cost pentru cumpărător"], ["94%", "Rată succes negociere"], ["6%", "Economie medie din preț"]].map(([v, l]) => (
+            {[["Fără comision", "Pentru cumpărător"], ["Verificare", "Completă a actelor"], ["Asistență", "La negociere"]].map(([v, l]) => (
               <div key={l}>
                 <p className="text-2xl font-light text-zinc-900">{v}</p>
                 <p className="text-xs text-zinc-400">{l}</p>

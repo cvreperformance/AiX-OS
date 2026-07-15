@@ -106,8 +106,8 @@ export default function ValuationPage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-20 py-12 animate-in">
       <PageHeader
         badge="AI Valuation Desk"
-        title="Află valoarea reală de vânzare a casei tale în 60 de secunde"
-        subtitle="Evită stabilirea unui preț greșit care îți blochează vânzarea. Calculează valoarea pe baza a 50.000+ tranzacții reale."
+        title="Află valoarea reală de vânzare a casei tale"
+        subtitle="Evită stabilirea unui preț greșit care îți blochează vânzarea. Calculează valoarea pe baza tranzacțiilor reale."
       />
 
       {/* Hero layout and Form */}
@@ -117,14 +117,14 @@ export default function ValuationPage() {
             Nu lăsa bani pe masă la tranzacționare.
           </h1>
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Sistemul analizează automat contractele de vânzare din zonă și calitatea finisajelor pentru a oferi o estimare de preț precisă cu o marjă de ±3%.
+            Sistemul analizează automat contractele de vânzare din zonă și calitatea finisajelor pentru a oferi o estimare de preț precisă cu o marjă de eroare scăzută.
           </p>
           
           <div className="grid grid-cols-3 gap-4">
             {[
-              { icon: Target, v: "±3%", l: "Precizie medie" },
-              { icon: Clock, v: "2 sec", l: "Timp analiză" },
-              { icon: BarChart3, v: "50K+", l: "Tranzacții" },
+              { icon: Target, v: "Optim", l: "Estimare corectă" },
+              { icon: Clock, v: "Rapid", l: "Timp analiză" },
+              { icon: BarChart3, v: "Multiple", l: "Tranzacții" },
             ].map(({ icon: Icon, v, l }) => (
               <div key={l} className={`rounded-2xl border ${designSystem.borderMuted} bg-white p-4 text-center space-y-1`}>
                 <Icon className="h-4.5 w-4.5 text-amber-400 mx-auto" />

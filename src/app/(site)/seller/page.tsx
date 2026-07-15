@@ -24,7 +24,7 @@ const SERVICES = [
   {
     icon: BarChart3,
     title: "Evaluare AI la Prețul Corect",
-    desc: "Analiză comparativă cu AiX Score. Stabilim prețul optim pe baza a 12+ indicatori de piață, nu pe intuiție.",
+    desc: "Analiză comparativă cu AiX Score. Stabilim prețul optim pe baza mai multor indicatori de piață, nu pe intuiție.",
   },
   {
     icon: Camera,
@@ -54,10 +54,10 @@ const SERVICES = [
 ];
 
 const RESULTS = [
-  { value: "98%", label: "Proprietăți vândute la preț sau peste" },
-  { value: "27 zile", label: "Medie timp până la ofertă" },
-  { value: "€0", label: "Comision perceput cumpărătorului" },
-  { value: "4.8★", label: "Rating mediu clienți vânzători" },
+  { value: "Maxim", label: "Valoare tranzacționată la preț optim" },
+  { value: "Rapid", label: "Timp optim până la primirea ofertei" },
+  { value: "Fără comision", label: "Perceput cumpărătorilor în rețea" },
+  { value: "Excelent", label: "Rating primit de la proprietari" },
 ];
 
 const PROCESS = [
@@ -85,7 +85,7 @@ export default function SellerPage() {
             sau vizite inutile
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Promovăm listarea direct către cumpărători cu bugete verificate. Obțineți evaluarea reală a pieței pentru a stabili cel mai bun preț de tranzacționare în sub 30 de zile.
+            Promovăm listarea direct către cumpărători cu bugete verificate. Obțineți evaluarea reală a pieței pentru a stabili cel mai bun preț de tranzacționare rapid.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all">

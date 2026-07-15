@@ -122,14 +122,14 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
   const QUICK_GRID = [
     {
       title: language === "ro" ? "Cumpără & Vinde" : "Buy & Sell",
-      desc: language === "ro" ? "Evită intermediarii și economisește până la 3% din costul tranzacției." : "Acquire properties directly from owners to save up to 3% in fees.",
+      desc: language === "ro" ? "Evită intermediarii și comisioanele de agenție la tranzacționare." : "Acquire properties directly from owners to bypass intermediary commissions.",
       icon: Building2,
       color: "text-blue-400 border-blue-500/10 hover:bg-blue-500/[0.02]",
       href: "/proprietati"
     },
     {
       title: language === "ro" ? "Investește & Protejează" : "Invest & Protect",
-      desc: language === "ro" ? "Protejează-ți economiile de inflație și calculează cotațiile de asigurare în 3 minute." : "Protect assets against inflation and compare 15+ property insurance rates in 3 minutes.",
+      desc: language === "ro" ? "Protejează-ți economiile de inflație și calculează cotațiile de asigurare online." : "Protect assets against inflation and compare property insurance rates online.",
       icon: Shield,
       color: "text-rose-400 border-rose-500/10 hover:bg-rose-500/[0.02]",
       href: "/stiri"
@@ -150,7 +150,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     },
     {
       title: language === "ro" ? "Analiză Automatizată" : "Automated Analysis",
-      desc: language === "ro" ? "Scanează automat documentele de cadastru pentru a detecta riscurile în 10 secunde." : "Scan land registry files to flag legal and structural liabilities in 10 seconds.",
+      desc: language === "ro" ? "Scanează automat documentele de cadastru pentru a detecta riscurile instant." : "Scan land registry files to flag legal and structural liabilities instantly.",
       icon: Brain,
       color: "text-violet-400 border-violet-500/10 hover:bg-violet-500/[0.02]",
       href: "/brain"
@@ -161,7 +161,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     {
       id: "property",
       name: language === "ro" ? "Verificare Cadastru" : "Land Registry Scan",
-      desc: language === "ro" ? "Detectează servituți, ipoteci și litigii din actele cadastrale în sub 10 secunde." : "Flag hidden easements, active mortgages, and title disputes in under 10 seconds.",
+      desc: language === "ro" ? "Detectează servituți, ipoteci și litigii din actele cadastrale în mod rapid." : "Flag hidden easements, active mortgages, and title disputes instantly.",
       capabilities: language === "ro" 
         ? ["Verificare istoric titlu proprietate", "Detecție drum de servitute", "Sarcini bancare active"] 
         : ["Ownership title chain analysis", "Easement road audit", "Active mortgages check"],
@@ -181,7 +181,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
     {
       id: "insurance",
       name: language === "ro" ? "Asigurări Directe" : "Insurance Matcher",
-      desc: language === "ro" ? "Obține cotații de la 15+ asigurători și redu costul asigurării cu până la 20%." : "Compare coverage options from 15+ insurers to lower your premium rates by up to 20%.",
+      desc: language === "ro" ? "Obține cotații de la asigurători și redu costul asigurării." : "Compare coverage options from accredited insurers to lower your premium rates.",
       capabilities: language === "ro" 
         ? ["Estimator cotații PAD", "Evaluare risc seismic regional", "Garanții contractuale"] 
         : ["Optional PAD insurance estimates", "Seismic risk mapping", "Bespoke liability clauses"],

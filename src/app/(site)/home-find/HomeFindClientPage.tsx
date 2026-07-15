@@ -71,7 +71,7 @@ export default function HomeFindClientPage() {
                 </div>
                 <h1 className="text-6xl md:text-8xl font-display font-bold leading-[1.05] mb-6 tracking-tight">
                     Find unlisted homes <br />
-                    <span className="text-gradient">and save 3% in fees.</span>
+                    <span className="text-gradient">and avoid agent commissions.</span>
                 </h1>
                 <p className="text-xl text-gray-400 font-light mb-10 max-w-lg leading-relaxed">
                     Connect directly with owners of high-value homes. Pay zero commissions and no hidden fees, while automated filtering saves you hours of manual search.
@@ -137,7 +137,7 @@ export default function HomeFindClientPage() {
                         <ShieldCheck    className="w-7 h-7 text-brand-blue" />
                     </div>
                     <h4 className="text-2xl font-display font-bold mb-4">Keep 100% of value</h4>
-                    <p className="text-gray-400 leading-relaxed font-light">By transacting directly with the owner, you bypass standard 3% agent commissions, keeping more cash in your bank account.</p>
+                    <p className="text-gray-400 leading-relaxed font-light">By transacting directly with the owner, you bypass standard agent commissions, keeping more cash in your bank account.</p>
                 </div>
                 <div className="glass-card p-10 card-hover reveal delay-100">
                     <div className="w-14 h-14 rounded-2xl bg-brand-purple/10 flex items-center justify-center mb-8 border border-brand-purple/20">

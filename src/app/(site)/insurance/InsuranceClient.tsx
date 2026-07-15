@@ -268,7 +268,7 @@ export default function InsuranceClient() {
               <strong>{language === "ro" ? "Fotografiați distrugerile" : "Photo Evidence"}:</strong> {language === "ro" ? "Efectuați fotografii și video de detaliu înainte de a curăța locul." : "Take detailed close-up pictures and videos before cleanup."}
             </li>
             <li>
-              <strong>{language === "ro" ? "Notificați în 24-48h" : "Notify Insurer within 24-48h"}:</strong> {language === "ro" ? "Contactați asigurătorul sau brokerul tău AiX OS™ pentru a înregistra dosarul." : "Report details to your broker or carrier to assign adjusters."}
+              <strong>{language === "ro" ? "Notificați rapid" : "Notify Insurer promptly"}:</strong> {language === "ro" ? "Contactați asigurătorul sau brokerul tău AiX OS™ pentru a înregistra dosarul." : "Report details to your broker or carrier to assign adjusters."}
             </li>
             <li>
               <strong>{language === "ro" ? "Păstrați devizele" : "Store Repair Bills"}:</strong> {language === "ro" ? "Toate reparațiile trebuie facturate pentru decontarea directă sau rambursare." : "All repairs require receipts/invoices for reimbursement audits."}
