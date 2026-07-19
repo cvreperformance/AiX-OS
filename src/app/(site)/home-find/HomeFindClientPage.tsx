@@ -324,20 +324,7 @@ export default function HomeFindClientPage() {
             </div>
             
             <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {/* Tier 1 */}
-                <div className="glass-card p-10 reveal card-hover flex flex-col justify-between">
-                    <div>
-                        <h4 className="text-xl font-bold text-gray-400 mb-2 font-display">Essential</h4>
-                        <div className="text-5xl font-display font-bold mb-8">Free</div>
-                        <ul className="space-y-5 text-gray-400 font-light mb-10">
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> 1 Property Listing</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> Standard Support</li>
-                            <li className="flex items-center gap-4"><Check    className="w-5 h-5 text-zinc-900" /> Direct Buyer Contact</li>
-                            <li className="flex items-center gap-4 opacity-40"><Minus    className="w-5 h-5 text-gray-500" /> No Featured Status</li>
-                        </ul>
-                    </div>
-                    <button className="w-full py-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors font-semibold text-lg">List property free</button>
-                </div>
+
                 
                 {/* Tier 2 */}
                 <div className="glass-card p-10 reveal delay-100 flex flex-col justify-between relative border-brand-blue/50 transform lg:-translate-y-6 shadow-[0_20px_50px_rgba(59,130,246,0.15)]">
@@ -385,7 +372,7 @@ export default function HomeFindClientPage() {
                 Scan for legal risks, compare local yield metrics, and close deals directly from a single portal.
             </p>
             <a href="https://aixluxury.com" target="_blank" className="inline-flex items-center justify-center px-10 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-lg shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-                Create your free account
+                Create your account
             </a>
         </div>
     </section>

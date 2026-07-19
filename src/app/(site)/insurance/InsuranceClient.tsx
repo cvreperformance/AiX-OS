@@ -96,13 +96,16 @@ export default function InsuranceClient() {
           {language === "ro" ? "AiX OS™ · Asigurări Bunuri & Active" : "AiX OS™ · Asset Insurance"}
         </span>
         <h1 className="text-4xl md:text-5xl font-light text-zinc-900 leading-tight">
-          {language === "ro" ? "Protejează-ți clădirile și afacerile" : "Protect your property assets"} <br />
-          <span className="gradient-gold">{language === "ro" ? "împotriva pierderilor financiare" : "against damage and liability"}</span>
+          {language === "ro"
+            ? "Protejează-ți activele pentru a evita pierderi financiare"
+            : "Safeguard your assets to prevent financial loss"}
+          <br />
+          <span className="gradient-gold">{language === "ro" ? "cu soluții optimizate pentru bugetul tău" : "with cost‑effective solutions"}</span>
         </h1>
         <p className="text-sm text-zinc-400 leading-relaxed">
           {language === "ro"
-            ? "Compară automat polițele de la 15 asigurători autorizați pentru a obține o reducere de până la 20% la prima de asigurare."
-            : "Compare quotes from 15+ accredited insurers instantly to lower your coverage costs by up to 20% while securing full asset protection."}
+            ? "Obține cea mai bună protecție pentru activele tale și economisește până la 20% la primă."
+            : "Get optimal coverage for your assets while saving up to 20% on premiums."}
         </p>
       </section>
 
@@ -319,7 +322,7 @@ export default function InsuranceClient() {
       <section className="rounded-3xl border border-zinc-200 bg-white/70 backdrop-blur-xl p-8 max-w-3xl mx-auto shadow-2xl space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-xl font-light text-zinc-900">
-            {language === "ro" ? "Solicită Consultanță Asigurări" : "Request Free Insurance Review"}
+            {language === "ro" ? "Solicită Consultanță Asigurări" : "Request Insurance Review"}
           </h2>
           <p className="text-xs text-zinc-550">
             {language === "ro" ? "Recomandăm ofertele cu clauze optime pe baza profilului tău." : "We outline the optimum coverage matching your risk profile."}

@@ -28,33 +28,33 @@ export const metadata: Metadata = {
 const ADVANTAGES = [
   {
     icon: Brain,
-    title: "AI Market Intelligence",
-    desc: "Analiza automată a proprietăților cu AiX Score. Compari orice ofertă cu piața în timp real.",
+    title: "Înțelegi piața în timp real",
+    desc: "AiX Score compară fiecare ofertă cu indicatorii de piață, ajutându-te să iei decizii informate.",
   },
   {
     icon: Shield,
-    title: "Protecție Completă",
-    desc: "Verificăm titlul de proprietate, sarcini, ipoteci și litigii. Zero surprize după semnare.",
+    title: "Protecție totală a investiției",
+    desc: "Confirmăm titlul, sarcinile și eventualele ipoteci pentru a evita surprizele la finalizarea tranzacției.",
   },
   {
     icon: TrendingUp,
-    title: "Negociere Expertă",
-    desc: "Negociem în interesul tău exclusiv, obținând un preț corect, sub cel cerut inițial.",
+    title: "Negociere în interesul tău",
+    desc: "Lucrăm pentru tine, obținând un preț avantajos și termeni favorabili.",
   },
   {
     icon: Search,
-    title: "Acces Off-Market",
-    desc: "Proprietăți care nu apar pe portale. Rețea privată de vânzători motivați.",
+    title: "Acces la proprietăţi exclusive",
+    desc: "Oferim acces la oferte care nu sunt listate public, prin rețeaua noastră privată.",
   },
   {
     icon: FileText,
-    title: "Due Diligence Complet",
-    desc: "Analiză juridică, tehnică și financiară. Raport detaliat pentru fiecare proprietate.",
+    title: "Analiză juridică completă",
+    desc: "Evaluăm toate aspectele legale, tehnice și financiare și îți furnizăm un raport clar.",
   },
   {
     icon: Handshake,
-    title: "Reprezentare Exclusivă",
-    desc: "Lucrăm doar pentru tine, nu pentru vânzător. Conflict de interes zero.",
+    title: "Reprezentare fără conflict de interese",
+    desc: "Acționăm exclusiv în interesul tău, fără influențe din partea vânzătorului.",
   },
 ];
 
@@ -105,18 +105,17 @@ export default function BuyerPage() {
             AiX OS™ · Buyer Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
-            Evită achizițiile supraevaluate{" "}
-            <span className="gradient-gold">și capcanele juridice</span> din acte
+            Achiziționezi la preț corect, fără surprize juridice
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Verificăm automat istoricul cadastral pentru a găsi sarcini ascunse, identificăm proprietăți din baze off-market și negociem direct pentru a obține prețul optim.
+            Analizăm istoricul cadastral, identificăm oferte exclusive și negociem prețul potrivit pentru tine.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all"
             >
-              Programează apel de verificare
+              Programează o discuție
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
@@ -250,7 +249,7 @@ export default function BuyerPage() {
         </div>
         <div className="space-y-4">
           {[
-            { q: "Cât mă costă serviciul de reprezentare?", a: "Pentru cumpărător, serviciul este complet gratuit. Comisionul nostru este plătit din bugetul de marketing al dezvoltatorului sau al vânzătorului, însă negocierea o facem exclusiv în interesul tău." },
+            { q: "Cât mă costă serviciul de reprezentare?", a: "Serviciul este finanțat de dezvoltator sau vânzător, astfel că nu există costuri directe pentru tine. Negociem exclusiv în interesul tău." },
             { q: "Cum mă ajută AiX Score?", a: "AiX Score este algoritmul nostru proprietar care analizează peste 12 indicatori (randament, infrastructură, istoric prețuri, risc legal) pentru a-ți oferi o evaluare obiectivă, dincolo de marketingul vânzătorului." },
             { q: "Aveți acces la proprietăți care nu sunt online?", a: "Da, gestionăm un portofoliu semnificativ de proprietăți off-market din rețeaua noastră privată de investitori, accesibile doar clienților calificați." },
           ].map((faq, i) => (

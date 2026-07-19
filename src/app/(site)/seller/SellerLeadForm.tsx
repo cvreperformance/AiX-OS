@@ -53,7 +53,7 @@ export default function SellerLeadForm() {
         <p className="text-xs text-zinc-400">
           {language === "ro"
             ? "Vă vom contacta telefonic pentru stabilirea evaluării gratuite în 24 de ore."
-            : "We will contact you by phone to schedule your free valuation within 24 hours."}
+            : "We will contact you by phone to schedule your valuation within 24 hours."}
         </p>
       </div>
     );
@@ -143,7 +143,7 @@ export default function SellerLeadForm() {
         {loading && <RefreshCw className="h-4 w-4 animate-spin" />}
         {loading
           ? (language === "ro" ? "Se trimite..." : "Sending...")
-          : (language === "ro" ? "Solicită Evaluare Gratuită" : "Request Free Valuation")}
+          : (language === "ro" ? "Solicită Evaluare" : "Request Valuation")}
       </button>
       <p className="text-xs text-zinc-650 text-center">
         {language === "ro" ? "Evaluare în 24h. Fără angajamente." : "Valuation within 24h. No obligations."}

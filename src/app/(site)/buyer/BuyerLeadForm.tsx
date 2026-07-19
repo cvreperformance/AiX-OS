@@ -146,8 +146,8 @@ export default function BuyerLeadForm() {
       </button>
       <p className="text-[10px] text-zinc-600 text-center">
         {language === "ro"
-          ? "Răspundem în maxim 24h. Consultație inițială gratuită."
-          : "We respond within 24h. Initial consultation is free."}
+          ? "Răspundem în maxim 24h. Beneficiați de o consultație inițială profesionistă."
+          : "We respond within 24h. Receive an expert initial consultation."}
       </p>
     </form>
   );

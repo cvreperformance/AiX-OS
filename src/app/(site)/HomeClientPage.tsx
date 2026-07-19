@@ -266,19 +266,19 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
           </span>
           <h1 className="text-5xl sm:text-7xl font-light text-zinc-900 tracking-tight leading-none">
             Stop overpaying <br />
-            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600 text-3xl sm:text-5xl mt-2 inline-block">and wasting hours on due diligence</span>
+            <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-300 to-amber-600 text-3xl sm:text-5xl mt-2 inline-block">and eliminate time‑wasting due diligence</span>
           </h1>
           <p className="text-base sm:text-lg font-light text-zinc-600 max-w-xl leading-relaxed">
             {language === "ro" 
-              ? "Evită achizițiile supraevaluate și orele pierdute cu verificarea actelor. Folosește scanări automate de riscuri și simulări de randament bazate pe date reale."
-              : "Use local transaction data, automated risk scans, and yield modeling to secure assets at the correct price and secure transactions."}
+              ? "Folosește date reale și scanări automate pentru a achiziționa la preț corect și a încheia rapid tranzacțiile."
+              : "Leverage real data and automated scans to buy at the right price and close deals quickly."}
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
               href="/property-scanner"
               className="rounded-xl bg-amber-500 text-black px-6 py-3 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
             >
-              <span>{language === "ro" ? "Verifică Titlul Proprietății Instante" : "Verify Property Titles Instantly"}</span>
+              <span>{language === "ro" ? "Obține verificare instantă a titlului" : "Get instant title verification"}</span>
               <ChevronRight className="h-4 w-4" />
             </Link>
             <Link

@@ -137,9 +137,7 @@ export default function JoinPage() {
                 : "Transform decisions from emotion into mathematics."}
             </h2>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-              {language === "ro"
-                ? "Prin crearea unui cont gratuit în AiX OS™ sau prin abonarea la newsletter, aveți garanția că nu veți rata nicio informație critică din piață. Vă livrăm direct în inbox rapoarte de care aveți nevoie."
-                : "By creating a free AiX OS™ account or subscribing to the newsletter, you are guaranteed not to miss any critical market information. We deliver the reports you need directly to your inbox."}
+              {language === "ro" ? "Prin crearea unui cont în AiX OS™ sau prin abonarea la newsletter, aveți garanția că nu veți rata nicio informație critică din piață. Vă livrăm direct în inbox rapoarte de care aveți nevoie." : "By creating an AiX OS™ account or subscribing to the newsletter, you are guaranteed not to miss any critical market information. We deliver the reports you need directly to your inbox."}
             </p>
           </div>
 

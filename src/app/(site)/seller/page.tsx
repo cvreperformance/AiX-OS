@@ -24,32 +24,32 @@ const SERVICES = [
   {
     icon: BarChart3,
     title: "Evaluare AI la Prețul Corect",
-    desc: "Analiză comparativă cu AiX Score. Stabilim prețul optim pe baza mai multor indicatori de piață, nu pe intuiție.",
+    desc: "Îți oferim o valoare de piață exactă, bazată pe date reale, pentru ca tu să știi exact ce poți cere.",
   },
   {
     icon: Camera,
     title: "Prezentare Completă pentru Cumpărători",
-    desc: "Atrageți cumpărători serioși cu fotografii clare, filmări din dronă și tururi virtuale interactive.",
+    desc: "Creăm materiale vizuale de înaltă calitate care pun în valoare proprietatea și atrag cumpărători serioși.",
   },
   {
     icon: Globe,
     title: "Expunere Maximă",
-    desc: "Listare pe toate portalele majore + rețeaua privată AiX OS™ + baza de cumpărători calificați pre-aprovați.",
+    desc: "Listăm proprietatea pe platformele de top și în rețeaua noastră exclusivă, pentru a ajunge rapid la cumpărători calificați.",
   },
   {
     icon: Brain,
     title: "AI Promotion",
-    desc: "Targetare precisă cu AI. Identificăm cumpărătorii potriviți și le prezentăm proprietatea ta direct.",
+    desc: "Folosim inteligența artificială pentru a găsi cumpărători potriviți și a le prezenta direct proprietatea ta.",
   },
   {
     icon: Users,
     title: "Bază de Cumpărători Activi",
-    desc: "Rețea de investitori, cumpărători calificați și expați cu bugete verificate. Zero timp pierdut.",
+    desc: "Acces la o rețea de cumpărători verificați, gata să acționeze rapid.",
   },
   {
     icon: TrendingUp,
     title: "Analytics & Raportare",
-    desc: "Dashboard live cu vizualizări, lead-uri și feedback. Știi exact unde stai în orice moment.",
+    desc: "Dashboard în timp real pentru a monitoriza interesul și progresul vânzării.",
   },
 ];
 
@@ -61,12 +61,12 @@ const RESULTS = [
 ];
 
 const PROCESS = [
-  { step: "01", title: "Evaluare & Strategie", desc: "Stabilim prețul corect și strategia de marketing personalizată." },
-  { step: "02", title: "Pregătirea Proprietății", desc: "Pregătim fotografii, video, prezentări detaliate și aranjăm locuința pentru a atrage cumpărători." },
-  { step: "03", title: "Lansarea Campaniei", desc: "Listare multiplă, outreach activ și promovare AI-powered." },
-  { step: "04", title: "Calificarea Lead-urilor", desc: "Filtrăm și calificăm fiecare interes. Prezentăm doar cumpărători serioși." },
-  { step: "05", title: "Negociere & Ofertă", desc: "Negociem în interesul tău. Maximizăm prețul și minimizăm riscurile." },
-  { step: "06", title: "Closing", desc: "Gestionăm tot procesul la notar. Tu semnezi și primești banii." },
+  { step: "01", title: "Evaluare & Strategie", desc: "Stabilești prețul corect și planul de vânzare pentru rezultate rapide." },
+  { step: "02", title: "Pregătirea Proprietății", desc: "Creăm materiale vizuale care atrag cumpărători serioși imediat." },
+  { step: "03", title: "Lansarea Campaniei", desc: "Publicăm anunțul și îl promovăm către cumpărători verificați." },
+  { step: "04", title: "Calificarea Lead-urilor", desc: "Selectăm doar potențialii cumpărători serioși pentru tine." },
+  { step: "05", title: "Negociere & Ofertă", desc: "Negociem pentru a obține cel mai bun preț și condiții pentru tine." },
+  { step: "06", title: "Closing", desc: "Finalizăm tranzacția la notar, iar tu primești banii în siguranță." },
 ];
 
 export default function SellerPage() {
@@ -79,13 +79,10 @@ export default function SellerPage() {
             AiX OS™ · Seller Representation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-zinc-900 leading-[1.1]">
-            Vinde proprietatea{" "}
-            <span className="gradient-gold">fără reduceri de preț</span>
-            <br />
-            sau vizite inutile
+            Găsește cumpărătorul potrivit și încheie vânzarea la prețul corect fără vizite inutile
           </h1>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-lg">
-            Promovăm listarea direct către cumpărători cu bugete verificate. Obțineți evaluarea reală a pieței pentru a stabili cel mai bun preț de tranzacționare rapid.
+            Ajutăm proprietarii să atragă cumpărători verificați și să obțină rapid prețul optim pentru proprietatea lor.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-amber-500/90 px-7 py-3.5 text-sm font-medium text-black hover:bg-amber-400 transition-all">
@@ -217,8 +214,8 @@ export default function SellerPage() {
         </div>
         <div className="space-y-4">
           {[
-            { q: "Trebuie să semnez un contract de exclusivitate?", a: "Recomandăm reprezentarea exclusivă pentru a putea investi masiv în marketing (foto, video, promovare) fără riscul ca altcineva să vândă proprietatea fără aceste materiale, însă oferim și opțiuni flexibile." },
-            { q: "Cum stabiliți prețul corect?", a: "Folosim algoritmul AiX Score, coroborat cu expertiza umană, analizând tranzacții similare recente din zonă, tendințele macroeconomice și dotările specifice ale proprietății." },
+            { q: "Este obligatoriu un contract de exclusivitate?", a: "Preferăm exclusivitatea pentru a investi în marketing de calitate, dar suntem flexibili și putem lucra și în alte modele." },
+            { q: "Cum determinați prețul corect?", a: "Combinăm algoritmul AiX Score cu expertiza noastră pentru a oferi o evaluare precisă a pieței locale." },
             { q: "Cât durează procesul de vânzare?", a: "În medie, proprietățile evaluate și promovate prin AiX OS™ primesc o ofertă validă în 27 de zile de la lansarea campaniei de marketing." },
           ].map((faq, i) => (
             <div key={i} className="rounded-2xl border border-zinc-200 bg-zinc-50/20 p-6 space-y-2">

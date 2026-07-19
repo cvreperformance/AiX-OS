@@ -95,16 +95,22 @@ export default function PricingClientPage() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-zinc-900 mb-2">AiX STARTER</h3>
                 <p className="text-3xl font-light text-blue-400 mb-2">49€<span className="text-lg text-zinc-400">/mo</span></p>
-                <p className="text-xs text-zinc-400">Perfect for individuals</p>
+                <p className="text-xs text-zinc-400">Ideal for individuals ready to unlock property insights quickly</p>
               </div>
               <ul className="space-y-4 mb-8 flex-grow">
-                {["Track market trends", "Automated description builder", "Property analysis tools", "Real-time pricing data", "Priority support"].map((f,i) => (
+                {[
+                  "Stay ahead with market trend alerts",
+                  "Generate compelling property descriptions automatically",
+                  "Analyze properties with AI-driven tools",
+                  "Access real‑time pricing data",
+                  "Receive priority support for swift decisions"
+                ].map((f,i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
                     <CheckCircle2 className="h-4 w-4 text-blue-400 mt-0.5" /> <span>{f}</span>
                   </li>
                 ))}
               </ul>
-              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-blue-500/20 text-blue-400 font-medium hover:bg-blue-500/30 transition-colors">Get property tools</Link>
+              <Link href={CONTACT_LINKS.whatsapp} className="w-full py-3 px-4 rounded-xl text-center bg-blue-500/20 text-blue-400 font-medium hover:bg-blue-500/30 transition-colors">Start analyzing properties today</Link>
             </div>
             {/* PROFESSIONAL */}
             <div className="rounded-3xl border border-amber-500/30 bg-amber-500/10 p-8 flex flex-col relative shadow-2xl shadow-amber-500/10 md:-translate-y-4">
@@ -397,9 +403,6 @@ export default function PricingClientPage() {
                 <label className="text-sm font-semibold text-zinc-600">Estimated Value (€)</label>
                 <input 
                   type="text" 
-                  value={calcValue} 
-                  onChange={e => setCalcValue(e.target.value)}
-                  placeholder="e.g. 150000"
                   className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 focus:ring-2 focus:ring-amber-500 outline-none"
                   required
                 />
