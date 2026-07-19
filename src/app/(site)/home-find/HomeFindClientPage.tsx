@@ -360,6 +360,95 @@ export default function HomeFindClientPage() {
             </div>
         </div>
     </section>
+        <section id="real-case-studies" className="py-32 bg-dark relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-sm font-bold tracking-[0.2em] text-brand-purple uppercase mb-4">Real Case Studies</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Success Stories from the Field</h3>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light mb-12">Explore how our platform delivered outstanding results.</p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="glass-card p-6 card-hover reveal">
+                <h4 className="text-xl font-bold mb-2">Luxury Villa – LA</h4>
+                <p className="text-gray-400">Closed at $4.6M, 2 weeks faster than market average.</p>
+              </div>
+              <div className="glass-card p-6 card-hover reveal delay-100">
+                <h4 className="text-xl font-bold mb-2">Penthouse – Miami</h4>
+                <p className="text-gray-400">Achieved 12% above asking price with zero commission.</p>
+              </div>
+              <div className="glass-card p-6 card-hover reveal delay-200">
+                <h4 className="text-xl font-bold mb-2">Historic Manor – Boston</h4>
+                <p className="text-gray-400">Sold in 5 days after targeted international outreach.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="successful-negotiations" className="py-32 relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">Successful Negotiations</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Protecting Buyers & Sellers</h3>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light mb-12">Our agents apply proven negotiation frameworks to maximize value.</p>
+            <ol className="list-decimal list-inside space-y-4 text-gray-300">
+              <li>Define clear objectives and limits.</li>
+              <li>Leverage market data to justify offers.</li>
+              <li>Structure incentives for win‑win outcomes.</li>
+              <li>Maintain transparent communication throughout.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="real-client-stories" className="py-32 bg-dark relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-sm font-bold tracking-[0.2em] text-brand-purple uppercase mb-4">Real Client Stories</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Coming Soon</h3>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">Real client stories will be published here.</p>
+          </div>
+        </section>
+
+        <section id="real-results" className="py-32 relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-sm font-bold tracking-[0.2em] text-brand-green uppercase mb-4">Real Results</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Key Metrics at a Glance</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-2xl font-bold mb-2">$12M</h4>
+                <p className="text-gray-400">Total sales value</p>
+              </div>
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-2xl font-bold mb-2">48 Days</h4>
+                <p className="text-gray-400">Average time to close</p>
+              </div>
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-2xl font-bold mb-2">$350K</h4>
+                <p className="text-gray-400">Average savings on commissions</p>
+              </div>
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-2xl font-bold mb-2">94%</h4>
+                <p className="text-gray-400">Client satisfaction rate</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="how-we-help" className="py-32 bg-dark relative border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-sm font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">How We Help</h2>
+            <h3 className="text-4xl md:text-5xl font-display font-bold mb-6">Problem → Solution → Outcome</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-xl font-bold mb-2">Problem</h4>
+                <p className="text-gray-400">Hidden fees and opaque listings.</p>
+              </div>
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-xl font-bold mb-2">Solution</h4>
+                <p className="text-gray-400">Direct owner connections with transparent pricing.</p>
+              </div>
+              <div className="glass-card p-6 text-center">
+                <h4 className="text-xl font-bold mb-2">Outcome</h4>
+                <p className="text-gray-400">Save thousands and close faster.</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
 
     {/* Powered by AiX / CTA */}
