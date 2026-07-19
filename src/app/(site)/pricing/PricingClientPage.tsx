@@ -89,22 +89,7 @@ export default function PricingClientPage() {
             <p className="text-zinc-400">Select the plan matching your transaction volume to scan properties and calculate net yields.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* FREE */}
-            <div className="rounded-3xl border border-zinc-200 bg-zinc-50/30 p-8 flex flex-col hover:border-zinc-300 transition-all">
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-zinc-900 mb-2">FREE ACCESS</h3>
-                <p className="text-3xl font-light text-zinc-600 mb-2">FREE</p>
-                <p className="text-xs text-zinc-400">Basic ecosystem entry</p>
-              </div>
-              <ul className="space-y-4 mb-8 flex-grow">
-                {["Learning Center", "Market insights", "Basic AI tools", "Public resources", "Basic calculators"].map((f,i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-zinc-600">
-                    <CheckCircle2 className="h-4 w-4 text-zinc-400 mt-0.5" /> <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link href="/login" className="w-full py-3 px-4 rounded-xl text-center bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-700 transition-colors">Start free search</Link>
-            </div>
+            
             {/* STARTER */}
             <div className="rounded-3xl border border-blue-500/20 bg-blue-500/5 p-8 flex flex-col hover:border-blue-500/40 transition-all">
               <div className="mb-8">
@@ -245,24 +230,9 @@ export default function PricingClientPage() {
             <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-4">5. List rentals on specialized networks</h2>
             <p className="text-zinc-400">Specialized rental platform access.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
-              <h3 className="font-bold text-zinc-900 mb-1">FREE RENTAL</h3>
-              <p className="text-2xl font-light text-zinc-400">FREE</p>
-              <p className="text-xs text-zinc-400 mt-2">3 months</p>
-            </div>
-            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
-              <h3 className="font-bold text-zinc-900 mb-1">STARTER</h3>
-              <p className="text-2xl font-light text-blue-400">49€<span className="text-sm">/mo</span></p>
-            </div>
-            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-amber-500/30 text-center shadow-[0_0_30px_rgba(245,158,11,0.05)]">
-              <h3 className="font-bold text-zinc-900 mb-1">PRO</h3>
-              <p className="text-2xl font-light text-amber-400">149€<span className="text-sm">/mo</span></p>
-            </div>
-            <div className="p-6 rounded-2xl bg-zinc-50/30 border border-zinc-200 text-center">
-              <h3 className="font-bold text-zinc-900 mb-1">BUSINESS</h3>
-              <p className="text-2xl font-light text-purple-400">Custom</p>
-            </div>
+          <div className="p-12 rounded-3xl border border-zinc-200 bg-zinc-50 text-center">
+            <h3 className="text-2xl font-light text-zinc-900">Coming Soon</h3>
+            <p className="text-zinc-400">Our specialized rental network is under development.</p>
           </div>
         </section>
 
@@ -320,7 +290,6 @@ export default function PricingClientPage() {
           
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             {[
-              { n: "FREE", p: "FREE", sub: "3 months" },
               { n: "STARTER", p: "29€/mo" },
               { n: "PRO", p: "79€/mo", tag: "MOST POPULAR" },
               { n: "AGENCY", p: "199€/mo" },
@@ -331,7 +300,6 @@ export default function PricingClientPage() {
                 {plan.tag && <div className="absolute -top-2 left-1/2 -translate-x-1/2 text-[8px] uppercase tracking-widest font-bold bg-amber-500 text-black px-2 py-0.5 rounded-full whitespace-nowrap">{plan.tag}</div>}
                 <p className="text-xs font-bold text-zinc-400 mb-2">{plan.n}</p>
                 <p className={`text-xl font-light ${plan.tag ? 'text-amber-400' : 'text-zinc-900'}`}>{plan.p}</p>
-                {plan.sub && <p className="text-[10px] text-zinc-400 mt-1">{plan.sub}</p>}
               </div>
             ))}
           </div>
