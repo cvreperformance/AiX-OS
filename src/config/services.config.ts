@@ -30,6 +30,7 @@ import {
   Ship,
   Globe,
   Network,
+  LayoutDashboard,
   type LucideIcon
 } from "lucide-react";
 
