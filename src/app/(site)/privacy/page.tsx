@@ -20,7 +20,7 @@ export default function PrivacyPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
           { icon: Shield, title: "Conformitate GDPR", desc: "Datele dvs. sunt stocate și procesate în conformitate deplină cu directivele europene." },
-          { icon: Lock, title: "Securitate Maximă", desc: "Folosim encriptare avansată și protocoale securizate în baza Supabase." },
+          { icon: Lock, title: "Securitate Maximă", desc: "Folosim encriptare avansată și protocoale securizate pentru protecția datelor utilizatorilor." },
           { icon: Eye, title: "Transparență Totală", desc: "Nu vindem și nu transmitem datele dvs. către terțe părți neautorizate." },
         ].map((item, idx) => (
           <div key={idx} className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-6 space-y-3">

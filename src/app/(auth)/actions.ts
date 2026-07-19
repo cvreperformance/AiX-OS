@@ -71,8 +71,7 @@ export async function signup(formData: FormData) {
 
     const supabase = await createClient();
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
 
     const data = {
       email: formData.get("email") as string,
@@ -144,9 +143,7 @@ export async function signout() {
 export async function forgotPassword(formData: FormData) {
   const supabase = await createClient();
   const email = formData.get("email") as string;
-  
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${siteUrl}/reset-password`,

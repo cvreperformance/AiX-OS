@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Știri imobiliare România, EU și global. Analize de piață, ROBOR, prețuri pe metru pătrat, yield-uri și market intelligence evaluat cu AiX Score.",
 };
 
-// Fallback news if Supabase is empty
+// Fallback news if data source is empty
 const FALLBACK_NEWS = [
   {
     id: "f1", slug: "apartamente-vechi-mai-scumpe-noi",

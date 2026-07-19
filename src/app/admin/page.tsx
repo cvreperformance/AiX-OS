@@ -63,16 +63,14 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-6 space-y-3">
-        <h2 className="text-sm font-medium text-amber-400">Setup Supabase</h2>
+        <h2 className="text-sm font-medium text-amber-400">Admin Settings</h2>
         <p className="text-sm text-zinc-400 leading-relaxed">
-          Site-ul funcționează acum cu date demo. Pentru administrare reală (add/edit/delete),
-          conectează Supabase gratuit — vezi README.md pentru pașii exacti.
+          Dashboard-ul este funcțional cu date demo. Pentru configurare completă, urmează ghidul de producție.
         </p>
         <ol className="text-sm text-zinc-400 space-y-1 list-decimal list-inside">
-          <li>Creează cont pe supabase.com (free)</li>
-          <li>Rulează <code className="text-amber-400/80">supabase/schema.sql</code></li>
-          <li>Copiază URL + anon key în <code className="text-amber-400/80">.env.local</code></li>
-          <li>Creează cont admin și setează role = admin în profiles</li>
+          <li>Configurează conexiunea la baza de date în fișierul de configurare.</li>
+          <li>Actualizează variabilele de mediu pentru autentificare.</li>
+          <li>Setează rolurile utilizatorilor în sistemul de gestionare a accesului.</li>
         </ol>
       </div>
     </div>

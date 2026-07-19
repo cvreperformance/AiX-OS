@@ -76,10 +76,6 @@ export function AdminTable({ title, description, columns, data, basePath }: Admi
           </tbody>
         </table>
       </div>
-
-      <p className="text-xs text-zinc-600 mt-4">
-        Demo mode — conectează Supabase pentru CRUD real (add/edit/delete).
-      </p>
     </div>
   );
 }
