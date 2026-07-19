@@ -148,26 +148,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
       color: "text-teal-400 border-teal-500/10 hover:bg-teal-500/[0.02]",
       href: "/convenience"
     },
-    {
-      title: language === "ro" ? "Analiză Automatizată" : "Automated Analysis",
-      desc: language === "ro" ? "Scanează automat documentele de cadastru pentru a detecta riscurile instant." : "Scan land registry files to flag legal and structural liabilities instantly.",
-      icon: Brain,
-      color: "text-violet-400 border-violet-500/10 hover:bg-violet-500/[0.02]",
-      href: "/brain"
-    }
+
   ];
 
   const AI_AGENTS = [
-    {
-      id: "property",
-      name: language === "ro" ? "Verificare Cadastru" : "Land Registry Scan",
-      desc: language === "ro" ? "Detectează servituți, ipoteci și litigii din actele cadastrale în mod rapid." : "Flag hidden easements, active mortgages, and title disputes instantly.",
-      capabilities: language === "ro" 
-        ? ["Verificare istoric titlu proprietate", "Detecție drum de servitute", "Sarcini bancare active"] 
-        : ["Ownership title chain analysis", "Easement road audit", "Active mortgages check"],
-      icon: Building2,
-      href: "/property-scanner"
-    },
     {
       id: "investment",
       name: language === "ro" ? "Modelare Randamente" : "Yield Estimator",

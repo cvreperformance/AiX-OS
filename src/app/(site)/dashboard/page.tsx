@@ -1,33 +1,54 @@
-import { createClient } from "@/lib/supabase/server";
-import UserDashboard from "./UserDashboard";
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "AiX OS™ Command Center | Live Intelligence Terminal",
-  description: "Real-time AI activity, real estate intelligence, investment signals, and verified luxury opportunities.",
-};
+import { useEffect, useState } from "react";
+import NewsCard from "@/components/dashboard/NewsCard";
+import { NewsArticle } from "@/lib/types";
+import { SkeletonGrid } from "@/components/ui/Skeletons";
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
+export default function DashboardPage() {
+  const [articles, setArticles] = useState<NewsArticle[] | null>(null);
 
-  // Try to retrieve user session to enable authenticated controls
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  let profile = null;
-  if (user) {
-    try {
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
-      profile = data;
-    } catch (e) {
-      console.warn("Could not query user profile details", e);
+  useEffect(() => {
+    async function loadNews() {
+      try {
+        const res = await fetch("/api/datahub/news");
+        if (!res.ok) throw new Error("Failed to fetch news");
+        const data: NewsArticle[] = await res.json();
+        setArticles(data);
+      } catch (e) {
+        console.error(e);
+        setArticles([]);
+      }
     }
+    loadNews();
+  }, []);
+
+  if (articles === null) {
+    return (
+      <section className="p-6">
+        <h1 className="text-3xl font-semibold mb-6 text-zinc-100">Executive Dashboard</h1>
+        <SkeletonGrid count={6} />
+      </section>
+    );
   }
 
-  return <UserDashboard user={user} profile={profile} />;
+  if (articles.length === 0) {
+    return (
+      <section className="p-6">
+        <h1 className="text-3xl font-semibold mb-6 text-zinc-100">Executive Dashboard</h1>
+        <div className="text-center py-12 text-zinc-500">Waiting for provider…</div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="p-6">
+      <h1 className="text-3xl font-semibold mb-6 text-zinc-100">Executive Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.map((article) => (
+          <NewsCard key={article.id} article={article} />
+        ))}
+      </div>
+    </section>
+  );
 }

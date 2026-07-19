@@ -138,8 +138,7 @@ export const navigationCategories: NavigationCategory[] = [
 export const mainNavLinks = [
   { href: "/", label: "Acasă", labelEn: "Home" },
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
-  { href: "/brain", label: "AiX Brain™", labelEn: "AiX Brain™" },
-  { href: "/property-scanner", label: "Scanner AI", labelEn: "AI Scanner" },
+  { href: "/ecosystem", label: "Ecosistem", labelEn: "Ecosystem" },
   { href: "/private-deal-room", label: "Cameră Privată", labelEn: "Deal Room" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
