@@ -145,3 +145,81 @@ export function scoreOpportunity(opp: Pick<Opportunity,
 
   return Math.round(Math.min(10, score) * 10) / 10;
 }
+
+export interface NewsScoreResult {
+  score: number;
+  explanation: string;
+  insight: string;
+}
+
+export function computeNewsScore(title: string, summary: string): NewsScoreResult {
+  const combined = `${title} ${summary}`.toLowerCase();
+  let score = 7.0; // base score for neutral news
+
+  // Contextual positive cues (financial, macro, real estate positive indicators)
+  const positiveCues = [
+    "scade robor", "scadere robor", "scădere robor", "scade ircc", "scadere ircc", "scădere ircc",
+    "reducere dobândă", "reducere dobanda", "scădere dobânzi", "scadere dobanzi", "ieftinire credite",
+    "creștere tranzacții", "crestere tranzactii", "record tranzacții", "investiții record",
+    "yield ridicat", "apreciere prețuri", "apreciere preturi", "creștere economică", "crestere economica",
+    "stabilizare piață", "stabilizare piata", "oportunitate de investiție", "oportunitati de investitii",
+    "profit in crestere", "crestere profit", "fonduri europene", "convergenta ue"
+  ];
+
+  // Contextual negative cues (financial, macro, real estate negative indicators / risks)
+  const negativeCues = [
+    "crește robor", "creste robor", "crește ircc", "creste ircc", "majorare taxe", "creștere taxe",
+    "majorare tva", "creștere tva", "scumpire apartamente", "scădere tranzacții", "scadere tranzactii",
+    "scădere prețuri", "scadere preturi", "criză imobiliară", "criza imobiliara", "risc de blocaj",
+    "inflație mare", "inflatie mare", "penurie materiale", "creștere dobânzi", "crestere dobanzi",
+    "penurie de locuinte", "scumpiri materiale"
+  ];
+
+  for (const cue of positiveCues) {
+    if (combined.includes(cue)) score += 0.5;
+  }
+  for (const cue of negativeCues) {
+    if (combined.includes(cue)) score -= 0.5;
+  }
+
+  // Fallbacks if no specific cues matched
+  if (score === 7.0) {
+    const generalPositives = ["record", "crestere", "creștere", "dezvoltare", "profit", "investitie", "investiție"];
+    const generalNegatives = ["criza", "criză", "risc", "scădere", "scadere", "conflict", "scumpire"];
+    
+    for (const word of generalPositives) {
+      if (combined.includes(word)) { score += 0.2; break; }
+    }
+    for (const word of generalNegatives) {
+      if (combined.includes(word)) { score -= 0.2; break; }
+    }
+  }
+
+  // Bound score between 5.0 and 9.5 and round to 1 decimal place
+  score = Math.max(5.0, Math.min(9.5, score));
+  score = Math.round(score * 10) / 10;
+
+  // Generate explanations and insights that match the exact tone of the platform
+  let explanation = "";
+  let insight = "";
+
+  if (score >= 8.5) {
+    explanation = "Acest semnal indică o dinamică de piață favorabilă, caracterizată de condiții îmbunătățite de finanțare sau de interes puternic pe segmentul de dezvoltare.";
+    insight = "Oportunitate optimă pentru plasarea capitalului. Recomandăm focalizarea pe achiziții în zone premium cu perspective clare de apreciere.";
+  } else if (score >= 7.5) {
+    explanation = "Indicatorii reflectă un climat macroeconomic echilibrat, cu riscuri moderate și un trend general de stabilizare a dobânzilor.";
+    insight = "Moment potrivit pentru investiții pe termen mediu și lung (buy & hold). Evaluează costul creditării pentru randamente optime.";
+  } else if (score >= 6.5) {
+    explanation = "Articolul prezintă semnale neutre. Piața locală traversează o perioadă de consolidare, unde evoluțiile depind de politicile monetare viitoare.";
+    insight = "Menține o abordare selectivă. Monitorizează îndeaproape indicii de preț locali și negociază marjele de profit.";
+  } else {
+    explanation = "Semnalul evidențiază o creștere a costurilor sau modificări legislative cu impact direct asupra randamentului imobiliar.";
+    insight = "Recomandăm prudență maximă în planificarea noilor proiecte și recalibrarea așteptărilor de yield în funcție de noile taxe.";
+  }
+
+  return {
+    score,
+    explanation,
+    insight,
+  };
+}

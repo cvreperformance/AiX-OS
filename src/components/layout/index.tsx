@@ -613,8 +613,6 @@ export function Footer() {
             <span>Status: {language === "ro" ? "Activ" : "Online"}</span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>&bull;</span>
-            <span>{language === "ro" ? "Versiune" : "Version"}: v5.2.0-prod</span>
-            <span>&bull;</span>
             <span>
               {language === "ro" ? "Creat de" : "Powered by"}{" "}
               <a href="https://cristianvaduva.com" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-amber-400 underline transition-colors">

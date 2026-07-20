@@ -29,42 +29,139 @@ async function main() {
     return;
   }
 
+  // Simple local slugify matching utils.ts
+  function localSlugify(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/ă|â/g, "a")
+      .replace(/î/g, "i")
+      .replace(/ș|ş/g, "s")
+      .replace(/ț|ţ/g, "t")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  // Simple local news scoring matching aiScoreEngine.ts
+  function localComputeScore(title, summary) {
+    const combined = `${title} ${summary}`.toLowerCase();
+    let score = 7.0;
+
+    const positiveCues = [
+      "scade robor", "scadere robor", "scădere robor", "scade ircc", "scadere ircc", "scădere ircc",
+      "reducere dobândă", "reducere dobanda", "scădere dobânzi", "scadere dobanzi", "ieftinire credite",
+      "creștere tranzacții", "crestere tranzactii", "record tranzacții", "investiții record",
+      "yield ridicat", "apreciere prețuri", "apreciere preturi", "creștere economică", "crestere economica",
+      "stabilizare piață", "stabilizare piata", "oportunitate de investiție", "oportunitati de investitii",
+      "profit in crestere", "crestere profit", "fonduri europene", "convergenta ue"
+    ];
+
+    const negativeCues = [
+      "crește robor", "creste robor", "crește ircc", "creste ircc", "majorare taxe", "creștere taxe",
+      "majorare tva", "creștere tva", "scumpire apartamente", "scădere tranzacții", "scadere tranzactii",
+      "scădere prețuri", "scadere preturi", "criză imobiliară", "criza imobiliara", "risc de blocaj",
+      "inflație mare", "inflatie mare", "penurie materiale", "creștere dobânzi", "crestere dobanzi",
+      "penurie de locuinte", "scumpiri materiale"
+    ];
+
+    for (const cue of positiveCues) {
+      if (combined.includes(cue)) score += 0.5;
+    }
+    for (const cue of negativeCues) {
+      if (combined.includes(cue)) score -= 0.5;
+    }
+
+    score = Math.max(5.0, Math.min(9.5, score));
+    score = Math.round(score * 10) / 10;
+
+    let explanation = "Acest semnal indică o dinamică de piață favorabilă, caracterizată de condiții îmbunătățite de finanțare sau de interes puternic pe segmentul de dezvoltare.";
+    let insight = "Oportunitate optimă pentru plasarea capitalului. Recomandăm focalizarea pe achiziții în zone premium cu perspective clare de apreciere.";
+
+    if (score < 7.5 && score >= 6.5) {
+      explanation = "Articolul prezintă semnale neutre. Piața locală traversează o perioadă de consolidare, unde evoluțiile depind de politicile monetare viitoare.";
+      insight = "Menține o abordare selectivă. Monitorizează îndeaproape indicii de preț locali și negociază marjele de profit.";
+    } else if (score < 6.5) {
+      explanation = "Semnalul evidențiază o creștere a costurilor sau modificări legislative cu impact direct asupra randamentului imobiliar.";
+      insight = "Recomandăm prudență maximă în planificarea noilor proiecte și recalibrarea așteptărilor de yield în funcție de noile taxe.";
+    }
+
+    return { score, explanation, insight };
+  }
+
   // Transform RSS items to the shape expected by the `news` table
-  const records = feed.items.map((item) => {
+  const records = [];
+  for (const item of feed.items) {
+    const title = item.title ?? "Untitled";
+    const summary = item.contentSnippet ?? item.content ?? "";
+    const categories = (item.categories ?? []).map(c => c.toLowerCase());
+
+    // 1. Validation: Block generic test content
+    if (/^(test\b|dummy\b|demo\b)/i.test(title.trim()) || /^(test\b|dummy\b|demo\b)/i.test(summary.trim())) {
+      continue;
+    }
+
+    // 2. Reject explicit irrelevant categories
+    const rejectCategories = ["sport", "fotbal", "monden", "divertisment", "lifestyle", "showbiz", "vedete", "horoscop", "timp liber", "auto"];
+    if (categories.some(cat => rejectCategories.includes(cat))) {
+      continue;
+    }
+
+    // 3. Relevance check
+    const combined = `${title} ${summary} ${categories.join(" ")}`.toLowerCase();
+    const relevanceKeywords = [
+      "imobiliar", "apartament", "casă", "case", "rezidențial", "clădire", "locuință",
+      "dobândă", "dobânzi", "credit", "credite", "ipotecar", "robor", "ircc", "bnr",
+      "inflație", "inflatie", "fiscal", "impozit", "buget", "finanțe", "finante",
+      "economic", "economie", "construcții", "constructii", "asigurare", "asigurări",
+      "investiții", "investitii", "euro", "leul", "valută", "bce", "fed", "storia", "olx"
+    ];
+    const isRelevant = relevanceKeywords.some(keyword => combined.includes(keyword));
+    const strictRejectKeywords = ["fotbal", "campionatul mondial", "semifinală", "sportiv", "liga 1", "tenis", "olimpiada", "bătălia de", "meciul dintre"];
+    const containsStrictReject = strictRejectKeywords.some(keyword => combined.includes(keyword));
+
+    if (!isRelevant || containsStrictReject) {
+      continue;
+    }
+
     const published = item.isoDate ?? item.pubDate ?? new Date().toISOString();
-    // Simple slug generation: lower‑case, replace non‑alphanum with hyphens
-      const slug = (() => {
-        if (item.title) {
-          return item.title
-            .toString()
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "");
-        }
-        if (item.link) {
-          return item.link
-            .toString()
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "");
-        }
-        return `slug-${Date.now()}`;
-      })();
-    return {
-      slug: slug,
-      title: item.title ?? "Untitled",
-      summary: item.contentSnippet ?? "",
-      content: item.content ?? item.contentSnippet ?? "",
-      category: feed.title?.toLowerCase().includes("real estate")
-        ? "Real Estate"
-        : feed.title?.toLowerCase().includes("construction")
-        ? "Construction"
-        : "General",
+    const slug = localSlugify(title);
+    const scoreResult = localComputeScore(title, summary);
+
+    // Determine category mapping
+    let category = "Markets";
+    if (combined.includes("imobiliar") || combined.includes("apartament") || combined.includes("locuință")) {
+      category = "Real Estate";
+    } else if (combined.includes("construc")) {
+      category = "Construction";
+    } else if (combined.includes("asigur")) {
+      category = "Insurance";
+    } else if (combined.includes("finan") || combined.includes("dobân") || combined.includes("robor") || combined.includes("ircc")) {
+      category = "Finance";
+    } else if (combined.includes("investi")) {
+      category = "Investments";
+    }
+
+    records.push({
+      slug,
+      title,
+      summary,
+      content: item.content ?? summary,
+      category,
       source_url: item.link ?? "",
       published_at: published,
-    };
-  });
+      aix_score: scoreResult.score,
+      score_explanation: scoreResult.explanation,
+      investment_insight: scoreResult.insight,
+      status: "published"
+    });
+  }
+
+  if (records.length === 0) {
+    console.log("No relevant records found to upsert.");
+    return;
+  }
 
     console.log('First record to be upserted:', records[0]);
   const upsertUrl = `${supabaseUrl}/rest/v1/news?on_conflict=slug`;

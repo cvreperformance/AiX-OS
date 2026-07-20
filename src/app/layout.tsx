@@ -4,55 +4,70 @@ import { organizationSchema } from "@/lib/seo";
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 
-export const metadata: Metadata = {
-  title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "investiții imobiliare",
-    "market intelligence",
-    "AiX Score",
-    "proprietăți luxury",
-    "București",
-    "real estate Romania",
-    "buyer representation",
-    "seller representation",
-    "investitii dubai",
-    "analiza imobiliara",
-    "calculator ipoteca",
-    "asigurare locuinta",
-    "aix os",
-  ],
-  authors: [{ name: "AiX OS™", url: "https://aixos.ro" }],
-  creator: "AiX OS™",
-  publisher: "AiX OS™",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+export async function generateMetadata(): Promise<Metadata> {
+  let baseUrl = "https://os.cristianvaduva.com";
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host") || headersList.get("x-forwarded-host");
+    if (host) {
+      const protocol = host.includes("localhost") || host.includes("127.0.0.1") ? "http" : "https";
+      baseUrl = `${protocol}://${host}`;
+    }
+  } catch (e) {
+    // ignore outside request context
+  }
+
+  return {
+    title: {
+      default: `${siteConfig.name} — ${siteConfig.tagline}`,
+      template: `%s | ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    keywords: [
+      "investiții imobiliare",
+      "market intelligence",
+      "AiX Score",
+      "proprietăți luxury",
+      "București",
+      "real estate Romania",
+      "buyer representation",
+      "seller representation",
+      "investitii dubai",
+      "analiza imobiliara",
+      "calculator ipoteca",
+      "asigurare locuinta",
+      "aix os",
+    ],
+    authors: [{ name: "AiX OS™", url: baseUrl }],
+    creator: "AiX OS™",
+    publisher: "AiX OS™",
+    robots: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+      },
     },
-  },
-  openGraph: {
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-    type: "website",
-    locale: "ro_RO",
-    siteName: siteConfig.name,
-    url: "https://aixos.ro",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
-  },
-  metadataBase: new URL("https://aixos.ro"),
-};
+    openGraph: {
+      title: `${siteConfig.name} — ${siteConfig.tagline}`,
+      description: siteConfig.description,
+      type: "website",
+      locale: "ro_RO",
+      siteName: siteConfig.name,
+      url: baseUrl,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteConfig.name,
+      description: siteConfig.description,
+    },
+    metadataBase: new URL(baseUrl),
+  };
+}
 
 export default function RootLayout({
   children,

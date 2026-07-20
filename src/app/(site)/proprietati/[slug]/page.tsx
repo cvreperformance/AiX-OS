@@ -38,7 +38,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
   if (!property) notFound();
 
-  const jsonLd = buildPropertySchema(property);
+  const jsonLd = await buildPropertySchema(property);
 
   const galleryImages =
     property.resolved_gallery.length > 0

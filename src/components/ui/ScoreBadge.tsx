@@ -14,6 +14,8 @@ export function ScoreBadge({
   showLabel = true,
   className,
 }: ScoreBadgeProps) {
+  if (!score || score <= 0) return null;
+
   const sizes = {
     sm: "px-2 py-0.5 text-xs",
     md: "px-3 py-1 text-sm",
@@ -48,6 +50,8 @@ interface ScoreCardProps {
 }
 
 export function ScoreCard({ score, explanation, insight }: ScoreCardProps) {
+  if (!score || score <= 0) return null;
+
   return (
     <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 space-y-4">
       <div className="flex items-center justify-between">

@@ -1,11 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type JsonLd = Record<string, any>;
 
+import { headers } from "next/headers";
+
+export async function getDynamicOrigin(): Promise<string> {
+  try {
+    const headersList = await headers();
+    const host = headersList.get("host") || headersList.get("x-forwarded-host");
+    if (host) {
+      const protocol = host.includes("localhost") || host.includes("127.0.0.1") ? "http" : "https";
+      return `${protocol}://${host}`;
+    }
+  } catch (e) {
+    // fallback for build/static generation
+  }
+  return "https://os.cristianvaduva.com";
+}
+
 /**
  * Builds a canonical URL for the site.
  */
-export function canonical(path: string): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aixos.ro";
+export async function canonical(path: string): Promise<string> {
+  const base = await getDynamicOrigin();
   return `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
 }
 
@@ -24,13 +40,13 @@ export const organizationSchema: JsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "AiX OS™",
-  url: "https://aixos.ro",
-  logo: "https://aixos.ro/logo.png",
+  url: "https://os.cristianvaduva.com",
+  logo: "https://os.cristianvaduva.com/logo.png",
   description:
-    "AI-powered real estate operating system for investors. Market intelligence, buyer/seller representation, and investment analysis.",
+    "See market changes faster and make better decisions. Understand if a property is worth the asking price before buying.",
   sameAs: [
     "https://cristianvaduva.com",
-    "https://aixluxury.com",
+    "https://os.aixluxury.com",
   ],
   contactPoint: {
     "@type": "ContactPoint",
@@ -42,7 +58,7 @@ export const organizationSchema: JsonLd = {
 /**
  * Real estate listing JSON-LD schema builder.
  */
-export function buildPropertySchema(property: {
+export async function buildPropertySchema(property: {
   title: string;
   description?: string | null;
   price: number;
@@ -52,13 +68,13 @@ export function buildPropertySchema(property: {
   area_sqm?: number | null;
   image_url?: string | null;
   slug: string;
-}): JsonLd {
+}): Promise<JsonLd> {
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     name: property.title,
     description: property.description ?? property.title,
-    url: canonical(`/proprietati/${property.slug}`),
+    url: await canonical(`/proprietati/${property.slug}`),
     image: property.image_url ? [property.image_url] : undefined,
     offers: {
       "@type": "Offer",

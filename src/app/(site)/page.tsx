@@ -1,18 +1,25 @@
-import { getFeaturedProperties, getFeaturedNews } from "@/lib/data";
+import { getFeaturedProperties, getFeaturedNews, getEcosystemStats } from "@/lib/data";
 import HomeClientPage from "./HomeClientPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AiX OS™ — Know what is worth buying before everyone else.",
+  title: "AiX OS™ — See market changes faster and make better decisions",
   description:
-    "Economisește timp, bani și elimină riscul din tranzacțiile imobiliare. Analiză cadastrală AI, calculatoare financiare și asistență juridică.",
+    "Evaluează dacă o proprietate își merită prețul înainte de a cumpăra. Monitorizare în timp real, calculatoare de yield, analiză cadastrală și asistență.",
 };
 
 export default async function HomePage() {
-  const [featuredProperties, featuredNews] = await Promise.all([
+  const [featuredProperties, featuredNews, stats] = await Promise.all([
     getFeaturedProperties(),
     getFeaturedNews(2),
+    getEcosystemStats(),
   ]);
 
-  return <HomeClientPage featuredProperties={featuredProperties} featuredNews={featuredNews} />;
+  return (
+    <HomeClientPage
+      featuredProperties={featuredProperties}
+      featuredNews={featuredNews}
+      stats={stats}
+    />
+  );
 }

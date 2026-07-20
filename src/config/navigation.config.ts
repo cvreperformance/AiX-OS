@@ -142,5 +142,4 @@ export const mainNavLinks = [
   { href: "/private-deal-room", label: "Cameră Privată", labelEn: "Deal Room" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },
   { href: "/contact", label: "Contact", labelEn: "Contact" },
-  { href: "/results", label: "Rezultate", labelEn: "Results" },
 ];

@@ -7,10 +7,10 @@ import { brandContent } from "@/lib/content/brand";
  */
 export const siteConfig = {
   name: "AiX OS™",
-  tagline: "Intelligence Layer Built for Investors.",
+  tagline: "See market changes faster and make better decisions.",
   description:
-    "Platformă de intelligence pentru investitori imobiliari. Market Pulse, AiX Score, AI Advisor și oportunități verificate.",
-  url: "https://aixos.ro",
+    "Evaluează dacă o proprietate își merită prețul înainte de a cumpăra. Monitorizare în timp real, calculatoare de yield și asistență.",
+  url: "https://os.cristianvaduva.com",
   contact: {
     email: brandContent.contact.email,
     phone: brandContent.contact.phone,

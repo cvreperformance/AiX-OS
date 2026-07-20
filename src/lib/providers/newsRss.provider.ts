@@ -4,13 +4,15 @@ import Parser from "rss-parser";
 import { IDataProvider } from "../dataHub/IDataProvider";
 import { NewsItem } from "../types/news";
 import { supabaseAdmin as supabase } from "../supabase/admin";
+import { slugify } from "../utils";
+import { computeNewsScore } from "../market/aiScoreEngine";
 
 /**
  * NewsRssProvider fetches real RSS feeds, normalises them to `NewsItem`,
  * and upserts them into the Supabase `news` table.
  *
- * It de‑duplicates based on the `url` field – if an article with the same URL
- * already exists, it will be ignored (Supabase upsert with `onConflict: 'url'`).
+ * It de‑duplicates based on the `slug` field – if an article with the same slug
+ * already exists, it will be ignored (Supabase upsert with `onConflict: 'slug'`).
  */
 export class NewsRssProvider implements IDataProvider<NewsItem> {
   private parser: Parser;
@@ -18,9 +20,7 @@ export class NewsRssProvider implements IDataProvider<NewsItem> {
 
   constructor(feedUrl: string) {
     this.feedUrl = feedUrl;
-    this.parser = new Parser({
-      // default options are fine; can increase timeout if needed
-    });
+    this.parser = new Parser({});
   }
 
   /** Fetch the RSS feed, transform items, and store them in Supabase */
@@ -29,34 +29,99 @@ export class NewsRssProvider implements IDataProvider<NewsItem> {
       const feed = await this.parser.parseURL(this.feedUrl);
       if (!feed?.items?.length) return;
 
-      const records: NewsItem[] = feed.items.map((item) => {
-        // Normalise – some RSS fields may be missing; we provide fallbacks
+      const records: Omit<NewsItem, "id">[] = [];
+
+      for (const item of feed.items) {
+        const title = item.title ?? "Untitled";
+        const summary = item.contentSnippet ?? item.content ?? "";
+        const categories = (item.categories ?? []).map(c => c.toLowerCase());
+
+        // 1. Validation: Block generic test content
+        if (/^(test\b|dummy\b|demo\b)/i.test(title.trim()) || /^(test\b|dummy\b|demo\b)/i.test(summary.trim())) {
+          console.log(`[Ingest Filter] Skipped test article: "${title}"`);
+          continue;
+        }
+
+        // 2. Reject explicit irrelevant categories
+        const rejectCategories = ["sport", "fotbal", "monden", "divertisment", "lifestyle", "showbiz", "vedete", "horoscop", "timp liber", "auto"];
+        if (categories.some(cat => rejectCategories.includes(cat))) {
+          console.log(`[Ingest Filter] Skipped irrelevant category for: "${title}"`);
+          continue;
+        }
+
+        // 3. Relevance check: must be connected to economics, finance, real estate, macro, etc.
+        const combined = `${title} ${summary} ${categories.join(" ")}`.toLowerCase();
+        
+        // Strict list of positive relevance keywords
+        const relevanceKeywords = [
+          "imobiliar", "apartament", "casă", "case", "rezidențial", "clădire", "locuință",
+          "dobândă", "dobânzi", "credit", "credite", "ipotecar", "robor", "ircc", "bnr",
+          "inflație", "inflatie", "fiscal", "impozit", "buget", "finanțe", "finante",
+          "economic", "economie", "construcții", "constructii", "asigurare", "asigurări",
+          "investiții", "investitii", "euro", "leul", "valută", "bce", "fed", "storia", "olx"
+        ];
+
+        const isRelevant = relevanceKeywords.some(keyword => combined.includes(keyword));
+        
+        // Also reject explicitly sports-themed content in title/summary even if uncategorized
+        const strictRejectKeywords = ["fotbal", "campionatul mondial", "semifinală", "sportiv", "liga 1", "tenis", "olimpiada", "bătălia de", "meciul dintre"];
+        const containsStrictReject = strictRejectKeywords.some(keyword => combined.includes(keyword));
+
+        if (!isRelevant || containsStrictReject) {
+          console.log(`[Ingest Filter] Skipped irrelevant content for: "${title}"`);
+          continue;
+        }
+
         const published = item.isoDate ?? item.pubDate ?? new Date().toISOString();
-        // Determine category from feed metadata or fallback to "general"
-        const category = feed.title?.toLowerCase().includes("real estate")
-          ? "Real Estate"
-          : feed.title?.toLowerCase().includes("construction")
-          ? "Construction"
-          : "General";
+        const slug = slugify(title);
 
-        return {
-          id: "", // let Supabase generate UUID via default
-          title: item.title ?? "Untitled",
-          url: item.link ?? "",
-          source: feed.title ?? "RSS Feed",
+        // Determine category mapping
+        let category = "Markets";
+        if (combined.includes("imobiliar") || combined.includes("apartament") || combined.includes("locuință")) {
+          category = "Real Estate";
+        } else if (combined.includes("construc")) {
+          category = "Construction";
+        } else if (combined.includes("asigur")) {
+          category = "Insurance";
+        } else if (combined.includes("finan") || combined.includes("dobân") || combined.includes("robor") || combined.includes("ircc")) {
+          category = "Finance";
+        } else if (combined.includes("investi")) {
+          category = "Investments";
+        }
+
+        // 4. Calculate AiX Score
+        const scoreResult = computeNewsScore(title, summary);
+
+        records.push({
+          slug,
+          title,
+          summary,
+          content: item.content ?? summary,
           category,
+          source_url: item.link ?? "",
           published_at: published,
-          content: item.contentSnippet ?? item.content ?? undefined,
-        } as NewsItem;
-      });
+          aix_score: scoreResult.score,
+          score_explanation: scoreResult.explanation,
+          investment_insight: scoreResult.insight,
+          status: "published"
+        });
+      }
 
-      // Upsert – on conflict on `url` we keep existing rows (no duplicates)
+      if (records.length === 0) {
+        console.log("[Ingest] No relevant records to upsert.");
+        return;
+      }
+
+      // Upsert – on conflict on `slug` we ignore/keep existing rows
       const { error } = await supabase.from("news").upsert(records, {
-        onConflict: "url",
+        onConflict: "slug",
         ignoreDuplicates: true,
       });
+
       if (error) {
         console.error("NewsRssProvider upsert error:", error);
+      } else {
+        console.log(`[Ingest] Successfully upserted ${records.length} relevant articles.`);
       }
     } catch (err) {
       console.error("NewsRssProvider fetch error:", err);

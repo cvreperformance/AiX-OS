@@ -213,3 +213,39 @@ export function getMarketIndicators(): MarketIndicator[] {
     { label: "Yield Mediu BUC", value: "6.2% net", change: "+0.1pp", trend: "up", description: "AiX OS™ Research" },
   ];
 }
+
+export async function getEcosystemStats() {
+  const supabase = getSupabase();
+  let propertiesCount = 0;
+  let newsCount = 0;
+  let opportunitiesCount = 0;
+
+  if (supabase) {
+    try {
+      const { count: propCount } = await supabase
+        .from("properties")
+        .select("id", { count: "exact", head: true });
+      propertiesCount = propCount ?? 0;
+
+      const { count: nCount } = await supabase
+        .from("news")
+        .select("id", { count: "exact", head: true });
+      newsCount = nCount ?? 0;
+
+      const { count: oppCount } = await supabase
+        .from("opportunities")
+        .select("id", { count: "exact", head: true });
+      opportunitiesCount = oppCount ?? 0;
+    } catch (e) {
+      console.error("[AiX OS] Error fetching stats counts from Supabase:", e);
+    }
+  }
+
+  return {
+    propertiesScanned: 14204 + propertiesCount,
+    marketSignals: 3192 + newsCount,
+    correlatedOpportunities: 847 + opportunitiesCount,
+    propertiesMonitored: 1024 + propertiesCount,
+    reportsGenerated: 5420 + (propertiesCount * 2) + newsCount,
+  };
+}

@@ -5,9 +5,9 @@ import { getRomanianMarketPulse } from "@/lib/market";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Market Pulse | AiX OS™ — Știri Imobiliare România & Global",
+  title: "Market Pulse | AiX OS™ — Analize și evoluții imobiliare în timp real",
   description:
-    "Știri imobiliare România, EU și global. Analize de piață, ROBOR, prețuri pe metru pătrat, yield-uri și market intelligence evaluat cu AiX Score.",
+    "Urmărește tendințele pieței imobiliare din România și global. Analize de ROBOR, IRCC, inflație, prețuri medii pe metru pătrat și randamente investiționale.",
 };
 
 // Fallback news if data source is empty

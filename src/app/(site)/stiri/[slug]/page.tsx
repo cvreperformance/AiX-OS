@@ -13,7 +13,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getNewsArticle(slug);
   if (!article) return { title: "Articol negăsit" };
-  return { title: article.title, description: article.summary };
+  return {
+    title: `${article.title} | AiX OS™`,
+    description: article.summary,
+    openGraph: {
+      title: article.title,
+      description: article.summary,
+      type: "article",
+      images: article.image_url ? [{ url: article.image_url }] : undefined,
+    },
+  };
 }
 
 export default async function NewsDetailPage({ params }: Props) {

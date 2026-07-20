@@ -24,11 +24,18 @@ import { useLanguage } from "@/context/LanguageContext";
 import { designSystem } from "@/styles/designSystem";
 
 function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number, prefix?: string, suffix?: string }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(end);
+  const [isMounted, setIsMounted] = useState(false);
   
   useEffect(() => {
+    setIsMounted(true);
+    setCount(0); // Start animation from 0 on the client after mount
+  }, []);
+  
+  useEffect(() => {
+    if (!isMounted) return;
     let start = 0;
-    const duration = 2000;
+    const duration = 1500;
     const increment = end / (duration / 16);
     
     const timer = setInterval(() => {
@@ -42,7 +49,7 @@ function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number, prefi
     }, 16);
     
     return () => clearInterval(timer);
-  }, [end]);
+  }, [end, isMounted]);
 
   return <span>{prefix}{count.toLocaleString()}{suffix}</span>;
 }
@@ -112,9 +119,16 @@ function LiveTerminalWall({ language }: { language: string }) {
 interface HomeClientPageProps {
   featuredProperties: any[];
   featuredNews: any[];
+  stats?: {
+    propertiesScanned: number;
+    marketSignals: number;
+    correlatedOpportunities: number;
+    propertiesMonitored: number;
+    reportsGenerated: number;
+  };
 }
 
-export default function HomeClientPage({ featuredProperties, featuredNews }: HomeClientPageProps) {
+export default function HomeClientPage({ featuredProperties, featuredNews, stats }: HomeClientPageProps) {
   const { language } = useLanguage();
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [activeSimulationStep, setActiveSimulationStep] = useState(0);
@@ -562,15 +576,19 @@ export default function HomeClientPage({ featuredProperties, featuredNews }: Hom
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
           {[
-            { label: language === "ro" ? "Proprietăți Scanate" : "Properties Scanned", val: 14204 },
-            { label: language === "ro" ? "Semnale Piață" : "Market Signals", val: 3192 },
-            { label: language === "ro" ? "Oportunități Corelate" : "Correlated Opportunities", val: 847 },
-            { label: language === "ro" ? "Active Monitorizate" : "Properties Monitored", val: 1024 },
-            { label: language === "ro" ? "Rapoarte Generate" : "Reports Generated", val: 5420 },
+            { label: language === "ro" ? "Proprietăți Scanate" : "Properties Scanned", val: stats?.propertiesScanned },
+            { label: language === "ro" ? "Semnale Piață" : "Market Signals", val: stats?.marketSignals },
+            { label: language === "ro" ? "Oportunități Corelate" : "Correlated Opportunities", val: stats?.correlatedOpportunities },
+            { label: language === "ro" ? "Active Monitorizate" : "Properties Monitored", val: stats?.propertiesMonitored },
+            { label: language === "ro" ? "Rapoarte Generate" : "Reports Generated", val: stats?.reportsGenerated },
           ].map((stat, i) => (
             <div key={i} className="p-5 rounded-2xl border border-zinc-200 bg-white/60 backdrop-blur-md shadow-sm">
               <div className="text-3xl font-light text-zinc-900 tracking-tight">
-                <AnimatedCounter end={stat.val} />
+                {stat.val != null ? (
+                  <AnimatedCounter end={stat.val} />
+                ) : (
+                  <div className="h-9 w-24 bg-zinc-200/50 animate-pulse rounded-md" />
+                )}
               </div>
               <div className="text-[9px] uppercase tracking-wider text-zinc-500 font-mono mt-2">{stat.label}</div>
             </div>

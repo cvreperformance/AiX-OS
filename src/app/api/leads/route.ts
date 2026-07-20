@@ -6,8 +6,26 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET() {
   try {
     let supabaseLeads = [];
+    const supabase = await createClient();
+
+    // 1. Authentication Check
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // 2. Authorization Check (Admin Role Required)
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || profile.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     try {
-      const supabase = await createClient();
       const { data, error } = await supabase
         .from("leads")
         .select("*")
@@ -55,9 +73,27 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Id and status are required" }, { status: 400 });
     }
 
+    const supabase = await createClient();
+
+    // 1. Authentication Check
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // 2. Authorization Check (Admin Role Required)
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || profile.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     let updatedSupabase = false;
     try {
-      const supabase = await createClient();
       // Only try to update by UUID if the ID is a valid UUID format
       const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id);
       if (isUuid) {
