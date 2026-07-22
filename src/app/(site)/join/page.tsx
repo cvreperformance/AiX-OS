@@ -17,6 +17,7 @@ import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
 
 export default function JoinPage() {
   const { language } = useLanguage();
@@ -27,13 +28,31 @@ export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, gdpr?: string}>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !name || !phone) return;
+    setError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const emailErr = validateEmail(email);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
     
     setIsSubmitting(true);
-    setError("");
 
     try {
       const response = await fetch("/api/contact", {
@@ -224,10 +243,14 @@ export default function JoinPage() {
                     required 
                     type="text" 
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                    }}
+                    className={`w-full bg-zinc-50/50 border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors`} 
                     placeholder={language === "ro" ? "Numele tău" : "Your name"}
                   />
+                  {fieldErrors.name && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.name}</p>}
                 </div>
 
                 <div className="space-y-1.5">
@@ -238,10 +261,14 @@ export default function JoinPage() {
                     required 
                     type="tel" 
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+                    }}
+                    className={`w-full bg-zinc-50/50 border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-550 focus:border-amber-500/50 focus:outline-none transition-colors`} 
                     placeholder="+43 650..."
                   />
+                  {fieldErrors.phone && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.phone}</p>}
                 </div>
 
                 <div className="space-y-1.5">
@@ -254,11 +281,15 @@ export default function JoinPage() {
                       required 
                       type="email" 
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl py-3 pl-12 pr-4 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" 
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                      }}
+                      className={`w-full bg-zinc-50/50 border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-3 pl-12 pr-4 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`} 
                       placeholder="name@example.com"
                     />
                   </div>
+                  {fieldErrors.email && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.email}</p>}
                 </div>
 
                 <ul className="space-y-2 mt-4 pb-4">
@@ -272,25 +303,40 @@ export default function JoinPage() {
               </div>
 
               <div className="space-y-3 mt-4">
-                <p className="text-[10px] text-zinc-500 leading-normal text-left">
-                  {language === "ro" ? (
-                    <>
-                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
-                      </Link>{" "}
-                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-                    </>
-                  ) : (
-                    <>
-                      By submitting this form, you confirm that you have read and agree to the{" "}
-                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                        AiX OS™ Privacy Policy & GDPR Notice
-                      </Link>{" "}
-                      and consent to being contacted regarding your enquiry and requested services.
-                    </>
-                  )}
-                </p>
+                <div>
+                  <label className="flex items-start gap-2 cursor-pointer mb-2">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={gdpr}
+                      onChange={(e) => {
+                        setGdpr(e.target.checked);
+                        if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                      }}
+                      className="mt-0.5"
+                    />
+                    <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                      {language === "ro" ? (
+                        <>
+                          Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                          <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                            Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                          </Link>{" "}
+                          și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                        </>
+                      ) : (
+                        <>
+                          By submitting this form, you confirm that you have read and agree to the{" "}
+                          <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                            AiX OS™ Privacy Policy & GDPR Notice
+                          </Link>{" "}
+                          and consent to being contacted regarding your enquiry and requested services.
+                        </>
+                      )}
+                    </p>
+                  </label>
+                  {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.gdpr}</p>}
+                </div>
 
                 <button 
                   type="submit"

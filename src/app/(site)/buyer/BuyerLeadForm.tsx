@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { submitContactForm } from "@/lib/contactSubmit";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateRequiredString } from "@/lib/validation";
 import { CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -20,9 +21,34 @@ export default function BuyerLeadForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, budget?: string, propertyType?: string, gdpr?: string}>({});
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const emailErr = validateEmail(email);
+    const budgetErr = validateRequiredString(budget, "Budget");
+    const propTypeErr = validateSelect(propertyType);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || budgetErr || propTypeErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        budget: budgetErr || undefined,
+        propertyType: propTypeErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -31,7 +57,7 @@ export default function BuyerLeadForm() {
         page: window.location.pathname,
         name,
         phone,
-        email: email || undefined,
+        email,
         message: `Property Type: ${propertyType || "N/A"}\nBudget: ${budget || "N/A"}\nDetails: ${details || "N/A"}`,
         source: "buyer-form",
         botfield: botfield || undefined,
@@ -81,51 +107,84 @@ export default function BuyerLeadForm() {
       )}
 
       <div className="grid grid-cols-2 gap-3">
-        <input
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={language === "ro" ? "Numele tău" : "Your name"}
-          className="col-span-1 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-        />
-        <input
-          required
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder={language === "ro" ? "Telefon" : "Phone"}
-          className="col-span-1 rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-        />
+        <div>
+          <input
+            required
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+            }}
+            placeholder={language === "ro" ? "Numele tău" : "Your name"}
+            className={`w-full rounded-xl border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+          />
+          {fieldErrors.name && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.name}</p>}
+        </div>
+        <div>
+          <input
+            required
+            type="tel"
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.target.value);
+              if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+            }}
+            placeholder={language === "ro" ? "Telefon" : "Phone"}
+            className={`w-full rounded-xl border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+          />
+          {fieldErrors.phone && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.phone}</p>}
+        </div>
       </div>
 
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={language === "ro" ? "E-mail (opțional)" : "E-mail (optional)"}
-        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-      />
+      <div>
+        <input
+          required
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+          }}
+          placeholder={language === "ro" ? "E-mail" : "E-mail"}
+          className={`w-full rounded-xl border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+        />
+        {fieldErrors.email && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.email}</p>}
+      </div>
 
-      <input
-        value={budget}
-        onChange={(e) => setBudget(e.target.value)}
-        placeholder={language === "ro" ? "Buget estimat (€)" : "Estimated budget (€)"}
-        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-      />
+      <div>
+        <input
+          required
+          value={budget}
+          onChange={(e) => {
+            setBudget(e.target.value);
+            if (fieldErrors.budget) setFieldErrors({ ...fieldErrors, budget: undefined });
+          }}
+          placeholder={language === "ro" ? "Buget estimat (€)" : "Estimated budget (€)"}
+          className={`w-full rounded-xl border ${fieldErrors.budget ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+        />
+        {fieldErrors.budget && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.budget}</p>}
+      </div>
 
-      <select
-        value={propertyType}
-        onChange={(e) => setPropertyType(e.target.value)}
-        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-350 focus:border-amber-500/50 focus:outline-none transition-colors"
-      >
-        <option value="">{language === "ro" ? "Tipul proprietății dorite" : "Desired property type"}</option>
-        <option value="Apartament">{language === "ro" ? "Apartament" : "Apartment"}</option>
-        <option value="Casă / Vilă">{language === "ro" ? "Casă / Vilă" : "House / Villa"}</option>
-        <option value="Penthouse">Penthouse</option>
-        <option value="Comercial / Birou">{language === "ro" ? "Comercial / Birou" : "Commercial / Office"}</option>
-        <option value="Teren">{language === "ro" ? "Teren" : "Land"}</option>
-        <option value="Orice oportunitate bună">{language === "ro" ? "Orice oportunitate bună" : "Any good opportunity"}</option>
-      </select>
+      <div>
+        <select
+          required
+          value={propertyType}
+          onChange={(e) => {
+            setPropertyType(e.target.value);
+            if (fieldErrors.propertyType) setFieldErrors({ ...fieldErrors, propertyType: undefined });
+          }}
+          className={`w-full rounded-xl border ${fieldErrors.propertyType ? 'border-red-500 text-red-500' : 'border-zinc-300 text-zinc-350'} bg-zinc-50 px-4 py-2.5 text-sm focus:border-amber-500/50 focus:outline-none transition-colors`}
+        >
+          <option value="">{language === "ro" ? "Tipul proprietății dorite" : "Desired property type"}</option>
+          <option value="Apartament">{language === "ro" ? "Apartament" : "Apartment"}</option>
+          <option value="Casă / Vilă">{language === "ro" ? "Casă / Vilă" : "House / Villa"}</option>
+          <option value="Penthouse">Penthouse</option>
+          <option value="Comercial / Birou">{language === "ro" ? "Comercial / Birou" : "Commercial / Office"}</option>
+          <option value="Teren">{language === "ro" ? "Teren" : "Land"}</option>
+          <option value="Orice oportunitate bună">{language === "ro" ? "Orice oportunitate bună" : "Any good opportunity"}</option>
+        </select>
+        {fieldErrors.propertyType && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.propertyType}</p>}
+      </div>
 
       <textarea
         value={details}
@@ -135,25 +194,40 @@ export default function BuyerLeadForm() {
         className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none"
       />
 
-      <p className="text-[10px] text-zinc-500 leading-normal text-left">
-        {language === "ro" ? (
-          <>
-            Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-              Politica de Confidențialitate & Notificarea GDPR AiX OS™
-            </Link>{" "}
-            și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-          </>
-        ) : (
-          <>
-            By submitting this form, you confirm that you have read and agree to the{" "}
-            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-              AiX OS™ Privacy Policy & GDPR Notice
-            </Link>{" "}
-            and consent to being contacted regarding your enquiry and requested services.
-          </>
-        )}
-      </p>
+      <div>
+        <label className="flex items-start gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            checked={gdpr}
+            onChange={(e) => {
+              setGdpr(e.target.checked);
+              if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+            }}
+            className="mt-0.5"
+          />
+          <p className="text-[10px] text-zinc-500 leading-normal text-left">
+            {language === "ro" ? (
+              <>
+                Confirm că am citit și sunt de acord cu{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                </Link>{" "}
+                și accept să fiu contactat.
+              </>
+            ) : (
+              <>
+                I confirm that I have read and agree to the{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  AiX OS™ Privacy Policy & GDPR Notice
+                </Link>{" "}
+                and consent to being contacted.
+              </>
+            )}
+          </p>
+        </label>
+        {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.gdpr}</p>}
+      </div>
 
       <button
         type="submit"

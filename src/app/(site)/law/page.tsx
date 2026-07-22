@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
 import {
   Scale,
   Shield,
@@ -208,12 +209,33 @@ export default function LawPage() {
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSuccess, setLeadSuccess] = useState(false);
   const [leadError, setLeadError] = useState("");
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, details?: string, gdpr?: string}>({});
 
   const handleRequestLawConsult = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!leadName || !leadPhone) return;
-    setLeadLoading(true);
     setLeadError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(leadName);
+    const phoneErr = validatePhone(leadPhone);
+    const emailErr = validateEmail(leadEmail);
+    const detailsErr = !leadDetails ? "Câmp obligatoriu" : null;
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || detailsErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        details: detailsErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
+
+    setLeadLoading(true);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -222,7 +244,7 @@ export default function LawPage() {
           service: "RO Law Consultation",
           name: leadName,
           phone: leadPhone,
-          email: leadEmail || undefined,
+          email: leadEmail,
           message: leadDetails,
           source: "law-consult-form",
           page: "/law",
@@ -614,44 +636,84 @@ export default function LawPage() {
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-3">
-                  <input
-                    required
-                    value={leadName}
-                    onChange={(e) => setLeadName(e.target.value)}
-                    placeholder="Nume"
-                    className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
-                  />
-                  <input
-                    required
-                    type="tel"
-                    value={leadPhone}
-                    onChange={(e) => setLeadPhone(e.target.value)}
-                    placeholder="Telefon"
-                    className="rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
-                  />
+                  <div>
+                    <input
+                      required
+                      value={leadName}
+                      onChange={(e) => {
+                        setLeadName(e.target.value);
+                        if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                      }}
+                      placeholder="Nume"
+                      className={`w-full rounded-xl border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none`}
+                    />
+                    {fieldErrors.name && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.name}</p>}
+                  </div>
+                  <div>
+                    <input
+                      required
+                      type="tel"
+                      value={leadPhone}
+                      onChange={(e) => {
+                        setLeadPhone(e.target.value);
+                        if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+                      }}
+                      placeholder="Telefon"
+                      className={`w-full rounded-xl border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none`}
+                    />
+                    {fieldErrors.phone && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.phone}</p>}
+                  </div>
                 </div>
-                <input
-                  type="email"
-                  value={leadEmail}
-                  onChange={(e) => setLeadEmail(e.target.value)}
-                  placeholder="E-mail (opțional)"
-                  className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
-                />
-                <textarea
-                  required
-                  value={leadDetails}
-                  onChange={(e) => setLeadDetails(e.target.value)}
-                  placeholder="Descrieți speța juridică pe scurt..."
-                  rows={3}
-                  className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none"
-                />
-                <p className="text-[10px] text-zinc-500 leading-normal text-left">
-                  Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                    Politica de Confidențialitate & Notificarea GDPR AiX OS™
-                  </Link>{" "}
-                  și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-                </p>
+                <div>
+                  <input
+                    type="email"
+                    required
+                    value={leadEmail}
+                    onChange={(e) => {
+                      setLeadEmail(e.target.value);
+                      if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                    }}
+                    placeholder="E-mail"
+                    className={`w-full rounded-xl border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none`}
+                  />
+                  {fieldErrors.email && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.email}</p>}
+                </div>
+                <div>
+                  <textarea
+                    required
+                    value={leadDetails}
+                    onChange={(e) => {
+                      setLeadDetails(e.target.value);
+                      if (fieldErrors.details) setFieldErrors({ ...fieldErrors, details: undefined });
+                    }}
+                    placeholder="Descrieți speța juridică pe scurt..."
+                    rows={3}
+                    className={`w-full rounded-xl border ${fieldErrors.details ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none`}
+                  />
+                  {fieldErrors.details && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.details}</p>}
+                </div>
+                <div>
+                  <label className="flex items-start gap-2 cursor-pointer mb-2">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={gdpr}
+                      onChange={(e) => {
+                        setGdpr(e.target.checked);
+                        if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                      }}
+                      className="mt-0.5"
+                    />
+                    <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                      </Link>{" "}
+                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                    </p>
+                  </label>
+                  {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.gdpr}</p>}
+                </div>
                 <button
                   type="submit"
                   disabled={leadLoading}

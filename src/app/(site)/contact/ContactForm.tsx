@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { submitContactForm } from "@/lib/contactSubmit";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox } from "@/lib/validation";
 import Link from "next/link";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -67,17 +69,43 @@ export default function ContactForm() {
     message: "",
   });
 
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, subject?: string, gdpr?: string}>({});
+
   const subjects = language === "ro" ? SUBJECTS_RO : SUBJECTS_EN;
   const budgets = language === "ro" ? BUDGETS_RO : BUDGETS_EN;
 
   function update(field: keyof typeof formData, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (field in fieldErrors) {
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
     setErrorMessage("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(formData.name);
+    const phoneErr = validatePhone(formData.phone);
+    const emailErr = validateEmail(formData.email);
+    const subjectErr = validateSelect(formData.subject);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || subjectErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        subject: subjectErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      setStatus("idle");
+      return;
+    }
 
     try {
       const res = await fetch("/api/contact", {
@@ -87,7 +115,7 @@ export default function ContactForm() {
           service: formData.subject || "General Contact",
           name: formData.name,
           phone: formData.phone,
-          email: formData.email || undefined,
+          email: formData.email,
           message: `Subject: ${formData.subject}\nBudget: ${formData.budget || "N/A"}\nMessage: ${formData.message || "N/A"}`,
           source: "contact-form",
           page: "/contact",
@@ -108,7 +136,7 @@ export default function ContactForm() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-zinc-300 bg-zinc-100/50 px-4 py-3 text-sm text-zinc-200 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 transition-all";
+    "w-full rounded-xl border border-zinc-300 bg-zinc-100/50 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/40 focus:outline-none focus:ring-1 focus:ring-amber-500/20 transition-all";
 
   if (status === "success") {
     return (
@@ -127,6 +155,7 @@ export default function ContactForm() {
           onClick={() => {
             setStatus("idle");
             setFormData({ name: "", email: "", phone: "", subject: "", budget: "", message: "" });
+            setGdpr(false);
           }}
           className="text-sm font-semibold text-amber-500/80 hover:text-amber-400 transition-colors"
         >
@@ -169,8 +198,9 @@ export default function ContactForm() {
             placeholder={language === "ro" ? "Prenumele tău" : "Your name"}
             value={formData.name}
             onChange={(e) => update("name", e.target.value)}
-            className={inputClass}
+            className={`${inputClass} ${fieldErrors.name ? 'border-red-500' : ''}`}
           />
+          {fieldErrors.name && <p className="text-red-500 text-[10px]">{fieldErrors.name}</p>}
         </div>
         <div className="space-y-1.5 text-left">
           <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-550">
@@ -182,20 +212,25 @@ export default function ContactForm() {
             placeholder={language === "ro" ? "+43 650..." : "+43 650..."}
             value={formData.phone}
             onChange={(e) => update("phone", e.target.value)}
-            className={inputClass}
+            className={`${inputClass} ${fieldErrors.phone ? 'border-red-500' : ''}`}
           />
+          {fieldErrors.phone && <p className="text-red-500 text-[10px]">{fieldErrors.phone}</p>}
         </div>
       </div>
 
       <div className="space-y-1.5 text-left">
-        <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-550">Email</label>
+        <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-550">
+          Email <span className="text-red-400">*</span>
+        </label>
         <input
           type="email"
+          required
           placeholder="email@exemplu.com"
           value={formData.email}
           onChange={(e) => update("email", e.target.value)}
-          className={inputClass}
+          className={`${inputClass} ${fieldErrors.email ? 'border-red-500' : ''}`}
         />
+        {fieldErrors.email && <p className="text-red-500 text-[10px]">{fieldErrors.email}</p>}
       </div>
 
       <div className="space-y-1.5 text-left">
@@ -206,7 +241,7 @@ export default function ContactForm() {
           required
           value={formData.subject}
           onChange={(e) => update("subject", e.target.value)}
-          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
+          className={`w-full rounded-xl border ${fieldErrors.subject ? 'border-red-500 text-red-500' : 'border-zinc-300 text-zinc-900'} bg-zinc-50 px-4 py-3 text-sm focus:border-amber-500/40 focus:outline-none transition-all`}
         >
           <option value="">
             {language === "ro" ? "Selectează subiectul…" : "Select subject…"}
@@ -217,6 +252,7 @@ export default function ContactForm() {
             </option>
           ))}
         </select>
+        {fieldErrors.subject && <p className="text-red-500 text-[10px]">{fieldErrors.subject}</p>}
       </div>
 
       <div className="space-y-1.5 text-left">
@@ -226,7 +262,7 @@ export default function ContactForm() {
         <select
           value={formData.budget}
           onChange={(e) => update("budget", e.target.value)}
-          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-200 focus:border-amber-500/40 focus:outline-none transition-all"
+          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 focus:border-amber-500/40 focus:outline-none transition-all"
         >
           <option value="">
             {language === "ro" ? "Selectează intervalul…" : "Select range…"}
@@ -264,25 +300,40 @@ export default function ContactForm() {
         </div>
       )}
 
-      <p className="text-[10px] text-zinc-500 leading-normal mb-3 text-left">
-        {language === "ro" ? (
-          <>
-            Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-              Politica de Confidențialitate & Notificarea GDPR AiX OS™
-            </Link>{" "}
-            și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-          </>
-        ) : (
-          <>
-            By submitting this form, you confirm that you have read and agree to the{" "}
-            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-              AiX OS™ Privacy Policy & GDPR Notice
-            </Link>{" "}
-            and consent to being contacted regarding your enquiry and requested services.
-          </>
-        )}
-      </p>
+      <div>
+        <label className="flex items-start gap-2 cursor-pointer mb-3">
+          <input
+            type="checkbox"
+            required
+            checked={gdpr}
+            onChange={(e) => {
+              setGdpr(e.target.checked);
+              if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+            }}
+            className="mt-0.5"
+          />
+          <p className="text-[10px] text-zinc-500 leading-normal text-left">
+            {language === "ro" ? (
+              <>
+                Confirm că am citit și sunt de acord cu{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                </Link>{" "}
+                și accept să fiu contactat.
+              </>
+            ) : (
+              <>
+                I confirm that I have read and agree to the{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  AiX OS™ Privacy Policy & GDPR Notice
+                </Link>{" "}
+                and consent to being contacted.
+              </>
+            )}
+          </p>
+        </label>
+        {fieldErrors.gdpr && <p className="text-red-500 text-[10px] -mt-2 mb-3 text-left">{fieldErrors.gdpr}</p>}
+      </div>
 
       <button
         type="submit"

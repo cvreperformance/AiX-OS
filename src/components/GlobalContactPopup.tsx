@@ -15,6 +15,7 @@ import { brandContent } from "@/lib/content/brand";
 import { submitContactForm } from "@/lib/contactSubmit";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import { validateName, validatePhone, validateCheckbox } from "@/lib/validation";
 
 const SHOWN_KEY = "aix_global_popup_shown_v5";
 
@@ -91,9 +92,24 @@ export function GlobalContactPopup() {
     setVisible(false);
   }
 
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, gdpr?: string}>({});
+  const [gdpr, setGdpr] = useState(false);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || gdprErr) {
+      setFieldErrors({ name: nameErr || undefined, phone: phoneErr || undefined, gdpr: gdprErr || undefined });
+      return;
+    }
+
     setLoading(true);
     try {
       await submitContactForm({
@@ -217,41 +233,68 @@ export function GlobalContactPopup() {
               </div>
             )}
             <div className="grid grid-cols-2 gap-2">
-              <input
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={language === "ro" ? "Nume" : "Name"}
-                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
-              />
-              <input
-                required
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder={language === "ro" ? "Telefon" : "Phone"}
-                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
-              />
+              <div>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                  }}
+                  placeholder={language === "ro" ? "Nume" : "Name"}
+                  className={`w-full rounded-lg border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-200'} bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none`}
+                />
+                {fieldErrors.name && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.name}</p>}
+              </div>
+              <div>
+                <input
+                  required
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+                  }}
+                  placeholder={language === "ro" ? "Telefon" : "Phone"}
+                  className={`w-full rounded-lg border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-200'} bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none`}
+                />
+                {fieldErrors.phone && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.phone}</p>}
+              </div>
             </div>
-            <p className="text-[8.5px] text-zinc-500 leading-normal text-left">
-              {language === "ro" ? (
-                <>
-                  Prin trimitere, confirmați că sunteți de acord cu{" "}
-                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                    Politica de Confidențialitate & Notificarea GDPR
-                  </Link>{" "}
-                  și acceptați să fiți contactat.
-                </>
-              ) : (
-                <>
-                  By submitting, you agree to the{" "}
-                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                    Privacy Policy & GDPR Notice
-                  </Link>{" "}
-                  and consent to contact.
-                </>
-              )}
-            </p>
+            <div>
+              <label className="flex items-start gap-2 cursor-pointer mb-2">
+                <input
+                  type="checkbox"
+                  required
+                  checked={gdpr}
+                  onChange={(e) => {
+                    setGdpr(e.target.checked);
+                    if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                  }}
+                  className="mt-0.5"
+                />
+                <p className="text-[8.5px] text-zinc-500 leading-normal text-left">
+                  {language === "ro" ? (
+                    <>
+                      Prin trimitere, confirmați că sunteți de acord cu{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Politica de Confidențialitate & Notificarea GDPR
+                      </Link>{" "}
+                      și acceptați să fiți contactat.
+                    </>
+                  ) : (
+                    <>
+                      By submitting, you agree to the{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Privacy Policy & GDPR Notice
+                      </Link>{" "}
+                      and consent to contact.
+                    </>
+                  )}
+                </p>
+              </label>
+              {fieldErrors.gdpr && <p className="text-red-500 text-[8.5px] mt-0.5">{fieldErrors.gdpr}</p>}
+            </div>
             <button
               type="submit"
               disabled={loading}

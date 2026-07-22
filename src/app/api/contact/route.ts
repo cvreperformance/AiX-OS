@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { sendTelegramAlert, sendEmailAlert } from "@/lib/notifications";
+import { validateName, validateEmail, validatePhone } from "@/lib/validation";
 
 // Simple in-memory rate limiter
 // Tracks IP address -> array of timestamps of requests
@@ -65,32 +66,36 @@ export async function POST(request: Request) {
       );
     }
 
-    const name = body.name.trim();
-    const phone = body.phone.trim();
+    const name = body.name?.trim() || "";
+    const phone = body.phone?.trim() || "";
     const email = body.email?.trim() || "";
     const message = body.message?.trim() || "";
-    const service = body.service.trim();
+    const service = body.service?.trim() || "";
     const page = body.page?.trim() || "/";
     const source = body.source?.trim() || "unknown";
 
-    // Simple email regex validation
+    // Validate using central validation logic
+
+    
+    const nameError = validateName(name);
+    if (nameError) {
+      return NextResponse.json({ error: nameError }, { status: 400 });
+    }
+
+    const phoneError = validatePhone(phone);
+    if (phoneError) {
+      return NextResponse.json({ error: phoneError }, { status: 400 });
+    }
+
     if (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return NextResponse.json(
-          { error: "Please enter a valid email address." },
-          { status: 400 }
-        );
+      const emailError = validateEmail(email);
+      if (emailError) {
+        return NextResponse.json({ error: emailError }, { status: 400 });
       }
     }
 
-    // Simple phone regex validation (allow +, digits, spaces, hyphens, min 6 digits)
-    const phoneRegex = /^\+?[0-9\s\-]{6,20}$/;
-    if (!phoneRegex.test(phone)) {
-      return NextResponse.json(
-        { error: "Please enter a valid phone number." },
-        { status: 400 }
-      );
+    if (!service) {
+      return NextResponse.json({ error: "Service type is required." }, { status: 400 });
     }
 
     const lead = {

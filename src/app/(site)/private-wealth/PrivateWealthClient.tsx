@@ -6,6 +6,7 @@ import { designSystem } from "@/styles/designSystem";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
+import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
 import { PageHeader } from "@/components/ui";
 
 const BENEFITS = [
@@ -603,12 +604,31 @@ function OffMarketTab() {
   const [message, setMessage] = useState("");
   const [botfield, setBotfield] = useState("");
   const [error, setError] = useState("");
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, gdpr?: string}>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError("");
+    setFieldErrors({});
 
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const emailErr = validateEmail(email);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -731,15 +751,17 @@ function OffMarketTab() {
                   <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Nume Complet</label>
                   <div className="relative">
                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="Ion Popescu" />
+                    <input required type="text" value={name} onChange={(e) => { setName(e.target.value); if(fieldErrors.name) setFieldErrors({...fieldErrors, name: undefined}); }} className={`w-full bg-white/50 border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`} placeholder="Ion Popescu" />
                   </div>
+                  {fieldErrors.name && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.name}</p>}
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Telefon / WhatsApp</label>
                   <div className="relative">
                     <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                    <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="+40 700 000 000" />
+                    <input required type="tel" value={phone} onChange={(e) => { setPhone(e.target.value); if(fieldErrors.phone) setFieldErrors({...fieldErrors, phone: undefined}); }} className={`w-full bg-white/50 border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`} placeholder="+40 700 000 000" />
                   </div>
+                  {fieldErrors.phone && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.phone}</p>}
                 </div>
               </div>
 
@@ -747,8 +769,9 @@ function OffMarketTab() {
                 <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Email Corporate/Personal</label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600" />
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors" placeholder="adresa@companie.com" />
+                  <input required type="email" value={email} onChange={(e) => { setEmail(e.target.value); if(fieldErrors.email) setFieldErrors({...fieldErrors, email: undefined}); }} className={`w-full bg-white/50 border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`} placeholder="adresa@companie.com" />
                 </div>
+                {fieldErrors.email && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.email}</p>}
               </div>
 
               <div className="space-y-1.5 pt-2">
@@ -759,13 +782,28 @@ function OffMarketTab() {
                 </div>
               </div>
 
-              <p className="text-[10px] text-zinc-500 leading-normal text-left">
-                Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                  Politica de Confidențialitate & Notificarea GDPR AiX OS™
-                </Link>{" "}
-                și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-              </p>
+              <div>
+                <label className="flex items-start gap-2 cursor-pointer mb-2">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={gdpr}
+                    onChange={(e) => {
+                      setGdpr(e.target.checked);
+                      if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                    }}
+                    className="mt-0.5"
+                  />
+                  <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                    Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                    <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                      Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                    </Link>{" "}
+                    și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                  </p>
+                </label>
+                {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.gdpr}</p>}
+              </div>
 
               <button 
                 type="submit"

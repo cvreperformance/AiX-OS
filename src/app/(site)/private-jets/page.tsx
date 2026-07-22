@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
+import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
 import {
   Plane,
   Calendar,
@@ -169,6 +171,8 @@ export default function PrivateJetsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, from?: string, to?: string, date?: string, gdpr?: string}>({});
 
   // Flight Tracker State
   const [trackQuery, setTrackQuery] = useState("");
@@ -215,13 +219,32 @@ export default function PrivateJetsPage() {
   // POST request details to unified contact API
   const handleRequestBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!from || !to || !date || !name || !phone) {
-      setSubmitError("Vă rugăm să completați numele, telefonul, plecarea, sosirea și data.");
+    setSubmitError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const emailErr = validateEmail(email);
+    const fromErr = !from ? "Câmp obligatoriu" : null;
+    const toErr = !to ? "Câmp obligatoriu" : null;
+    const dateErr = !date ? "Câmp obligatoriu" : null;
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || fromErr || toErr || dateErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        from: fromErr || undefined,
+        to: toErr || undefined,
+        date: dateErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
       return;
     }
 
     setIsSubmitting(true);
-    setSubmitError("");
 
     try {
       const response = await fetch("/api/contact", {
@@ -231,7 +254,7 @@ export default function PrivateJetsPage() {
           service: "Private Jets & Luxury Booking",
           name,
           phone,
-          email: email || undefined,
+          email,
           message: `Charter request details:\nFrom: ${from}\nTo: ${to}\nDate: ${date}\nPassengers: ${pax}\nJet Class: ${jetClass.toUpperCase()}`,
           source: "private-jets-page",
           page: "/private-jets",
@@ -324,29 +347,48 @@ export default function PrivateJetsPage() {
               <div className="space-y-3.5 border-b border-zinc-200 pb-4">
                 <p className="text-[9px] font-mono tracking-widest text-zinc-550 uppercase">Detalii Pasager</p>
                 <div className="grid grid-cols-2 gap-4">
-                  <input
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Nume Complet"
-                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
-                  />
-                  <input
-                    required
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Telefon / WhatsApp"
-                    className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
-                  />
+                  <div>
+                    <input
+                      required
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                      }}
+                      placeholder="Nume Complet"
+                      className={`w-full rounded-xl border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
+                    />
+                    {fieldErrors.name && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.name}</p>}
+                  </div>
+                  <div>
+                    <input
+                      required
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                        if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+                      }}
+                      placeholder="Telefon / WhatsApp"
+                      className={`w-full rounded-xl border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
+                    />
+                    {fieldErrors.phone && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.phone}</p>}
+                  </div>
                 </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-mail (opțional)"
-                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
-                />
+                <div>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                    }}
+                    placeholder="E-mail"
+                    className={`w-full rounded-xl border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 px-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
+                  />
+                  {fieldErrors.email && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.email}</p>}
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -358,11 +400,15 @@ export default function PrivateJetsPage() {
                       type="text"
                       placeholder="București (BBU)"
                       value={from}
-                      onChange={(e) => setFrom(e.target.value)}
-                      className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      onChange={(e) => {
+                        setFrom(e.target.value);
+                        if (fieldErrors.from) setFieldErrors({ ...fieldErrors, from: undefined });
+                      }}
+                      className={`w-full rounded-xl border ${fieldErrors.from ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
                       required
                     />
                   </div>
+                  {fieldErrors.from && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.from}</p>}
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Sosire (Destinație)</label>
@@ -372,11 +418,15 @@ export default function PrivateJetsPage() {
                       type="text"
                       placeholder="Nice (NCE)"
                       value={to}
-                      onChange={(e) => setTo(e.target.value)}
-                      className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      onChange={(e) => {
+                        setTo(e.target.value);
+                        if (fieldErrors.to) setFieldErrors({ ...fieldErrors, to: undefined });
+                      }}
+                      className={`w-full rounded-xl border ${fieldErrors.to ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
                       required
                     />
                   </div>
+                  {fieldErrors.to && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.to}</p>}
                 </div>
               </div>
 
@@ -388,11 +438,15 @@ export default function PrivateJetsPage() {
                     <input
                       type="date"
                       value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      className="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors"
+                      onChange={(e) => {
+                        setDate(e.target.value);
+                        if (fieldErrors.date) setFieldErrors({ ...fieldErrors, date: undefined });
+                      }}
+                      className={`w-full rounded-xl border ${fieldErrors.date ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/50 py-2.5 pl-9 pr-4 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500 focus:outline-none transition-colors`}
                       required
                     />
                   </div>
+                  {fieldErrors.date && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.date}</p>}
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Pasageri</label>
@@ -436,13 +490,28 @@ export default function PrivateJetsPage() {
                 </div>
               </div>
 
-              <p className="text-[10px] text-zinc-500 leading-normal text-left">
-                By submitting this form, you confirm that you have read and agree to the{" "}
-                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                  AiX OS™ Privacy Policy & GDPR Notice
-                </Link>{" "}
-                and consent to being contacted regarding your enquiry and requested services.
-              </p>
+              <div>
+                <label className="flex items-start gap-2 cursor-pointer mb-2">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={gdpr}
+                    onChange={(e) => {
+                      setGdpr(e.target.checked);
+                      if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                    }}
+                    className="mt-0.5"
+                  />
+                  <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                    By submitting this form, you confirm that you have read and agree to the{" "}
+                    <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                      AiX OS™ Privacy Policy & GDPR Notice
+                    </Link>{" "}
+                    and consent to being contacted regarding your enquiry and requested services.
+                  </p>
+                </label>
+                {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.gdpr}</p>}
+              </div>
 
               <button
                 type="submit"

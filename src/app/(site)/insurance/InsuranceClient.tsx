@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox } from "@/lib/validation";
 import { designSystem } from "@/styles/designSystem";
 import {
   Shield,
@@ -29,6 +30,8 @@ export default function InsuranceClient() {
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState("Locuință / Home");
   const [submitted, setSubmitted] = useState(false);
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, category?: string, gdpr?: string}>({});
 
   // Calculator state
   const [propertyValue, setPropertyValue] = useState(150000);
@@ -36,7 +39,25 @@ export default function InsuranceClient() {
 
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone) return;
+    setFieldErrors({});
+
+
+    const nameErr = validateName(name);
+    const phoneErr = validatePhone(phone);
+    const emailErr = validateEmail(email);
+    const categoryErr = validateSelect(category);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || categoryErr || gdprErr) {
+      setFieldErrors({
+        name: nameErr || undefined,
+        phone: phoneErr || undefined,
+        email: emailErr || undefined,
+        category: categoryErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
     
     try {
       const response = await fetch("/api/contact", {
@@ -46,7 +67,7 @@ export default function InsuranceClient() {
           service: "Insurance Quote Request",
           name,
           phone,
-          email: email || undefined,
+          email,
           message: `Insurance Quote Requested: Type: ${category}, Value: €${propertyValue}, Risk Tier: ${riskTier}`,
           source: "insurance-page",
           page: "/insurance",
@@ -343,59 +364,100 @@ export default function InsuranceClient() {
         ) : (
           <form onSubmit={handleLeadSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={language === "ro" ? "Numele tău" : "Your Name"}
-                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
-              />
-              <input
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder={language === "ro" ? "Telefon" : "Phone Number"}
-                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
-              />
+              <div>
+                <input
+                  required
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                  }}
+                  placeholder={language === "ro" ? "Numele tău" : "Your Name"}
+                  className={`w-full rounded-xl border ${fieldErrors.name ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                />
+                {fieldErrors.name && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.name}</p>}
+              </div>
+              <div>
+                <input
+                  required
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (fieldErrors.phone) setFieldErrors({ ...fieldErrors, phone: undefined });
+                  }}
+                  placeholder={language === "ro" ? "Telefon" : "Phone Number"}
+                  className={`w-full rounded-xl border ${fieldErrors.phone ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                />
+                {fieldErrors.phone && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.phone}</p>}
+              </div>
             </div>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={language === "ro" ? "Email (opțional)" : "Email Address (optional)"}
-              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
-            />
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-600 focus:border-amber-500/50 focus:outline-none transition-colors"
-            >
-              <option value="Locuință / Home">{language === "ro" ? "Asigurare Locuință" : "Home / Property Insurance"}</option>
-              <option value="Viață / Life">{language === "ro" ? "Asigurare de Viață" : "Life & Mortgage Insurance"}</option>
-              <option value="Sănătate / Health">{language === "ro" ? "Asigurare Sănătate" : "Private Medical Insurance"}</option>
-              <option value="Auto / Motor">{language === "ro" ? "Asigurare Auto (RCA / CASCO)" : "Motor Insurance (RCA/CASCO)"}</option>
-              <option value="Business / Corp">{language === "ro" ? "Asigurare Business / Corporate" : "Corporate & D&O Insurance"}</option>
-            </select>
+            <div>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                }}
+                placeholder={language === "ro" ? "Email" : "Email Address"}
+                className={`w-full rounded-xl border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
+              />
+              {fieldErrors.email && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.email}</p>}
+            </div>
+            <div>
+              <select
+                required
+                value={category}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                  if (fieldErrors.category) setFieldErrors({ ...fieldErrors, category: undefined });
+                }}
+                className={`w-full rounded-xl border ${fieldErrors.category ? 'border-red-500 text-red-500' : 'border-zinc-200 text-zinc-900'} bg-zinc-50/40 px-4 py-2.5 text-xs focus:border-amber-500/50 focus:outline-none transition-colors`}
+              >
+                <option value="Locuință / Home">{language === "ro" ? "Asigurare Locuință" : "Home / Property Insurance"}</option>
+                <option value="Viață / Life">{language === "ro" ? "Asigurare de Viață" : "Life & Mortgage Insurance"}</option>
+                <option value="Sănătate / Health">{language === "ro" ? "Asigurare Sănătate" : "Private Medical Insurance"}</option>
+                <option value="Auto / Motor">{language === "ro" ? "Asigurare Auto (RCA / CASCO)" : "Motor Insurance (RCA/CASCO)"}</option>
+                <option value="Business / Corp">{language === "ro" ? "Asigurare Business / Corporate" : "Corporate & D&O Insurance"}</option>
+              </select>
+              {fieldErrors.category && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.category}</p>}
+            </div>
 
-            <p className="text-[10px] text-zinc-500 leading-normal text-left">
-              {language === "ro" ? (
-                <>
-                  Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                    Politica de Confidențialitate & Notificarea GDPR AiX OS™
-                  </Link>{" "}
-                  și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-                </>
-              ) : (
-                <>
-                  By submitting this form, you confirm that you have read and agree to the{" "}
-                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                    AiX OS™ Privacy Policy & GDPR Notice
-                  </Link>{" "}
-                  and consent to being contacted regarding your enquiry and requested services.
-                </>
-              )}
-            </p>
+            <div>
+              <label className="flex items-start gap-2 cursor-pointer mb-2">
+                <input
+                  type="checkbox"
+                  required
+                  checked={gdpr}
+                  onChange={(e) => {
+                    setGdpr(e.target.checked);
+                    if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                  }}
+                  className="mt-0.5"
+                />
+                <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                  {language === "ro" ? (
+                    <>
+                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                      </Link>{" "}
+                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                    </>
+                  ) : (
+                    <>
+                      By submitting this form, you confirm that you have read and agree to the{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        AiX OS™ Privacy Policy & GDPR Notice
+                      </Link>{" "}
+                      and consent to being contacted regarding your enquiry and requested services.
+                    </>
+                  )}
+                </p>
+              </label>
+              {fieldErrors.gdpr && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.gdpr}</p>}
+            </div>
 
             <button
               type="submit"

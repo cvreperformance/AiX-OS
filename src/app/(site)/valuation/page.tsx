@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
 import Link from "next/link";
 import { PageHeader } from "@/components/ui";
 import { Brain, BarChart3, TrendingUp, MapPin, Building2, Zap, Target, Clock, Star } from "lucide-react";
@@ -40,12 +42,31 @@ export default function ValuationPage() {
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSuccess, setLeadSuccess] = useState(false);
   const [leadError, setLeadError] = useState("");
+  const [gdpr, setGdpr] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{leadName?: string, leadPhone?: string, leadEmail?: string, gdpr?: string}>({});
 
   const handleRequestReport = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!leadName || !leadPhone) return;
-    setLeadLoading(true);
     setLeadError("");
+    setFieldErrors({});
+
+
+    const nameErr = validateName(leadName);
+    const phoneErr = validatePhone(leadPhone);
+    const emailErr = validateEmail(leadEmail);
+    const gdprErr = validateCheckbox(gdpr);
+
+    if (nameErr || phoneErr || emailErr || gdprErr) {
+      setFieldErrors({
+        leadName: nameErr || undefined,
+        leadPhone: phoneErr || undefined,
+        leadEmail: emailErr || undefined,
+        gdpr: gdprErr || undefined,
+      });
+      return;
+    }
+
+    setLeadLoading(true);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -54,7 +75,7 @@ export default function ValuationPage() {
           service: "AI Property Valuation",
           name: leadName,
           phone: leadPhone,
-          email: leadEmail || undefined,
+          email: leadEmail,
           message: `Solicitare Raport Oficial pentru Adresa: ${address}. Suprafata: ${sqm} mp, Tip: ${type}, Finisaje: ${finishes}. Valoare Evaluare AI: ${result?.avg}`,
           source: "valuation-report-cta",
           page: "/valuation",
@@ -258,36 +279,72 @@ export default function ValuationPage() {
                       </div>
                     )}
                     <div className="grid grid-cols-2 gap-2">
-                      <input
-                        required
-                        value={leadName}
-                        onChange={(e) => setLeadName(e.target.value)}
-                        placeholder="Numele dvs."
-                        className="rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-                      />
-                      <input
-                        required
-                        type="tel"
-                        value={leadPhone}
-                        onChange={(e) => setLeadPhone(e.target.value)}
-                        placeholder="Telefon"
-                        className="rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-                      />
+                      <div>
+                        <input
+                          required
+                          value={leadName}
+                          onChange={(e) => {
+                            setLeadName(e.target.value);
+                            if (fieldErrors.leadName) setFieldErrors({ ...fieldErrors, leadName: undefined });
+                          }}
+                          placeholder="Numele dvs."
+                          className={`w-full rounded-lg border ${fieldErrors.leadName ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                        />
+                        {fieldErrors.leadName && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.leadName}</p>}
+                      </div>
+                      <div>
+                        <input
+                          required
+                          type="tel"
+                          value={leadPhone}
+                          onChange={(e) => {
+                            setLeadPhone(e.target.value);
+                            if (fieldErrors.leadPhone) setFieldErrors({ ...fieldErrors, leadPhone: undefined });
+                          }}
+                          placeholder="Telefon"
+                          className={`w-full rounded-lg border ${fieldErrors.leadPhone ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                        />
+                        {fieldErrors.leadPhone && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.leadPhone}</p>}
+                      </div>
                     </div>
-                    <input
-                      type="email"
-                      value={leadEmail}
-                      onChange={(e) => setLeadEmail(e.target.value)}
-                      placeholder="E-mail (opțional)"
-                      className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
-                    />
-                    <p className="text-[9px] text-zinc-500 leading-normal mb-2 text-left">
-                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
-                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
-                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
-                      </Link>{" "}
-                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
-                    </p>
+                    <div>
+                      <input
+                        required
+                        type="email"
+                        value={leadEmail}
+                        onChange={(e) => {
+                          setLeadEmail(e.target.value);
+                          if (fieldErrors.leadEmail) setFieldErrors({ ...fieldErrors, leadEmail: undefined });
+                        }}
+                        placeholder="E-mail"
+                        className={`w-full rounded-lg border ${fieldErrors.leadEmail ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                      />
+                      {fieldErrors.leadEmail && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.leadEmail}</p>}
+                    </div>
+                    
+                    <div>
+                      <label className="flex items-start gap-2 cursor-pointer mb-2">
+                        <input
+                          type="checkbox"
+                          required
+                          checked={gdpr}
+                          onChange={(e) => {
+                            setGdpr(e.target.checked);
+                            if (fieldErrors.gdpr) setFieldErrors({ ...fieldErrors, gdpr: undefined });
+                          }}
+                          className="mt-0.5"
+                        />
+                        <p className="text-[9px] text-zinc-500 leading-normal text-left">
+                          Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                          <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                            Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                          </Link>{" "}
+                          și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                        </p>
+                      </label>
+                      {fieldErrors.gdpr && <p className="text-red-500 text-[9px] mt-0.5">{fieldErrors.gdpr}</p>}
+                    </div>
+
                     <button
                       type="submit"
                       disabled={leadLoading}
