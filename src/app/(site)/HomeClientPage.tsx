@@ -631,25 +631,28 @@ export default function HomeClientPage({ featuredProperties, featuredNews, stats
         </div>
 
         {/* Dashboard CTA */}
-        <div className="p-8 sm:p-12 rounded-3xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100/50 text-center space-y-6 relative z-10 mt-8 shadow-sm">
-          <div className="mx-auto w-fit p-3.5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
-            <Lock className="h-6 w-6 text-zinc-400" />
+        <div className="p-8 sm:p-12 rounded-3xl border border-white/10 bg-gradient-to-b from-[#151515] to-[#0B0B0B] backdrop-blur-2xl text-center space-y-6 relative z-10 mt-8 shadow-2xl shadow-black/50 overflow-hidden">
+          {/* Subtle gradient background */}
+          <div className="absolute inset-0 bg-[#c96b1d]/[0.02] blur-3xl pointer-events-none rounded-full" />
+          
+          <div className="mx-auto w-fit p-3.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-md shadow-inner relative">
+            <Lock className="h-6 w-6 text-[#c96b1d]" />
           </div>
-          <div className="space-y-2 max-w-lg mx-auto">
-            <h3 className="text-xl sm:text-2xl font-semibold text-zinc-900 tracking-tight">
+          <div className="space-y-2 max-w-lg mx-auto relative">
+            <h3 className="text-xl sm:text-2xl font-medium text-white tracking-wide">
               {language === "ro" ? "Experimentează Dashboard-ul de Inteligență AiX OS™" : "Experience the complete AiX OS™ Intelligence Dashboard"}
             </h3>
-            <p className="text-sm text-zinc-500 leading-relaxed">
+            <p className="text-sm text-zinc-300 leading-relaxed">
               {language === "ro" 
                 ? "Funcționalitatea completă este disponibilă exclusiv pentru utilizatorii aprobați."
                 : "The complete Dashboard remains available only to approved users."}
             </p>
           </div>
-          <div className="flex items-center justify-center gap-4 pt-2">
-            <Link href="/login" className="px-6 py-3 rounded-xl bg-zinc-900 text-white text-xs font-semibold hover:bg-zinc-800 transition-all shadow-md">
+          <div className="flex items-center justify-center gap-4 pt-2 relative">
+            <Link href="/login" className="px-6 py-3 rounded-xl bg-[#c96b1d] text-white text-xs font-semibold hover:bg-[#b05d18] transition-all shadow-lg shadow-black/20">
               {language === "ro" ? "Autentificare" : "Login"}
             </Link>
-            <Link href="/pricing" className="px-6 py-3 rounded-xl bg-white border border-zinc-200 text-zinc-900 text-xs font-semibold hover:bg-zinc-50 transition-all shadow-sm">
+            <Link href="/pricing" className="px-6 py-3 rounded-xl bg-[#111111] border border-white/10 text-zinc-300 text-xs font-semibold hover:bg-[#1A1A1A] hover:text-white transition-all shadow-md">
               {language === "ro" ? "Solicită Acces" : "Request Access"}
             </Link>
           </div>
