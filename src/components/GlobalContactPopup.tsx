@@ -14,6 +14,7 @@ import {
 import { brandContent } from "@/lib/content/brand";
 import { submitContactForm } from "@/lib/contactSubmit";
 import { useLanguage } from "@/context/LanguageContext";
+import Link from "next/link";
 
 const SHOWN_KEY = "aix_global_popup_shown_v5";
 
@@ -167,15 +168,15 @@ export function GlobalContactPopup() {
         </a>
 
         <a
-          href={`tel:${brandContent.contact.phoneRaw}`}
+          href={`tel:${brandContent.contact.phoneRORaw}`}
           className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 hover:bg-zinc-100 transition-all text-left"
         >
           <Phone className="h-4.5 w-4.5 text-zinc-400 shrink-0" />
           <div className="min-w-0">
             <p className="text-[10px] font-bold text-zinc-900">
-              {language === "ro" ? "Apel VIP" : "VIP Hotline"}
+              {language === "ro" ? "Sună" : "Call"}
             </p>
-            <p className="text-[8.5px] text-zinc-400 truncate">{brandContent.contact.phone}</p>
+            <p className="text-[8.5px] text-zinc-400 truncate">{brandContent.contact.phoneRO}</p>
           </div>
         </a>
 
@@ -232,6 +233,25 @@ export function GlobalContactPopup() {
                 className="rounded-lg border border-zinc-200 bg-white px-2.5 py-2 text-[10px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none"
               />
             </div>
+            <p className="text-[8.5px] text-zinc-500 leading-normal text-left">
+              {language === "ro" ? (
+                <>
+                  Prin trimitere, confirmați că sunteți de acord cu{" "}
+                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                    Politica de Confidențialitate & Notificarea GDPR
+                  </Link>{" "}
+                  și acceptați să fiți contactat.
+                </>
+              ) : (
+                <>
+                  By submitting, you agree to the{" "}
+                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                    Privacy Policy & GDPR Notice
+                  </Link>{" "}
+                  and consent to contact.
+                </>
+              )}
+            </p>
             <button
               type="submit"
               disabled={loading}

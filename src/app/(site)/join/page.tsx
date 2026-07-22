@@ -16,6 +16,7 @@ import {
 import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
 import { useLanguage } from "@/context/LanguageContext";
+import Link from "next/link";
 
 export default function JoinPage() {
   const { language } = useLanguage();
@@ -271,6 +272,26 @@ export default function JoinPage() {
               </div>
 
               <div className="space-y-3 mt-4">
+                <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                  {language === "ro" ? (
+                    <>
+                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                      </Link>{" "}
+                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                    </>
+                  ) : (
+                    <>
+                      By submitting this form, you confirm that you have read and agree to the{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        AiX OS™ Privacy Policy & GDPR Notice
+                      </Link>{" "}
+                      and consent to being contacted regarding your enquiry and requested services.
+                    </>
+                  )}
+                </p>
+
                 <button 
                   type="submit"
                   disabled={isSubmitting}
@@ -281,11 +302,6 @@ export default function JoinPage() {
                     : (language === "ro" ? "Continuă spre Cont" : "Continue to Account")}
                   {!isSubmitting && <ArrowRight className="h-4 w-4" />}
                 </button>
-                <p className="text-[9px] text-zinc-600 text-center px-2">
-                  {language === "ro"
-                    ? "Apăsând butonul, sunteți de acord cu Termenii și Condițiile și Politica de Confidențialitate AiX OS™."
-                    : "By clicking the button, you agree to AiX OS™ Terms & Conditions and Privacy Policy."}
-                </p>
               </div>
             </form>
           )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { PageHeader } from "@/components/ui";
 import {
@@ -434,6 +435,14 @@ export default function PrivateJetsPage() {
                   ))}
                 </div>
               </div>
+
+              <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                By submitting this form, you confirm that you have read and agree to the{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  AiX OS™ Privacy Policy & GDPR Notice
+                </Link>{" "}
+                and consent to being contacted regarding your enquiry and requested services.
+              </p>
 
               <button
                 type="submit"

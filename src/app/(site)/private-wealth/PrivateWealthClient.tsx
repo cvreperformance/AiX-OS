@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Globe, Users, Lock, Handshake, Star, Building2, ArrowRight, MessageCircle, ChevronRight, Activity, Award, TrendingUp, TrendingDown, Trophy, Landmark, Calculator, Calendar, Briefcase, Coins, DollarSign, TrendingUp as TrendUpIcon, EyeOff, Key, ShieldCheck, Send, User, Phone, Mail, Home } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
 import { useLanguage } from "@/context/LanguageContext";
+import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import { PageHeader } from "@/components/ui";
 
@@ -758,10 +759,18 @@ function OffMarketTab() {
                 </div>
               </div>
 
+              <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                  Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                </Link>{" "}
+                și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+              </p>
+
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full mt-4 bg-amber-500 hover:bg-amber-400 text-black py-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full mt-3 bg-amber-500 hover:bg-amber-400 text-black py-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   "Se trimite cererea securizată..."
@@ -772,10 +781,6 @@ function OffMarketTab() {
                   </>
                 )}
               </button>
-              
-              <p className="text-[9px] text-zinc-600 text-center px-4 pt-2">
-                Prin trimiterea acestui formular vă dați acordul pentru a fi contactat de un broker autorizat. Datele sunt criptate și nu sunt partajate terților.
-              </p>
             </form>
           )}
         </div>

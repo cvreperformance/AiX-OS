@@ -22,8 +22,8 @@ export const brandContent = {
   contact: {
     phone: "+43 650 953 6345",
     phoneRaw: "+436509536345",
-    phoneRO: "+43 650 953 6345",
-    phoneRORaw: "+436509536345",
+    phoneRO: "0767 110 439",
+    phoneRORaw: "0767110439",
     email: "cristianvaduva@duck.com",
     emailLuxury: "cristianvaduva@duck.com",
     whatsapp: "https://wa.me/436509536345",

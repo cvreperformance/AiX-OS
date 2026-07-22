@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PageHeader } from "@/components/ui";
 import { Brain, BarChart3, TrendingUp, MapPin, Building2, Zap, Target, Clock, Star } from "lucide-react";
 import { designSystem } from "@/styles/designSystem";
@@ -280,6 +281,13 @@ export default function ValuationPage() {
                       placeholder="E-mail (opțional)"
                       className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 px-3 py-2 text-[11px] text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors"
                     />
+                    <p className="text-[9px] text-zinc-500 leading-normal mb-2 text-left">
+                      Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                      <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                        Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                      </Link>{" "}
+                      și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                    </p>
                     <button
                       type="submit"
                       disabled={leadLoading}

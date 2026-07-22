@@ -1,69 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import {
+  Menu,
   X,
-  Phone,
-  MessageCircle,
   ChevronDown,
-  Home,
-  Send,
-  Users,
-  Newspaper,
-  LayoutGrid,
-  Sparkles,
-  ArrowRight,
-  Globe,
-  CheckCircle,
-  Sliders,
-  Gem,
-  Calculator,
-  Lock,
-  Star,
-  Activity,
-  Heart,
-
-  BookOpen,
-  Wrench,
-  Shield,
-  ArrowUpRight,
   Brain,
+  Shield,
+  BookOpen,
+  TrendingUp,
+  Search,
+  Send,
   Building2,
-  Mail,
-  Menu
+  Wrench,
+  Gem,
+  Phone
 } from "lucide-react";
-import { brandContent } from "@/lib/content/brand";
-import { mainNavLinks, navigationCategories } from "@/config/navigation.config";
 import { useLanguage } from "@/context/LanguageContext";
 import NotificationPopover from "@/components/ui/NotificationPopover";
 import { AuthNavLinks } from "./AuthNavLinks";
 import { AccountMenuSection } from "./AccountMenuSection";
+import { navigationCategories } from "@/config/navigation.config";
 
 export function Header() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
-  const lastPathname = useRef(pathname);
-
-  const [open, setOpen] = useState(false);
-  const [gestureDragging, setGestureDragging] = useState(false);
-  const [gestureProgress, setGestureProgress] = useState(0);
+  
   const [scrolled, setScrolled] = useState(false);
-  const [showDeskDropdown, setShowDeskDropdown] = useState(false);
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const gestureProgressRef = useRef(0);
-  const gestureStartYRef = useRef(0);
-  const gestureMovedRef = useRef(false);
-  const gestureModeRef = useRef<"open" | "close" | null>(null);
-  const gesturePointerIdRef = useRef<number | null>(null);
-  const gestureRafRef = useRef<number | null>(null);
-
-  const openMenu = () => {
-    setOpen(true);
-    setGestureProgress(1);
-    gestureProgressRef.current = 1;
-  };
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 15);
@@ -71,526 +39,174 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scroll lock for mobile drawer
   useEffect(() => {
-    const html = document.documentElement;
-    if (open) {
-      html.classList.add("overflow-hidden");
-    } else {
-      html.classList.remove("overflow-hidden");
-    }
-    return () => html.classList.remove("overflow-hidden");
-  }, [open]);
-
-  // Close menu on route change
-  useEffect(() => {
-    if (lastPathname.current === pathname) return;
-    lastPathname.current = pathname;
-    const timer = window.setTimeout(() => {
-      setOpen(false);
-      setGestureDragging(false);
-      setGestureProgress(0);
-      gestureProgressRef.current = 0;
-      gestureModeRef.current = null;
-      setShowDeskDropdown(false);
-      setExpandedCategory(null);
-    }, 0);
-    return () => window.clearTimeout(timer);
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
+    setMobileExpanded(null);
   }, [pathname]);
 
-  const closeMenu = () => {
-    setOpen(false);
-    setGestureDragging(false);
-    setGestureProgress(0);
-    gestureProgressRef.current = 0;
-    gestureModeRef.current = null;
-    setExpandedCategory(null);
-  };
-
-  const scheduleGestureProgress = (next: number) => {
-    gestureProgressRef.current = Math.max(0, Math.min(1, next));
-    if (gestureRafRef.current != null) return;
-    gestureRafRef.current = window.requestAnimationFrame(() => {
-      gestureRafRef.current = null;
-      setGestureProgress(gestureProgressRef.current);
-    });
-  };
-
   useEffect(() => {
-    return () => {
-      if (gestureRafRef.current != null) {
-        window.cancelAnimationFrame(gestureRafRef.current);
-      }
-    };
-  }, []);
-
-  const beginGesture = (
-    mode: "open" | "close",
-    e: ReactPointerEvent<HTMLButtonElement | HTMLDivElement>
-  ) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    e.preventDefault();
-    gestureModeRef.current = mode;
-    gesturePointerIdRef.current = e.pointerId;
-    gestureStartYRef.current = e.clientY;
-    gestureMovedRef.current = false;
-    setGestureDragging(true);
-    if (mode === "open") {
-      setOpen(true);
-      scheduleGestureProgress(0);
+    if (mobileMenuOpen) {
+      document.documentElement.style.overflow = "hidden";
     } else {
-      setOpen(true);
-      scheduleGestureProgress(1);
+      document.documentElement.style.overflow = "";
     }
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-  };
-
-  const updateGesture = (e: ReactPointerEvent<HTMLButtonElement | HTMLDivElement>) => {
-    if (gesturePointerIdRef.current !== e.pointerId) return;
-    updateGestureFromClientY(e.clientY);
-  };
-
-  const updateGestureFromClientY = (clientY: number) => {
-    if (!gestureDragging || !gestureModeRef.current) return;
-    const deltaY = gestureStartYRef.current - clientY;
-    if (Math.abs(deltaY) > 3) gestureMovedRef.current = true;
-    const maxDrag = 220;
-    const nextProgress =
-      gestureModeRef.current === "open"
-        ? Math.max(0, Math.min(1, deltaY / maxDrag))
-        : Math.max(0, Math.min(1, 1 - Math.max(0, clientY - gestureStartYRef.current) / maxDrag));
-    scheduleGestureProgress(nextProgress);
-  };
-
-  const finishGesture = () => {
-    if (!gestureModeRef.current) return;
-    const shouldOpen = gestureMovedRef.current
-      ? gestureProgressRef.current > 0.5
-      : gestureModeRef.current === "open";
-    if (shouldOpen) {
-      setOpen(true);
-      scheduleGestureProgress(1);
-    } else {
-      setOpen(false);
-      scheduleGestureProgress(0);
-    }
-    setGestureDragging(false);
-    gestureModeRef.current = null;
-    gesturePointerIdRef.current = null;
-    gestureMovedRef.current = false;
-  };
-
-  useEffect(() => {
-    if (!gestureDragging || gesturePointerIdRef.current == null) return;
-
-    const handleMove = (event: PointerEvent) => {
-      if (event.pointerId !== gesturePointerIdRef.current) return;
-      updateGestureFromClientY(event.clientY);
-    };
-
-    const handleEnd = (event: PointerEvent) => {
-      if (event.pointerId !== gesturePointerIdRef.current) return;
-      finishGesture();
-    };
-
-    window.addEventListener("pointermove", handleMove, { passive: true });
-    window.addEventListener("pointerup", handleEnd);
-    window.addEventListener("pointercancel", handleEnd);
-
     return () => {
-      window.removeEventListener("pointermove", handleMove);
-      window.removeEventListener("pointerup", handleEnd);
-      window.removeEventListener("pointercancel", handleEnd);
+      document.documentElement.style.overflow = "";
     };
-  }, [gestureDragging]);
+  }, [mobileMenuOpen]);
 
-  const menuProgress = gestureDragging ? gestureProgress : open ? 1 : 0;
-  const menuVisible = open || gestureDragging || gestureProgress > 0;
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = (id: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setActiveDropdown(id);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  };
 
   return (
     <>
-      {/* ─── PRIMARY GLASS PANEL SERVICE HUB (TOP NAV REPLACEMENT) ───────── */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4 lg:pt-6">
-        {/* Full Flat Grid Header - Visible on desktop at the top */}
-        <div className={`hidden lg:block rounded-3xl border border-zinc-200 bg-black/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
-          scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
-        }`}>
-          {/* Top Brand & Actions line */}
-        <div className="flex items-center justify-between border-b border-zinc-200 pb-5 mb-5 gap-4">
-          <Link href="/" className="flex flex-col items-start group">
-            <div className="flex items-center gap-1.5 min-h-8">
-              <Brain className="h-5 w-5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-xl font-light tracking-[0.2em] text-zinc-900 group-hover:text-amber-400 transition-colors">AiX</span>
-              <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start">
-                OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
-              </span>
-            </div>
-            <span className="text-xs text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-7">
-              Powered by CristianVaduva.com
-            </span>
-          </Link>
-
-          {/* Quick Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
-              {/* Language Switcher */}
-              <div className="flex items-center gap-0.5 border border-zinc-200 bg-white/60 rounded-full p-0.5 mr-1 font-mono">
-                <button
-                  onClick={() => setLanguage("ro")}
-                  className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
-                    language === "ro" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-600"
-                  }`}
-                >
-                  RO
-                </button>
-                <button
-                  onClick={() => setLanguage("en")}
-                  className={`min-h-10 min-w-10 px-3 py-2 text-[10px] font-bold rounded-full transition-all ${
-                    language === "en" ? "bg-amber-500/20 text-amber-400" : "text-zinc-550 hover:text-zinc-600"
-                  }`}
-                >
-                  EN
-                </button>
-              </div>
-
-              <AuthNavLinks />
-
-              {/* Notification Center */}
-              <NotificationPopover />
-            </div>
-          </div>
-
-          {/* Navigation Grid (Flat layout - discoverable in under 5 seconds) */}
-          <div className="grid grid-cols-10 gap-6 text-left">
-            {navigationCategories.map((cat) => {
-              const Icon = cat.icon;
-              const title = language === "ro" ? cat.title : cat.titleEn;
-              return (
-                <div key={cat.id} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
-                    <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
-                      {title}
-                    </h4>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {cat.items.map((item) => {
-                      const label = language === "ro" ? item.label : item.labelEn;
-                      return (
-                        <li key={item.id}>
-                          <Link
-                            href={item.href}
-                            className="text-xs text-zinc-400 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium leading-relaxed"
-                          >
-                            {label}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              );
-            })}
-            <AccountMenuSection language={language} />
-          </div>
-        </div>
-      </div>
-
-      {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
-        className={`sticky top-0 z-[300] border-b border-zinc-200 bg-black/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${
-          scrolled ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"
+        className={`fixed top-0 inset-x-0 z-[300] border-b transition-all duration-300 ${
+          scrolled 
+            ? "bg-black/90 backdrop-blur-xl border-zinc-800 shadow-2xl py-2" 
+            : "bg-black/60 backdrop-blur-md border-zinc-800/50 py-4"
         }`}
       >
-        <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
-          <Link href="/" className="flex flex-col items-start group">
-            <div className="flex items-center gap-1.5 min-h-8">
-              <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-              <span className="text-lg font-light tracking-[0.2em] text-zinc-900">AiX</span>
-              <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
-                OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
-              </span>
-            </div>
-            <span className="text-[10px] text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
-              Powered by CristianVaduva.com
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6">
+          
+          <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
+            <Brain className="h-5 w-5 text-amber-500 mr-1 group-hover:animate-pulse" />
+            <span className="text-xl font-light tracking-[0.2em] text-zinc-100 group-hover:text-white transition-colors">AiX</span>
+            <span className="text-xl font-light tracking-[0.2em] text-amber-500 flex items-start group-hover:text-amber-400 transition-colors">
+              OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
             </span>
           </Link>
 
-          {/* Sistem Desk Dropdown Toggle & Language Toggle */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
-            {/* Desktop Desk Toggle */}
-            <button
-              onClick={() => setShowDeskDropdown(!showDeskDropdown)}
-              className={`hidden lg:flex items-center gap-1.5 px-4 py-2 min-h-12 rounded-xl border transition-all text-xs font-semibold uppercase tracking-wider ${
-                showDeskDropdown
-                  ? "bg-amber-500/20 border-amber-500/35 text-amber-400"
-                  : "border-zinc-200 text-zinc-600 hover:bg-zinc-100"
-              }`}
-            >
-              <LayoutGrid className="h-4 w-4" />
-              <span>{language === "ro" ? "Sistem Desk" : "System Desk"}</span>
-              <ChevronDown className={`h-3 w-3 transition-transform ${showDeskDropdown ? "rotate-180" : ""}`} />
-            </button>
+          <nav className="hidden lg:flex flex-1 justify-center items-center h-full">
+            <ul className="flex items-center gap-1">
+              {navigationCategories.map((nav) => {
+                const isActive = activeDropdown === nav.id;
+                return (
+                  <li 
+                    key={nav.id} 
+                    className="relative px-2 py-4"
+                    onMouseEnter={() => handleMouseEnter(nav.id)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <button className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
+                      isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
+                    }`}>
+                      {language === "ro" ? nav.title : nav.titleEn}
+                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
+                    </button>
 
-            {/* Mobile Menu Toggle Button */}
-            <button
-              onClick={open ? closeMenu : openMenu}
-              className="xl:hidden flex items-center justify-center h-12 w-12 rounded-xl border border-zinc-200 bg-[#0f0f0f]/95 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 transition-all duration-150 select-none touch-manipulation shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
-              aria-label={language === "ro" ? "Meniu Principal" : "Main Menu"}
-              aria-expanded={open}
-            >
-              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 ${
+                      isActive ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+                    }`}>
+                      <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
+                        {nav.items.map((item) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            className="block px-4 py-2.5 text-sm text-zinc-300 hover:text-amber-400 hover:bg-zinc-800/50 rounded-xl transition-colors"
+                          >
+                            {language === "ro" ? item.label : item.labelEn}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
-            {/* Global Language Toggle */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
               onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
-              className="flex min-h-12 min-w-12 items-center justify-center border border-zinc-200 bg-white/60 rounded-xl px-3 py-2 text-[10px] font-bold text-amber-400 hover:text-zinc-900 uppercase font-mono transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
+              className="flex items-center justify-center border border-zinc-700 bg-zinc-900/60 rounded-xl px-3 py-2 text-xs font-bold text-amber-400 hover:text-white uppercase font-mono transition-colors"
             >
               {language === "ro" ? "EN" : "RO"}
             </button>
-
-            {/* Auth Nav Links (Sticky Header) */}
-            <AuthNavLinks />
-
-            {/* Notification Center */}
             <NotificationPopover />
+            <AuthNavLinks />
           </div>
-        </div>
 
-        {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
-        {showDeskDropdown && scrolled && (
-          <div
-            className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-6xl rounded-b-3xl border-x border-b border-zinc-200 bg-white/97 backdrop-blur-2xl p-6 sm:p-8 grid grid-cols-9 gap-6 text-left shadow-2xl animate-in fade-in slide-in-from-top-3 duration-200 z-[400]"
-            onMouseLeave={() => setShowDeskDropdown(false)}
+          <button
+            className="lg:hidden p-2 text-zinc-300 hover:text-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
           >
-            {navigationCategories.map((cat) => {
-              const Icon = cat.icon;
-              const title = language === "ro" ? cat.title : cat.titleEn;
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+      </header>
+
+      <div className={`fixed inset-0 z-[250] bg-black/95 backdrop-blur-2xl transition-all duration-300 lg:hidden ${
+        mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      }`}>
+        <div className="flex flex-col h-full pt-24 pb-6 px-4 overflow-y-auto">
+          
+          <div className="flex items-center justify-between mb-8 border-b border-zinc-800 pb-6">
+            <button
+              onClick={() => setLanguage(language === "ro" ? "en" : "ro")}
+              className="flex items-center justify-center border border-zinc-700 bg-zinc-900/60 rounded-xl px-4 py-2 text-xs font-bold text-amber-400 uppercase font-mono"
+            >
+              Language: {language === "ro" ? "EN" : "RO"}
+            </button>
+            <div className="flex gap-4">
+              <NotificationPopover />
+              <AuthNavLinks />
+            </div>
+          </div>
+
+          <nav className="flex-1 space-y-2">
+            {navigationCategories.map((nav) => {
+              const isExpanded = mobileExpanded === nav.id;
+              const Icon = nav.icon;
               return (
-                <div key={cat.id} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
-                    <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
-                      {title}
-                    </h4>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {cat.items.map((item) => (
-                      <li key={item.id}>
+                <div key={nav.id} className="rounded-2xl border border-zinc-800/50 overflow-hidden bg-zinc-900/20">
+                  <button
+                    onClick={() => setMobileExpanded(isExpanded ? null : nav.id)}
+                    className="w-full flex items-center justify-between p-4 text-zinc-300 hover:text-white hover:bg-zinc-800/30 transition-colors"
+                  >
+                    <span className="flex items-center gap-3 font-medium text-[15px]">
+                      <Icon className="h-5 w-5 text-amber-500/80" />
+                      {language === "ro" ? nav.title : nav.titleEn}
+                    </span>
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isExpanded ? "rotate-180 text-amber-400" : ""}`} />
+                  </button>
+                  
+                  <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? "max-h-[1400px]" : "max-h-0"}`}>
+                    <div className="p-2 pb-4 bg-zinc-900/40">
+                      {nav.items.map((item) => (
                         <Link
+                          key={item.id}
                           href={item.href}
-                          className="text-xs text-zinc-400 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium"
+                          className="block px-12 py-3 text-sm text-zinc-400 hover:text-amber-400 transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
                         >
                           {language === "ro" ? item.label : item.labelEn}
                         </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </header>
-
-      {/* ─────────────────────────────────────────
-          MOBILE FULL SCREEN SYSTEM ACCORDION DRAWER
-          ───────────────────────────────────────── */}
-      <div
-        className={`xl:hidden fixed inset-x-0 bottom-0 z-[390] flex justify-center px-4 pb-[max(16px,env(safe-area-inset-bottom))] transition-all duration-200 ${
-          menuVisible && !gestureDragging ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-100 translate-y-0"
-        }`}
-        aria-hidden={menuVisible}
-      >
-        <button
-          type="button"
-          onPointerDown={(e) => beginGesture("open", e)}
-          onPointerMove={updateGesture}
-          onPointerUp={finishGesture}
-          onPointerCancel={finishGesture}
-          onClick={(e) => {
-            e.preventDefault();
-            if (!gestureDragging) openMenu();
-          }}
-          className="group flex w-full max-w-[280px] items-center gap-3 rounded-[22px] border border-zinc-200 bg-zinc-50/86 px-4 py-3 text-left shadow-2xl backdrop-blur-2xl touch-none select-none"
-          style={{ touchAction: "none" }}
-          aria-label={language === "ro" ? "Glisează pentru a deschide meniul" : "Slide to open menu"}
-        >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-amber-500/20 bg-amber-500/10 text-amber-400 shadow-[0_0_24px_rgba(201,169,98,0.12)]">
-            <Brain className="h-5 w-5" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-400/90">
-              {language === "ro" ? "Glisează pentru meniu" : "Slide to open menu"}
-            </span>
-            <span className="block text-[11px] text-zinc-400 leading-tight mt-0.5">
-              {language === "ro"
-                ? "Ridică pentru hub-ul complet de servicii"
-                : "Lift to reveal the full service hub"}
-            </span>
-          </span>
-          <ArrowRight className="h-4.5 w-4.5 shrink-0 text-zinc-600 transition-transform duration-200 group-active:translate-y-0.5" />
-        </button>
-      </div>
-
-      <div
-        id="mobile-menu"
-        className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
-          menuVisible ? "pointer-events-auto" : "pointer-events-none"
-        }`}
-        aria-hidden={!menuVisible}
-      >
-        <div
-          className={`absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ${
-            menuVisible ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={closeMenu}
-          style={{ opacity: menuProgress * 0.75 }}
-        />
-
-        <div
-          className={`absolute inset-x-0 bottom-0 flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
-            menuVisible ? "translate-y-0" : "translate-y-full"
-          }`}
-          style={{
-            paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 68px)",
-            transform: `translateY(${(1 - menuProgress) * 100}%)`,
-            transitionProperty: gestureDragging ? "none" : "transform",
-          }}
-        >
-          <div
-            className="flex items-center justify-center px-5 pt-3 pb-2 flex-shrink-0 bg-white z-10"
-            onPointerDown={(e) => beginGesture("close", e)}
-            onPointerMove={updateGesture}
-            onPointerUp={finishGesture}
-            onPointerCancel={finishGesture}
-            style={{ touchAction: "none" }}
-          >
-            <button
-              type="button"
-              className="flex items-center gap-2 rounded-full border border-zinc-200/80 bg-white/60 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-zinc-400"
-              aria-label={language === "ro" ? "Glisează pentru a închide" : "Slide to close"}
-            >
-              <span className="h-1.5 w-10 rounded-full bg-zinc-700/80" />
-              <Brain className="h-3.5 w-3.5 text-amber-400" />
-              <span>{language === "ro" ? "Glisează pentru a închide" : "Slide to close"}</span>
-            </button>
-          </div>
-
-          <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 flex-shrink-0 bg-white z-10">
-            <Link href="/" className="flex flex-col items-start group" onClick={closeMenu}>
-              <div className="flex items-center gap-1.5 min-h-8">
-                <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
-                <span className="text-lg font-light tracking-[0.2em] text-zinc-900">AiX</span>
-                <span className="text-lg font-light tracking-[0.2em] text-amber-500 flex items-start">
-                  OS<sup className="text-xs mt-0.5 ml-0.5">&trade;</sup>
-                </span>
-              </div>
-              <span className="text-[10px] text-zinc-400 group-hover:text-amber-400/80 transition-colors tracking-wide ml-6">
-                Powered by CristianVaduva.com
-              </span>
-            </Link>
-
-            <div className="flex items-center gap-2">
-              <div className="sm:hidden block">
-                <AuthNavLinks />
-              </div>
-              <button
-                onClick={closeMenu}
-                className="flex items-center justify-center w-12 h-12 text-zinc-400 hover:text-zinc-900 bg-zinc-50/60 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/35"
-                aria-label={language === "ro" ? "Închide meniu" : "Close menu"}
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Categories - identical structures to desktop categories */}
-          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 overscroll-contain">
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
-              }`}
-            >
-              <Home className="h-4.5 w-4.5 flex-shrink-0" />
-              {t("nav.home")}
-            </Link>
-
-            <div className="pt-2 pb-1">
-              <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
-                {language === "ro" ? "Categorii Decizionale" : "Decision Categories"}
-              </p>
-            </div>
-
-            {navigationCategories.map((category) => {
-              const isExpanded = expandedCategory === category.id;
-              const Icon = category.icon;
-              const title = language === "ro" ? category.title : category.titleEn;
-
-              return (
-                <div key={category.id} className="mb-1">
-                  <button
-                    type="button"
-                    onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
-                    className={`w-full flex items-center justify-between px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                      isExpanded
-                        ? "bg-zinc-50/80 text-zinc-900"
-                        : "text-zinc-350 hover:text-zinc-900 hover:bg-zinc-100/45"
-                    }`}
-                    aria-expanded={isExpanded}
-                  >
-                    <span className="flex items-center gap-3">
-                      <div className={`p-1.5 rounded-lg border border-zinc-200 bg-white flex-shrink-0 transition-colors ${isExpanded ? category.color : "text-zinc-400"}`}>
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      {title}
-                    </span>
-                    <ChevronDown
-                      className={`h-4 w-4 flex-shrink-0 transition-transform duration-350 ${
-                        isExpanded ? "rotate-180 text-amber-400" : "text-zinc-650"
-                      }`}
-                    />
-                  </button>
-
-                  <div
-                    className={`overflow-hidden transition-all duration-355 ease-out ${
-                      isExpanded ? "max-h-[1400px] opacity-100 mt-1" : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <div className="ml-5 pl-4 border-l border-zinc-200 space-y-2 py-2 text-left">
-                      {category.items.map((sub) => {
-                        const SubIcon = sub.icon;
-                        const label = language === "ro" ? sub.label : sub.labelEn;
-                        const desc = language === "ro" ? sub.desc : sub.descEn;
-                        return (
-                          <Link
-                            key={sub.id}
-                            href={sub.href}
-                            onClick={closeMenu}
-                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-100/40 border border-transparent"
-                          >
-                            <div className="mt-0.5 p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600">
-                              <SubIcon className="h-3.5 w-3.5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-semibold text-zinc-200 leading-tight">{label}</p>
-                              <p className="text-[10px] text-zinc-550 leading-normal mt-0.5 line-clamp-1">{desc}</p>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                      ))}
                     </div>
                   </div>
                 </div>
               );
             })}
-
-            <div className="mt-2 mb-4 p-4 rounded-2xl bg-zinc-50/30 border border-zinc-200/50">
-              <AccountMenuSection language={language} />
-            </div>
           </nav>
+          
+          <div className="mt-8 pt-6 border-t border-zinc-800">
+             <AccountMenuSection language={language} />
+          </div>
         </div>
       </div>
     </>
@@ -598,13 +214,12 @@ export function Header() {
 }
 
 export function Footer() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   
   return (
     <footer className="border-t border-zinc-200 bg-white mt-auto pb-0">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         
-        {/* Minimized bottom indicators */}
         <div className="space-y-1">
           <p className="text-xs text-zinc-400">
             &copy; {new Date().getFullYear()} AiX OS&trade; &bull; {language === "ro" ? "Sistem Decizional de Intelligence Imobiliar" : "Decision Intelligence System"}
@@ -622,9 +237,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Minimized social paths & language switches */}
         <div className="flex flex-col sm:flex-row items-center gap-5">
-          {/* Language Switch */}
           <div className="flex items-center gap-0.5 border border-zinc-200 bg-white/60 rounded-full p-0.5">
             <button
               onClick={() => setLanguage("ro")}
@@ -644,14 +257,16 @@ export function Footer() {
             </button>
           </div>
 
-          {/* Legal paths */}
           <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-semibold text-zinc-550">
+            <a href="https://t.me/capitalinvestcristianvaduva" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
+              <Send className="h-3 w-3" /> Telegram
+            </a>
             <a href="https://cristianvaduva.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">CristianVaduva.com</a>
             <a href="https://aixluxury.com" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">AiXLuxury.com</a>
             <Link href="/contact" className="hover:text-amber-400 transition-colors">Contact</Link>
             <Link href="/sitemap" className="hover:text-amber-400 transition-colors">Sitemap</Link>
             <Link href="/privacy" className="hover:text-amber-400 transition-colors">
-              {language === "ro" ? "Politică de Confidențialitate" : "Privacy Policy"}
+              {language === "ro" ? "Politică de Confidențialitate & Notă GDPR" : "Privacy Policy & GDPR Notice"}
             </Link>
             <Link href="/cookie-policy" className="hover:text-amber-400 transition-colors">
               {language === "ro" ? "Politică de Cookie" : "Cookie Policy"}
@@ -663,4 +278,5 @@ export function Footer() {
     </footer>
   );
 }
+
 export default Header;

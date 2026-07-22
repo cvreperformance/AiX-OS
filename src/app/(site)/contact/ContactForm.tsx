@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -262,6 +263,26 @@ export default function ContactForm() {
             : "An error occurred. Please try again or connect via WhatsApp."}
         </div>
       )}
+
+      <p className="text-[10px] text-zinc-500 leading-normal mb-3 text-left">
+        {language === "ro" ? (
+          <>
+            Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+              Politica de Confidențialitate & Notificarea GDPR AiX OS™
+            </Link>{" "}
+            și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+          </>
+        ) : (
+          <>
+            By submitting this form, you confirm that you have read and agree to the{" "}
+            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+              AiX OS™ Privacy Policy & GDPR Notice
+            </Link>{" "}
+            and consent to being contacted regarding your enquiry and requested services.
+          </>
+        )}
+      </p>
 
       <button
         type="submit"

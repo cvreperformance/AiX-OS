@@ -83,6 +83,14 @@ export default function LoginPage() {
             </Link>
           </div>
 
+          <p className="text-[10px] text-zinc-500 leading-normal text-left">
+            By signing in, you confirm that you have read and agree to the{" "}
+            <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+              AiX OS™ Privacy Policy & GDPR Notice
+            </Link>{" "}
+            and consent to the processing of your data.
+          </p>
+
           <button
             type="submit"
             disabled={isPending}

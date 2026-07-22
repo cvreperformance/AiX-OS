@@ -43,7 +43,7 @@ export class NewsRssProvider implements IDataProvider<NewsItem> {
         }
 
         // 2. Reject explicit irrelevant categories
-        const rejectCategories = ["sport", "fotbal", "monden", "divertisment", "lifestyle", "showbiz", "vedete", "horoscop", "timp liber", "auto"];
+        const rejectCategories = ["sport", "fotbal", "monden", "divertisment", "lifestyle", "showbiz", "vedete", "horoscop", "timp liber", "auto", "politic", "politica", "alegeri", "guvern", "parlament", "justiție", "justitie", "externe", "internațional", "international"];
         if (categories.some(cat => rejectCategories.includes(cat))) {
           console.log(`[Ingest Filter] Skipped irrelevant category for: "${title}"`);
           continue;
@@ -52,19 +52,24 @@ export class NewsRssProvider implements IDataProvider<NewsItem> {
         // 3. Relevance check: must be connected to economics, finance, real estate, macro, etc.
         const combined = `${title} ${summary} ${categories.join(" ")}`.toLowerCase();
         
-        // Strict list of positive relevance keywords
+        // Strict list of positive relevance keywords (focused on real estate and property macro)
         const relevanceKeywords = [
           "imobiliar", "apartament", "casă", "case", "rezidențial", "clădire", "locuință",
           "dobândă", "dobânzi", "credit", "credite", "ipotecar", "robor", "ircc", "bnr",
-          "inflație", "inflatie", "fiscal", "impozit", "buget", "finanțe", "finante",
-          "economic", "economie", "construcții", "constructii", "asigurare", "asigurări",
-          "investiții", "investitii", "euro", "leul", "valută", "bce", "fed", "storia", "olx"
+          "dezvoltator", "construcții", "constructii", "asigurare", "asigurări",
+          "chirie", "chirii", "teren", "terenuri", "birouri", "logistic", "industrial",
+          "proprietat", "imobil", "euribor", "bce", "bancă", "banca", "creditare"
         ];
 
         const isRelevant = relevanceKeywords.some(keyword => combined.includes(keyword));
         
-        // Also reject explicitly sports-themed content in title/summary even if uncategorized
-        const strictRejectKeywords = ["fotbal", "campionatul mondial", "semifinală", "sportiv", "liga 1", "tenis", "olimpiada", "bătălia de", "meciul dintre"];
+        // Also reject explicitly generic political, sports, and celebrity content
+        const strictRejectKeywords = [
+          "fotbal", "campionat", "semifinală", "sportiv", "liga 1", "tenis", "olimpiada", 
+          "meci", "nicușor dan", "nicusor dan", "ciolacu", "ciucă", "iohannis", "alegeri", 
+          "parlament", "guvern", "politic", "pnl", "psd", "usr", "aur", "sosoaca", 
+          "șoșoacă", "bătălia", "crimă", "accident", "poliția", "vedetă", "divorț"
+        ];
         const containsStrictReject = strictRejectKeywords.some(keyword => combined.includes(keyword));
 
         if (!isRelevant || containsStrictReject) {

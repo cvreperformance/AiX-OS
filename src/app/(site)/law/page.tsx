@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import {
   Scale,
   Shield,
@@ -644,6 +645,13 @@ export default function LawPage() {
                   rows={3}
                   className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none resize-none"
                 />
+                <p className="text-[10px] text-zinc-500 leading-normal text-left">
+                  Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                    Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                  </Link>{" "}
+                  și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                </p>
                 <button
                   type="submit"
                   disabled={leadLoading}

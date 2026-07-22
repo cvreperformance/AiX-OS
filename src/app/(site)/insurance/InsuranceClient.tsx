@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { designSystem } from "@/styles/designSystem";
 import {
@@ -375,6 +376,26 @@ export default function InsuranceClient() {
               <option value="Auto / Motor">{language === "ro" ? "Asigurare Auto (RCA / CASCO)" : "Motor Insurance (RCA/CASCO)"}</option>
               <option value="Business / Corp">{language === "ro" ? "Asigurare Business / Corporate" : "Corporate & D&O Insurance"}</option>
             </select>
+
+            <p className="text-[10px] text-zinc-500 leading-normal text-left">
+              {language === "ro" ? (
+                <>
+                  Prin trimiterea acestui formular, confirmați că ați citit și sunteți de acord cu{" "}
+                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                    Politica de Confidențialitate & Notificarea GDPR AiX OS™
+                  </Link>{" "}
+                  și vă exprimați acordul pentru a fi contactat în legătură cu solicitarea dvs.
+                </>
+              ) : (
+                <>
+                  By submitting this form, you confirm that you have read and agree to the{" "}
+                  <Link href="/privacy" className="text-amber-500 hover:underline font-semibold">
+                    AiX OS™ Privacy Policy & GDPR Notice
+                  </Link>{" "}
+                  and consent to being contacted regarding your enquiry and requested services.
+                </>
+              )}
+            </p>
 
             <button
               type="submit"

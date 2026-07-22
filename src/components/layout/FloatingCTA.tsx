@@ -245,8 +245,8 @@ export function FloatingCTA() {
                 external: false,
               },
               {
-                href: `tel:${brandContent.contact.phoneRaw}`,
-                label: language === "ro" ? "Telefon" : "Phone",
+                href: `tel:${brandContent.contact.phoneRORaw}`,
+                label: language === "ro" ? "Sună" : "Call",
                 icon: Phone,
                 tone: "sky",
                 external: false,

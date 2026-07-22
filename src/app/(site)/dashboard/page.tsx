@@ -36,7 +36,12 @@ export default function DashboardPage() {
     return (
       <section className="p-6">
         <h1 className="text-3xl font-semibold mb-6 text-zinc-100">Executive Dashboard</h1>
-        <div className="text-center py-12 text-zinc-500">Waiting for provider…</div>
+        <div className="rounded-2xl border border-zinc-200 bg-zinc-50/30 p-12 text-center">
+          <p className="text-sm font-medium text-amber-500/80 mb-2 tracking-widest uppercase">MARKET INTELLIGENCE</p>
+          <p className="text-lg text-zinc-300 font-light max-w-lg mx-auto">
+            No relevant property market news currently available. The dashboard will automatically update when new real estate data is acquired.
+          </p>
+        </div>
       </section>
     );
   }
