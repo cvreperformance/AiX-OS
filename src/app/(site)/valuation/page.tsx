@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString, validateSelect } from "@/lib/validation";
 import Link from "next/link";
 import { PageHeader } from "@/components/ui";
 import { Brain, BarChart3, TrendingUp, MapPin, Building2, Zap, Target, Clock, Star } from "lucide-react";
@@ -43,7 +43,7 @@ export default function ValuationPage() {
   const [leadSuccess, setLeadSuccess] = useState(false);
   const [leadError, setLeadError] = useState("");
   const [gdpr, setGdpr] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{leadName?: string, leadPhone?: string, leadEmail?: string, gdpr?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{leadName?: string, leadPhone?: string, leadEmail?: string, gdpr?: string, address?: string, type?: string, sqm?: string, rooms?: string, finishes?: string}>({});
 
   const handleRequestReport = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,6 +96,25 @@ export default function ValuationPage() {
 
   const handleEvaluate = (e: React.FormEvent) => {
     e.preventDefault();
+    setFieldErrors({});
+
+    const addrErr = validateRequiredString(address, "Address");
+    const typeErr = validateSelect(type);
+    const sqmErr = validateRequiredString(sqm, "SQM");
+    const roomsErr = validateRequiredString(rooms, "Rooms");
+    const finishesErr = validateSelect(finishes);
+
+    if (addrErr || typeErr || sqmErr || roomsErr || finishesErr) {
+      setFieldErrors({
+        address: addrErr || undefined,
+        type: typeErr || undefined,
+        sqm: sqmErr || undefined,
+        rooms: roomsErr || undefined,
+        finishes: finishesErr || undefined,
+      });
+      return;
+    }
+
     if (!sqm || !type) return;
     
     setLoading(true);
@@ -162,54 +181,87 @@ export default function ValuationPage() {
           <h3 className="text-sm uppercase tracking-widest text-zinc-550 font-bold">Evaluare Rapidă AI</h3>
           
           <form onSubmit={handleEvaluate} className="space-y-4">
-            <input
-              required
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Adresa proprietății sau cartierul (ex: Herăstrău, București)"
-              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
-            />
-            
-            <div className="grid grid-cols-2 gap-3">
-              <select
-                required
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-400 focus:border-amber-500/50 focus:outline-none transition-colors"
-              >
-                <option value="">Tip Active</option>
-                <option value="Apartament">Apartament</option>
-                <option value="Casă / Vilă">Casă / Vilă</option>
-                <option value="Penthouse">Penthouse</option>
-              </select>
-
+            <div>
               <input
                 required
-                type="number"
-                value={sqm}
-                onChange={(e) => setSqm(e.target.value)}
-                placeholder="mp utili"
-                className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
+                value={address}
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                  if (fieldErrors.address) setFieldErrors({ ...fieldErrors, address: undefined });
+                }}
+                placeholder="Adresa proprietății sau cartierul (ex: Herăstrău, București)"
+                className={`w-full rounded-xl border ${fieldErrors.address ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
               />
+              {fieldErrors.address && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.address}</p>}
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <select
+                  required
+                  value={type}
+                  onChange={(e) => {
+                    setType(e.target.value);
+                    if (fieldErrors.type) setFieldErrors({ ...fieldErrors, type: undefined });
+                  }}
+                  className={`w-full rounded-xl border ${fieldErrors.type ? 'border-red-500 text-red-500' : 'border-zinc-200 text-zinc-400'} bg-zinc-50/40 px-4 py-2.5 text-xs focus:border-amber-500/50 focus:outline-none transition-colors`}
+                >
+                  <option value="">Tip Active</option>
+                  <option value="Apartament">Apartament</option>
+                  <option value="Casă / Vilă">Casă / Vilă</option>
+                  <option value="Penthouse">Penthouse</option>
+                </select>
+                {fieldErrors.type && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.type}</p>}
+              </div>
+
+              <div>
+                <input
+                  required
+                  type="number"
+                  value={sqm}
+                  onChange={(e) => {
+                    setSqm(e.target.value);
+                    if (fieldErrors.sqm) setFieldErrors({ ...fieldErrors, sqm: undefined });
+                  }}
+                  placeholder="mp utili"
+                  className={`w-full rounded-xl border ${fieldErrors.sqm ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                />
+                {fieldErrors.sqm && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.sqm}</p>}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <input
-                type="number"
-                value={rooms}
-                onChange={(e) => setRooms(e.target.value)}
-                placeholder="Camere"
-                className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors"
-              />
-              <select
-                value={finishes}
-                onChange={(e) => setFinishes(e.target.value)}
-                className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-400 focus:border-amber-500/50 focus:outline-none transition-colors"
-              >
-                <option value="premium">Calitate superioară</option>
-                <option value="luxury">Finisaje de înaltă calitate</option>
-                <option value="ultra-luxury">Finisaje personalizate la comandă</option>
-              </select>
+              <div>
+                <input
+                  type="number"
+                  required
+                  value={rooms}
+                  onChange={(e) => {
+                    setRooms(e.target.value);
+                    if (fieldErrors.rooms) setFieldErrors({ ...fieldErrors, rooms: undefined });
+                  }}
+                  placeholder="Camere"
+                  className={`w-full rounded-xl border ${fieldErrors.rooms ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-amber-500/50 focus:outline-none transition-colors`}
+                />
+                {fieldErrors.rooms && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.rooms}</p>}
+              </div>
+              <div>
+                <select
+                  required
+                  value={finishes}
+                  onChange={(e) => {
+                    setFinishes(e.target.value);
+                    if (fieldErrors.finishes) setFieldErrors({ ...fieldErrors, finishes: undefined });
+                  }}
+                  className={`w-full rounded-xl border ${fieldErrors.finishes ? 'border-red-500 text-red-500' : 'border-zinc-200 text-zinc-400'} bg-zinc-50/40 px-4 py-2.5 text-xs focus:border-amber-500/50 focus:outline-none transition-colors`}
+                >
+                  <option value="">Nivel finisaje</option>
+                  <option value="premium">Calitate superioară</option>
+                  <option value="luxury">Finisaje de înaltă calitate</option>
+                  <option value="ultra-luxury">Finisaje personalizate la comandă</option>
+                </select>
+                {fieldErrors.finishes && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.finishes}</p>}
+              </div>
             </div>
 
             <button

@@ -22,7 +22,7 @@ export default function BuyerLeadForm() {
   const [error, setError] = useState("");
 
   const [gdpr, setGdpr] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, budget?: string, propertyType?: string, gdpr?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, budget?: string, propertyType?: string, details?: string, gdpr?: string}>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,15 +35,17 @@ export default function BuyerLeadForm() {
     const emailErr = validateEmail(email);
     const budgetErr = validateRequiredString(budget, "Budget");
     const propTypeErr = validateSelect(propertyType);
+    const detailsErr = validateRequiredString(details, "Details");
     const gdprErr = validateCheckbox(gdpr);
 
-    if (nameErr || phoneErr || emailErr || budgetErr || propTypeErr || gdprErr) {
+    if (nameErr || phoneErr || emailErr || budgetErr || propTypeErr || detailsErr || gdprErr) {
       setFieldErrors({
         name: nameErr || undefined,
         phone: phoneErr || undefined,
         email: emailErr || undefined,
         budget: budgetErr || undefined,
         propertyType: propTypeErr || undefined,
+        details: detailsErr || undefined,
         gdpr: gdprErr || undefined,
       });
       return;
@@ -186,13 +188,20 @@ export default function BuyerLeadForm() {
         {fieldErrors.propertyType && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.propertyType}</p>}
       </div>
 
-      <textarea
-        value={details}
-        onChange={(e) => setDetails(e.target.value)}
-        placeholder={language === "ro" ? "Detalii suplimentare (locație, suprafață, obiectiv...)" : "Additional details (location, area, goal...)"}
-        rows={3}
-        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none"
-      />
+      <div>
+        <textarea
+          required
+          value={details}
+          onChange={(e) => {
+            setDetails(e.target.value);
+            if (fieldErrors.details) setFieldErrors({ ...fieldErrors, details: undefined });
+          }}
+          placeholder={language === "ro" ? "Detalii suplimentare (locație, suprafață, obiectiv...)" : "Additional details (location, area, goal...)"}
+          rows={3}
+          className={`w-full rounded-xl border ${fieldErrors.details ? 'border-red-500' : 'border-zinc-300'} bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none`}
+        />
+        {fieldErrors.details && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.details}</p>}
+      </div>
 
       <div>
         <label className="flex items-start gap-2 cursor-pointer">

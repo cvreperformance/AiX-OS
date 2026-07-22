@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
 import {
   AlertTriangle,
   Shield,
@@ -40,7 +40,7 @@ export default function AntiTeapaPage() {
   const [leadSuccess, setLeadSuccess] = useState(false);
   const [leadError, setLeadError] = useState("");
   const [gdpr, setGdpr] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{leadName?: string, leadPhone?: string, leadEmail?: string, gdpr?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{leadName?: string, leadPhone?: string, leadEmail?: string, gdpr?: string, address?: string, cadastru?: string, price?: string}>({});
 
   const handleRequestAudit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -183,7 +183,22 @@ export default function AntiTeapaPage() {
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!address || !cadastru) return;
+    setFieldErrors({});
+
+    const addrErr = validateRequiredString(address, "Address");
+    const cadErr = validateRequiredString(cadastru, "Cadastre");
+    const priceErr = validateRequiredString(price, "Price");
+
+    if (addrErr || cadErr || priceErr) {
+      setFieldErrors({
+        address: addrErr || undefined,
+        cadastru: cadErr || undefined,
+        price: priceErr || undefined,
+      });
+      return;
+    }
+
+    if (!address || !cadastru || !price) return;
 
     setLoading(true);
     setReport(null);
@@ -244,29 +259,48 @@ export default function AntiTeapaPage() {
               </h3>
               
               <form onSubmit={handleVerify} className="space-y-4">
-                <input
-                  required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder={language === "ro" ? "Adresa completă sau codul poștal" : "Full street address or postal code"}
-                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
-                />
-
-                <div className="grid grid-cols-2 gap-3">
+                <div>
                   <input
                     required
-                    value={cadastru}
-                    onChange={(e) => setCadastru(e.target.value)}
-                    placeholder={language === "ro" ? "Număr cadastral / CF" : "Cadastre ID / Land Registry CF"}
-                    className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (fieldErrors.address) setFieldErrors({ ...fieldErrors, address: undefined });
+                    }}
+                    placeholder={language === "ro" ? "Adresa completă sau codul poștal" : "Full street address or postal code"}
+                    className={`w-full rounded-xl border ${fieldErrors.address ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors`}
                   />
-                  <input
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder={language === "ro" ? "Preț solicitat (€)" : "Asking Price (€)"}
-                    className="rounded-xl border border-zinc-200 bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors"
-                  />
+                  {fieldErrors.address && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.address}</p>}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      required
+                      value={cadastru}
+                      onChange={(e) => {
+                        setCadastru(e.target.value);
+                        if (fieldErrors.cadastru) setFieldErrors({ ...fieldErrors, cadastru: undefined });
+                      }}
+                      placeholder={language === "ro" ? "Număr cadastral / CF" : "Cadastre ID / Land Registry CF"}
+                      className={`w-full rounded-xl border ${fieldErrors.cadastru ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors`}
+                    />
+                    {fieldErrors.cadastru && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.cadastru}</p>}
+                  </div>
+                  <div>
+                    <input
+                      required
+                      type="number"
+                      value={price}
+                      onChange={(e) => {
+                        setPrice(e.target.value);
+                        if (fieldErrors.price) setFieldErrors({ ...fieldErrors, price: undefined });
+                      }}
+                      placeholder={language === "ro" ? "Preț solicitat (€)" : "Asking Price (€)"}
+                      className={`w-full rounded-xl border ${fieldErrors.price ? 'border-red-500' : 'border-zinc-200'} bg-zinc-50/40 px-4 py-2.5 text-xs text-zinc-900 placeholder-zinc-500 focus:border-red-500/50 focus:outline-none transition-colors`}
+                    />
+                    {fieldErrors.price && <p className="text-red-500 text-[10px] mt-1">{fieldErrors.price}</p>}
+                  </div>
                 </div>
 
                 <button

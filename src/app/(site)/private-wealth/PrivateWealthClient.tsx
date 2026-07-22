@@ -6,7 +6,7 @@ import { designSystem } from "@/styles/designSystem";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
 import { PageHeader } from "@/components/ui";
 
 const BENEFITS = [
@@ -605,7 +605,7 @@ function OffMarketTab() {
   const [botfield, setBotfield] = useState("");
   const [error, setError] = useState("");
   const [gdpr, setGdpr] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, gdpr?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, message?: string, gdpr?: string}>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -616,13 +616,15 @@ function OffMarketTab() {
     const nameErr = validateName(name);
     const phoneErr = validatePhone(phone);
     const emailErr = validateEmail(email);
+    const messageErr = validateRequiredString(message, "Message");
     const gdprErr = validateCheckbox(gdpr);
 
-    if (nameErr || phoneErr || emailErr || gdprErr) {
+    if (nameErr || phoneErr || emailErr || messageErr || gdprErr) {
       setFieldErrors({
         name: nameErr || undefined,
         phone: phoneErr || undefined,
         email: emailErr || undefined,
+        message: messageErr || undefined,
         gdpr: gdprErr || undefined,
       });
       return;
@@ -778,8 +780,19 @@ function OffMarketTab() {
                 <label className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold pl-1">Ce fel de proprietate căutați/vindeți?</label>
                 <div className="relative">
                   <Home className="absolute left-3.5 top-4 h-4 w-4 text-zinc-600" />
-                  <textarea required rows={3} value={message} onChange={(e) => setMessage(e.target.value)} className="w-full bg-white/50 border border-zinc-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none" placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." />
+                  <textarea 
+                    required 
+                    rows={3} 
+                    value={message} 
+                    onChange={(e) => {
+                      setMessage(e.target.value);
+                      if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
+                    }} 
+                    className={`w-full bg-white/50 border ${fieldErrors.message ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-2.5 pl-10 pr-4 text-xs text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors resize-none`} 
+                    placeholder="Ex: Caut Penthouse în zona Floreasca, buget 1.5M EUR. / Doresc să vând o vilă istorică în Primăverii..." 
+                  />
                 </div>
+                {fieldErrors.message && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.message}</p>}
               </div>
 
               <div>

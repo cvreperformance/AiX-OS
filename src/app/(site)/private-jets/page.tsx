@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { designSystem } from "@/styles/designSystem";
 import { PageHeader } from "@/components/ui";
-import { validateName, validatePhone, validateEmail, validateCheckbox } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
 import {
   Plane,
   Calendar,
@@ -226,9 +226,9 @@ export default function PrivateJetsPage() {
     const nameErr = validateName(name);
     const phoneErr = validatePhone(phone);
     const emailErr = validateEmail(email);
-    const fromErr = !from ? "Câmp obligatoriu" : null;
-    const toErr = !to ? "Câmp obligatoriu" : null;
-    const dateErr = !date ? "Câmp obligatoriu" : null;
+    const fromErr = validateRequiredString(from, "From");
+    const toErr = validateRequiredString(to, "To");
+    const dateErr = validateRequiredString(date, "Date");
     const gdprErr = validateCheckbox(gdpr);
 
     if (nameErr || phoneErr || emailErr || fromErr || toErr || dateErr || gdprErr) {

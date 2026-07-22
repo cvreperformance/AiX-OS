@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { submitContactForm } from "@/lib/contactSubmit";
-import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateRequiredString } from "@/lib/validation";
 import Link from "next/link";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -70,7 +70,7 @@ export default function ContactForm() {
   });
 
   const [gdpr, setGdpr] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, subject?: string, gdpr?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{name?: string, phone?: string, email?: string, subject?: string, budget?: string, message?: string, gdpr?: string}>({});
 
   const subjects = language === "ro" ? SUBJECTS_RO : SUBJECTS_EN;
   const budgets = language === "ro" ? BUDGETS_RO : BUDGETS_EN;
@@ -93,14 +93,18 @@ export default function ContactForm() {
     const phoneErr = validatePhone(formData.phone);
     const emailErr = validateEmail(formData.email);
     const subjectErr = validateSelect(formData.subject);
+    const budgetErr = validateSelect(formData.budget);
+    const messageErr = validateRequiredString(formData.message, "Message");
     const gdprErr = validateCheckbox(gdpr);
 
-    if (nameErr || phoneErr || emailErr || subjectErr || gdprErr) {
+    if (nameErr || phoneErr || emailErr || subjectErr || budgetErr || messageErr || gdprErr) {
       setFieldErrors({
         name: nameErr || undefined,
         phone: phoneErr || undefined,
         email: emailErr || undefined,
         subject: subjectErr || undefined,
+        budget: budgetErr || undefined,
+        message: messageErr || undefined,
         gdpr: gdprErr || undefined,
       });
       setStatus("idle");
@@ -257,12 +261,13 @@ export default function ContactForm() {
 
       <div className="space-y-1.5 text-left">
         <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-550">
-          {language === "ro" ? "Buget estimat (opțional)" : "Estimated Budget (optional)"}
+          {language === "ro" ? "Buget estimat" : "Estimated Budget"} <span className="text-red-400">*</span>
         </label>
         <select
+          required
           value={formData.budget}
           onChange={(e) => update("budget", e.target.value)}
-          className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 focus:border-amber-500/40 focus:outline-none transition-all"
+          className={`w-full rounded-xl border ${fieldErrors.budget ? 'border-red-500 text-red-500' : 'border-zinc-300 text-zinc-900'} bg-zinc-50 px-4 py-3 text-sm focus:border-amber-500/40 focus:outline-none transition-all`}
         >
           <option value="">
             {language === "ro" ? "Selectează intervalul…" : "Select range…"}
@@ -273,13 +278,15 @@ export default function ContactForm() {
             </option>
           ))}
         </select>
+        {fieldErrors.budget && <p className="text-red-500 text-[10px]">{fieldErrors.budget}</p>}
       </div>
 
       <div className="space-y-1.5 text-left">
         <label className="text-[10px] uppercase font-bold tracking-wider text-zinc-550">
-          {language === "ro" ? "Mesaj" : "Message"}
+          {language === "ro" ? "Mesaj" : "Message"} <span className="text-red-400">*</span>
         </label>
         <textarea
+          required
           rows={4}
           placeholder={
             language === "ro"
@@ -288,8 +295,9 @@ export default function ContactForm() {
           }
           value={formData.message}
           onChange={(e) => update("message", e.target.value)}
-          className={`${inputClass} resize-none`}
+          className={`${inputClass} resize-none ${fieldErrors.message ? 'border-red-500' : ''}`}
         />
+        {fieldErrors.message && <p className="text-red-500 text-[10px]">{fieldErrors.message}</p>}
       </div>
 
       {status === "error" && (
