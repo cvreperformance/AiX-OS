@@ -60,19 +60,19 @@ export default function PrivateDealRoomPage() {
 
       {/* ─── LOCKED STATE (PASSCODE GATED) ────────────────────────────────── */}
       {!authorized ? (
-        <div className="max-w-md mx-auto p-8 rounded-3xl border border-amber-500/25 bg-white/85 backdrop-blur-2xl text-center space-y-6 relative overflow-hidden">
-          {/* Glowing background */}
-          <div className="absolute inset-0 bg-amber-500/[0.01] blur-3xl pointer-events-none rounded-full" />
+        <div className="max-w-md mx-auto p-8 rounded-3xl border border-white/10 bg-gradient-to-b from-[#151515] to-[#0B0B0B] backdrop-blur-2xl text-center space-y-6 relative overflow-hidden shadow-2xl shadow-black/50">
+          {/* Subtle gradient background */}
+          <div className="absolute inset-0 bg-[#EA580C]/[0.02] blur-3xl pointer-events-none rounded-full" />
           
-          <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto text-amber-500 border border-amber-500/20 animate-pulse">
+          <div className="w-14 h-14 rounded-full bg-black/40 flex items-center justify-center mx-auto text-[#EA580C] border border-white/10 backdrop-blur-md shadow-inner">
             <Lock className="w-6 h-6" />
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-base font-semibold text-zinc-900">
+            <h3 className="text-xl font-medium text-white tracking-wide">
               {language === "ro" ? "Portal Criptat Securizat" : "Access Key Decryption"}
             </h3>
-            <p className="text-xs text-zinc-450 leading-relaxed max-w-sm mx-auto">
+            <p className="text-sm text-zinc-300 leading-relaxed max-w-sm mx-auto">
               {language === "ro"
                 ? "Introdu cheia de criptare de securitate atribuită tranzacției tale pentru a accesa registrul privat de documente."
                 : "Enter the specific authorization passcode assigned to your asset transaction to decrypt the deal vault."}
@@ -80,8 +80,8 @@ export default function PrivateDealRoomPage() {
           </div>
 
           <form onSubmit={handleAuthSubmit} className="space-y-4">
-            <div className="space-y-1.5 text-left">
-              <label className="text-[10px] uppercase font-mono font-bold text-zinc-400">
+            <div className="space-y-2 text-left">
+              <label className="text-xs uppercase font-mono font-medium tracking-wider text-zinc-400">
                 {language === "ro" ? "Cod Acces Cameră" : "Room Passcode Key"}
               </label>
               <input
@@ -90,15 +90,15 @@ export default function PrivateDealRoomPage() {
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 placeholder="••••••"
-                className="w-full rounded-xl border border-zinc-200 bg-zinc-50/40 px-3.5 py-3 text-center text-sm text-zinc-900 placeholder-zinc-600 focus:border-amber-500/40 focus:outline-none transition-colors font-mono tracking-widest"
+                className="w-full rounded-xl border border-white/10 bg-[#0A0A0A] px-4 py-3.5 text-center text-sm text-white placeholder-zinc-600 focus:border-[#EA580C]/50 focus:ring-1 focus:ring-[#EA580C]/50 focus:outline-none transition-all font-mono tracking-widest shadow-inner"
               />
             </div>
 
-            {errorMsg && <p className="text-[10.5px] text-rose-400 font-mono italic">{errorMsg}</p>}
+            {errorMsg && <p className="text-[11px] text-red-400 font-mono italic">{errorMsg}</p>}
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-amber-500 hover:bg-amber-400 text-black py-3 text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-amber-500/10"
+              className="w-full rounded-xl bg-[#EA580C] hover:bg-[#F97316] text-white py-3.5 text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-black/20"
             >
               <Key className="h-4 w-4" />
               <span>{language === "ro" ? "Decriptează Cameră" : "Decrypt Vault"}</span>
@@ -106,9 +106,12 @@ export default function PrivateDealRoomPage() {
           </form>
 
           {/* Bypass demo info */}
-          <div className="pt-4 border-t border-zinc-200 flex justify-between items-center text-[10px] text-zinc-400">
-            <span>Demo Passcode: <span className="font-mono text-amber-500">2030</span></span>
-            <button onClick={bypassCode} className="text-amber-500 hover:underline cursor-pointer font-bold">
+          <div className="pt-5 border-t border-white/5 flex justify-between items-center text-xs text-zinc-400">
+            <span>Demo Passcode: <span className="font-mono text-zinc-300">2030</span></span>
+            <button 
+              onClick={bypassCode} 
+              className="bg-[#111111] border border-white/10 hover:bg-[#1A1A1A] hover:text-white text-zinc-300 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium"
+            >
               Bypass Key &rarr;
             </button>
           </div>
