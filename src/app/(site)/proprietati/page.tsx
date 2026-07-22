@@ -215,32 +215,56 @@ export default async function PropertyInvestmentHub() {
           </div>
         </div>
 
-        {featuredProps.length > 0 && (
+        {properties.length === 0 ? (
           <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <TrendingUp className="h-4 w-4 text-amber-400" />
-              <h2 className="text-lg font-light text-zinc-900">Proprietăți Featured</h2>
-              <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 text-xs text-amber-400">
-                {featuredProps.length}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredProps.map((p) => (
-                <PropertyCard key={p.id} property={p} />
-              ))}
+            <div className="flex flex-col items-center justify-center py-24 px-4 text-center border border-zinc-100 bg-zinc-50/50 rounded-2xl">
+              <div className="h-12 w-12 rounded-full bg-amber-500/10 flex items-center justify-center mb-4">
+                <MapPin className="h-6 w-6 text-amber-500" />
+              </div>
+              <h3 className="text-xl font-light text-zinc-900 mb-2">No properties available yet</h3>
+              <p className="text-zinc-500 max-w-md mx-auto mb-8">
+                We&apos;re preparing verified listings. New opportunities will appear here as soon as they are published.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/contact" className="rounded-full bg-zinc-900 text-white px-6 py-2.5 text-sm font-medium hover:bg-zinc-800 transition-colors">
+                  Publish Property
+                </Link>
+                <Link href="/contact" className="rounded-full bg-white text-zinc-900 border border-zinc-200 px-6 py-2.5 text-sm font-medium hover:bg-zinc-50 transition-colors">
+                  Contact Us
+                </Link>
+              </div>
             </div>
           </section>
-        )}
+        ) : (
+          <>
+            {featuredProps.length > 0 && (
+              <section className="mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <TrendingUp className="h-4 w-4 text-amber-400" />
+                  <h2 className="text-lg font-light text-zinc-900">Proprietăți Featured</h2>
+                  <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 text-xs text-amber-400">
+                    {featuredProps.length}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {featuredProps.map((p) => (
+                    <PropertyCard key={p.id} property={p} />
+                  ))}
+                </div>
+              </section>
+            )}
 
-        {regularProps.length > 0 && (
-          <section className="mb-12">
-            {featuredProps.length > 0 && <h2 className="text-lg font-light text-zinc-900 mb-6">Toate Proprietățile</h2>}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {regularProps.map((p) => (
-                <PropertyCard key={p.id} property={p} />
-              ))}
-            </div>
-          </section>
+            {regularProps.length > 0 && (
+              <section className="mb-12">
+                {featuredProps.length > 0 && <h2 className="text-lg font-light text-zinc-900 mb-6">Toate Proprietățile</h2>}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {regularProps.map((p) => (
+                    <PropertyCard key={p.id} property={p} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
       </div>
 
@@ -271,31 +295,52 @@ export default async function PropertyInvestmentHub() {
           ))}
         </div>
 
-        {featuredOpps.length > 0 && (
+        {opportunities.length === 0 ? (
           <section className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <h2 className="text-xl font-light text-zinc-900">Oportunități Featured</h2>
-              <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-0.5 text-xs text-amber-400">
-                {featuredOpps.length} active
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredOpps.map((opp) => (
-                <OpportunityCard key={opp.id} opportunity={opp} />
-              ))}
+            <div className="flex flex-col items-center justify-center py-24 px-4 text-center border border-zinc-100 bg-zinc-50/50 rounded-2xl">
+              <div className="h-12 w-12 rounded-full bg-amber-500/10 flex items-center justify-center mb-4">
+                <Shield className="h-6 w-6 text-amber-500" />
+              </div>
+              <h3 className="text-xl font-light text-zinc-900 mb-2">No investments available yet</h3>
+              <p className="text-zinc-500 max-w-md mx-auto mb-8">
+                We&apos;re preparing verified investment opportunities. New deals will appear here as soon as they are approved.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/contact" className="rounded-full bg-zinc-900 text-white px-6 py-2.5 text-sm font-medium hover:bg-zinc-800 transition-colors">
+                  Contact Us
+                </Link>
+              </div>
             </div>
           </section>
-        )}
+        ) : (
+          <>
+            {featuredOpps.length > 0 && (
+              <section className="mb-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <h2 className="text-xl font-light text-zinc-900">Oportunități Featured</h2>
+                  <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-0.5 text-xs text-amber-400">
+                    {featuredOpps.length} active
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {featuredOpps.map((opp) => (
+                    <OpportunityCard key={opp.id} opportunity={opp} />
+                  ))}
+                </div>
+              </section>
+            )}
 
-        {restOpps.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-xl font-light text-zinc-900 mb-6">Alte Oportunități</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {restOpps.map((opp) => (
-                <OpportunityCard key={opp.id} opportunity={opp} />
-              ))}
-            </div>
-          </section>
+            {restOpps.length > 0 && (
+              <section className="mb-12">
+                <h2 className="text-xl font-light text-zinc-900 mb-6">Alte Oportunități</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {restOpps.map((opp) => (
+                    <OpportunityCard key={opp.id} opportunity={opp} />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
 
         <div className="mt-10 rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-zinc-900/50 p-8">

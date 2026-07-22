@@ -62,7 +62,7 @@ export async function getProperties(): Promise<
     if (!error) data = res;
   }
 
-  const list = (data as Property[]) ?? demoProperties;
+  const list = (data as Property[]) ?? [];
   const enriched = enrichProperties(list);
 
   if (process.env.NODE_ENV === "development" && enriched[0]) {
@@ -91,10 +91,7 @@ export async function getProperty(slug: string): Promise<
     }
   }
 
-  const fallback = demoProperties.find((p) => p.slug === slug);
-  if (!fallback) return null;
-  const [enriched] = enrichProperties([fallback]);
-  return enriched;
+  return null;
 }
 
 export async function getFeaturedProperties() {
@@ -134,7 +131,7 @@ export async function getOpportunities(): Promise<Opportunity[]> {
     column: "status",
     value: "active",
   });
-  return data ?? demoOpportunities;
+  return data ?? [];
 }
 
 export async function getOpportunity(slug: string): Promise<Opportunity | null> {
@@ -147,7 +144,7 @@ export async function getOpportunity(slug: string): Promise<Opportunity | null> 
       .maybeSingle();
     if (data) return data as Opportunity;
   }
-  return demoOpportunities.find((o) => o.slug === slug) ?? null;
+  return null;
 }
 
 // ===================== DEVELOPERS =====================

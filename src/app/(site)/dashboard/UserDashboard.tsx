@@ -38,18 +38,9 @@ interface UserDashboardProps {
   profile: any;
 }
 
-const DEFAULT_PROPERTIES = [
-  { id: "penthouse-floreasca-lake", title: "Penthouse Floreasca Lake", category: "Properties", href: "/proprietati/penthouse-floreasca-lake", desc: "4.850.000 € · Floreasca" },
-  { id: "vila-premium-pipera", title: "Vila Modernă Pipera", category: "Properties", href: "/proprietati/vila-premium-pipera", desc: "2.100.000 € · Pipera" },
-];
-
-const DEFAULT_DEVELOPERS = [
-  { id: "one-united", title: "One United Properties", category: "Developers", href: "/dezvoltatori/one-united-properties", desc: "Verde & Sustenabil · București" },
-];
-
-const DEFAULT_BOOKS = [
-  { id: "never-split-difference", title: "Never Split the Difference", category: "Books", href: "/books", desc: "Chris Voss · Negociere" },
-];
+const DEFAULT_PROPERTIES: FavoriteItem[] = [];
+const DEFAULT_DEVELOPERS: FavoriteItem[] = [];
+const DEFAULT_BOOKS: FavoriteItem[] = [];
 
 export default function UserDashboard({ user, profile }: UserDashboardProps) {
   const { language } = useLanguage();
@@ -62,13 +53,7 @@ export default function UserDashboard({ user, profile }: UserDashboardProps) {
   const [history, setHistory] = useState<{ title: string; href: string; time: string }[]>([]);
   
   // Live Feed State
-  const [liveFeed, setLiveFeed] = useState<{ id: number; text: string; time: string; type: "alert" | "info" | "success" }[]>([
-    { id: 1, text: "AI detected: Luxury market activity increasing in Floreasca (+3.2% YoY)", time: "12:45:10", type: "success" },
-    { id: 2, text: "Market signal updated: ROBOR 3M down to 6.85%", time: "12:44:32", type: "info" },
-    { id: 3, text: "AI evaluated: Safety score index generated for Herăstrău Lake project (9.1/10)", time: "12:40:05", type: "alert" },
-    { id: 4, text: "Concierge routing: Private helicopter request matched for Bucharest-Constanta corridor", time: "12:35:18", type: "info" },
-    { id: 5, text: "Investment opportunity: Off-market penthouse listed in Primăverii", time: "12:30:11", type: "success" },
-  ]);
+  const [liveFeed, setLiveFeed] = useState<{ id: number; text: string; time: string; type: "alert" | "info" | "success" }[]>([]);
 
   // Ecosystem Counters
   const [stats, setStats] = useState({
@@ -91,11 +76,7 @@ export default function UserDashboard({ user, profile }: UserDashboardProps) {
       setDevelopers(getLocalJSON("aix-fav-developers", DEFAULT_DEVELOPERS));
       setBooks(getLocalJSON("aix-fav-books", DEFAULT_BOOKS));
       
-      const mockHistory = [
-        { title: "GIS Spatial Terminal Map", href: "/market-radar", time: "2 mins ago" },
-        { title: "AI Property Scanner", href: "/property-scanner", time: "10 mins ago" },
-        { title: "Indici Piață & Macro BNR", href: "/market", time: "1 hour ago" },
-      ];
+      const mockHistory: { title: string; href: string; time: string }[] = [];
       setHistory(getLocalJSON("aix-recent-history", mockHistory));
     } catch (e) {
       console.warn("localStorage loading failed, falling back to default lists", e);
