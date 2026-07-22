@@ -47,6 +47,12 @@ export const organizationSchema: JsonLd = {
   sameAs: [
     "https://cristianvaduva.com",
     "https://os.aixluxury.com",
+    "https://www.linkedin.com/in/cristianvăduva",
+    "https://www.facebook.com/CristianVaduvaCV",
+    "https://instagram.com/cristian_vaduva_cristianv",
+    "https://youtube.com/@CristianVaduvaCV",
+    "https://www.tiktok.com/@cristianvaduvacv",
+    "https://t.me/capitalinvestcristianvaduva"
   ],
   contactPoint: {
     "@type": "ContactPoint",

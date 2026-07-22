@@ -12,12 +12,13 @@ import { brandContent } from "@/lib/content/brand";
 
 const CONTACT_LINKS = {
   whatsapp: "https://wa.me/436509536345",
+  whatsappText: "https://wa.me/436509536345?text=Hello,%20I%20would%20like%20details%20about%20AiX%20OS.",
   email: "mailto:cristianvaduva@duck.com",
-  telegram: "https://t.me/AiX_OS",
-  linkedin: "https://linkedin.com/in/cristianvaduva",
-  facebook: "https://facebook.com/cristianvaduva",
-  instagram: "https://instagram.com/cristianvaduva",
-  youtube: "https://youtube.com/cristianvaduva",
+  telegram: "https://t.me/capitalinvestcristianvaduva",
+  linkedin: "https://www.linkedin.com/in/cristianvăduva",
+  facebook: "https://www.facebook.com/CristianVaduvaCV",
+  instagram: "https://instagram.com/cristian_vaduva_cristianv",
+  youtube: "https://youtube.com/@CristianVaduvaCV",
   cvcom: "https://cristianvaduva.com",
   aixlux: "https://aixluxury.com"
 };
@@ -150,17 +151,17 @@ export default function PricingClientPage() {
 
         {/* ─── 2. AiX OS™ + Home Find ──────────────────────────────────────── */}
         <section>
-          <div className="rounded-[40px] bg-gradient-to-br from-zinc-50/80 to-zinc-100 border border-zinc-200 p-8 md:p-16">
+          <div className="rounded-[40px] bg-gradient-to-br from-[#101010] to-[#090909] border border-white/10 p-8 md:p-16 shadow-2xl backdrop-blur-md">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
-                <h2 className="text-3xl md:text-5xl font-light text-zinc-900 mb-6">2. AiX OS™ + Home Find</h2>
-                <p className="text-zinc-400 leading-relaxed mb-8">
+                <h2 className="text-3xl md:text-5xl font-light text-[#FFFFFF] mb-6">2. AiX OS™ + Home Find</h2>
+                <p className="text-[#D4D4D8] leading-relaxed mb-8">
                   Complete integration between AI, property marketing, automation and business management. Seamless workflow from lead to closing.
                 </p>
                 <ul className="space-y-4">
                   {["AI property descriptions", "Lead management", "Market analysis", "Workflow automation", "CRM support", "Productivity tools"].map((f,i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-zinc-600">
-                      <div className="h-1.5 w-1.5 rounded-full bg-amber-500" /> {f}
+                    <li key={i} className="flex items-center gap-3 text-sm text-[#E4E4E7]">
+                      <CheckCircle2 className="h-4 w-4 text-orange-500" /> {f}
                     </li>
                   ))}
                 </ul>
@@ -171,9 +172,9 @@ export default function PricingClientPage() {
                   { name: "PRO", price: "299€/month" },
                   { name: "BUSINESS", price: "499€/month" }
                 ].map(p => (
-                  <div key={p.name} className="flex items-center justify-between p-6 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-amber-500/30 transition-all">
-                    <span className="font-bold text-zinc-900">{p.name}</span>
-                    <span className="font-light text-xl text-amber-400">{p.price}</span>
+                  <div key={p.name} className="flex items-center justify-between p-6 rounded-2xl bg-[#141414] border border-white/10 hover:border-white/15 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50 transition-all duration-300">
+                    <span className="font-bold text-[#FFFFFF]">{p.name}</span>
+                    <span className="font-light text-xl text-orange-500">{p.price}</span>
                   </div>
                 ))}
               </div>
