@@ -91,6 +91,7 @@ export function Header() {
               OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
             </span>
           </Link>
+          <span className="text-xs text-gray-500 ml-2">Version: 4fdf5e65</span>
 
           <nav className="hidden lg:flex flex-1 min-w-0 justify-center items-center h-full relative">
             <div
