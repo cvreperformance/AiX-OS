@@ -2,7 +2,7 @@
 
 import { AdminTable } from "@/components/admin/table";
 // Demo data imports removed for production
-const properties = [];
+const properties: any[] = []; // placeholder array with explicit any[] type
 import { formatPrice } from "@/lib/format";
 
 export default function AdminPropertiesPage() {

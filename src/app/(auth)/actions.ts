@@ -142,16 +142,49 @@ export async function signout() {
 
 export async function forgotPassword(formData: FormData) {
   const supabase = await createClient();
-  const email = formData.get("email") as string;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
+  const email = (formData.get("email") as string)?.trim().toLowerCase();
+  const personalAccessCode = (formData.get("personal_access_code") as string)?.trim();
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+  // Generic response to avoid revealing account existence
+  const genericSuccess = { success: "If an account exists, password reset instructions will be sent." };
+
+  if (!email || !personalAccessCode) {
+    return { error: "Email and Personal Access Code are required." };
+  }
+
+  // Fetch user profile by email
+  const { data: profile, error: fetchError } = await supabase
+    .from("profiles")
+    .select("id, approval_status, personal_access_code_hash")
+    .eq("email", email)
+    .single();
+
+  if (fetchError) {
+    // Do not disclose whether email exists
+    return genericSuccess;
+  }
+
+  // Check account active (approved)
+  if (profile?.approval_status !== "approved") {
+    return { error: "Account is not active." };
+  }
+
+  // Verify personal access code using bcryptjs
+  const bcrypt = (await import("bcryptjs")).default;
+  const isCodeValid = await bcrypt.compare(personalAccessCode, profile?.personal_access_code_hash || "");
+  if (!isCodeValid) {
+    return { error: "Invalid access code." };
+  }
+
+  // All checks passed, trigger Supabase password reset email
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
+  const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${siteUrl}/reset-password`,
   });
 
-  if (error) {
-    return { error: error.message };
+  if (resetError) {
+    return { error: resetError.message };
   }
-  
-  return { success: "Password reset link sent to your email." };
+
+  return genericSuccess;
 }

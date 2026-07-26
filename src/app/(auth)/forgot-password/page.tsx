@@ -17,9 +17,9 @@ export default function ForgotPasswordPage() {
       setError(null);
       setSuccess(null);
       const res = await forgotPassword(formData);
-      if (res?.error) {
+      if (res && 'error' in res) {
         setError(res.error);
-      } else if (res?.success) {
+      } else if (res && 'success' in res) {
         setSuccess(res.success);
       }
     });
@@ -48,6 +48,7 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
+        
         <form className="mt-8 space-y-6 relative" onSubmit={handleSubmit}>
           {error && (
             <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
@@ -72,13 +73,23 @@ export default function ForgotPasswordPage() {
                 placeholder="Email address"
               />
             </div>
+            <div>
+              <label className="sr-only">Personal Access Code</label>
+              <input
+                name="personal_access_code"
+                type="text"
+                required
+                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                placeholder="Personal Access Code"
+              />
+            </div>
           </div>
 
           <button
             type="submit"
             disabled={isPending || !!success}
-            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-zinc-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-zinc-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+
             {isPending ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
