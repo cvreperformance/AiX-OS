@@ -22,7 +22,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import NotificationPopover from "@/components/ui/NotificationPopover";
 import { AuthNavLinks } from "./AuthNavLinks";
 import { AccountMenuSection } from "./AccountMenuSection";
-import { navigationCategories } from "@/config/navigation.config";
+import { navigationCategories, mainNavLinks } from "@/config/navigation.config";
 
 export function Header() {
   const { language, setLanguage } = useLanguage();
@@ -104,41 +104,50 @@ return (
               }}
             >
               <ul className="inline-flex items-center gap-4">
-                {navigationCategories.map((nav) => {
-                  const isActive = activeDropdown === nav.id;
-      console.log('Dropdown check', activeDropdown, nav.id, isActive);
+                {mainNavLinks.map((link) => {
+                  const isPillar = (link as any).isPillar;
+                  const isActive = activeDropdown === link.key;
                   return (
                     <li
-                      key={nav.id}
+                      key={link.key || link.href}
                       className="relative"
-                      onMouseEnter={() => handleMouseEnter(nav.id)}
-                      onMouseLeave={handleMouseLeave}
+                      onMouseEnter={() => isPillar && handleMouseEnter(link.key!)}
+                      onMouseLeave={() => isPillar && handleMouseLeave()}
                     >
-                      <button 
-                        onClick={() => setActiveDropdown(isActive ? null : nav.id)}
-                        className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
-                          isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
-                        }`}>
-                        {language === "ro" ? nav.title : nav.titleEn}
-                        <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
-                      </button>
+                      {isPillar ? (
+                        <button
+                          onClick={() => setActiveDropdown(isActive ? null : link.key!)}
+                          className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
+                            isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
+                          }`}
+                        >
+                          {language === "ro" ? link.label : link.labelEn}
+                          <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
+                        </button>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-full"
+                        >
+                          {language === "ro" ? link.label : link.labelEn}
+                        </Link>
+                      )}
 
-                      {isActive && (
-                <div className="absolute top-full left-0 pt-2 z-50">
-                  <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
-                    {nav.items.map((item) => (
-                      <Link
-                        key={item.id}
-                        href={item.href}
-                        className="block px-4 py-2.5 text-sm text-zinc-300 hover:text-amber-400 hover:bg-zinc-800/50 rounded-xl transition-colors"
-                      >
-                        {language === "ro" ? item.label : item.labelEn}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-                        
+                      {isPillar && isActive && (
+                        <div className="absolute top-full left-0 pt-2 z-50">
+                          <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
+                            {navigationCategories.map((cat) => (
+                              <Link
+                                key={cat.id}
+                                href={cat.items[0]?.href || "#"}
+                                className="block px-4 py-2.5 text-sm text-zinc-300 hover:text-amber-400 hover:bg-zinc-800/50 rounded-xl transition-colors"
+                              >
+                                {language === "ro" ? cat.title : cat.titleEn}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </li>
                   );
                 })}
