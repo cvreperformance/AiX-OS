@@ -91,7 +91,7 @@ export function Header() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex flex-1 justify-center items-center h-full relative">
+          <nav className="hidden lg:flex flex-1 min-w-0 justify-center items-center h-full relative">
             <div
               ref={navRef}
               className="overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
@@ -111,9 +111,11 @@ export function Header() {
                       onMouseEnter={() => handleMouseEnter(nav.id)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <button className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
-                        isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
-                      }`}>
+                      <button 
+                        onClick={() => setActiveDropdown(isActive ? null : nav.id)}
+                        className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
+                          isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
+                        }`}>
                         {language === "ro" ? nav.title : nav.titleEn}
                         <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
                       </button>
