@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET ?? "Proprietati";
+const BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET ?? 'proprietati';
 
 const IMAGE_EXTENSIONS = new Set([
   "jpg", "jpeg", "png", "webp", "avif", "gif", "svg",

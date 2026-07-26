@@ -6,7 +6,7 @@
 export const storageConfig = {
   /** Public bucket name (case-sensitive in Supabase) */
   bucket:
-    process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET?.trim() || "Proprietati",
+    process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET?.trim() || "proprietati",
 
   /** Supabase project URL */
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") || "",

@@ -7,34 +7,34 @@
 
 -- 2. Public read policy for property images
 insert into storage.buckets (id, name, public)
-values ('Proprietati', 'Proprietati', true)
+values ('proprietati', 'proprietati', true)
 on conflict (id) do update set public = true;
 
 -- Allow public read
 create policy "Public read property images"
-on storage.objects for select
-using ( bucket_id = 'Proprietati' );
+  on storage.objects for select
+  using ( bucket_id = 'proprietati' );
 
--- Allow authenticated admins to upload (adjust role check as needed)
+-- Allow any authenticated user to upload property images
 create policy "Authenticated upload property images"
   on storage.objects for insert
   with check (
-    bucket_id = 'Proprietati'
+    bucket_id = 'proprietati'
     and auth.role() = 'authenticated'
   );
 
-create policy "Authenticated update property images"
+create policy "Owner or admin update property images"
   on storage.objects for update
   using (
-    bucket_id = 'Proprietati'
-    and auth.role() = 'authenticated'
+    bucket_id = 'proprietati'
+    and (auth.uid() = owner or auth.role() = 'admin')
   );
 
-create policy "Authenticated delete property images"
+create policy "Owner or admin delete property images"
   on storage.objects for delete
   using (
-    bucket_id = 'Proprietati'
-    and auth.role() = 'authenticated'
+    bucket_id = 'proprietati'
+    and (auth.uid() = owner or auth.role() = 'admin')
   );
 
 -- 3. Gallery format in properties table (jsonb):
