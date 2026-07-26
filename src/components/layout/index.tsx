@@ -72,10 +72,10 @@ export function Header() {
     }, 150);
   };
 
-  return (
+  console.log('Header rendered');
+return (
     <>
-      <header
-        data-header-version="07e75d4"
+      <header data-header-test="fixed"
         className={`fixed top-0 inset-x-0 z-[300] border-b transition-all duration-300 ${
           scrolled 
             ? "bg-black/70 backdrop-blur-xl border-zinc-800 shadow-2xl py-2" 
@@ -91,7 +91,7 @@ export function Header() {
               OS<sup className="text-sm mt-0.5 ml-0.5">&trade;</sup>
             </span>
           </Link>
-          <span className="text-xs text-gray-500 ml-2">Version: 4fdf5e65</span>
+          
 
           <nav className="hidden lg:flex flex-1 min-w-0 justify-center items-center h-full relative">
             <div
