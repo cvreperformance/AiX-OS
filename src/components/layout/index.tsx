@@ -137,7 +137,6 @@ export function Header() {
                 </div>
               )}
                         
-                      </div>
                     </li>
                   );
                 })}
