@@ -16,35 +16,26 @@ on storage.objects for select
 using ( bucket_id = 'Proprietati' );
 
 -- Allow authenticated admins to upload (adjust role check as needed)
-create policy "Admin upload property images"
-on storage.objects for insert
-with check (
-  bucket_id = 'Proprietati'
-  and exists (
-    select 1 from public.profiles
-    where id = auth.uid() and role = 'admin'
-  )
-);
+create policy "Authenticated upload property images"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'Proprietati'
+    and auth.role() = 'authenticated'
+  );
 
-create policy "Admin update property images"
-on storage.objects for update
-using (
-  bucket_id = 'Proprietati'
-  and exists (
-    select 1 from public.profiles
-    where id = auth.uid() and role = 'admin'
-  )
-);
+create policy "Authenticated update property images"
+  on storage.objects for update
+  using (
+    bucket_id = 'Proprietati'
+    and auth.role() = 'authenticated'
+  );
 
-create policy "Admin delete property images"
-on storage.objects for delete
-using (
-  bucket_id = 'Proprietati'
-  and exists (
-    select 1 from public.profiles
-    where id = auth.uid() and role = 'admin'
-  )
-);
+create policy "Authenticated delete property images"
+  on storage.objects for delete
+  using (
+    bucket_id = 'Proprietati'
+    and auth.role() = 'authenticated'
+  );
 
 -- 3. Gallery format in properties table (jsonb):
 --    ["slug/photo1.jpg", "slug/photo2.jpg"]

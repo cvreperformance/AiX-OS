@@ -56,7 +56,7 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
       const fileExt = img.file.name.split('.').pop();
       const fileName = `${user.id}/${Math.random()}.${fileExt}`;
 
-      const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'property-images';
+      const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'Proprietati';
       const { data, error } = await supabase.storage
         .from(STORAGE_BUCKET)
         .upload(fileName, img.file, {

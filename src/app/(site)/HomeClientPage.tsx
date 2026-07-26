@@ -289,10 +289,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews, stats
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
-              href="/property-scanner"
+              href="/dashboard/properties"
               className="rounded-xl bg-amber-500 text-black px-6 py-3 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
             >
-              <span>{language === "ro" ? "Obține verificare instantă a titlului" : "Get instant title verification"}</span>
+              <span>{language === "ro" ? "Vizualizează proprietățile" : "View your properties"}</span>
               <ChevronRight className="h-4 w-4" />
             </Link>
             <Link

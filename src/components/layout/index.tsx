@@ -80,7 +80,7 @@ export function Header() {
             : "bg-black/60 backdrop-blur-md border-zinc-800/50 py-4"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 overflow-x-hidden">
           
           <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
             <Brain className="h-5 w-5 text-amber-500 mr-1 group-hover:animate-pulse" />
