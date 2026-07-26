@@ -57,6 +57,7 @@ export function Header() {
   }, [mobileMenuOpen]);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) {
@@ -80,7 +81,7 @@ export function Header() {
             : "bg-black/60 backdrop-blur-md border-zinc-800/50 py-4"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 overflow-x-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 flex-wrap overflow-x-hidden">
           
           <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
             <Brain className="h-5 w-5 text-amber-500 mr-1 group-hover:animate-pulse" />
@@ -90,43 +91,56 @@ export function Header() {
             </span>
           </Link>
 
-          <nav className="hidden lg:flex flex-1 justify-center items-center h-full">
-            <ul className="flex items-center gap-1">
-              {navigationCategories.map((nav) => {
-                const isActive = activeDropdown === nav.id;
-                return (
-                  <li 
-                    key={nav.id} 
-                    className="relative px-2 py-4"
-                    onMouseEnter={() => handleMouseEnter(nav.id)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <button className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
-                      isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
-                    }`}>
-                      {language === "ro" ? nav.title : nav.titleEn}
-                      <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
-                    </button>
+          <nav className="hidden lg:flex flex-1 justify-center items-center h-full relative">
+            <div
+              ref={navRef}
+              className="overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+              onWheel={(e) => {
+                if (navRef.current) {
+                  navRef.current.scrollLeft += e.deltaY;
+                }
+              }}
+            >
+              <ul className="inline-flex items-center gap-4">
+                {navigationCategories.map((nav) => {
+                  const isActive = activeDropdown === nav.id;
+                  return (
+                    <li
+                      key={nav.id}
+                      className="relative"
+                      onMouseEnter={() => handleMouseEnter(nav.id)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <button className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-full ${
+                        isActive ? "text-amber-400 bg-amber-500/10" : "text-zinc-300 hover:text-white hover:bg-zinc-800/50"
+                      }`}>
+                        {language === "ro" ? nav.title : nav.titleEn}
+                        <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
+                      </button>
 
-                    <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 ${
-                      isActive ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
-                    }`}>
-                      <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
-                        {nav.items.map((item) => (
-                          <Link
-                            key={item.id}
-                            href={item.href}
-                            className="block px-4 py-2.5 text-sm text-zinc-300 hover:text-amber-400 hover:bg-zinc-800/50 rounded-xl transition-colors"
-                          >
-                            {language === "ro" ? item.label : item.labelEn}
-                          </Link>
-                        ))}
+                      <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 ${
+                        isActive ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+                      }`}>
+                        <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
+                          {nav.items.map((item) => (
+                            <Link
+                              key={item.id}
+                              href={item.href}
+                              className="block px-4 py-2.5 text-sm text-zinc-300 hover:text-amber-400 hover:bg-zinc-800/50 rounded-xl transition-colors"
+                            >
+                              {language === "ro" ? item.label : item.labelEn}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            {/* Gradient overlays */}
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-8 bg-gradient-to-r from-black/80 to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-black/80 to-transparent" />
           </nav>
 
           <div className="hidden lg:flex items-center gap-3 shrink-0">
