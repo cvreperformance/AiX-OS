@@ -81,7 +81,7 @@ export function Header() {
             : "bg-black/70 backdrop-blur-xl border-zinc-800/50 py-4"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 overflow-x-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 overflow-visible">
           
           <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
             <Brain className="h-5 w-5 text-amber-500 mr-1 group-hover:animate-pulse" />
@@ -94,7 +94,7 @@ export function Header() {
           <nav className="hidden lg:flex flex-1 min-w-0 justify-center items-center h-full relative">
             <div
               ref={navRef}
-              className="overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide"
+              className="overflow-x-auto overflow-visible whitespace-nowrap scrollbar-hide"
               onWheel={(e) => {
                 if (navRef.current) {
                   navRef.current.scrollLeft += e.deltaY;
@@ -120,7 +120,7 @@ export function Header() {
                         <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isActive ? "rotate-180" : ""}`} />
                       </button>
 
-                      <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 ${
+                      <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 z-50 ${
                         isActive ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
                       }`}>
                         <div className="w-64 rounded-2xl border border-zinc-800 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl p-2 overflow-hidden">
