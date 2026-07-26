@@ -77,11 +77,11 @@ export function Header() {
       <header
         className={`fixed top-0 inset-x-0 z-[300] border-b transition-all duration-300 ${
           scrolled 
-            ? "bg-black/90 backdrop-blur-xl border-zinc-800 shadow-2xl py-2" 
-            : "bg-black/60 backdrop-blur-md border-zinc-800/50 py-4"
+            ? "bg-black/70 backdrop-blur-xl border-zinc-800 shadow-2xl py-2" 
+            : "bg-black/70 backdrop-blur-xl border-zinc-800/50 py-4"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 flex-wrap overflow-x-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between gap-6 overflow-x-hidden">
           
           <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
             <Brain className="h-5 w-5 text-amber-500 mr-1 group-hover:animate-pulse" />
@@ -139,8 +139,8 @@ export function Header() {
               </ul>
             </div>
             {/* Gradient overlays */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-8 bg-gradient-to-r from-black/80 to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-black/80 to-transparent" />
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-8 bg-gradient-to-r from-black/70 to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-black/70 to-transparent" />
           </nav>
 
           <div className="hidden lg:flex items-center gap-3 shrink-0">
