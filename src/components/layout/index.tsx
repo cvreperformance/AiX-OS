@@ -75,6 +75,7 @@ export function Header() {
   return (
     <>
       <header
+        data-header-version="07e75d4"
         className={`fixed top-0 inset-x-0 z-[300] border-b transition-all duration-300 ${
           scrolled 
             ? "bg-black/70 backdrop-blur-xl border-zinc-800 shadow-2xl py-2" 
