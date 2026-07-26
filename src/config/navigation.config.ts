@@ -19,6 +19,7 @@ export interface NavigationCategory {
   icon: LucideIcon;
   color: string;
   items: ServiceItem[];
+  description?: string;
 }
 
 export const navigationCategories: NavigationCategory[] = [

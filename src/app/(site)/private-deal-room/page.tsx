@@ -28,7 +28,7 @@ export default function PrivateDealRoomPage() {
 
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode.trim() === "2030") {
+    if (passcode.trim() === "V0LT") {
       setAuthorized(true);
       setErrorMsg("");
     } else {
@@ -41,7 +41,7 @@ export default function PrivateDealRoomPage() {
   };
 
   const bypassCode = () => {
-    setPasscode("2030");
+    setPasscode("V0LT");
     setAuthorized(true);
     setErrorMsg("");
   };
@@ -105,16 +105,7 @@ export default function PrivateDealRoomPage() {
             </button>
           </form>
 
-          {/* Bypass demo info */}
-          <div className="pt-5 border-t border-white/5 flex justify-between items-center text-xs text-zinc-400">
-            <span>Demo Passcode: <span className="font-mono text-zinc-300">2030</span></span>
-            <button 
-              onClick={bypassCode} 
-              className="bg-[#111111] border border-white/10 hover:bg-[#1A1A1A] hover:text-white text-zinc-300 px-3 py-1.5 rounded-lg transition-all cursor-pointer font-medium"
-            >
-              Bypass Key &rarr;
-            </button>
-          </div>
+          
         </div>
       ) : (
         

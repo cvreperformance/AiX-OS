@@ -1,7 +1,8 @@
 "use client";
 
 import { AdminTable } from "@/components/admin/table";
-import { properties } from "@/lib/demo-data";
+// Demo data imports removed for production
+const properties = [];
 import { formatPrice } from "@/lib/format";
 
 export default function AdminPropertiesPage() {

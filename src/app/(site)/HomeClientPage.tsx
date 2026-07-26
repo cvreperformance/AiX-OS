@@ -223,12 +223,8 @@ export default function HomeClientPage({ featuredProperties, featuredNews, stats
       year: "2028",
       title: language === "ro" ? "Rețea Globală" : "Global Network Integration",
       desc: language === "ro" ? "Conectează piețele imobiliare din Dubai, Monaco și Londra într-un spațiu securizat." : "Connects real estate markets in Dubai, Monaco, and London in a secure space."
-    },
-    {
-      year: "2030",
-      title: language === "ro" ? "Intelligence Autonom" : "Autonomous Real Estate OS",
-      desc: language === "ro" ? "Sistem autonom capabil să execute tranzacții licențiate prin contracte inteligente auditate AI." : "Complete decentralized, agent-driven transactional execution via AI-audited smart contracts."
     }
+
   ];
 
   return (
@@ -289,7 +285,7 @@ export default function HomeClientPage({ featuredProperties, featuredNews, stats
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link
-              href="/dashboard/properties"
+              href="/proprietati"
               className="rounded-xl bg-amber-500 text-black px-6 py-3 text-xs font-semibold hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5"
             >
               <span>{language === "ro" ? "Vizualizează proprietățile" : "View your properties"}</span>

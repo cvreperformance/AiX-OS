@@ -1,11 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
-import {
-  agencies as demoAgencies,
-  developers as demoDevelopers,
-  newsArticles as demoNews,
-  opportunities as demoOpportunities,
-  properties as demoProperties,
-} from "@/lib/demo-data";
+
 import { enrichProperties, debugPropertyImages } from "@/lib/storage";
 import type {
   Agency,
@@ -106,7 +100,7 @@ export async function getNews(): Promise<NewsArticle[]> {
     column: "status",
     value: "published",
   });
-  return data ?? demoNews;
+  return data ?? [];
 }
 
 export async function getNewsArticle(slug: string): Promise<NewsArticle | null> {
@@ -115,7 +109,7 @@ export async function getNewsArticle(slug: string): Promise<NewsArticle | null> 
     const { data } = await supabase.from("news").select("*").eq("slug", slug).maybeSingle();
     if (data) return data as NewsArticle;
   }
-  return demoNews.find((n) => n.slug === slug) ?? null;
+  return null;
 }
 
 export async function getFeaturedNews(limit = 3): Promise<NewsArticle[]> {
@@ -154,7 +148,7 @@ export async function getDevelopers(): Promise<Developer[]> {
     column: "status",
     value: "active",
   });
-  return data ?? demoDevelopers;
+  return data ?? [];
 }
 
 export async function getDeveloper(slug: string): Promise<Developer | null> {
@@ -167,7 +161,7 @@ export async function getDeveloper(slug: string): Promise<Developer | null> {
       .maybeSingle();
     if (data) return data as Developer;
   }
-  return demoDevelopers.find((d) => d.slug === slug) ?? null;
+  return null;
 }
 
 // ===================== AGENCIES =====================
@@ -177,7 +171,7 @@ export async function getAgencies(): Promise<Agency[]> {
     column: "status",
     value: "active",
   });
-  return data ?? demoAgencies;
+  return data ?? [];
 }
 
 export async function getAgency(slug: string): Promise<Agency | null> {
@@ -190,7 +184,7 @@ export async function getAgency(slug: string): Promise<Agency | null> {
       .maybeSingle();
     if (data) return data as Agency;
   }
-  return demoAgencies.find((a) => a.slug === slug) ?? null;
+  return null;
 }
 
 // ===================== MARKET =====================
