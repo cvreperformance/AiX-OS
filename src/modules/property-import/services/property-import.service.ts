@@ -1,4 +1,4 @@
-import { Property } from '../../property-scanner/types/property.types';
+type Property = any; // Removed dependency on property-scanner
 import { RawJSONProperty, ImportResult, ImportStats } from '../types/import.types';
 
 export class PropertyImportService {
@@ -19,7 +19,7 @@ export class PropertyImportService {
     return true;
   }
 
-  public normalize(raw: RawJSONProperty): Property {
+  public normalize(raw: RawJSONProperty): any {
     // Generate deterministic ID if missing (using title + price hash)
     const backupId = `local-${Buffer.from(`${raw.title}-${raw.price}`).toString('base64').substring(0, 10)}`;
     const id = raw.id || backupId;
@@ -69,7 +69,7 @@ export class PropertyImportService {
 
   public import(rawRecords: any[]): ImportResult {
     const stats: ImportStats = { imported: 0, skipped: 0, invalid: 0, duplicates: 0 };
-    const properties: Property[] = [];
+    const properties: any[] = []; // Using any after removing Property type
     this.memoryDB.clear();
 
     for (const record of rawRecords) {

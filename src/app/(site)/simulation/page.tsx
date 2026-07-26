@@ -231,10 +231,10 @@ export default function WealthSimulationPage() {
 
           <div className="flex justify-end gap-3">
             <Link
-              href="/property-scanner"
+              href="/properties"
               className="rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 px-6 py-2.5 text-xs text-zinc-600 transition-all flex items-center gap-1.5"
             >
-              <span>Scan Active Listings</span>
+              <span>Explore Properties</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

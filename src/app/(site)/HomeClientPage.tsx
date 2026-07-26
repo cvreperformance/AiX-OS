@@ -503,10 +503,10 @@ export default function HomeClientPage({ featuredProperties, featuredNews, stats
           </div>
           <div className="pt-2">
             <Link
-              href="/property-scanner"
+              href="/properties"
               className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-semibold"
             >
-              {language === "ro" ? "Scanează Proprietate" : "Run Property Scan"}
+              Explore Properties
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

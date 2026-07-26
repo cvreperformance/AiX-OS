@@ -179,9 +179,10 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/stiri/japonia-recunoa-te-c-are-o-problem-dup-dezv-luirile-c-rusia-a-transformat-o-ntr-un-cuib-de-spioni",
-        destination: "/stiri/japonia-recunoaste-ca-are-o-problema-dupa-dezvaluirile-ca-rusia-a-transformat-o-intr-un-cuib-de-spioni",
+        destination: "/stiri/japonia-recunoaste-ca-are-o-problemă-dupa-dezvaluirile-ca-rusia-a-transformat-o-intr-un-cuib-de-spioni",
         permanent: true,
       },
+      { source: "/property-scanner", destination: "/properties", permanent: true },
     ];
   },
 };
