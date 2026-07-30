@@ -164,6 +164,37 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
     }
   }
 
+  let universalStats: any = {};
+  if (activeTab === "notifications") {
+    const { count: totalProcessed } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true });
+    const { count: totalSent } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("telegram_status", "sent");
+    const { count: totalFailed } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("telegram_status", "failed").gte("attempts", 5);
+    const { count: pendingRetries } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("telegram_status", "failed").lt("attempts", 5);
+    const { data: lastProcessed } = await supabaseAdmin.from("notification_delivery_log").select("*").order("created_at", { ascending: false }).limit(1).maybeSingle();
+
+    const { count: aixOsCount } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("application", "aix-os");
+    const { count: homeFindCount } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("application", "home-find");
+    const { count: insuranceCount } = await supabaseAdmin.from("notification_delivery_log").select("*", { count: "exact", head: true }).eq("application", "insurance");
+
+    const { data: recentLogs } = await supabaseAdmin
+      .from("notification_delivery_log")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    universalStats = {
+      totalProcessed: totalProcessed || 0,
+      totalSent: totalSent || 0,
+      totalFailed: totalFailed || 0,
+      pendingRetries: pendingRetries || 0,
+      lastProcessed: lastProcessed ? `${lastProcessed.event_type} (${lastProcessed.application})` : "None",
+      aixOsCount: aixOsCount || 0,
+      homeFindCount: homeFindCount || 0,
+      insuranceCount: insuranceCount || 0,
+      recentLogs: recentLogs || [],
+    };
+  }
+
   // Tab 1: Overview and Diagnostics Queries
   if (activeTab === "overview") {
     // 1. Total Ingested Events Count (Fast DB Index Query)
@@ -2138,69 +2169,94 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
         </div>
       )}
 
-      {/* Tab Content 7: Notifications Layer (Milestone 20) */}
+      {/* Tab Content 7: Universal Notifications Layer (Milestone 21) */}
       {activeTab === "notifications" && (() => {
         const notifyConfig = NotificationConfigManager.getConfig();
-        const notifyStats = telegram.getStats();
-        const rawQueue = telegram.getQueue();
         const isConnected = !!(process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID);
 
-        // Filter queue
+        // Filter the database logs using queryParams
         const filterApp = queryParams.application || "";
         const filterEventType = queryParams.event_type || "";
 
-        let filteredQueue = [...rawQueue];
+        let filteredLogs = [...(universalStats.recentLogs || [])];
         if (filterApp) {
-          filteredQueue = filteredQueue.filter((item) => item.event?.application === filterApp);
+          filteredLogs = filteredLogs.filter((item) => item.application === filterApp);
         }
         if (filterEventType) {
-          filteredQueue = filteredQueue.filter((item) => item.event?.event_type === filterEventType);
+          filteredLogs = filteredLogs.filter((item) => item.event_type === filterEventType);
         }
-
-        // Sort descending
-        filteredQueue.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
         return (
           <div className="space-y-8 animate-in fade-in duration-200">
-            {/* Connection & Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Universal Monitoring Stats Section */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Telegram Bot Connection</span>
-                  <Bell className={`h-4.5 w-4.5 ${isConnected ? "text-emerald-500 animate-pulse" : "text-zinc-300"}`} />
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Universal Processed</span>
+                  <Activity className="h-4.5 w-4.5 text-zinc-400" />
                 </div>
-                <div className="text-lg font-semibold text-zinc-800 font-sans">
-                  {isConnected ? (
-                    <span className="text-emerald-600 flex items-center gap-1">Connected</span>
-                  ) : (
-                    <span className="text-rose-600">Disconnected</span>
-                  )}
+                <div className="text-2xl font-bold text-zinc-800 font-mono tracking-tight">
+                  {universalStats.totalProcessed.toLocaleString()}
                 </div>
-                <div className="text-[10px] text-zinc-400 mt-1 font-mono">
-                  {isConnected ? "Active connection credentials" : "TELEGRAM_BOT_TOKEN missing in server environment"}
+                <div className="text-[10px] text-zinc-400 mt-1 font-sans">
+                  Total ecosystem events audited
                 </div>
               </div>
 
               {[
-                { label: "Notification Statistics", value: notifyStats.sent.toLocaleString(), sub: `${notifyStats.failed.toLocaleString()} failed / ${rawQueue.filter(item => item.status === "pending" || item.status === "retrying").length} in queue`, icon: Activity },
-                { label: "Notifications / Hour", value: `${Math.round(notifyStats.sent / Math.max(1, (Date.now() - new Date(notifyStats.last_notification_time || Date.now()).getTime()) / 3600000))}/hr`, sub: "Recent average velocity", icon: Zap },
-                { label: "Delivery Latency", value: notifyStats.latency_ms > 0 ? `${notifyStats.latency_ms}ms` : "N/A", sub: `Last delivery time`, icon: Clock },
+                { label: "Telegram Sent", value: universalStats.totalSent.toLocaleString(), sub: "Pushed successfully", color: "text-emerald-600", icon: Zap },
+                { label: "Telegram Failed", value: universalStats.totalFailed.toLocaleString(), sub: "Max retries reached", color: "text-rose-600", icon: EyeOff },
+                { label: "Pending Retries", value: universalStats.pendingRetries.toLocaleString(), sub: "Backoff queue", color: "text-amber-600", icon: Clock },
               ].map((card, idx) => (
                 <div key={idx} className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">{card.label}</span>
                     <card.icon className="h-4.5 w-4.5 text-zinc-400" />
                   </div>
-                  <div className="text-lg font-semibold text-zinc-800 font-mono tracking-tight">{card.value}</div>
+                  <div className={`text-2xl font-bold ${card.color} font-mono tracking-tight`}>{card.value}</div>
                   <div className="text-[10px] text-zinc-400 mt-1">{card.sub}</div>
                 </div>
               ))}
+
+              <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Last Audited Event</span>
+                  <Terminal className="h-4.5 w-4.5 text-amber-500" />
+                </div>
+                <div className="text-xs font-semibold text-zinc-700 truncate mt-1">
+                  {universalStats.lastProcessed}
+                </div>
+                <div className="text-[10px] text-zinc-400 mt-1.5 font-sans">
+                  Updated in real-time
+                </div>
+              </div>
+            </div>
+
+            {/* Application Statistics Distribution */}
+            <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-5 shadow-sm">
+              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-4 font-sans">Ecosystem Ingestion Audits</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { app: "aix-os", count: universalStats.aixOsCount, color: "bg-amber-500", desc: "Central OS & Telemetry Portal" },
+                  { app: "home-find", count: universalStats.homeFindCount, color: "bg-emerald-500", desc: "Property Search Portal" },
+                  { app: "insurance", count: universalStats.insuranceCount, color: "bg-blue-500", desc: "Ecosystem Insurance Calculator" },
+                ].map((item) => (
+                  <div key={item.app} className="flex items-center gap-4 bg-white border border-zinc-150 p-4 rounded-xl shadow-xs">
+                    <span className={`w-3.5 h-3.5 rounded-full ${item.color}`} />
+                    <div>
+                      <div className="uppercase text-xs font-bold text-zinc-800 tracking-wide">{item.app}</div>
+                      <div className="text-[10px] text-zinc-400">{item.desc}</div>
+                    </div>
+                    <div className="ml-auto text-lg font-bold text-zinc-700 font-mono">{item.count.toLocaleString()}</div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Filter and Configurations Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left Column: Notification Configuration */}
-              <div className="lg:col-span-5 space-y-6">
+              <div className="lg:col-span-4 space-y-6">
                 <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-sm space-y-4">
                   <div className="pb-3 border-b border-zinc-150">
                     <h3 className="text-sm font-semibold text-zinc-800 flex items-center gap-2">
@@ -2210,11 +2266,10 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                   </div>
 
                   <form action={updateNotificationConfig} className="space-y-4 text-xs">
-                    {/* Global Enabled Switch */}
                     <div className="flex items-center justify-between bg-zinc-50 p-3 rounded-lg border border-zinc-150">
                       <div>
                         <span className="font-semibold text-zinc-700">Global Notifications</span>
-                        <p className="text-[10px] text-zinc-400">Enable or disable all Telegram notifications</p>
+                        <p className="text-[10px] text-zinc-400 font-sans">Enable or disable all Telegram notifications</p>
                       </div>
                       <select
                         name="enabled"
@@ -2226,11 +2281,10 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                       </select>
                     </div>
 
-                    {/* Notification Mode Selection */}
                     <div className="flex items-center justify-between bg-zinc-50 p-3 rounded-lg border border-zinc-150">
                       <div>
                         <span className="font-semibold text-zinc-700">Monitoring Mode</span>
-                        <p className="text-[10px] text-zinc-400 font-sans">Development (all events) vs Production (high-priority &gt;90 intent)</p>
+                        <p className="text-[10px] text-zinc-400 font-sans font-sans">Development (all events) vs Production (high-priority &gt;90 intent)</p>
                       </div>
                       <select
                         name="mode"
@@ -2295,7 +2349,6 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                   </form>
                 </div>
 
-                {/* Queue Controls */}
                 <div className="bg-white border border-zinc-200 rounded-xl p-5 shadow-sm space-y-4">
                   <div className="pb-2 border-b border-zinc-150">
                     <h3 className="text-xs font-bold text-zinc-850 uppercase tracking-wider">Queue Controls</h3>
@@ -2323,15 +2376,15 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                 </div>
               </div>
 
-              {/* Right Column: Live Stream/Queue Table */}
-              <div className="lg:col-span-7 space-y-4">
+              {/* Right Column: Database-backed Logs Feed Table */}
+              <div className="lg:col-span-8 space-y-4">
                 <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
                   <div className="px-5 py-4 border-b border-zinc-150 bg-zinc-50 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Radio className="h-4.5 w-4.5 text-amber-500 animate-pulse" />
-                      <h3 className="text-sm font-semibold text-zinc-800">Ecosystem Notification Feed</h3>
+                      <h3 className="text-sm font-semibold text-zinc-800">Universal Event Delivery Logs</h3>
                     </div>
-                    <span className="text-[10px] text-zinc-400 font-mono">Matched {filteredQueue.length} notifications</span>
+                    <span className="text-[10px] text-zinc-400 font-mono">Matched {filteredLogs.length} events in DB</span>
                   </div>
 
                   {/* Filter Toolbar */}
@@ -2385,48 +2438,48 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                     <table className="w-full text-left text-xs text-zinc-650">
                       <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-450 uppercase tracking-wider text-[10px] font-bold sticky top-0">
                         <tr>
-                          <th className="px-4 py-3">Event Info</th>
-                          <th className="px-4 py-3">Status</th>
-                          <th className="px-4 py-3 text-right">Time & Retries</th>
+                          <th className="px-4 py-3">Event ID & Info</th>
+                          <th className="px-4 py-3">Telegram Status</th>
+                          <th className="px-4 py-3 text-right">Attempts & Time</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-200 font-mono text-[11px]">
-                        {filteredQueue.length === 0 ? (
+                        {filteredLogs.length === 0 ? (
                           <tr>
                             <td colSpan={3} className="text-center py-12 text-zinc-400 font-sans italic">
-                              No notifications matched filters in the queue.
+                              No universal event delivery logs found.
                             </td>
                           </tr>
                         ) : (
-                          filteredQueue.map((item) => {
+                          filteredLogs.map((item) => {
                             let statusColor = "bg-zinc-100 text-zinc-650";
-                            if (item.status === "sent") statusColor = "bg-emerald-100 text-emerald-800";
-                            if (item.status === "pending" || item.status === "retrying") statusColor = "bg-amber-100 text-amber-800";
-                            if (item.status === "failed") statusColor = "bg-rose-100 text-rose-800";
+                            if (item.telegram_status === "sent") statusColor = "bg-emerald-100 text-emerald-800";
+                            if (item.telegram_status === "pending") statusColor = "bg-amber-100 text-amber-800";
+                            if (item.telegram_status === "failed") statusColor = "bg-rose-100 text-rose-800";
 
                             return (
                               <tr key={item.id} className="hover:bg-zinc-50/50 bg-white">
                                 <td className="px-4 py-3.5">
                                   <div className="font-semibold text-zinc-900 text-xs font-sans">
-                                    {item.event?.event_type || "Event Action"}
+                                    {item.event_type}
                                   </div>
                                   <div className="text-[10px] text-zinc-400 mt-0.5 font-sans">
-                                    Visitor: <Link href={`/admin/intelligence?tab=explorer&activeVisitor=${item.event?.visitor_id}`} className="text-amber-600 font-bold hover:underline font-mono">{item.event?.visitor_id?.substring(0, 8)}...</Link> · App: <strong className="text-zinc-600 uppercase font-bold">{item.event?.application}</strong>
+                                    Event ID: <span className="font-mono font-bold text-zinc-500">{item.event_id.substring(0, 8)}...</span> · App: <strong className="text-zinc-600 uppercase font-bold">{item.application}</strong>
                                   </div>
-                                  {item.last_error && (
+                                  {item.error && (
                                     <div className="text-[9px] text-rose-500 font-mono mt-1 font-semibold leading-tight">
-                                      Error: {item.last_error}
+                                      Error: {item.error}
                                     </div>
                                   )}
                                 </td>
                                 <td className="px-4 py-3.5">
                                   <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${statusColor}`}>
-                                    {item.status}
+                                    {item.telegram_status}
                                   </span>
                                 </td>
                                 <td className="px-4 py-3.5 text-right font-sans text-zinc-500">
-                                  <div>{new Date(item.created_at).toLocaleTimeString()}</div>
-                                  <div className="text-[10px] text-zinc-400 mt-0.5 font-mono">Retries: {item.retry_count}</div>
+                                  <div>{item.sent_at ? new Date(item.sent_at).toLocaleTimeString() : new Date(item.created_at).toLocaleTimeString()}</div>
+                                  <div className="text-[10px] text-zinc-400 mt-0.5 font-mono">Attempts: {item.attempts}</div>
                                 </td>
                               </tr>
                             );

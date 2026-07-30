@@ -51,6 +51,7 @@ class TelegramNotificationService {
     // Start background processing queue
     if (typeof setInterval !== "undefined") {
       this.workerInterval = setInterval(() => this.processQueue(), 3000);
+      setInterval(() => this.processUniversalEvents(), 5000);
     }
   }
 
@@ -376,6 +377,249 @@ ${msg}
     });
     this.saveQueue();
     this.processQueue();
+  }
+
+  private isUniversalProcessing = false;
+
+  public async processUniversalEvents(): Promise<void> {
+    if (this.isUniversalProcessing) return;
+    this.isUniversalProcessing = true;
+
+    try {
+      if (!this.botToken || !this.chatId) return;
+
+      // 1. Fetch unprocessed events from database
+      const { data: events, error: fetchError } = await supabaseAdmin
+        .rpc("get_unprocessed_events", { limit_val: 100 });
+
+      if (fetchError || !events || events.length === 0) {
+        return;
+      }
+
+      for (const event of events) {
+        // Create log entry as pending
+        const { error: insertError } = await supabaseAdmin
+          .from("notification_delivery_log")
+          .insert({
+            event_id: event.id,
+            application: event.application || "aix-os",
+            event_type: event.event_type || "unknown",
+            telegram_status: "pending",
+            attempts: 0,
+            created_at: new Date().toISOString(),
+          });
+
+        if (insertError) {
+          continue;
+        }
+
+        // Add temporary debug logs:
+        console.log("Selected events:");
+        console.log(`Application: ${event.application}`);
+        console.log(`Event: ${event.event_type}`);
+        console.log("Queued: true");
+
+        // Format and send message
+        const formattedMsg = this.formatUniversalEventMessage(event);
+        let status = "sent";
+        let errorMsg: string | null = null;
+        const startTime = Date.now();
+
+        try {
+          const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: this.chatId,
+              text: formattedMsg,
+              parse_mode: "HTML",
+            }),
+          });
+
+          if (!response.ok) {
+            const txt = await response.text();
+            if (response.status === 400 && (txt.includes("parse entities") || txt.includes("can't parse"))) {
+              const fallbackResponse = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  chat_id: this.chatId,
+                  text: formattedMsg.replace(/<\/?[^>]+(>|$)/g, ""), // strip tags
+                }),
+              });
+              if (!fallbackResponse.ok) {
+                const fallbackTxt = await fallbackResponse.text();
+                throw new Error(`Telegram Plain Text Fallback: ${fallbackResponse.status} - ${fallbackTxt}`);
+              }
+            } else {
+              throw new Error(`Telegram API: ${response.status} - ${txt}`);
+            }
+          }
+        } catch (err: any) {
+          status = "failed";
+          errorMsg = err.message || "Unknown error";
+        }
+
+        // Update status in delivery log
+        await supabaseAdmin
+          .from("notification_delivery_log")
+          .update({
+            telegram_status: status,
+            attempts: 1,
+            sent_at: new Date().toISOString(),
+            error: errorMsg,
+          })
+          .eq("event_id", event.id);
+
+        console.log(`Sent: ${status === "sent"}`);
+
+        if (status === "sent") {
+          this.stats.sent += 1;
+          this.stats.latency_ms = Date.now() - startTime;
+          this.stats.last_notification_time = new Date().toISOString();
+          this.saveStats();
+        } else {
+          this.stats.failed += 1;
+          this.saveStats();
+        }
+      }
+
+      // 2. Retry failed messages in delivery log (where attempts < 5)
+      const { data: failedLogs } = await supabaseAdmin
+        .from("notification_delivery_log")
+        .select("*")
+        .eq("telegram_status", "failed")
+        .lt("attempts", 5)
+        .limit(10);
+
+      if (failedLogs && failedLogs.length > 0) {
+        for (const log of failedLogs) {
+          const { data: event } = await supabaseAdmin
+            .from("aix_events")
+            .select("*")
+            .eq("id", log.event_id)
+            .single();
+
+          if (!event) continue;
+
+          const formattedMsg = this.formatUniversalEventMessage(event);
+          let status = "sent";
+          let errorMsg: string | null = null;
+
+          try {
+            const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+            const response = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: this.chatId,
+                text: formattedMsg,
+                parse_mode: "HTML",
+              }),
+            });
+
+            if (!response.ok) {
+              const txt = await response.text();
+              if (response.status === 400 && (txt.includes("parse entities") || txt.includes("can't parse"))) {
+                const fallbackResponse = await fetch(url, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    chat_id: this.chatId,
+                    text: formattedMsg.replace(/<\/?[^>]+(>|$)/g, ""),
+                  }),
+                });
+                if (!fallbackResponse.ok) {
+                  const fallbackTxt = await fallbackResponse.text();
+                  throw new Error(`Fallback HTTP ${fallbackResponse.status}: ${fallbackTxt}`);
+                }
+              } else {
+                throw new Error(`HTTP ${response.status}: ${txt}`);
+              }
+            }
+          } catch (err: any) {
+            status = "failed";
+            errorMsg = err.message;
+          }
+
+          await supabaseAdmin
+            .from("notification_delivery_log")
+            .update({
+              telegram_status: status,
+              attempts: log.attempts + 1,
+              sent_at: new Date().toISOString(),
+              error: errorMsg,
+            })
+            .eq("event_id", log.event_id);
+        }
+      }
+    } catch (e) {
+      // Fail silently
+    } finally {
+      this.isUniversalProcessing = false;
+    }
+  }
+
+  private escapeTelegramHtml(value: any): string {
+    if (value === null || value === undefined) return "";
+    const str = typeof value === "object" ? JSON.stringify(value) : String(value);
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  private formatUniversalEventMessage(event: any): string {
+    const app = event.application || "aix-os";
+    const eventType = event.event_type || "unknown";
+    const visitorId = event.visitor_id || "unknown";
+    const sessionId = event.session_id || "unknown";
+    const page = event.page || "/";
+    const timestamp = event.timestamp || new Date().toISOString();
+    const eventId = event.id || "";
+
+    const payload = event.payload || {};
+    const metadata = event.metadata || {};
+    const explanation = event.explanation || event.payload?.explanation || "";
+    const recommendedAction = event.recommended_action || event.payload?.recommended_action || "";
+
+    let metadataStr = "";
+    if (Object.keys(payload).length > 0) {
+      metadataStr += `Payload: ${JSON.stringify(payload)}\n`;
+    }
+    if (Object.keys(metadata).length > 0) {
+      metadataStr += `Metadata: ${JSON.stringify(metadata)}\n`;
+    }
+    if (explanation) {
+      metadataStr += `Explanation: ${explanation}\n`;
+    }
+    if (recommendedAction) {
+      metadataStr += `Recommended Action: ${recommendedAction}\n`;
+    }
+
+    const escapedApp = this.escapeTelegramHtml(app);
+    const escapedEventType = this.escapeTelegramHtml(eventType);
+    const escapedVisitorId = this.escapeTelegramHtml(visitorId);
+    const escapedSessionId = this.escapeTelegramHtml(sessionId);
+    const escapedPage = this.escapeTelegramHtml(page);
+    const escapedTimestamp = this.escapeTelegramHtml(timestamp);
+    const escapedEventId = this.escapeTelegramHtml(eventId);
+    const escapedMetadataFinal = this.escapeTelegramHtml(metadataStr.trim());
+
+    return `🚀 <b>AiX Ecosystem Event</b>
+
+<b>Application:</b> ${escapedApp.toUpperCase()}
+<b>Event:</b> <code>${escapedEventType}</code>
+<b>Visitor:</b> <code>${escapedVisitorId}</code>
+<b>Session:</b> <code>${escapedSessionId}</code>
+<b>Time:</b> ${escapedTimestamp}
+<b>Page:</b> <code>${escapedPage}</code>
+<b>Metadata:</b>
+<pre>${escapedMetadataFinal || "None"}</pre>
+
+<b>Event ID:</b> <code>${escapedEventId}</code>`;
   }
 }
 
