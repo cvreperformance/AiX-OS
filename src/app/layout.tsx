@@ -5,6 +5,8 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { Suspense } from "react";
+import AiXTelemetryProvider from "@/app/components/AiXTelemetryProvider";
 
 export async function generateMetadata(): Promise<Metadata> {
   let baseUrl = "https://os.cristianvaduva.com";
@@ -89,6 +91,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full antialiased bg-black text-zinc-100" suppressHydrationWarning>
         <SystemBackgroundLayer />
+        <Suspense fallback={null}>
+          <AiXTelemetryProvider />
+        </Suspense>
         {children}
       </body>
     </html>

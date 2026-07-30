@@ -9,6 +9,7 @@ import {
   Newspaper,
   Star,
   Users,
+  Brain,
 } from "lucide-react";
 
 const adminLinks = [
@@ -18,6 +19,7 @@ const adminLinks = [
   { href: "/admin/opportunities", label: "Oportunități", icon: Star },
   { href: "/admin/developers", label: "Dezvoltatori", icon: Building2 },
   { href: "/admin/agencies", label: "Agenții", icon: Users },
+  { href: "/admin/intelligence", label: "Intelligence", icon: Brain },
 ];
 
 export function AdminSidebar() {

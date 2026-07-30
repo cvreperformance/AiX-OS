@@ -3,6 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { sendTelegramAlert } from '@/lib/notifications';
+import { checkRateLimit } from '@/lib/rateLimiter';
+import { verifyTurnstile } from '@/lib/verifyTurnstile';
+import { logPasswordResetAttempt } from '@/lib/auditLog';
+import { headers } from 'next/headers';
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
@@ -144,11 +148,28 @@ export async function forgotPassword(formData: FormData) {
   const supabase = await createClient();
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   const personalAccessCode = (formData.get("personal_access_code") as string)?.trim();
+  const turnstileToken = (formData.get("turnstile_token") as string)?.trim();
+  const hdr = await headers();
+  const ip = hdr.get('x-forwarded-for') ?? 'unknown';
 
-  // Generic response to avoid revealing account existence
+  // Generic response to avoid revealing account existence or reasons for denial
   const genericSuccess = { success: "If an account exists, password reset instructions will be sent." };
 
+  // Rate limiting check
+  const rateLimit = checkRateLimit(ip);
+  if (!rateLimit.allowed) {
+    await logPasswordResetAttempt({ ip, email, success: false, reason: rateLimit.reason ?? 'rate_limit' });
+    return genericSuccess;
+  }
+
+  // Verify Turnstile token
+  if (!turnstileToken || !(await verifyTurnstile(turnstileToken))) {
+    await logPasswordResetAttempt({ ip, email, success: false, reason: 'turnstile_failed' });
+    return genericSuccess;
+  }
+
   if (!email || !personalAccessCode) {
+    await logPasswordResetAttempt({ ip, email, success: false, reason: 'missing_fields' });
     return { error: "Email and Personal Access Code are required." };
   }
 
@@ -161,18 +182,21 @@ export async function forgotPassword(formData: FormData) {
 
   if (fetchError) {
     // Do not disclose whether email exists
+    await logPasswordResetAttempt({ ip, email, success: false, reason: 'email_not_found' });
     return genericSuccess;
   }
 
   // Check account active (approved)
   if (profile?.approval_status !== "approved") {
-    return { error: "Account is not active." };
+    await logPasswordResetAttempt({ ip, email, success: false, reason: 'inactive_account' });
+    return { error: "Your account is currently inactive. Please contact support." };
   }
 
   // Verify personal access code using bcryptjs
   const bcrypt = (await import("bcryptjs")).default;
   const isCodeValid = await bcrypt.compare(personalAccessCode, profile?.personal_access_code_hash || "");
   if (!isCodeValid) {
+    await logPasswordResetAttempt({ ip, email, success: false, reason: 'invalid_pac' });
     return { error: "Invalid access code." };
   }
 
@@ -183,8 +207,11 @@ export async function forgotPassword(formData: FormData) {
   });
 
   if (resetError) {
+    await logPasswordResetAttempt({ ip, email, success: false, reason: resetError.message });
     return { error: resetError.message };
   }
 
+  // Log successful attempt
+  await logPasswordResetAttempt({ ip, email, success: true, reason: 'success' });
   return genericSuccess;
 }

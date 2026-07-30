@@ -12,10 +12,14 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
     startTransition(async () => {
       const res = await login(formData);
       if (res?.error) {
         setError(res.error);
+        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "failure", details: { email, error: res.error } } }));
+      } else {
+        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "success", details: { email } } }));
       }
     });
   };

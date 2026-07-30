@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import Link from "next/link";
 import { forgotPassword } from "../actions";
 import { Brain, Home, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
@@ -9,7 +9,18 @@ export default function ForgotPasswordPage() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
+  const [email, setEmail] = useState<string>('');
+  const [personalAccessCode, setPersonalAccessCode] = useState<string>('');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      setTurnstileToken(e.detail);
+    };
+    window.addEventListener('turnstileSuccess', handler as EventListener);
+    return () => {
+      window.removeEventListener('turnstileSuccess', handler as EventListener);
+    };
+  }, []);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -40,9 +51,10 @@ export default function ForgotPasswordPage() {
 
         <div className="relative text-center">
           <Brain className="mx-auto h-12 w-12 text-amber-500" />
-          <h2 className="mt-6 text-3xl font-light text-zinc-900">
+           <h1 style={{color: 'red', fontSize: '2rem', textAlign: 'center'}}>HERE IS THE REAL COMPONENT</h1>
+           <h2 className="mt-6 text-3xl font-light text-zinc-900">
             Reset Password
-          </h2>
+           </h2>
           <p className="mt-2 text-sm text-zinc-400">
             Enter your email to receive a reset link
           </p>
@@ -64,30 +76,39 @@ export default function ForgotPasswordPage() {
 
           <div className="space-y-4">
             <div>
-              <label className="sr-only">Email address</label>
-              <input
-                name="email"
-                type="email"
-                required
-                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
-                placeholder="Email address"
-              />
+                <label className="sr-only">Email address</label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                  placeholder="Email address"
+                />
             </div>
             <div>
-              <label className="sr-only">Personal Access Code</label>
-              <input
-                name="personal_access_code"
-                type="text"
-                required
-                className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
-                placeholder="Personal Access Code"
-              />
+                <label className="sr-only">Personal Access Code</label>
+                <input
+                  name="personal_access_code"
+                  type="text"
+                  required
+                  value={personalAccessCode}
+                  onChange={(e) => setPersonalAccessCode(e.target.value)}
+                  className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all"
+                  placeholder="Personal Access Code"
+                />
             </div>
+            {/* Cloudflare Turnstile widget */}
+            <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} data-callback="onTurnstileSuccess"></div>
+            <input type="hidden" name="turnstile_token" />
           </div>
+          {/* Turnstile callback script */}
+            <script dangerouslySetInnerHTML={{ __html: `function onTurnstileSuccess(token) { document.querySelector('input[name="turnstile_token"]').value = token; window.dispatchEvent(new CustomEvent('turnstileSuccess', { detail: token })); }` }} />
 
           <button
             type="submit"
-            disabled={isPending || !!success}
+              disabled={isPending || !!success || !email || !personalAccessCode || !turnstileToken}
             className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-zinc-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
 
             {isPending ? (

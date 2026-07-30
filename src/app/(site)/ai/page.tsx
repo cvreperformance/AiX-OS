@@ -376,6 +376,10 @@ export default function AiAdvisorPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "started", details: { source: "page" } } }));
+  }, []);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -387,10 +391,14 @@ export default function AiAdvisorPage() {
     setMessages((prev) => [...prev, { role: "user", content: msg }]);
     setLoading(true);
 
+    window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "sent", details: { prompt: msg, source: "page" } } }));
+
     // Simulate processing delay
     await new Promise((r) => setTimeout(r, 600 + Math.random() * 400));
 
     const response = generateResponse(msg);
+    window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "received", details: { prompt: msg, response: response.content, source: "page" } } }));
+
     setMessages((prev) => [...prev, { role: "assistant", ...response }]);
     setLoading(false);
   }

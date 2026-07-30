@@ -1,0 +1,56 @@
+[
+  {
+    "application_id": "aix-os",
+    "display_name": "AiX OS",
+    "version": "1.0.0",
+    "api_key": "aix-os-default-api-key-key-value",
+    "status": "enabled",
+    "feature_flags": {
+      "sampling": 1.0,
+      "realtime": true,
+      "telegram": true,
+      "knowledge": true,
+      "prediction": true
+    },
+    "endpoint": "/api/aix-intelligence/v1/ingest",
+    "health_status": "online",
+    "created_at": "2026-07-29T20:58:00.000Z",
+    "updated_at": "2026-07-29T20:58:00.000Z"
+  },
+  {
+    "application_id": "home-find",
+    "display_name": "Home Find",
+    "version": "1.0.0",
+    "api_key": "home-find-default-api-key-key-value",
+    "status": "enabled",
+    "feature_flags": {
+      "sampling": 1.0,
+      "realtime": true,
+      "telegram": true,
+      "knowledge": true,
+      "prediction": true
+    },
+    "endpoint": "/api/aix-intelligence/v1/ingest",
+    "health_status": "online",
+    "created_at": "2026-07-29T20:58:00.000Z",
+    "updated_at": "2026-07-29T20:58:00.000Z"
+  },
+  {
+    "application_id": "insurance",
+    "display_name": "Insurance",
+    "version": "1.0.0",
+    "api_key": "insurance-default-api-key-key-value",
+    "status": "enabled",
+    "feature_flags": {
+      "sampling": 1.0,
+      "realtime": true,
+      "telegram": true,
+      "knowledge": true,
+      "prediction": true
+    },
+    "endpoint": "/api/aix-intelligence/v1/ingest",
+    "health_status": "online",
+    "created_at": "2026-07-29T20:58:00.000Z",
+    "updated_at": "2026-07-29T20:58:00.000Z"
+  }
+]

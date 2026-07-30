@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "mode": "development",
+  "applications": {
+    "aix-os": true,
+    "home-find": true,
+    "insurance": true
+  },
+  "eventTypes": {
+    "page_view": true,
+    "ai": true,
+    "forms": true,
+    "properties": true,
+    "insurance": true
+  }
+}

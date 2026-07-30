@@ -2,8 +2,38 @@
 
 import { Cpu, ShieldCheck, Star, Camera, Check, MapPin, LayoutDashboard, Search, Minus, Sparkles, Globe, Users, Award } from "lucide-react";
 import { useEffect } from "react";
+import { initAiXIntelligence, aix } from "@/lib/aix-sdk";
 
 export default function HomeFindClientPage() {
+  useEffect(() => {
+    let environment: "local" | "preview" | "production" = "production";
+    try {
+      const hostname = window.location.hostname;
+      if (hostname.includes("localhost") || hostname.includes("127.0.0.1")) {
+        environment = "local";
+      }
+    } catch (e) {}
+
+    initAiXIntelligence({
+      application: "home-find",
+      environment,
+      apiUrl: "/api/aix-intelligence/v1/ingest",
+      enabled: true,
+      samplingRate: 1.0,
+    });
+  }, []);
+
+  const handleSearchMock = () => {
+    try {
+      aix.trackSearch("Beverly Hills", 2);
+    } catch (e) {}
+  };
+
+  const handlePropertyOpened = (id: string) => {
+    try {
+      aix.trackPropertyAction("opened", id);
+    } catch (e) {}
+  };
   useEffect(() => {
     const observerOptions = {
       root: null,
@@ -90,15 +120,21 @@ export default function HomeFindClientPage() {
                         <div className="w-3 h-3 rounded-full bg-white/20"></div>
                         <div className="w-3 h-3 rounded-full bg-white/20"></div>
                     </div>
-                    {/* Search Bar Mock */}
-                    <div className="bg-white/50 border border-white/10 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-inner">
+                     {/* Search Bar Mock */}
+                    <div 
+                      onClick={handleSearchMock}
+                      className="bg-white/50 border border-white/10 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-inner cursor-pointer"
+                    >
                         <MapPin    className="text-gray-400 w-5 h-5" />
                         <div className="text-gray-400 font-medium text-sm flex-1">Where do you want to live?</div>
                         <div className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold shadow-lg">Search</div>
                     </div>
                     {/* Listing Cards Mock */}
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-white/5 rounded-2xl h-48 border border-white/5 overflow-hidden relative group">
+                        <div 
+                          onClick={() => handlePropertyOpened("beverly-hills-villa")}
+                          className="bg-white/5 rounded-2xl h-48 border border-white/5 overflow-hidden relative group cursor-pointer"
+                        >
                             <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Villa Mockup" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                             <div className="absolute bottom-4 left-4 z-20">
@@ -106,7 +142,10 @@ export default function HomeFindClientPage() {
                                 <div className="text-xs text-gray-300 font-medium">Beverly Hills, CA</div>
                             </div>
                         </div>
-                        <div className="bg-white/5 rounded-2xl h-48 border border-white/5 overflow-hidden relative group">
+                        <div 
+                          onClick={() => handlePropertyOpened("miami-beach-penthouse")}
+                          className="bg-white/5 rounded-2xl h-48 border border-white/5 overflow-hidden relative group cursor-pointer"
+                        >
                             <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Penthouse Mockup" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10"></div>
                             <div className="absolute bottom-4 left-4 z-20">

@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@aix/intelligence-sdk": ["./packages/aix-intelligence-sdk/src/index.ts"]
     }
   },
   "include": [

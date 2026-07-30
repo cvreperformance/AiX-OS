@@ -4,6 +4,7 @@ import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { MarketAlertBanner } from "@/components/layout/MarketAlertBanner";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { SystemBackgroundLayer } from "@/components/layout/SystemBackgroundLayer";
+import { AiXIntelligenceTracker } from "@/components/layout/AiXIntelligenceTracker";
 
 export default function SiteLayout({
   children,
@@ -13,6 +14,9 @@ export default function SiteLayout({
   return (
     <LanguageProvider>
       <div className="min-h-full flex flex-col relative">
+        {/* Passive tracking initialization */}
+        <AiXIntelligenceTracker />
+
         {/* Animated background data layer */}
         <SystemBackgroundLayer />
       {/* Rotating market alert banner */}
@@ -36,3 +40,4 @@ export default function SiteLayout({
     </LanguageProvider>
   );
 }
+

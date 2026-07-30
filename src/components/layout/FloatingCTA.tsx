@@ -48,6 +48,12 @@ export function FloatingCTA() {
   }, [language]);
 
   useEffect(() => {
+    if (chatOpen) {
+      window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "started", details: { source: "widget" } } }));
+    }
+  }, [chatOpen]);
+
+  useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -55,6 +61,7 @@ export function FloatingCTA() {
     if (!userText.trim()) return;
 
     setLoading(true);
+    window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "sent", details: { prompt: userText, source: "widget" } } }));
 
     setTimeout(() => {
       const lower = userText.toLowerCase();
@@ -86,6 +93,8 @@ export function FloatingCTA() {
             ? "Interogarea ta a fost înregistrată. Pentru a primi o analiză exactă corelată cu rețeaua noastră off-market, poți discuta direct cu un advisor de investiții sau poți lansa o scanare de active."
             : "Your request is registered. To obtain an exact analysis mapped to our off-market listings database, you can connect directly with an investment advisor or launch a scan.";
       }
+
+      window.dispatchEvent(new CustomEvent("aix:ai_prompt", { detail: { stage: "received", details: { prompt: userText, response: responseText, source: "widget" } } }));
 
       setMessages((prev) => [
         ...prev,
