@@ -149,9 +149,7 @@ export async function POST(request: NextRequest) {
 
         console.log("AIX TELEMETRY EVENT", evt.application, evt.event_type, evt.id);
 
-        notificationService.enqueue(evt).catch((error) => {
-          console.error(error);
-        });
+        notificationService.enqueue(evt).catch(console.error);
       });
 
       // Trigger asynchronous retry process for failed notifications

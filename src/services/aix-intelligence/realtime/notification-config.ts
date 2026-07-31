@@ -5,6 +5,7 @@ import { aix } from "@aix/intelligence-sdk";
 export interface NotificationConfig {
   enabled: boolean;
   mode: "development" | "production";
+  notification_mode?: "developer" | "business";
   applications: {
     "aix-os": boolean;
     "home-find": boolean;
@@ -27,6 +28,7 @@ export class NotificationConfigManager {
   private static defaultConfig: NotificationConfig = {
     enabled: true,
     mode: "development",
+    notification_mode: "business",
     applications: {
       "aix-os": true,
       "home-find": true,

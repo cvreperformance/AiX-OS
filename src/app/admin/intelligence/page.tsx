@@ -85,6 +85,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
     "use server";
     const enabled = formData.get("enabled") === "true";
     const mode = formData.get("mode") as "development" | "production";
+    const notification_mode = (formData.get("notification_mode") || "business") as "developer" | "business";
     const app_aix_os = formData.get("app_aix_os") === "true";
     const app_home_find = formData.get("app_home_find") === "true";
     const app_insurance = formData.get("app_insurance") === "true";
@@ -97,6 +98,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
     NotificationConfigManager.updateConfig({
       enabled,
       mode,
+      notification_mode,
       applications: {
         "aix-os": app_aix_os,
         "home-find": app_home_find,
@@ -2369,8 +2371,8 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
 
                     <div className="flex items-center justify-between bg-zinc-50 p-3 rounded-lg border border-zinc-150">
                       <div>
-                        <span className="font-semibold text-zinc-700">Monitoring Mode</span>
-                        <p className="text-[10px] text-zinc-400 font-sans font-sans">Development (all events) vs Production (high-priority &gt;90 intent)</p>
+                        <span className="font-semibold text-zinc-700 font-sans">Monitoring Mode</span>
+                        <p className="text-[10px] text-zinc-400 font-sans">Development (all events) vs Production (high-priority &gt;90 intent)</p>
                       </div>
                       <select
                         name="mode"
@@ -2379,6 +2381,21 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                       >
                         <option value="development">DEVELOPMENT</option>
                         <option value="production">PRODUCTION</option>
+                      </select>
+                    </div>
+
+                    <div className="flex items-center justify-between bg-zinc-50 p-3 rounded-lg border border-zinc-150">
+                      <div>
+                        <span className="font-semibold text-zinc-700 font-sans">Notification Mode</span>
+                        <p className="text-[10px] text-zinc-400 font-sans">Business (human-friendly feed) vs Developer (raw event feed)</p>
+                      </div>
+                      <select
+                        name="notification_mode"
+                        defaultValue={notifyConfig.notification_mode || "business"}
+                        className="bg-white border border-zinc-250 rounded px-2.5 py-1 text-xs"
+                      >
+                        <option value="business">Business Mode</option>
+                        <option value="developer">Developer Mode</option>
                       </select>
                     </div>
 

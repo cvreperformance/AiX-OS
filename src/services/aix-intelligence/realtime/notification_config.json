@@ -1,6 +1,7 @@
 {
   "enabled": true,
   "mode": "development",
+  "notification_mode": "business",
   "applications": {
     "aix-os": true,
     "home-find": true,
