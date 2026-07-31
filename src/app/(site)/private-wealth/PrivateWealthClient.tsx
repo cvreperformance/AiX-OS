@@ -6,7 +6,7 @@ import { designSystem } from "@/styles/designSystem";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
-import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateNotEmptyString } from "@/lib/validation";
 import { PageHeader } from "@/components/ui";
 
 const BENEFITS = [
@@ -616,7 +616,7 @@ function OffMarketTab() {
     const nameErr = validateName(name);
     const phoneErr = validatePhone(phone);
     const emailErr = validateEmail(email);
-    const messageErr = validateRequiredString(message, "Message");
+    const messageErr = validateNotEmptyString(message, "Message");
     const gdprErr = validateCheckbox(gdpr);
 
     if (nameErr || phoneErr || emailErr || messageErr || gdprErr) {

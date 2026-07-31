@@ -9,7 +9,7 @@ export function AiXIntelligenceTracker() {
   const lastPathname = useRef<string | null>(null);
   
   // Ref tracking time on current page
-  const pageStartTime = useRef<number>(Date.now());
+  const pageStartTime = useRef<number>(0);
 
   // Ref tracking scroll depth states (boolean flags to prevent duplicate sends per page view)
   const scrollMilestones = useRef<{ [key: number]: boolean }>({
@@ -25,6 +25,7 @@ export function AiXIntelligenceTracker() {
 
   // Initialize SDK and track app startup once
   useEffect(() => {
+    pageStartTime.current = Date.now();
     let environment: "local" | "preview" | "production" = "production";
     try {
       const hostname = window.location.hostname;

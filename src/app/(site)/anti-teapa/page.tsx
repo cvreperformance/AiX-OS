@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateNotEmptyString } from "@/lib/validation";
 import {
   AlertTriangle,
   Shield,
@@ -185,9 +185,9 @@ export default function AntiTeapaPage() {
     e.preventDefault();
     setFieldErrors({});
 
-    const addrErr = validateRequiredString(address, "Address");
-    const cadErr = validateRequiredString(cadastru, "Cadastre");
-    const priceErr = validateRequiredString(price, "Price");
+    const addrErr = validateNotEmptyString(address, "Address");
+    const cadErr = validateNotEmptyString(cadastru, "Cadastre");
+    const priceErr = validateNotEmptyString(price, "Price");
 
     if (addrErr || cadErr || priceErr) {
       setFieldErrors({

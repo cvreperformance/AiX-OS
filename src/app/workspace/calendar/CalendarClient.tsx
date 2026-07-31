@@ -220,8 +220,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
             <div className="space-y-4">
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1">Title *</label>
+                <label htmlFor="event-title" className="block text-sm font-medium text-zinc-400 mb-1">Title *</label>
                 <input
+                  id="event-title"
                   type="text"
                   value={formData.title || ''}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -233,8 +234,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
               {/* Date + Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-zinc-400 mb-1">Date *</label>
+                  <label htmlFor="event-date" className="block text-sm font-medium text-zinc-400 mb-1">Date *</label>
                   <input
+                    id="event-date"
                     type="date"
                     value={formData.date || ''}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
@@ -242,8 +244,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-400 mb-1">Time *</label>
+                  <label htmlFor="event-time" className="block text-sm font-medium text-zinc-400 mb-1">Time *</label>
                   <input
+                    id="event-time"
                     type="time"
                     value={formData.time || ''}
                     onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -255,8 +258,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
               {/* Category + Priority */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-zinc-400 mb-1">Category</label>
+                  <label htmlFor="event-category" className="block text-sm font-medium text-zinc-400 mb-1">Category</label>
                   <select
+                    id="event-category"
                     value={formData.category || 'Meeting'}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
                     className="w-full bg-black border border-zinc-800 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none"
@@ -271,8 +275,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-400 mb-1">Priority</label>
+                  <label htmlFor="event-priority" className="block text-sm font-medium text-zinc-400 mb-1">Priority</label>
                   <select
+                    id="event-priority"
                     value={formData.priority || 'Medium'}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
                     className="w-full bg-black border border-zinc-800 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none"
@@ -287,8 +292,9 @@ export default function CalendarClient({ initialEvents }: CalendarClientProps) {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1">Description</label>
+                <label htmlFor="event-description" className="block text-sm font-medium text-zinc-400 mb-1">Description</label>
                 <textarea
+                  id="event-description"
                   value={formData.description || ''}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Optional notes…"

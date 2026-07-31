@@ -3,12 +3,11 @@ import type { NextRequest } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 /**
- * Global middleware to enforce route protection.
+ * Global proxy to enforce route protection.
  * - Public routes are accessible to everyone.
- * - Protected routes (/dashboard, /admin) require authentication.
- * - Redirects users with `approval_status !== 'approved'` to the pending approval page.
+ * - Protected routes (/dashboard, /admin, /workspace) require authentication.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Define protected routes that require authentication
@@ -47,7 +46,6 @@ export async function middleware(request: NextRequest) {
   if (profile?.role === 'admin') {
     return NextResponse.next();
   }
-
 
   // All checks passed – allow request
   return NextResponse.next();

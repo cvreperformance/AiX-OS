@@ -1,6 +1,6 @@
 import { siteConfig } from "@/lib/config";
 import SystemBackgroundLayer from "@/components/layout/SystemBackgroundLayer";
-import { organizationSchema } from "@/lib/seo";
+import { organizationSchema, personSchema, softwareApplicationSchema, webApplicationSchema } from "@/lib/seo";
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -87,6 +87,18 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }}
         />
       </head>
       <body className="min-h-full antialiased bg-black text-zinc-100" suppressHydrationWarning>

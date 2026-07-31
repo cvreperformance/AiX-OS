@@ -18,6 +18,7 @@ import { ApplicationRegistry } from "@/services/aix-intelligence/connector/appli
 import { ConnectorHealth } from "@/services/aix-intelligence/connector/connector-health";
 import { NotificationConfigManager } from "@/services/aix-intelligence/realtime/notification-config";
 import { telegram } from "@/services/aix-intelligence/telegram";
+import { QueryEngine } from "@/services/aix-intelligence/query-engine";
 
 interface Props {
   searchParams: Promise<{
@@ -68,6 +69,34 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
 
   // Retrieve app connector list
   const appsList = ApplicationRegistry.load();
+
+  // Prefetch health metrics and events count to keep render pure (fixes react impure render warning)
+  // eslint-disable-next-line react-hooks/purity
+  const oneHourAgo = new Date(Date.now() - 3600 * 1000).toISOString();
+  const computedAppsList = await Promise.all(
+    appsList.map(async (app) => {
+      const health = ConnectorHealth.getStats(app.application_id);
+      const { count: eventsLastHour } = await supabaseAdmin
+        .from("aix_events")
+        .select("*", { count: "exact", head: true })
+        .eq("application", app.application_id)
+        .gte("timestamp", oneHourAgo);
+
+      let score = 100;
+      if (health.latency_ms > 150) score -= 15;
+      if (health.failed_requests > 0) score -= 20;
+      if (health.dropped_events > 0) score -= 25;
+      if (app.status === "disabled") score = 0;
+      const healthScore = Math.max(0, score);
+
+      return {
+        ...app,
+        health,
+        eventsLastHour: eventsLastHour || 0,
+        healthScore,
+      };
+    })
+  );
 
   // Server Action to toggle flags
   async function toggleFlag(formData: FormData) {
@@ -148,18 +177,17 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
   // Setup queries based on selected tab for maximum database performance (Zero full scans)
   let overviewData: any = {};
   let appComparisonList: any[] = [];
-  let crossAppJourneys: any[] = [];
+  const crossAppJourneys: any[] = [];
   let liveEventsList: any[] = [];
-  let opportunityList: any[] = [];
+  const opportunityList: any[] = [];
   let decisionStats: any = {};
-  let priorityQueue: any[] = [];
-  let highestValueVisitors: any[] = [];
-  let decisionTimeline: any[] = [];
+  const priorityQueue: any[] = [];
+  const highestValueVisitors: any[] = [];
+  const decisionTimeline: any[] = [];
   let queryResult: any = null;
 
   if (queryParams.queryText) {
     try {
-      const { QueryEngine } = require("@/services/aix-intelligence/query-engine");
       queryResult = await QueryEngine.execute(queryParams.queryText);
     } catch (e) {
       console.error(e);
@@ -483,7 +511,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
           const confidence = Math.min(100, 70 + (journeyAnalytics.journey_length || 2) * 4);
 
           // Get transition times
-          let transitions = [];
+          const transitions = [];
           for (let i = 1; i < journeyTimeline.length; i++) {
             const prev = journeyTimeline[i-1];
             const curr = journeyTimeline[i];
@@ -1690,24 +1718,8 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-150 font-mono text-[11px] bg-white">
-                  {await Promise.all(appsList.map(async (app) => {
-                    const health = ConnectorHealth.getStats(app.application_id);
-                    
-                    // Fetch events in last hour for this connector
-                    const oneHourAgo = new Date(Date.now() - 3600 * 1000).toISOString();
-                    const { count: eventsLastHour } = await supabaseAdmin
-                      .from("aix_events")
-                      .select("*", { count: "exact", head: true })
-                      .eq("application", app.application_id)
-                      .gte("timestamp", oneHourAgo);
-
-                    // Compute health score dynamically
-                    let score = 100;
-                    if (health.latency_ms > 150) score -= 15;
-                    if (health.failed_requests > 0) score -= 20;
-                    if (health.dropped_events > 0) score -= 25;
-                    if (app.status === "disabled") score = 0;
-                    const healthScore = Math.max(0, score);
+                  {computedAppsList.map((app) => {
+                    const { health, eventsLastHour, healthScore } = app;
 
                     return (
                       <tr key={app.application_id} className="hover:bg-zinc-50/50 bg-white">
@@ -1777,7 +1789,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                         </td>
                       </tr>
                     );
-                  }))}
+                  })}
                 </tbody>
               </table>
             </div>

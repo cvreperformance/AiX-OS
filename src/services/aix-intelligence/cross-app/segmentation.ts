@@ -38,7 +38,7 @@ export class SegmentationEngine {
       let aiWeight = 0;
       let downloadWeight = 0;
       let formsSubmitted = 0;
-      let sessionsCount = new Set(journey.map((j) => j.visitor_id)).size;
+      const sessionsCount = new Set(journey.map((j) => j.visitor_id)).size;
 
       weightedEvents.forEach(({ evt, weight }) => {
         if (evt.event_type === "search") {

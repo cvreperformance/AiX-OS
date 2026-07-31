@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { submitContactForm } from "@/lib/contactSubmit";
-import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateRequiredString } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateNotEmptyString } from "@/lib/validation";
 import { CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -33,9 +33,9 @@ export default function SellerLeadForm() {
     const nameErr = validateName(name);
     const phoneErr = validatePhone(phone);
     const emailErr = validateEmail(email);
-    const addressErr = validateRequiredString(address, "Address");
+    const addressErr = validateNotEmptyString(address, "Address");
     const propTypeErr = validateSelect(propertyType);
-    const priceErr = validateRequiredString(estimatedPrice, "Estimated Price");
+    const priceErr = validateNotEmptyString(estimatedPrice, "Estimated Price");
     const gdprErr = validateCheckbox(gdpr);
 
     if (nameErr || phoneErr || emailErr || addressErr || propTypeErr || priceErr || gdprErr) {

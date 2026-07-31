@@ -47,7 +47,7 @@ export function validateCheckbox(checked: boolean, message = "This field is requ
   return null;
 }
 
-export function validateRequiredString(value: string, fieldName = "This field"): string | null {
+export function validateNotEmptyString(value: string, fieldName = "This field"): string | null {
   if (!value || value.trim() === "") {
     return `${fieldName} is required.`;
   }

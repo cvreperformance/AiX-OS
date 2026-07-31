@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { submitContactForm } from "@/lib/contactSubmit";
-import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateRequiredString } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateSelect, validateCheckbox, validateNotEmptyString } from "@/lib/validation";
 import Link from "next/link";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -94,7 +94,7 @@ export default function ContactForm() {
     const emailErr = validateEmail(formData.email);
     const subjectErr = validateSelect(formData.subject);
     const budgetErr = validateSelect(formData.budget);
-    const messageErr = validateRequiredString(formData.message, "Message");
+    const messageErr = validateNotEmptyString(formData.message, "Message");
     const gdprErr = validateCheckbox(gdpr);
 
     if (nameErr || phoneErr || emailErr || subjectErr || budgetErr || messageErr || gdprErr) {

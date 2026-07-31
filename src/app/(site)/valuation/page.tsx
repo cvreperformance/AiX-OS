@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString, validateSelect } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateNotEmptyString, validateSelect } from "@/lib/validation";
 import Link from "next/link";
 import { PageHeader } from "@/components/ui";
 import { Brain, BarChart3, TrendingUp, MapPin, Building2, Zap, Target, Clock, Star } from "lucide-react";
@@ -98,10 +98,10 @@ export default function ValuationPage() {
     e.preventDefault();
     setFieldErrors({});
 
-    const addrErr = validateRequiredString(address, "Address");
+    const addrErr = validateNotEmptyString(address, "Address");
     const typeErr = validateSelect(type);
-    const sqmErr = validateRequiredString(sqm, "SQM");
-    const roomsErr = validateRequiredString(rooms, "Rooms");
+    const sqmErr = validateNotEmptyString(sqm, "SQM");
+    const roomsErr = validateNotEmptyString(rooms, "Rooms");
     const finishesErr = validateSelect(finishes);
 
     if (addrErr || typeErr || sqmErr || roomsErr || finishesErr) {

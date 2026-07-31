@@ -62,6 +62,70 @@ export const organizationSchema: JsonLd = {
 };
 
 /**
+ * Default Person schema.
+ */
+export const personSchema: JsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Cristian Vaduva",
+  "url": "https://cristianvaduva.com",
+  "jobTitle": "Founder & Principal Investor",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "AiX OS™"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/cristianvăduva",
+    "https://www.facebook.com/CristianVaduvaCV",
+    "https://instagram.com/cristian_vaduva_cristianv"
+  ]
+};
+
+/**
+ * SoftwareApplication schema.
+ */
+export const softwareApplicationSchema: JsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AiX OS™",
+  "operatingSystem": "All",
+  "applicationCategory": "BusinessApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+};
+
+/**
+ * WebApplication schema.
+ */
+export const webApplicationSchema: JsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AiX OS™ Private Portal",
+  "operatingSystem": "All",
+  "applicationCategory": "BusinessApplication",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+/**
+ * BreadcrumbList builder.
+ */
+export function buildBreadcrumbSchema(items: { name: string; item: string }[]): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((it, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": it.name,
+      "item": it.item
+    }))
+  };
+}
+
+/**
  * Real estate listing JSON-LD schema builder.
  */
 export async function buildPropertySchema(property: {

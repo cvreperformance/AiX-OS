@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { validateName, validatePhone, validateEmail, validateCheckbox, validateRequiredString } from "@/lib/validation";
+import { validateName, validatePhone, validateEmail, validateCheckbox, validateNotEmptyString } from "@/lib/validation";
 import {
   Scale,
   Shield,
@@ -221,7 +221,7 @@ export default function LawPage() {
     const nameErr = validateName(leadName);
     const phoneErr = validatePhone(leadPhone);
     const emailErr = validateEmail(leadEmail);
-    const detailsErr = validateRequiredString(leadDetails, "Details");
+    const detailsErr = validateNotEmptyString(leadDetails, "Details");
     const gdprErr = validateCheckbox(gdpr);
 
     if (nameErr || phoneErr || emailErr || detailsErr || gdprErr) {

@@ -137,8 +137,8 @@ export class KnowledgeEngine {
       } catch (e) {}
 
       // 7. Calculate Predictive Intelligence (Milestone 10)
-      let prevPredictions = existingData?.profile?.predictions || null;
-      let predictionHistory = existingData?.profile?.prediction_history || [];
+      const prevPredictions = existingData?.profile?.predictions || null;
+      const predictionHistory = existingData?.profile?.prediction_history || [];
       try {
         const predResult = PredictionEngine.compute(visitorId, journeyTimeline, prevPredictions);
         profile.predictions = predResult.snapshot;
