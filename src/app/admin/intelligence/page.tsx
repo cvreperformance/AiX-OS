@@ -118,7 +118,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
     "use server";
     const actionType = formData.get("actionType") as string;
     if (actionType === "retry") {
-      telegram.retryFailedNotifications();
+      await telegram.retryFailedNotifications();
     } else if (actionType === "clear") {
       telegram.clearFailedNotifications();
     }
@@ -182,16 +182,61 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
       .order("created_at", { ascending: false })
       .limit(100);
 
+    // Calculate Average Delivery Latency from queued_at and sent_at
+    const { data: latencyLogs } = await supabaseAdmin
+      .from("notification_delivery_log")
+      .select("queued_at, sent_at")
+      .eq("telegram_status", "sent")
+      .not("queued_at", "is", null)
+      .not("sent_at", "is", null)
+      .order("sent_at", { ascending: false })
+      .limit(100);
+
+    let avgLatencySec = 0;
+    if (latencyLogs && latencyLogs.length > 0) {
+      const total = latencyLogs.reduce((acc, log) => {
+        const q = new Date(log.queued_at).getTime();
+        const s = new Date(log.sent_at).getTime();
+        return acc + Math.max(0, s - q);
+      }, 0);
+      avgLatencySec = (total / latencyLogs.length) / 1000;
+    }
+
+    // Last Telegram Sent
+    const { data: lastSentLog } = await supabaseAdmin
+      .from("notification_delivery_log")
+      .select("sent_at")
+      .eq("telegram_status", "sent")
+      .order("sent_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    // Notifications/hour
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const { count: sentToday } = await supabaseAdmin
+      .from("notification_delivery_log")
+      .select("*", { count: "exact", head: true })
+      .eq("telegram_status", "sent")
+      .gte("sent_at", todayStart.toISOString());
+
+    const elapsedHours = Math.max(1, new Date().getHours() + new Date().getMinutes() / 60);
+    const notificationsPerHour = Math.round((sentToday || 0) / elapsedHours);
+
     universalStats = {
       totalProcessed: totalProcessed || 0,
       totalSent: totalSent || 0,
       totalFailed: totalFailed || 0,
       pendingRetries: pendingRetries || 0,
       lastProcessed: lastProcessed ? `${lastProcessed.event_type} (${lastProcessed.application})` : "None",
+      lastProcessedTime: lastProcessed ? new Date(lastProcessed.created_at).toLocaleTimeString() : "",
       aixOsCount: aixOsCount || 0,
       homeFindCount: homeFindCount || 0,
       insuranceCount: insuranceCount || 0,
       recentLogs: recentLogs || [],
+      avgLatencySec: avgLatencySec.toFixed(2),
+      lastTelegramSent: lastSentLog?.sent_at ? new Date(lastSentLog.sent_at).toLocaleTimeString() : "Never",
+      notificationsPerHour: notificationsPerHour
     };
   }
 
@@ -2189,24 +2234,24 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
         return (
           <div className="space-y-8 animate-in fade-in duration-200">
             {/* Universal Monitoring Stats Section */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Universal Processed</span>
-                  <Activity className="h-4.5 w-4.5 text-zinc-400" />
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Telegram Status</span>
+                  <Radio className={`h-4.5 w-4.5 ${isConnected ? "text-emerald-500 animate-pulse" : "text-rose-500"}`} />
                 </div>
-                <div className="text-2xl font-bold text-zinc-800 font-mono tracking-tight">
-                  {universalStats.totalProcessed.toLocaleString()}
+                <div className={`text-lg font-bold ${isConnected ? "text-emerald-600" : "text-rose-600"} tracking-tight`}>
+                  {isConnected ? "CONNECTED" : "DISCONNECTED"}
                 </div>
                 <div className="text-[10px] text-zinc-400 mt-1 font-sans">
-                  Total ecosystem events audited
+                  {isConnected ? "Credentials loaded" : "Check credentials"}
                 </div>
               </div>
 
               {[
-                { label: "Telegram Sent", value: universalStats.totalSent.toLocaleString(), sub: "Pushed successfully", color: "text-emerald-600", icon: Zap },
-                { label: "Telegram Failed", value: universalStats.totalFailed.toLocaleString(), sub: "Max retries reached", color: "text-rose-600", icon: EyeOff },
-                { label: "Pending Retries", value: universalStats.pendingRetries.toLocaleString(), sub: "Backoff queue", color: "text-amber-600", icon: Clock },
+                { label: "Total Sent", value: universalStats.totalSent.toLocaleString(), sub: "Delivered successfully", color: "text-emerald-600", icon: Zap },
+                { label: "Retry Queue", value: universalStats.pendingRetries.toLocaleString(), sub: "Pending retry attempts", color: "text-amber-600", icon: Clock },
+                { label: "Permanent Failures", value: universalStats.totalFailed.toLocaleString(), sub: "Attempts >= 5", color: "text-rose-600", icon: EyeOff },
               ].map((card, idx) => (
                 <div key={idx} className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
                   <div className="flex items-center justify-between mb-3">
@@ -2217,17 +2262,58 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                   <div className="text-[10px] text-zinc-400 mt-1">{card.sub}</div>
                 </div>
               ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Avg Delivery Latency</span>
+                  <Activity className="h-4.5 w-4.5 text-zinc-400" />
+                </div>
+                <div className={`text-2xl font-bold ${parseFloat(universalStats.avgLatencySec) < 2 ? "text-emerald-600" : "text-amber-600"} font-mono tracking-tight`}>
+                  {universalStats.avgLatencySec}s
+                </div>
+                <div className="text-[10px] text-zinc-400 mt-1 font-sans">
+                  Target: &lt; 2.00s (sent - queued)
+                </div>
+              </div>
 
               <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Last Audited Event</span>
-                  <Terminal className="h-4.5 w-4.5 text-amber-500" />
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Last Event Received</span>
+                  <Terminal className="h-4.5 w-4.5 text-zinc-400" />
                 </div>
                 <div className="text-xs font-semibold text-zinc-700 truncate mt-1">
                   {universalStats.lastProcessed}
                 </div>
                 <div className="text-[10px] text-zinc-400 mt-1.5 font-sans">
-                  Updated in real-time
+                  {universalStats.lastProcessedTime ? `@ ${universalStats.lastProcessedTime}` : "No events"}
+                </div>
+              </div>
+
+              <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Last Telegram Sent</span>
+                  <Zap className="h-4.5 w-4.5 text-emerald-500" />
+                </div>
+                <div className="text-xl font-bold text-zinc-800 font-mono tracking-tight truncate mt-1">
+                  {universalStats.lastTelegramSent}
+                </div>
+                <div className="text-[10px] text-zinc-400 mt-1 font-sans">
+                  Latest success timestamp
+                </div>
+              </div>
+
+              <div className="rounded-xl border p-5 shadow-sm bg-white border-zinc-200">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-zinc-400 font-sans">Notifications / Hour</span>
+                  <TrendingUp className="h-4.5 w-4.5 text-zinc-400" />
+                </div>
+                <div className="text-2xl font-bold text-zinc-800 font-mono tracking-tight">
+                  {universalStats.notificationsPerHour}
+                </div>
+                <div className="text-[10px] text-zinc-400 mt-1 font-sans">
+                  Average rate today
                 </div>
               </div>
             </div>
@@ -2360,7 +2446,7 @@ export default async function AdminIntelligencePage({ searchParams }: Props) {
                         type="submit"
                         className="w-full bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 text-zinc-700 font-bold text-xs py-2 rounded-xl transition-colors cursor-pointer"
                       >
-                        Retry Failed
+                        Retry Failed Notifications
                       </button>
                     </form>
                     <form action={manageQueue} className="flex-1">

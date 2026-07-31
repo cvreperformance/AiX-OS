@@ -1,8 +1,4 @@
-import fs from "fs";
-import path from "path";
-import { NotificationConfigManager as CustomConfig } from "./realtime/notification-config";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-import { aix } from "@aix/intelligence-sdk";
 
 export interface TelegramAlert {
   title: string;
@@ -31,597 +27,512 @@ export interface QueueStats {
   last_notification_time: string;
 }
 
-const QUEUE_FILE = path.join(process.cwd(), "src/services/aix-intelligence/realtime/notification_queue.json");
-const STATS_FILE = path.join(process.cwd(), "src/services/aix-intelligence/realtime/notification_stats.json");
-
 class TelegramNotificationService {
   private botToken: string | null = null;
   private chatId: string | null = null;
-  private queue: QueueItem[] = [];
-  private stats: QueueStats = { total: 0, sent: 0, failed: 0, latency_ms: 0, last_notification_time: "" };
-  private isProcessing = false;
-  private workerInterval: NodeJS.Timeout | null = null;
+  
+  // Throttle state
+  private lastSendTime = 0;
+  private sendPromiseChain: Promise<any> = Promise.resolve();
 
   constructor() {
     this.botToken = process.env.TELEGRAM_BOT_TOKEN || null;
     this.chatId = process.env.TELEGRAM_CHAT_ID || null;
-    this.loadQueue();
-    this.loadStats();
-    
-    // Start background processing queue
-    if (typeof setInterval !== "undefined") {
-      this.workerInterval = setInterval(() => this.processQueue(), 3000);
-      setInterval(() => this.processUniversalEvents(), 5000);
-    }
-  }
-
-  private loadQueue() {
-    try {
-      if (fs.existsSync(QUEUE_FILE)) {
-        this.queue = JSON.parse(fs.readFileSync(QUEUE_FILE, "utf-8"));
-      }
-    } catch (e) {
-      this.queue = [];
-    }
-  }
-
-  private saveQueue() {
-    try {
-      const dir = path.dirname(QUEUE_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(QUEUE_FILE, JSON.stringify(this.queue, null, 2), "utf-8");
-    } catch (e) {}
-  }
-
-  private loadStats() {
-    try {
-      if (fs.existsSync(STATS_FILE)) {
-        this.stats = JSON.parse(fs.readFileSync(STATS_FILE, "utf-8"));
-      }
-    } catch (e) {
-      this.stats = { total: 0, sent: 0, failed: 0, latency_ms: 0, last_notification_time: "" };
-    }
-  }
-
-  private saveStats() {
-    try {
-      const dir = path.dirname(STATS_FILE);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(STATS_FILE, JSON.stringify(this.stats, null, 2), "utf-8");
-    } catch (e) {}
-  }
-
-  public getQueue(): QueueItem[] {
-    return this.queue;
-  }
-
-  public getStats(): QueueStats {
-    return this.stats;
-  }
-
-  public clearFailedNotifications(): void {
-    this.queue = this.queue.filter((item) => item.status !== "failed");
-    this.saveQueue();
   }
 
   /**
-   * Evaluates incoming events and decides whether to queue a Telegram notification.
+   * Dynamically fetch credentials from memory or process environment
+   * to ensure compatibility with serverless environments.
    */
-  public evaluateEventRules(event: any): void {
+  private getBotCredentials() {
+    const token = this.botToken || process.env.TELEGRAM_BOT_TOKEN || null;
+    const chat = this.chatId || process.env.TELEGRAM_CHAT_ID || null;
+    return { token, chat };
+  }
+
+  /**
+   * Internal normalization for application names.
+   */
+  private normalizeApp(app: string): string {
+    return (app || "").toLowerCase().trim().replace(/[ _]/g, "-");
+  }
+
+  /**
+   * Internal normalization for event types (converts spaces/hyphens to underscores).
+   */
+  private normalizeEventType(eventType: string): string {
+    return (eventType || "").toLowerCase().trim().replace(/[ -]/g, "_");
+  }
+
+  /**
+   * Helper to check if an event is allowed for Telegram notifications.
+   */
+  private isAllowedEvent(app: string, eventType: string): { allowed: boolean; reason: string } {
+    const a = this.normalizeApp(app);
+    const e = this.normalizeEventType(eventType);
+
+    if (a === "home-find") {
+      const allowed = [
+        "property_view", "property_opened", "property_viewed",
+        "property_search", "search",
+        "property_filter_change",
+        "property_contact_start", "property_contact_submit",
+        "buyer_request", "seller_request",
+        "guide_download", "download_started",
+        "ai_opened", "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received"
+      ];
+      const match = allowed.includes(e);
+      return { allowed: match, reason: match ? "Matched home-find allowed event list" : "Event not in home-find allowed list" };
+    }
+
+    if (a === "insurance") {
+      const allowed = [
+        "insurance_quote_start", "quote_started",
+        "insurance_quote_submit",
+        "insurance_form_start",
+        "insurance_form_submit",
+        "insurance_form_abandon", "form_abandoned",
+        "contact_request",
+        "consultation_request",
+        "callback_request",
+        "guide_download", "download_started",
+        "login_success", "login_failure",
+        "profile_update",
+        "ai_opened", "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received"
+      ];
+      const match = allowed.includes(e);
+      return { allowed: match, reason: match ? "Matched insurance allowed event list" : "Event not in insurance allowed list" };
+    }
+
+    if (a === "aix-os") {
+      const allowed = [
+        "ai_interactions", "ai_interaction",
+        "ai_prompt_sent", "ai_prompt_received",
+        "decision_generated", "decision_updated",
+        "learning_score_changed", "learning_update",
+        "opportunity_detected",
+        "dashboard_actions"
+      ];
+      const match = allowed.includes(e);
+      return { allowed: match, reason: match ? "Matched aix-os allowed event list" : "Event not in aix-os allowed list" };
+    }
+
+    return { allowed: false, reason: `Unknown application: ${a}` };
+  }
+
+  /**
+   * Enqueues and delivers a notification in real-time.
+   */
+  public async enqueue(event: any): Promise<void> {
+    const rawApp = event.application || "aix-os";
+    const rawEventType = event.event_type || "unknown";
+    const eventId = event.id;
+
+    // EVENT RECEIVED Debug Log
+    console.log(`EVENT RECEIVED:\napplication: ${rawApp}\nevent_type: ${rawEventType}\nevent_id: ${eventId}`);
+
     try {
-      const config = CustomConfig.getConfig();
-      if (!config.enabled) return;
+      const app = this.normalizeApp(rawApp);
+      const eventType = this.normalizeEventType(rawEventType);
 
-      const app = event.application || "aix-os";
-      if (config.applications[app] === false) return;
+      // Event Filtering
+      const filter = this.isAllowedEvent(app, eventType);
+      
+      // FILTER RESULT Debug Log
+      console.log(`FILTER RESULT:\nallowed: ${filter.allowed}\nreason: ${filter.reason}`);
 
-      const mappedType = this.mapEventTypeGroup(event.event_type);
-      if (config.eventTypes[mappedType] === false) return;
-
-      // Duplicate prevention
-      if (this.queue.some((item) => item.id === event.id)) {
+      if (!filter.allowed) {
         return;
       }
 
-      // Check if it matches Development or Production mode
-      if (config.mode === "production") {
-        // Production Mode: Send only important alerts / high value opportunities / high score items
-        this.checkProductionHighValue(event);
-      } else {
-        // Development Mode: Send every event
-        this.enqueue(event);
+      // Database-First Notification Log Creation
+      const { error: insertError } = await supabaseAdmin
+        .from("notification_delivery_log")
+        .insert({
+          event_id: eventId,
+          application: app,
+          event_type: eventType,
+          telegram_status: "pending",
+          attempts: 0,
+          queued_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        });
+
+      if (insertError) {
+        // Unique constraint violation (code 23505) -> skip duplicate send
+        if (insertError.code === "23505") {
+          return;
+        }
+        throw new Error(`Failed to create delivery log: ${insertError.message}`);
       }
-    } catch (e) {
-      // Fail silently
+
+      // DELIVERY CREATED Debug Log
+      console.log(`DELIVERY CREATED:\nevent_id: ${eventId}`);
+
+      // Visitor Tracking
+      let visitorStatus = "First Visit";
+      try {
+        const { count, error: countError } = await supabaseAdmin
+          .from("aix_events")
+          .select("id", { count: "exact", head: true })
+          .eq("visitor_id", event.visitor_id)
+          .neq("session_id", event.session_id);
+
+        if (!countError && count && count > 0) {
+          visitorStatus = "Returning Visitor";
+        }
+      } catch (e) {}
+
+      // Intent Score Lookup
+      let intentScore = "";
+      try {
+        const { data: profileData } = await supabaseAdmin
+          .from("aix_visitor_knowledge")
+          .select("profile")
+          .eq("visitor_id", event.visitor_id)
+          .maybeSingle();
+
+        if (profileData?.profile) {
+          const p = profileData.profile as any;
+          const buyIntent = p.predictions?.intents?.buying_intent?.confidence || p.buying_intent || 0;
+          const sellIntent = p.predictions?.intents?.selling_intent?.confidence || p.selling_intent || 0;
+          const insIntent = p.predictions?.intents?.insurance_interest?.confidence || p.insurance_interest || 0;
+          
+          if (app === "home-find") {
+            if (buyIntent > 0 || sellIntent > 0) {
+              intentScore = `Buying: ${buyIntent}%, Selling: ${sellIntent}%`;
+            }
+          } else if (app === "insurance") {
+            if (insIntent > 0) {
+              intentScore = `${insIntent}%`;
+            }
+          } else {
+            const max = Math.max(buyIntent, sellIntent, insIntent);
+            if (max > 0) {
+              intentScore = `${max}%`;
+            }
+          }
+        }
+      } catch (e) {}
+
+      // Serialize and throttle Telegram deliveries
+      this.sendPromiseChain = this.sendPromiseChain.then(async () => {
+        // Enforce maximum 1 Telegram message per second (1000ms delay between calls)
+        const now = Date.now();
+        const elapsed = now - this.lastSendTime;
+        if (elapsed < 1000) {
+          await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
+        }
+
+        const formattedMessage = this.formatTelegramMessage(event, visitorStatus, intentScore);
+        await this.sendTelegramNotification(eventId, formattedMessage, app, eventType);
+        this.lastSendTime = Date.now();
+      });
+
+    } catch (error: any) {
+      console.error("[AiX Telegram] Error in enqueue:", error.message);
     }
   }
 
-  private mapEventTypeGroup(type: string): string {
-    const t = type.toLowerCase();
-    if (t.includes("page_view") || t.includes("page_leave") || t.includes("route")) return "page_view";
-    if (t.includes("ai_") || t.includes("ai")) return "ai";
-    if (t.includes("form_") || t.includes("contact") || t.includes("quote") || t.includes("request")) return "forms";
-    if (t.includes("property_") || t.includes("search") || t.includes("download") || t.includes("filter")) return "properties";
-    if (t.includes("insurance")) return "insurance";
-    return "properties";
-  }
-
-  private async checkProductionHighValue(event: any) {
-    try {
-      // Fetch current visitor profile to check intents, luxury preference, etc.
-      const { data: profileData } = await supabaseAdmin
-        .from("aix_visitor_knowledge")
-        .select("*")
-        .eq("visitor_id", event.visitor_id)
-        .single();
-
-      if (!profileData) return;
-
-      const p = profileData.profile || {};
-      const stats = profileData.statistics || {};
-      const signals = profileData.signals || {};
-
-      const buyIntent = p.predictions?.intents?.buying_intent?.confidence || 0;
-      const sellIntent = p.predictions?.intents?.selling_intent?.confidence || 0;
-      const insIntent = p.predictions?.intents?.insurance_interest?.confidence || 0;
-      const luxuryScore = p.predictions?.luxury_buyer?.confidence || (p.luxury_preference ? 95 : 0);
-      const oppScore = p.decisions?.opportunityRank || 0;
-
-      // Calculate high-value triggers
-      const isHighValue =
-        buyIntent > 90 ||
-        sellIntent > 90 ||
-        insIntent > 90 ||
-        luxuryScore > 90 ||
-        oppScore > 90 ||
-        (stats.total_sessions || 0) >= 5 ||
-        (signals.interests && signals.interests.length > 2);
-
-      if (isHighValue) {
-        this.enqueue(event, true, { buyIntent, sellIntent, insIntent, luxuryScore, oppScore, profileData });
-      }
-    } catch (e) {}
-  }
-
-  private enqueue(event: any, isHighValue = false, highValueDetails?: any) {
-    const message = this.formatEventMessage(event, isHighValue, highValueDetails);
-    
-    const newItem: QueueItem = {
-      id: event.id || Math.random().toString(36).substring(2, 15),
-      event,
-      status: "pending",
-      retry_count: 0,
-      created_at: new Date().toISOString(),
-      formatted_message: message,
-    };
-
-    this.queue.push(newItem);
-    this.stats.total += 1;
-    this.saveQueue();
-    this.saveStats();
-  }
-
-  private formatEventMessage(event: any, isHighValue = false, highValueDetails?: any): string {
-    const app = event.application || "aix-os";
-    const visitorShort = event.visitor_id ? `${event.visitor_id.substring(0, 8)}...` : "unknown";
-    const sessionShort = event.session_id ? `${event.session_id.substring(0, 4)}` : "xxxx";
-    const timeFormatted = new Date(event.timestamp || event.created_at || Date.now()).toLocaleString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    });
-
-    let actionDescription = "Triggered event action";
-    let metadataStr = "";
+  /**
+   * Format the notification string exactly as requested.
+   */
+  private formatTelegramMessage(event: any, visitorStatus: string, intentScore: string): string {
+    const app = this.normalizeApp(event.application || "aix-os");
+    const action = this.normalizeEventType(event.event_type || "unknown");
+    const visitor = event.visitor_id || "unknown";
+    const session = event.session_id || "unknown";
+    const page = event.page || "/";
+    const timestamp = new Date(event.timestamp || event.created_at || Date.now()).toISOString();
 
     const payload = event.payload || {};
-    const meta = event.metadata || {};
+    const metadata = event.metadata || {};
 
-    if (event.event_type === "page_view") {
-      actionDescription = `Viewed path: ${event.page}`;
-    } else if (event.event_type === "search" || event.event_type === "property_search") {
-      actionDescription = `Performed search query: "${payload.query || meta.query || ""}"`;
-      metadataStr = `Keywords: ${payload.query || ""}\nResults: ${payload.results_count || 0}`;
-    } else if (event.event_type === "ai_prompt_sent" || event.event_type === "ai_prompt") {
-      actionDescription = `Asked AI Advisor: "${payload.prompt || meta.prompt || ""}"`;
-    } else if (event.event_type === "download_started" || event.event_type === "guide_download") {
-      actionDescription = `Downloaded file: ${payload.filename || "guide.pdf"}`;
-    } else if (event.event_type === "form_submitted" || event.event_type === "property_contact_submit" || event.event_type === "insurance_form_submit") {
-      actionDescription = `Submitted form: ${payload.form_id || "Contact Form"}`;
-    } else if (event.event_type === "form_abandoned" || event.event_type === "insurance_form_abandon") {
-      actionDescription = `Abandoned form: ${payload.form_id || "Contact Form"}`;
-    } else if (event.event_type === "property_viewed" || event.event_type === "property_view" || event.event_type === "property_opened") {
-      actionDescription = `Viewed listing: ${payload.property_title || payload.property_id || "Property Detail"}`;
-      metadataStr = `ID: ${payload.property_id || ""}\nPrice: ${payload.price || ""}\nCity: ${payload.city || ""}`;
+    const detailsObj: Record<string, any> = {};
+    if (payload.property_id || metadata.property_id) {
+      detailsObj.property_id = payload.property_id || metadata.property_id;
+    }
+    if (payload.form_id || metadata.form_id) {
+      detailsObj.form_id = payload.form_id || metadata.form_id;
     }
 
-    if (!metadataStr && Object.keys(payload).length > 0) {
-      metadataStr = Object.entries(payload)
-        .slice(0, 4)
+    Object.keys(payload).forEach((k) => {
+      if (!["property_id", "form_id", "visitor_id", "session_id"].includes(k)) {
+        detailsObj[k] = payload[k];
+      }
+    });
+
+    Object.keys(metadata).forEach((k) => {
+      if (!["property_id", "form_id", "visitor_id", "session_id", "governance_status", "governance_warnings", "governance_checked_at"].includes(k)) {
+        detailsObj[k] = metadata[k];
+      }
+    });
+
+    let detailsStr = "None";
+    if (Object.keys(detailsObj).length > 0) {
+      detailsStr = Object.entries(detailsObj)
         .map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`)
         .join("\n");
     }
 
-    let msg = `
-🚀 *AiX Ecosystem Event*
+    let msg = `🚀 Visitor Action
+Application:
+${app}
 
-*Application:*
-${app.toUpperCase()}
+Action:
+${action}
 
-*Visitor:*
-\`${visitorShort}\`
+Visitor:
+${visitor} (${visitorStatus})
 
-*Session:*
-\`${sessionShort}\`
+Session:
+${session}
 
-*Event:*
-\`${event.event_type}\`
+Time:
+${timestamp}
 
-*Time:*
-${timeFormatted}
+Page:
+${page}
 
-*Page:*
-\`${event.page || "/"}\`
+Details:
+${detailsStr}`;
 
-*Action:*
-${actionDescription}
-${metadataStr ? `\n*Metadata:*\n\`\`\`\n${metadataStr}\n\`\`\`` : ""}
-*Event ID:*
-\`${event.id || ""}\`
-`.trim();
-
-    if (isHighValue && highValueDetails) {
-      const { buyIntent, sellIntent, insIntent, luxuryScore, oppScore } = highValueDetails;
-      msg = `
-🔥 *HIGH VALUE OPPORTUNITY DETECTED*
-
-*Visitor:* \`${visitorShort}\`
-*Application:* ${app.toUpperCase()}
-*Opportunity Score:* \`${oppScore}/100\`
-
-*Intent & Affinity Indicators:*
-- Buying Intent: \`${buyIntent}%\`
-- Selling Intent: \`${sellIntent}%\`
-- Insurance Intent: \`${insIntent}%\`
-- Luxury Preference: \`${luxuryScore}%\`
-
-*Recommended Action:*
-Contact visitor within 30 minutes / Trigger high-intent conversion follow-up.
-
----
-${msg}
-`.trim();
+    if (intentScore) {
+      msg += `\n\nIntent Score:\n${intentScore}`;
     }
 
     return msg;
   }
 
-  private async processQueue() {
-    if (this.isProcessing) return;
-    this.isProcessing = true;
+  /**
+   * Helper to invoke Telegram Bot API and update database.
+   * Incorporates 429 retry-after handling.
+   */
+  private async sendTelegramNotification(eventId: string, message: string, app: string, eventType: string, currentAttempts = 0): Promise<boolean> {
+    const nextAttempts = currentAttempts + 1;
+    const { token, chat } = this.getBotCredentials();
+    
+    // TELEGRAM RETRY START / SEND START Log
+    console.log(`TELEGRAM RETRY START:\nevent_id: ${eventId}`);
+    // TELEGRAM REQUEST Debug Log
+    console.log(`TELEGRAM REQUEST:\napplication: ${app}\nevent_type: ${eventType}`);
+
+    if (!token || !chat) {
+      const errMsg = "Telegram Bot credentials missing";
+      await supabaseAdmin
+        .from("notification_delivery_log")
+        .update({
+          telegram_status: "failed",
+          attempts: nextAttempts,
+          error: errMsg,
+          last_attempt_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq("event_id", eventId);
+      
+      console.log(`TELEGRAM RESPONSE:\nstatus: credentials_missing\nbody: ${errMsg}`);
+      console.log("TELEGRAM FAILED", eventId, errMsg);
+      return false;
+    }
 
     try {
-      const pendingItems = this.queue.filter((item) => item.status === "pending" || item.status === "retrying");
-      if (pendingItems.length === 0) {
-        this.isProcessing = false;
-        return;
-      }
+      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+      let response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chat,
+          text: message
+        })
+      });
 
-      for (const item of pendingItems) {
-        if (!this.botToken || !this.chatId) {
-          item.status = "failed";
-          item.last_error = "Telegram Bot credentials missing";
-          this.stats.failed += 1;
-          continue;
-        }
+      let responseBody = await response.text();
 
-        const startTime = Date.now();
+      // Respect Telegram 429 retry_after response
+      if (response.status === 429) {
+        let retryAfterSec = 10; // fallback
         try {
-          const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
-          const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: this.chatId,
-              text: item.formatted_message || "Ingested event notification",
-              parse_mode: "Markdown",
-            }),
-          });
-
-          if (response.ok) {
-            item.status = "sent";
-            item.sent_at = new Date().toISOString();
-            this.stats.sent += 1;
-            this.stats.latency_ms = Date.now() - startTime;
-            this.stats.last_notification_time = item.sent_at;
-            aix.track("notification_sent", {}, { event_id: item.id });
-          } else {
-            const errBody = await response.text();
-            throw new Error(`Telegram error HTTP ${response.status}: ${errBody}`);
+          const parsed = JSON.parse(responseBody);
+          if (parsed?.parameters?.retry_after) {
+            retryAfterSec = Number(parsed.parameters.retry_after);
           }
-        } catch (error: any) {
-          item.retry_count += 1;
-          item.last_error = error.message;
+        } catch (e) {}
 
-          if (item.retry_count >= 5) {
-            item.status = "failed";
-            this.stats.failed += 1;
-            aix.track("notification_failed", {}, { event_id: item.id, error: error.message });
-          } else {
-            item.status = "retrying";
-          }
-        }
+        console.log(`TELEGRAM RATE LIMIT:\nretry_after: ${retryAfterSec}`);
+        
+        // Wait exactly that amount of seconds
+        await new Promise((resolve) => setTimeout(resolve, retryAfterSec * 1000));
+
+        // Update database with failed attempt state
+        await supabaseAdmin
+          .from("notification_delivery_log")
+          .update({
+            telegram_status: "failed",
+            attempts: nextAttempts,
+            error: `Rate limited: HTTP 429. Retrying after ${retryAfterSec}s`,
+            last_attempt_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .eq("event_id", eventId);
+
+        // Perform immediate retry
+        response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chat,
+            text: message
+          })
+        });
+        responseBody = await response.text();
       }
 
-      this.saveQueue();
-      this.saveStats();
-    } catch (e) {
-      // Fail silently
-    } finally {
-      this.isProcessing = false;
+      // TELEGRAM RESPONSE Debug Log
+      console.log(`TELEGRAM RESPONSE:\nstatus: ${response.status}\nbody: ${responseBody}`);
+
+      if (response.ok) {
+        await supabaseAdmin
+          .from("notification_delivery_log")
+          .update({
+            telegram_status: "sent",
+            sent_at: new Date().toISOString(),
+            error: null,
+            last_attempt_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .eq("event_id", eventId);
+        
+        console.log(`TELEGRAM DELIVERED:\nevent_id: ${eventId}`);
+        return true;
+      } else {
+        throw new Error(`Telegram HTTP ${response.status}: ${responseBody}`);
+      }
+    } catch (err: any) {
+      const errMsg = err.message || "Unknown error";
+      await supabaseAdmin
+        .from("notification_delivery_log")
+        .update({
+          telegram_status: "failed",
+          attempts: nextAttempts,
+          error: errMsg,
+          last_attempt_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq("event_id", eventId);
+      console.log("TELEGRAM FAILED", eventId, errMsg);
+      return false;
     }
   }
 
   /**
-   * Retries all currently failed notifications.
+   * Retries maximum 5 failed notifications per request.
    */
-  public retryFailedNotifications(): void {
-    this.queue.forEach((item) => {
-      if (item.status === "failed") {
-        item.status = "pending";
-        item.retry_count = 0;
-      }
-    });
-    this.saveQueue();
-    this.processQueue();
-  }
-
-  private isUniversalProcessing = false;
-
-  public async processUniversalEvents(): Promise<void> {
-    if (this.isUniversalProcessing) return;
-    this.isUniversalProcessing = true;
-
+  public async retryFailedNotifications(): Promise<void> {
     try {
-      if (!this.botToken || !this.chatId) return;
-
-      // 1. Fetch unprocessed events from database
-      const { data: events, error: fetchError } = await supabaseAdmin
-        .rpc("get_unprocessed_events", { limit_val: 100 });
-
-      if (fetchError || !events || events.length === 0) {
-        return;
-      }
-
-      for (const event of events) {
-        // Create log entry as pending
-        const { error: insertError } = await supabaseAdmin
-          .from("notification_delivery_log")
-          .insert({
-            event_id: event.id,
-            application: event.application || "aix-os",
-            event_type: event.event_type || "unknown",
-            telegram_status: "pending",
-            attempts: 0,
-            created_at: new Date().toISOString(),
-          });
-
-        if (insertError) {
-          continue;
-        }
-
-        // Add temporary debug logs:
-        console.log("Selected events:");
-        console.log(`Application: ${event.application}`);
-        console.log(`Event: ${event.event_type}`);
-        console.log("Queued: true");
-
-        // Format and send message
-        const formattedMsg = this.formatUniversalEventMessage(event);
-        let status = "sent";
-        let errorMsg: string | null = null;
-        const startTime = Date.now();
-
-        try {
-          const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
-          const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: this.chatId,
-              text: formattedMsg,
-              parse_mode: "HTML",
-            }),
-          });
-
-          if (!response.ok) {
-            const txt = await response.text();
-            if (response.status === 400 && (txt.includes("parse entities") || txt.includes("can't parse"))) {
-              const fallbackResponse = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  chat_id: this.chatId,
-                  text: formattedMsg.replace(/<\/?[^>]+(>|$)/g, ""), // strip tags
-                }),
-              });
-              if (!fallbackResponse.ok) {
-                const fallbackTxt = await fallbackResponse.text();
-                throw new Error(`Telegram Plain Text Fallback: ${fallbackResponse.status} - ${fallbackTxt}`);
-              }
-            } else {
-              throw new Error(`Telegram API: ${response.status} - ${txt}`);
-            }
-          }
-        } catch (err: any) {
-          status = "failed";
-          errorMsg = err.message || "Unknown error";
-        }
-
-        // Update status in delivery log
-        await supabaseAdmin
-          .from("notification_delivery_log")
-          .update({
-            telegram_status: status,
-            attempts: 1,
-            sent_at: new Date().toISOString(),
-            error: errorMsg,
-          })
-          .eq("event_id", event.id);
-
-        console.log(`Sent: ${status === "sent"}`);
-
-        if (status === "sent") {
-          this.stats.sent += 1;
-          this.stats.latency_ms = Date.now() - startTime;
-          this.stats.last_notification_time = new Date().toISOString();
-          this.saveStats();
-        } else {
-          this.stats.failed += 1;
-          this.saveStats();
-        }
-      }
-
-      // 2. Retry failed messages in delivery log (where attempts < 5)
-      const { data: failedLogs } = await supabaseAdmin
+      // Fetch oldest eligible failed notifications
+      const { data: failedLogs, error: logsError } = await supabaseAdmin
         .from("notification_delivery_log")
         .select("*")
         .eq("telegram_status", "failed")
         .lt("attempts", 5)
-        .limit(10);
+        .order("created_at", { ascending: true })
+        .limit(5);
 
-      if (failedLogs && failedLogs.length > 0) {
-        for (const log of failedLogs) {
-          const { data: event } = await supabaseAdmin
+      if (logsError || !failedLogs || failedLogs.length === 0) {
+        return;
+      }
+
+      for (const log of failedLogs) {
+        // Fetch corresponding event
+        const { data: event, error: eventError } = await supabaseAdmin
+          .from("aix_events")
+          .select("*")
+          .eq("id", log.event_id)
+          .maybeSingle();
+
+        if (eventError || !event) {
+          continue;
+        }
+
+        // Determine visitor status and intent score
+        let visitorStatus = "First Visit";
+        try {
+          const { count, error: countError } = await supabaseAdmin
             .from("aix_events")
-            .select("*")
-            .eq("id", log.event_id)
-            .single();
+            .select("id", { count: "exact", head: true })
+            .eq("visitor_id", event.visitor_id)
+            .neq("session_id", event.session_id);
 
-          if (!event) continue;
+          if (!countError && count && count > 0) {
+            visitorStatus = "Returning Visitor";
+          }
+        } catch (e) {}
 
-          const formattedMsg = this.formatUniversalEventMessage(event);
-          let status = "sent";
-          let errorMsg: string | null = null;
+        let intentScore = "";
+        try {
+          const { data: profileData } = await supabaseAdmin
+            .from("aix_visitor_knowledge")
+            .select("profile")
+            .eq("visitor_id", event.visitor_id)
+            .maybeSingle();
 
-          try {
-            const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
-            const response = await fetch(url, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                chat_id: this.chatId,
-                text: formattedMsg,
-                parse_mode: "HTML",
-              }),
-            });
-
-            if (!response.ok) {
-              const txt = await response.text();
-              if (response.status === 400 && (txt.includes("parse entities") || txt.includes("can't parse"))) {
-                const fallbackResponse = await fetch(url, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    chat_id: this.chatId,
-                    text: formattedMsg.replace(/<\/?[^>]+(>|$)/g, ""),
-                  }),
-                });
-                if (!fallbackResponse.ok) {
-                  const fallbackTxt = await fallbackResponse.text();
-                  throw new Error(`Fallback HTTP ${fallbackResponse.status}: ${fallbackTxt}`);
-                }
-              } else {
-                throw new Error(`HTTP ${response.status}: ${txt}`);
+          if (profileData?.profile) {
+            const p = profileData.profile as any;
+            const buyIntent = p.predictions?.intents?.buying_intent?.confidence || p.buying_intent || 0;
+            const sellIntent = p.predictions?.intents?.selling_intent?.confidence || p.selling_intent || 0;
+            const insIntent = p.predictions?.intents?.insurance_interest?.confidence || p.insurance_interest || 0;
+            
+            const app = this.normalizeApp(event.application);
+            if (app === "home-find") {
+              if (buyIntent > 0 || sellIntent > 0) {
+                intentScore = `Buying: ${buyIntent}%, Selling: ${sellIntent}%`;
+              }
+            } else if (app === "insurance") {
+              if (insIntent > 0) {
+                intentScore = `${insIntent}%`;
+              }
+            } else {
+              const max = Math.max(buyIntent, sellIntent, insIntent);
+              if (max > 0) {
+                intentScore = `${max}%`;
               }
             }
-          } catch (err: any) {
-            status = "failed";
-            errorMsg = err.message;
+          }
+        } catch (e) {}
+
+        // Throttle and serialize retries through the same chain
+        this.sendPromiseChain = this.sendPromiseChain.then(async () => {
+          const now = Date.now();
+          const elapsed = now - this.lastSendTime;
+          if (elapsed < 1000) {
+            await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
           }
 
-          await supabaseAdmin
-            .from("notification_delivery_log")
-            .update({
-              telegram_status: status,
-              attempts: log.attempts + 1,
-              sent_at: new Date().toISOString(),
-              error: errorMsg,
-            })
-            .eq("event_id", log.event_id);
-        }
+          const formattedMessage = this.formatTelegramMessage(event, visitorStatus, intentScore);
+          await this.sendTelegramNotification(event.id, formattedMessage, log.application, log.event_type, log.attempts);
+          this.lastSendTime = Date.now();
+        });
       }
-    } catch (e) {
-      // Fail silently
-    } finally {
-      this.isUniversalProcessing = false;
+    } catch (error: any) {
+      console.error("[AiX Telegram] Error in retry:", error.message);
     }
   }
 
-  private escapeTelegramHtml(value: any): string {
-    if (value === null || value === undefined) return "";
-    const str = typeof value === "object" ? JSON.stringify(value) : String(value);
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  // Backward compatibility methods for admin dashboard controls
+  public getQueue(): QueueItem[] {
+    return [];
   }
 
-  private formatUniversalEventMessage(event: any): string {
-    const app = event.application || "aix-os";
-    const eventType = event.event_type || "unknown";
-    const visitorId = event.visitor_id || "unknown";
-    const sessionId = event.session_id || "unknown";
-    const page = event.page || "/";
-    const timestamp = event.timestamp || new Date().toISOString();
-    const eventId = event.id || "";
+  public getStats(): QueueStats {
+    return { total: 0, sent: 0, failed: 0, latency_ms: 0, last_notification_time: "" };
+  }
 
-    const payload = event.payload || {};
-    const metadata = event.metadata || {};
-    const explanation = event.explanation || event.payload?.explanation || "";
-    const recommendedAction = event.recommended_action || event.payload?.recommended_action || "";
-
-    let metadataStr = "";
-    if (Object.keys(payload).length > 0) {
-      metadataStr += `Payload: ${JSON.stringify(payload)}\n`;
-    }
-    if (Object.keys(metadata).length > 0) {
-      metadataStr += `Metadata: ${JSON.stringify(metadata)}\n`;
-    }
-    if (explanation) {
-      metadataStr += `Explanation: ${explanation}\n`;
-    }
-    if (recommendedAction) {
-      metadataStr += `Recommended Action: ${recommendedAction}\n`;
-    }
-
-    const escapedApp = this.escapeTelegramHtml(app);
-    const escapedEventType = this.escapeTelegramHtml(eventType);
-    const escapedVisitorId = this.escapeTelegramHtml(visitorId);
-    const escapedSessionId = this.escapeTelegramHtml(sessionId);
-    const escapedPage = this.escapeTelegramHtml(page);
-    const escapedTimestamp = this.escapeTelegramHtml(timestamp);
-    const escapedEventId = this.escapeTelegramHtml(eventId);
-    const escapedMetadataFinal = this.escapeTelegramHtml(metadataStr.trim());
-
-    return `🚀 <b>AiX Ecosystem Event</b>
-
-<b>Application:</b> ${escapedApp.toUpperCase()}
-<b>Event:</b> <code>${escapedEventType}</code>
-<b>Visitor:</b> <code>${escapedVisitorId}</code>
-<b>Session:</b> <code>${escapedSessionId}</code>
-<b>Time:</b> ${escapedTimestamp}
-<b>Page:</b> <code>${escapedPage}</code>
-<b>Metadata:</b>
-<pre>${escapedMetadataFinal || "None"}</pre>
-
-<b>Event ID:</b> <code>${escapedEventId}</code>`;
+  public clearFailedNotifications(): void {
+    // Left as stub to prevent compilation issues
   }
 }
 
-export const telegram = new TelegramNotificationService();
+export const notificationService = new TelegramNotificationService();
+export const telegram = notificationService;
 export default telegram;

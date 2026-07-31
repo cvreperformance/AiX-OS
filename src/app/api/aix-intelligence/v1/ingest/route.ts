@@ -137,18 +137,30 @@ export async function POST(request: NextRequest) {
 
     console.log("[AiX Ingest DEBUG] Database insert succeeded");
 
-    // Publish ingested events to the Event Bus, Live Monitor, and Telegram alert rules asynchronously (silent fallbacks)
+    // Log receipt, enqueue Telegram alerts, and trigger retries asynchronously
     try {
       const { eventBus } = await import("@/services/aix-intelligence/realtime/event-bus");
       const { liveSessionMonitor } = await import("@/services/aix-intelligence/realtime/live-monitor");
-      const { telegram } = await import("@/services/aix-intelligence/telegram");
+      const { notificationService } = await import("@/services/aix-intelligence/telegram");
 
       validatedEvents.forEach((evt) => {
         liveSessionMonitor.registerActivity(evt);
         eventBus.publish("ingest:event", evt);
-        telegram.evaluateEventRules(evt);
+
+        console.log("AIX TELEMETRY EVENT", evt.application, evt.event_type, evt.id);
+
+        notificationService.enqueue(evt).catch((error) => {
+          console.error(error);
+        });
       });
-    } catch (e) {}
+
+      // Trigger asynchronous retry process for failed notifications
+      notificationService.retryFailedNotifications().catch((error) => {
+        console.error("Error retrying failed notifications:", error);
+      });
+    } catch (e) {
+      console.error("[AiX Ingest] Error in post-insert notification trigger:", e);
+    }
 
     // Trigger visitor profile recomputation in the background (fire-and-forget)
     try {
