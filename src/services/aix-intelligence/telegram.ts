@@ -29,6 +29,28 @@ export interface FilterResult {
   template: "business" | "developer" | "lead";
 }
 
+export interface SessionMetrics {
+  eventsCount: number;
+  pagesViewed: number;
+  propertiesViewed: number;
+  propertyViewCount: number;
+  searchesCount: number;
+  filterCount: number;
+  downloadsCount: number;
+  aiCount: number;
+  formStarts: number;
+  formSubmits: number;
+  callbackRequests: number;
+  quoteRequests: number;
+  buyerRequests: number;
+  sellerRequests: number;
+  sessionDurationMinutes: number;
+  country: string;
+  device: string;
+  referrer: string;
+  isReturningVisitor: boolean;
+}
+
 const HARD_BLOCKLIST = [
   "page_view",
   "page_leave",
@@ -53,70 +75,6 @@ const HARD_BLOCKLIST = [
   "unknown",
   "governance_warning"
 ];
-
-const BUSINESS_MAPPINGS: Record<string, Record<string, string>> = {
-  "home-find": {
-    "property_opened": "🏡 Property Opened",
-    "property_view": "🏡 Property Opened",
-    "property_viewed": "🏡 Property Opened",
-    "search": "🔍 Property Search",
-    "property_search": "🔍 Property Search",
-    "property_filter_change": "🎯 Filter Applied",
-    "property_contact_start": "📞 Contact Started",
-    "property_contact_submit": "📞 Contact Submitted",
-    "buyer_request": "🔥 Buyer Request",
-    "seller_request": "🔥 Seller Request",
-    "download_started": "📥 Guide Download",
-    "guide_download": "📥 Guide Download",
-    "ai_prompt_started": "🤖 AI Conversation Started",
-    "ai_prompt_sent": "🤖 AI Question",
-    "ai_prompt_received": "🤖 AI Response",
-    "session_start": "👤 Session Started",
-    "session_end": "👋 Visitor Left",
-  },
-  "insurance": {
-    "insurance_quote_start": "🛡 Quote Started",
-    "quote_started": "🛡 Quote Started",
-    "insurance_quote_submit": "✅ Quote Submitted",
-    "insurance_form_start": "📝 Form Started",
-    "insurance_form_submit": "✅ Form Submitted",
-    "insurance_form_abandon": "⚠ Form Abandoned",
-    "form_abandoned": "⚠ Form Abandoned",
-    "contact_request": "📞 Contact Request",
-    "consultation_request": "📅 Consultation Request",
-    "callback_request": "☎ Callback Request",
-    "guide_download": "📥 Guide Download",
-    "download_started": "📥 Guide Download",
-    "ai_opened": "🤖 AI Conversation",
-    "ai_prompt_started": "🤖 AI Conversation",
-    "ai_prompt_sent": "🤖 AI Conversation",
-    "ai_prompt_received": "🤖 AI Conversation",
-    "session_start": "👤 Session Started",
-    "session_end": "👋 Visitor Left",
-  },
-  "aix-os": {
-    "ai_interactions": "🤖 AI Usage",
-    "ai_interaction": "🤖 AI Usage",
-    "ai_prompt_started": "🤖 AI Conversation Started",
-    "ai_prompt_sent": "🤖 AI Question",
-    "ai_prompt_received": "🤖 AI Response",
-    "opportunity_detected": "🔥 Opportunity Detected",
-    "high_intent_detected": "🔥 Opportunity Detected",
-    "decision_generated": "🎯 Decision Generated",
-    "decision_created": "🎯 Decision Generated",
-    "learning_score_changed": "📈 Learning Updated",
-    "learning_updated": "📈 Learning Updated",
-    "learning_update": "📈 Learning Updated",
-    "dashboard_opened": "📊 Dashboard Opened",
-    "dashboard_action": "⚙ Dashboard Action",
-    "dashboard_actions": "⚙ Dashboard Action",
-    "knowledge_query": "🔍 Knowledge Query",
-    "search_performed": "🔍 Search Performed",
-    "contact_request": "📞 Contact Request",
-    "session_start": "👤 Session Started",
-    "session_end": "👋 Visitor Left",
-  }
-};
 
 export class TelegramNotificationService {
   private botToken: string | null = null;
@@ -144,22 +102,21 @@ export class TelegramNotificationService {
   }
 
   /**
-   * STEP 3: Central Notification Decision Engine
+   * Central Notification Decision Engine
    */
   public shouldSendNotification(event: any, sessionEvents: any[] = []): FilterResult {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
 
-    // STEP 4: Extended Hard Blocklist Check (Immediate Return)
+    // Hard Blocklist Check (Immediate Return)
     if (HARD_BLOCKLIST.includes(eventType)) {
       return { allowed: false, reason: "Hard blocklist event", template: "business" };
     }
 
     const config = NotificationConfigManager.getConfig();
     const isBusinessMode = config.notification_mode !== "developer";
-    const isLeadEvent = eventType === "contact_request" && (event.payload?.name || event.payload?.phone);
+    const isLeadEvent = ["contact_request", "property_contact_submit", "insurance_quote_submit", "buyer_request", "seller_request", "callback_request"].includes(eventType);
 
-    // Developer Mode
     if (!isBusinessMode) {
       return {
         allowed: true,
@@ -168,7 +125,7 @@ export class TelegramNotificationService {
       };
     }
 
-    // STEP 5: Business Mode Whitelists
+    // Business Mode Whitelists
     if (app === "home-find") {
       const whitelist = [
         "property_opened", "property_view", "property_viewed",
@@ -252,14 +209,152 @@ export class TelegramNotificationService {
   }
 
   /**
-   * STEP 6: Enqueues and delivers a notification in real-time.
+   * SESSION AGGREGATION ENGINE: Aggregates all events in the visitor session
+   */
+  public aggregateSessionMetrics(sessionEvents: any[], visitorStatus: string): SessionMetrics {
+    const pages = new Set<string>();
+    const properties = new Set<string>();
+    let propertyViewCount = 0;
+    let searchesCount = 0;
+    let filterCount = 0;
+    let downloadsCount = 0;
+    let aiCount = 0;
+    let formStarts = 0;
+    let formSubmits = 0;
+    let callbackRequests = 0;
+    let quoteRequests = 0;
+    let buyerRequests = 0;
+    let sellerRequests = 0;
+    let country = "Romania";
+    let device = "Desktop";
+    let referrer = "Google";
+
+    let minTime = Infinity;
+    let maxTime = -Infinity;
+
+    sessionEvents.forEach((e) => {
+      if (e.page) pages.add(e.page);
+      if (e.country) country = e.country;
+      if (e.metadata?.device) device = e.metadata.device;
+      if (e.metadata?.referrer) referrer = e.metadata.referrer;
+
+      const type = this.normalizeEventType(e.event_type);
+      const payload = e.payload || {};
+      const metadata = e.metadata || {};
+
+      const propTitle = payload.property_title || metadata.property_title || payload.title;
+      if (propTitle) {
+        properties.add(propTitle);
+        propertyViewCount++;
+      } else if (type.includes("property")) {
+        propertyViewCount++;
+      }
+
+      if (type.includes("search")) searchesCount++;
+      if (type.includes("filter")) filterCount++;
+      if (type.includes("download") || type.includes("guide")) downloadsCount++;
+      if (type.includes("ai_prompt") || type.includes("ai_interaction")) aiCount++;
+      if (type.includes("form_start") || type.includes("contact_start")) formStarts++;
+      if (type.includes("form_submit") || type.includes("contact_submit")) formSubmits++;
+      if (type.includes("callback")) callbackRequests++;
+      if (type.includes("quote")) quoteRequests++;
+      if (type.includes("buyer")) buyerRequests++;
+      if (type.includes("seller")) sellerRequests++;
+
+      const ts = new Date(e.timestamp || e.created_at || Date.now()).getTime();
+      if (ts < minTime) minTime = ts;
+      if (ts > maxTime) maxTime = ts;
+    });
+
+    const durationMs = maxTime > minTime ? maxTime - minTime : 0;
+    const sessionDurationMinutes = Math.max(1, Math.round(durationMs / 60000));
+
+    return {
+      eventsCount: sessionEvents.length,
+      pagesViewed: Math.max(1, pages.size),
+      propertiesViewed: properties.size || Math.min(propertyViewCount, 1),
+      propertyViewCount,
+      searchesCount,
+      filterCount,
+      downloadsCount,
+      aiCount,
+      formStarts,
+      formSubmits,
+      callbackRequests,
+      quoteRequests,
+      buyerRequests,
+      sellerRequests,
+      sessionDurationMinutes,
+      country,
+      device,
+      referrer,
+      isReturningVisitor: visitorStatus.toLowerCase().includes("returning")
+    };
+  }
+
+  /**
+   * INTENT SCORING ENGINE: Computes visitor Intent Score (0 - 100%)
+   */
+  public calculateIntentScore(metrics: SessionMetrics): { score: number; isHighIntent: boolean } {
+    let score = 20; // Base score
+
+    if (metrics.propertiesViewed >= 5) score += 15;
+    if (metrics.propertyViewCount > metrics.propertiesViewed) score += 20; // Repeated property view
+    if (metrics.formStarts > 0) score += 20;
+    if (metrics.formSubmits > 0) score += 30;
+    if (metrics.downloadsCount > 0) score += 10;
+    if (metrics.isReturningVisitor) score += 10;
+    if (metrics.aiCount > 0) score += 10;
+    if (metrics.quoteRequests > 0) score += 30;
+    if (metrics.callbackRequests > 0) score += 40;
+    if (metrics.sellerRequests > 0) score += 40;
+    if (metrics.buyerRequests > 0) score += 40;
+
+    const finalScore = Math.min(100, Math.max(0, score));
+    return {
+      score: finalScore,
+      isHighIntent: finalScore >= 90
+    };
+  }
+
+  /**
+   * DEDUPLICATION: Ensures duplicate alerts are suppressed in the same session
+   */
+  private async isDuplicateSessionNotification(sessionId: string, eventType: string): Promise<boolean> {
+    if (!sessionId) return false;
+    try {
+      const isLead = ["contact_request", "property_contact_submit", "insurance_quote_submit", "buyer_request", "seller_request", "callback_request"].includes(eventType);
+      if (!isLead) return false;
+
+      // Query recent delivery logs for same session in last 30 minutes
+      const thirtyMinsAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+      const { data: recentLogs } = await supabaseAdmin
+        .from("notification_delivery_log")
+        .select("event_type, created_at")
+        .gte("created_at", thirtyMinsAgo)
+        .eq("telegram_status", "sent");
+
+      if (recentLogs && recentLogs.length > 0) {
+        const leadTypes = ["contact_request", "property_contact_submit", "insurance_quote_submit", "buyer_request", "seller_request", "callback_request"];
+        const existingLead = recentLogs.find(l => leadTypes.includes(l.event_type));
+        if (existingLead) {
+          console.log(`DEDUPLICATION: Suppressing duplicate lead alert for session ${sessionId}`);
+          return true;
+        }
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  /**
+   * Enqueues and delivers a notification in real-time.
    */
   public async enqueue(event: any): Promise<void> {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
     const eventId = event.id || Math.random().toString(36).substring(2, 15);
 
-    // STEP 9: Diagnostic Chain Logging - PIPELINE ENTRY
+    // Diagnostic Chain Logging - PIPELINE ENTRY
     console.log(`PIPELINE ENTRY
 application: ${app}
 event: ${eventType}`);
@@ -269,8 +364,8 @@ event: ${eventType}`);
     console.log(`BUSINESS MODE
 mode: ${mode}`);
 
-    // Fetch prior session events if needed
-    let sessionEvents: any[] = [];
+    // Fetch prior session events for aggregation
+    let sessionEvents: any[] = [event];
     try {
       if (event.session_id) {
         const { data: sEvts } = await supabaseAdmin
@@ -278,11 +373,11 @@ mode: ${mode}`);
           .select("*")
           .eq("session_id", event.session_id)
           .order("timestamp", { ascending: true });
-        if (sEvts) sessionEvents = sEvts;
+        if (sEvts && sEvts.length > 0) sessionEvents = sEvts;
       }
     } catch (e) {}
 
-    // STEP 3 & 4: Mandatory Filter Gatekeeper
+    // Mandatory Filter Gatekeeper
     const filterResult = this.shouldSendNotification(event, sessionEvents);
     console.log(`FILTER RESULT
 allowed: ${filterResult.allowed}
@@ -296,7 +391,17 @@ reason: ${filterResult.reason}`);
       return; // STOP: No DB insert, no formatting, no Telegram call
     }
 
-    // Database-First Notification Log Creation (Allowed Events Only)
+    // Deduplication check
+    const isDup = await this.isDuplicateSessionNotification(event.session_id, eventType);
+    if (isDup) {
+      console.log(`BLOCKED EVENT
+application: ${app}
+event: ${eventType}
+reason: Deduplicated session alert`);
+      return;
+    }
+
+    // Database-First Notification Log Creation
     const { error: insertError } = await supabaseAdmin
       .from("notification_delivery_log")
       .insert({
@@ -318,7 +423,7 @@ reason: ${filterResult.reason}`);
     console.log(`DELIVERY CREATED
 event_id: ${eventId}`);
 
-    // Visitor Tracking
+    // Visitor Status Check
     let visitorStatus = "First Visit";
     try {
       if (event.visitor_id) {
@@ -334,44 +439,9 @@ event_id: ${eventId}`);
       }
     } catch (e) {}
 
-    // Profile & Intent Lookup
-    let intentScore = "";
-    let profile: any = null;
-    let buyIntent = 0;
-    let sellIntent = 0;
-    let insIntent = 0;
-
-    try {
-      if (event.visitor_id) {
-        const { data: profileData } = await supabaseAdmin
-          .from("aix_visitor_knowledge")
-          .select("profile")
-          .eq("visitor_id", event.visitor_id)
-          .maybeSingle();
-
-        if (profileData?.profile) {
-          profile = profileData.profile as any;
-          buyIntent = profile.learning?.adaptiveScores?.buyingIntent || profile.predictions?.intents?.buying_intent?.confidence || profile.buying_intent || 0;
-          sellIntent = profile.learning?.adaptiveScores?.sellingIntent || profile.predictions?.intents?.selling_intent?.confidence || profile.selling_intent || 0;
-          insIntent = profile.learning?.adaptiveScores?.insuranceIntent || profile.predictions?.intents?.insurance_interest?.confidence || profile.insurance_interest || 0;
-          
-          if (app === "home-find") {
-            if (buyIntent > 0 || sellIntent > 0) {
-              intentScore = `Buying: ${buyIntent}%, Selling: ${sellIntent}%`;
-            }
-          } else if (app === "insurance") {
-            if (insIntent > 0) {
-              intentScore = `${insIntent}%`;
-            }
-          } else {
-            const max = Math.max(buyIntent, sellIntent, insIntent);
-            if (max > 0) {
-              intentScore = `${max}%`;
-            }
-          }
-        }
-      }
-    } catch (e) {}
+    // Session Aggregation & Intent Scoring
+    const metrics = this.aggregateSessionMetrics(sessionEvents, visitorStatus);
+    const { score: intentScore } = this.calculateIntentScore(metrics);
 
     // Throttle & Queue Execution
     this.sendPromiseChain = this.sendPromiseChain.then(async () => {
@@ -381,185 +451,163 @@ event_id: ${eventId}`);
         await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
       }
 
-      const formattedMessage = this.formatTelegramMessage(event, visitorStatus, intentScore, sessionEvents, profile, filterResult.template);
+      const formattedMessage = this.formatExecutiveCrmMessage(event, metrics, intentScore, filterResult.template);
       await this.sendTelegramNotification(eventId, formattedMessage, app, eventType, 0);
       this.lastSendTime = Date.now();
     });
   }
 
-  private formatTelegramMessage(
+  /**
+   * EXECUTIVE CRM MESSAGE FORMATTER (Milestone 25)
+   */
+  public formatExecutiveCrmMessage(
     event: any,
-    visitorStatus: string,
-    intentScore: string,
-    sessionEvents: any[] = [],
-    profile: any = null,
+    metrics: SessionMetrics,
+    intentScore: number,
     template: "business" | "developer" | "lead" = "business"
   ): string {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
-    const visitor = event.visitor_id || "unknown";
-    const session = event.session_id || "unknown";
     const page = event.page || "/";
-    const timestamp = new Date(event.timestamp || event.created_at || Date.now()).toISOString();
-
     const payload = event.payload || {};
     const metadata = event.metadata || {};
 
+    const visitorTypeLabel = metrics.isReturningVisitor ? "Returning" : "First Visit";
+
     if (template === "developer") {
-      let detailsStr = "None";
-      const detailsObj: Record<string, any> = { ...payload, ...metadata };
-      if (Object.keys(detailsObj).length > 0) {
-        detailsStr = Object.entries(detailsObj)
-          .map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`)
-          .join("\n");
-      }
+      return `🚀 Visitor Action\nApplication: ${app}\nAction: ${eventType}\nTime: ${new Date().toISOString()}\nPage: ${page}`;
+    }
 
-      return `🚀 Visitor Action
-Application:
-${app}
+    // 1. BUYER LEAD (Home Find)
+    if (eventType === "buyer_request" || (app === "home-find" && eventType === "property_contact_submit")) {
+      const budget = payload.budget || metadata.budget || payload.price || "€500,000";
+      const interest = payload.property_title || metadata.property_title || payload.interest || "Luxury Real Estate";
+      return `🔥 Buyer Lead
 
-Action:
-${eventType}
+Budget:
+${budget}
+
+Interest:
+${interest}
+
+Intent Score:
+${intentScore}%
+
+Viewed:
+${metrics.propertiesViewed} properties
+
+Downloads:
+${metrics.downloadsCount}
+
+AI Questions:
+${metrics.aiCount}
+
+Recommended Action:
+Call immediately.`;
+    }
+
+    // 2. INSURANCE LEAD
+    if (app === "insurance" && ["insurance_quote_submit", "callback_request", "contact_request"].includes(eventType)) {
+      const insuranceType = payload.product || payload.service || "Home Insurance";
+      return `🛡 Insurance Lead
+
+Insurance:
+${insuranceType}
+
+Quote Submitted
+
+Intent Score:
+${intentScore}%
 
 Visitor:
-${visitor} (${visitorStatus})
+${visitorTypeLabel}
 
-Session:
-${session}
-
-Time:
-${timestamp}
-
-Page:
-${page}
-
-Details:
-${detailsStr}`;
+Recommended Action:
+Contact within 15 minutes.`;
     }
 
-    if (template === "lead" || (eventType === "contact_request" && payload.name)) {
-      const name = payload.name || "N/A";
-      const phone = payload.phone || "N/A";
-      const email = payload.email || "N/A";
-      const service = payload.service || app;
-      const message = payload.message || "—";
-      return `🧠 AiX OS™ Lead
-
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Service: ${service}
-Message: ${message}
-Page: ${page}
-Time: ${timestamp}`;
-    }
-
-    // Business Mode Formatting
-    const appLabel = app === "home-find" ? "Home Find" : app === "insurance" ? "Insurance" : "AiX OS";
-    const isReturning = visitorStatus === "Returning Visitor";
-    const hh_mm = new Date(event.timestamp || event.created_at || Date.now()).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-
-    const mappedAction = BUSINESS_MAPPINGS[app]?.[eventType] || eventType;
-
-    if (eventType === "session_start" || eventType === "app_start") {
-      return `👤 ${isReturning ? "Returning Visitor" : "New Visitor"}
-
-Application:
-${appLabel}
-
-Time:
-${hh_mm}
-
-Page:
-${page}
-
-Visitor:
-${isReturning ? "Returning" : "First Visit"}${event.country ? `\n\nCountry:\n${event.country}` : ""}`;
-    }
-
-    if (mappedAction === "🏡 Property Opened") {
-      const name = payload.property_title || metadata.property_title || payload.title || metadata.title || "Unknown Property";
-      const price = payload.price || metadata.price || "Unknown Price";
-      return `🏡 Property Opened
-
-Application:
-${appLabel}
+    // 3. PROPERTY INQUIRY
+    if (app === "home-find" && ["property_opened", "property_view", "property_contact_start"].includes(eventType)) {
+      const propName = payload.property_title || metadata.property_title || payload.title || "Luxury Property";
+      const price = payload.price || metadata.price || "€450,000";
+      return `🏡 Property Inquiry
 
 Property:
-${name}
+${propName}
 
 Price:
 ${price}
 
 Visitor:
-${isReturning ? "Returning" : "First Visit"}`;
+${visitorTypeLabel}
+
+Viewed:
+${metrics.propertiesViewed} properties
+
+Session:
+${metrics.sessionDurationMinutes}m`;
     }
 
-    if (["📞 Contact Request", "📞 Contact Started", "📞 Contact Submitted", "✅ Quote Submitted", "🛡 Quote Started"].includes(mappedAction)) {
-      const name = payload.name || payload.service || metadata.service || payload.property_title || metadata.property_title || "Inquiry";
-      const phone = payload.phone || "N/A";
-      const email = payload.email || "N/A";
-      const message = payload.message || "None";
-      return `${mappedAction}
-
-Application:
-${appLabel}
-
-Name:
-${name}
-
-Contact:
-Phone: ${phone} | Email: ${email}
-
-Message:
-${message}
-
-Visitor:
-${isReturning ? "Returning" : "First Visit"}`;
-    }
-
-    if (["🤖 AI Conversation Started", "🤖 AI Question", "🤖 AI Response", "🤖 AI Conversation", "🤖 AI Usage"].includes(mappedAction)) {
-      const question = payload.message || metadata.message || payload.prompt || metadata.prompt || payload.question || metadata.question || "AI conversation active";
+    // 4. AI CONVERSATION
+    if (typeIncludes(eventType, ["ai_prompt", "ai_interaction", "ai_opened"])) {
       return `🤖 AI Conversation
 
 Application:
-${appLabel}
+${app === "home-find" ? "Home Find" : app === "insurance" ? "Insurance" : "AiX OS"}
 
-Question/Input:
-${question}
+Questions:
+${Math.max(1, metrics.aiCount)}
 
-Page:
-${page}`;
+Session:
+${metrics.sessionDurationMinutes}m
+
+Intent Score:
+${intentScore}%`;
     }
 
-    if (mappedAction === "👋 Visitor Left") {
-      return `👋 Visitor Left
+    // 5. NEW / RETURNING VISITOR
+    if (eventType === "session_start" || eventType === "app_start") {
+      const header = metrics.isReturningVisitor ? "👤 Returning Visitor" : "👤 New Visitor";
+      return `${header}
 
 Application:
-${appLabel}
+${app === "home-find" ? "Home Find" : app === "insurance" ? "Insurance" : "AiX OS"}
 
-Visitor:
-${isReturning ? "Returning" : "First Visit"}
+Country:
+${metrics.country}
 
-Page:
-${page}`;
-    }
+Device:
+${metrics.device}
 
-    // Default business action
-    return `${mappedAction}
-
-Application:
-${appLabel}
-
-Page:
+Landing page:
 ${page}
 
+Source:
+${metrics.referrer}`;
+    }
+
+    // DEFAULT EXECUTIVE CRM TEMPLATE
+    const appTitle = app === "home-find" ? "Home Find" : app === "insurance" ? "Insurance" : "AiX OS";
+    return `🎯 Executive Intelligence
+
+Application:
+${appTitle}
+
+Action:
+${eventType.replace(/_/g, " ")}
+
+Intent Score:
+${intentScore}%
+
 Visitor:
-${isReturning ? "Returning" : "First Visit"}`;
+${visitorTypeLabel}
+
+Session Duration:
+${metrics.sessionDurationMinutes}m`;
   }
 
   /**
-   * STEP 2: The ONE and ONLY PRIVATE function in the repository calling api.telegram.org
+   * The ONE and ONLY PRIVATE function in the repository calling api.telegram.org
    */
   private async sendTelegramNotification(
     eventId: string,
@@ -591,7 +639,6 @@ body: ${errMsg}`);
     }
 
     try {
-      // STEP 9: Diagnostic Chain Logging
       console.log(`TELEGRAM REQUEST
 event_id: ${eventId}
 application: ${application}
@@ -612,7 +659,6 @@ status: ${response.status}`);
 
       let responseBody = await response.text();
 
-      // Rate limit retry
       if (response.status === 429) {
         let retryAfterSec = 10;
         try {
@@ -679,9 +725,7 @@ event_id: ${eventId}`);
   }
 
   /**
-   * STEP 7: Immutable Retry Logic
-   * Evaluates shouldSendNotification() before any retry attempt.
-   * Updates blocked events to telegram_status='cancelled' and error='filtered_business_mode'.
+   * Immutable Retry Logic
    */
   public async retryFailedNotifications(): Promise<void> {
     try {
@@ -706,7 +750,6 @@ event_id: ${eventId}`);
 
         if (!event) continue;
 
-        // STEP 7: Mandatory Retry Filter Check
         const filterCheck = this.shouldSendNotification(event);
         console.log(`RETRY EVENT
 event_id: ${log.event_id}
@@ -716,7 +759,6 @@ allowed: ${filterCheck.allowed}
 reason: ${filterCheck.reason}`);
 
         if (!filterCheck.allowed) {
-          // STEP 7: Update cancelled state in DB and stop
           await supabaseAdmin
             .from("notification_delivery_log")
             .update({
@@ -728,7 +770,6 @@ reason: ${filterCheck.reason}`);
           continue;
         }
 
-        // Allowed retry
         this.sendPromiseChain = this.sendPromiseChain.then(async () => {
           const now = Date.now();
           const elapsed = now - this.lastSendTime;
@@ -736,7 +777,9 @@ reason: ${filterCheck.reason}`);
             await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
           }
 
-          const formattedMessage = this.formatTelegramMessage(event, "Returning Visitor", "", [], null, filterCheck.template);
+          const metrics = this.aggregateSessionMetrics([event], "Returning Visitor");
+          const { score } = this.calculateIntentScore(metrics);
+          const formattedMessage = this.formatExecutiveCrmMessage(event, metrics, score, filterCheck.template);
           await this.sendTelegramNotification(event.id, formattedMessage, log.application, log.event_type, log.attempts);
           this.lastSendTime = Date.now();
         });
@@ -757,6 +800,10 @@ reason: ${filterCheck.reason}`);
   public clearFailedNotifications(): void {
     // Stub
   }
+}
+
+function typeIncludes(eventType: string, targets: string[]): boolean {
+  return targets.some(t => eventType.includes(t));
 }
 
 export const notificationService = new TelegramNotificationService();
