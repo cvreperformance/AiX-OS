@@ -114,56 +114,38 @@ function buildTelegramMessage(lead: LeadData): string {
  * - NEVER throws — callers must not let Telegram failure block the form response
  */
 export async function sendTelegramAlert(lead: LeadData): Promise<boolean> {
-  const token  = process.env.TELEGRAM_BOT_TOKEN || "";
-  const chatId = process.env.TELEGRAM_CHAT_ID || "";
-
-  const url  = `https://api.telegram.org/bot${token}/sendMessage`;
-  const body = JSON.stringify({
-    chat_id:    chatId,
-    text:       buildTelegramMessage(lead),
-  });
-
-  let attempt = 0;
-  let backoff  = INITIAL_BACKOFF_MS;
-
-  while (attempt < MAX_RETRIES) {
-    attempt++;
-    try {
-      console.info(`[AiX Telegram] Attempt ${attempt}/${MAX_RETRIES} — dispatching alert for "${lead.service}" from ${lead.name}…`);
-
-      const response = await fetchWithTimeout(
-        url,
-        { method: "POST", headers: { "Content-Type": "application/json" }, body },
-        TIMEOUT_MS
-      );
-
-      if (response.ok) {
-        console.info(`[AiX Telegram] ✓ Delivered on attempt ${attempt}.`);
-        return true;
+  console.log(`[AiX Lead Notification] Delegating lead alert for "${lead.service}" from ${lead.name} to notificationService.enqueue()`);
+  try {
+    const { notificationService } = await import("@/services/aix-intelligence/telegram");
+    
+    // Map LeadData into synthetic aix_event for central pipeline
+    const syntheticEvent = {
+      id: "lead_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7),
+      application: lead.service || "aix-os",
+      event_type: "contact_request",
+      session_id: "lead_session_" + Date.now(),
+      visitor_id: "lead_visitor_" + Date.now(),
+      page: lead.page || "/",
+      timestamp: lead.created_at || new Date().toISOString(),
+      payload: {
+        name: lead.name,
+        phone: lead.phone,
+        email: lead.email,
+        message: lead.message,
+        source: lead.source,
+        service: lead.service
+      },
+      metadata: {
+        environment: process.env.NODE_ENV || "production"
       }
+    };
 
-      // Non-200 from Telegram: log the error body for debugging
-      const errBody = await response.text().catch(() => "(unreadable)");
-      console.warn(
-        `[AiX Telegram] HTTP ${response.status} on attempt ${attempt}: ${errBody}`
-      );
-    } catch (err: any) {
-      if (err?.name === "AbortError") {
-        console.error(`[AiX Telegram] Timed out on attempt ${attempt} (>${TIMEOUT_MS}ms).`);
-      } else {
-        console.error(`[AiX Telegram] Network error on attempt ${attempt}:`, err?.message ?? err);
-      }
-    }
-
-    if (attempt < MAX_RETRIES) {
-      console.info(`[AiX Telegram] Retrying in ${backoff}ms…`);
-      await sleep(backoff);
-      backoff *= 2;
-    }
+    await notificationService.enqueue(syntheticEvent);
+    return true;
+  } catch (err: any) {
+    console.error("[AiX Lead Notification] Delegation failed:", err?.message || err);
+    return false;
   }
-
-  console.error(`[AiX Telegram] ✗ Failed after ${MAX_RETRIES} attempt(s). Lead NOT lost — stored in Supabase/backup.`);
-  return false;
 }
 
 // ─── Email (Resend) ───────────────────────────────────────────────────────────
