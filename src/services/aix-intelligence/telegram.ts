@@ -41,7 +41,11 @@ const HARD_BLOCKLIST = [
   "performance_metric",
   "sdk_health",
   "debug_event",
-  "governance_warning"
+  "governance_warning",
+  "form_submitted",
+  "form_started",
+  "form_viewed",
+  "anonymous_form"
 ];
 
 export class TelegramFormatter {
@@ -94,116 +98,53 @@ export class TelegramNotificationService {
   /**
    * Central Decision Engine Gatekeeper
    */
-  public shouldSendNotification(event: any, sessionEvents: any[] = []): FilterResult {
-    const app = this.normalizeApp(event.application || "aix-os");
-    const eventType = this.normalizeEventType(event.event_type || "unknown");
+public shouldSendNotification(event: any, sessionEvents: any[] = []): FilterResult {
+  const app = this.normalizeApp(event.application || "aix-os");
+  const eventType = this.normalizeEventType(event.event_type || "unknown");
 
-    // Hard blocklist: block technical events immediately
-    if (HARD_BLOCKLIST.includes(eventType)) {
-      return { allowed: false, reason: "technical_event_blocked", template: "business" };
-    }
-
-    const config = NotificationConfigManager.getConfig();
-    const isBusinessMode = config.notification_mode !== "developer";
-    const isLeadEvent = [
-      "contact_request",
+  const businessWhitelists: Record<string, string[]> = {
+    "home-find": [
       "property_contact_submit",
-      "insurance_quote_submit",
       "buyer_request",
       "seller_request",
+      "guide_download"
+    ],
+    "insurance": [
+      "insurance_quote_submit",
       "callback_request",
       "consultation_request",
+      "contact_request"
+    ],
+    "aix-os": [
+      "ai_prompt_sent",
+      "ai_response_received"
+    ]
+  };
+
+  const whitelist = businessWhitelists[app] ?? [];
+
+  if (whitelist.includes(eventType)) {
+    const isLeadEvent = [
+      "property_contact_submit",
+      "buyer_request",
+      "seller_request",
       "guide_download",
+      "insurance_quote_submit",
+      "callback_request",
+      "consultation_request",
+      "contact_request",
       "ai_prompt_sent",
       "ai_response_received"
     ].includes(eventType);
-
-    // Developer mode passes everything
-    if (!isBusinessMode) {
-      return {
-        allowed: true,
-        reason: "Developer mode active",
-        template: isLeadEvent ? "lead" : "developer"
-      };
-    }
-
-    // Application‑specific business whitelists
-    if (app === "home-find") {
-      const whitelist = [
-        "property_contact_submit",
-        "buyer_request",
-        "seller_request",
-        "guide_download",
-        "property_opened",
-        "property_viewed",
-        "ai_prompt_sent"
-      ];
-      if (whitelist.includes(eventType)) {
-        return {
-          allowed: true,
-          reason: "Matched home-find business whitelist",
-          template: isLeadEvent ? "lead" : "business"
-        };
-      }
-      if (eventType === "app_start") {
-        const priorEvents = sessionEvents.filter(e => e.id !== event.id);
-        if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session", template: "business" };
-        }
-        return { allowed: false, reason: "app_start not first in session", template: "business" };
-      }
-      return { allowed: false, reason: "Event not in home-find business whitelist", template: "business" };
-    }
-
-    if (app === "insurance") {
-      const whitelist = [
-        "insurance_quote_submit",
-        "callback_request",
-        "contact_request",
-        "consultation_request",
-        "guide_download"
-      ];
-      if (whitelist.includes(eventType)) {
-        return {
-          allowed: true,
-          reason: "Matched insurance business whitelist",
-          template: isLeadEvent ? "lead" : "business"
-        };
-      }
-      if (eventType === "app_start") {
-        const priorEvents = sessionEvents.filter(e => e.id !== event.id);
-        if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session", template: "business" };
-        }
-        return { allowed: false, reason: "app_start not first in session", template: "business" };
-      }
-      return { allowed: false, reason: "Event not in insurance business whitelist", template: "business" };
-    }
-
-    if (app === "aix-os") {
-      const whitelist = [
-        "ai_prompt_sent",
-        "ai_response_received"
-      ];
-      if (whitelist.includes(eventType)) {
-        return {
-          allowed: true,
-          reason: "Matched aix-os business whitelist",
-          template: isLeadEvent ? "lead" : "business"
-        };
-      }
-      if (eventType === "app_start") {
-        const priorEvents = sessionEvents.filter(e => e.id !== event.id);
-        if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session", template: "business" };
-        }
-        return { allowed: false, reason: "app_start not first in session", template: "business" };
-      }
-      return { allowed: false, reason: "Event not in aix-os business whitelist", template: "business" };
-    }
-
-    return { allowed: false, reason: `Unknown application: ${app}`, template: "business" };
+    return {
+      allowed: true,
+      reason: "business_event_allowed",
+      template: isLeadEvent ? "lead" : "business"
+    };
   }
+
+  return { allowed: false, reason: "non_business_event_blocked", template: "business" };
+}
 
   /**
    * STEP 7: Presentation Orchestration Flow
@@ -439,6 +380,13 @@ export class TelegramNotificationService {
         if (!event) continue;
 
         const filterCheck = this.shouldSendNotification(event);
+        // Debug diagnostics for retry path
+        if (!filterCheck.allowed && filterCheck.reason === "technical_event_blocked") {
+          console.debug("Blocked technical retry", {
+            event_type: event.event_type,
+            reason: filterCheck.reason
+          });
+        }
         console.log(`RETRY EVENT\nevent_id: ${log.event_id}\napplication: ${log.application}\nevent_type: ${log.event_type}\nallowed: ${filterCheck.allowed}\nreason: ${filterCheck.reason}`);
 
         if (!filterCheck.allowed) {
