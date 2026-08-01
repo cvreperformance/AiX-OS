@@ -47,6 +47,7 @@ const HARD_BLOCKLIST = [
   "blur",
   "resize",
   "mouse_move",
+  "mousemove",
   "debug",
   "trace",
   "unknown",
