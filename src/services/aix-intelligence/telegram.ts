@@ -30,27 +30,52 @@ export interface FilterResult {
 const HARD_BLOCKLIST = [
   "page_view",
   "page_leave",
+  "session_start",
+  "session_end",
   "route_change",
   "internal_navigation",
   "heartbeat",
   "scroll_depth",
   "scroll_milestone",
+  "scroll",
+  "mousemove",
+  "mouse_move",
+  "resize",
+  "focus",
+  "blur",
+  "visibility_change",
   "sdk_initialized",
   "component_loaded",
   "performance_metric",
   "performance",
   "navigation",
-  "visibility_change",
-  "focus",
-  "blur",
-  "resize",
-  "mouse_move",
-  "mousemove",
   "debug",
   "trace",
   "unknown",
   "governance_warning"
 ];
+
+export class TelegramFormatter {
+  public static format(intelligence: any): string {
+    const { metrics, intent, leadTemperature, journey, recommendation, estimatedLeadValue } = intelligence;
+    const appName = metrics.application === "home-find" ? "Home Find" : metrics.application === "insurance" ? "Insurance" : "AiX OS";
+    const categoryLabel = intent.category.toUpperCase();
+    const intentScore = `${intent.score}%`;
+    const leadTemp = leadTemperature || "";
+    const journeySummary = journey.formattedJourney.split("\n").slice(0, 2).join(" ");
+    const estimatedValue = estimatedLeadValue ? `\nEstimated Lead Value: ${estimatedLeadValue}` : "";
+
+    // Executive CRM Template
+    return `
+🔥 ${leadTemp} ${categoryLabel}
+
+Application: ${appName}
+Intent Score: ${intentScore}
+Lead Temperature: ${leadTemp}
+Journey: ${journeySummary}${estimatedValue}
+Recommendation: ${recommendation.action}`.trim();
+  }
+}
 
 export class TelegramNotificationService {
   private botToken: string | null = null;
@@ -84,15 +109,27 @@ export class TelegramNotificationService {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
 
-    // Extended Hard Blocklist Check (Immediate Return)
+    // Hard blocklist: block technical events immediately
     if (HARD_BLOCKLIST.includes(eventType)) {
-      return { allowed: false, reason: "Hard blocklist event", template: "business" };
+      return { allowed: false, reason: "technical_event_blocked", template: "business" };
     }
 
     const config = NotificationConfigManager.getConfig();
     const isBusinessMode = config.notification_mode !== "developer";
-    const isLeadEvent = ["contact_request", "property_contact_submit", "insurance_quote_submit", "buyer_request", "seller_request", "callback_request"].includes(eventType);
+    const isLeadEvent = [
+      "contact_request",
+      "property_contact_submit",
+      "insurance_quote_submit",
+      "buyer_request",
+      "seller_request",
+      "callback_request",
+      "consultation_request",
+      "guide_download",
+      "ai_prompt_sent",
+      "ai_response_received"
+    ].includes(eventType);
 
+    // Developer mode passes everything
     if (!isBusinessMode) {
       return {
         allowed: true,
@@ -101,16 +138,16 @@ export class TelegramNotificationService {
       };
     }
 
-    // Business Mode Whitelists
+    // Application‑specific business whitelists
     if (app === "home-find") {
       const whitelist = [
-        "property_opened", "property_view", "property_viewed",
-        "property_contact_start", "property_contact_submit",
-        "buyer_request", "seller_request",
-        "search", "property_search", "property_filter_change",
-        "download_started", "guide_download",
-        "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received",
-        "session_start", "session_end"
+        "property_opened",
+        "property_viewed",
+        "property_contact_submit",
+        "buyer_request",
+        "seller_request",
+        "guide_download",
+        "ai_prompt_sent"
       ];
       if (whitelist.includes(eventType)) {
         return {
