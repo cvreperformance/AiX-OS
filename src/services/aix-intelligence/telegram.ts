@@ -23,6 +23,12 @@ export interface QueueStats {
   last_notification_time: string;
 }
 
+export interface FilterResult {
+  allowed: boolean;
+  reason: string;
+  template: "business" | "developer" | "lead";
+}
+
 const HARD_BLOCKLIST = [
   "page_view",
   "page_leave",
@@ -34,10 +40,17 @@ const HARD_BLOCKLIST = [
   "sdk_initialized",
   "component_loaded",
   "performance_metric",
-  "governance_warning",
-  "unknown",
+  "performance",
+  "navigation",
+  "visibility_change",
+  "focus",
+  "blur",
+  "resize",
+  "mouse_move",
   "debug",
-  "trace"
+  "trace",
+  "unknown",
+  "governance_warning"
 ];
 
 const BUSINESS_MAPPINGS: Record<string, Record<string, string>> = {
@@ -130,71 +143,82 @@ export class TelegramNotificationService {
   }
 
   /**
-   * STEP 3: Mandatory Gatekeeper Function
-   * Every message candidate must pass through shouldSendNotification() before entering
-   * notification_delivery_log or reaching Telegram.
+   * STEP 3: Central Notification Decision Engine
    */
-  public shouldSendNotification(event: any, sessionEvents: any[] = []): { allowed: boolean; reason: string } {
+  public shouldSendNotification(event: any, sessionEvents: any[] = []): FilterResult {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
 
-    // 1. STEP 7: Hard Block List Check (Immediate Return)
+    // STEP 4: Extended Hard Blocklist Check (Immediate Return)
     if (HARD_BLOCKLIST.includes(eventType)) {
-      return { allowed: false, reason: "Hard blocklist event" };
+      return { allowed: false, reason: "Hard blocklist event", template: "business" };
     }
 
     const config = NotificationConfigManager.getConfig();
     const isBusinessMode = config.notification_mode !== "developer";
+    const isLeadEvent = eventType === "contact_request" && (event.payload?.name || event.payload?.phone);
 
-    // Developer Mode: allow all non-hard-blocklisted events
+    // Developer Mode
     if (!isBusinessMode) {
-      return { allowed: true, reason: "Developer mode active" };
+      return {
+        allowed: true,
+        reason: "Developer mode active",
+        template: isLeadEvent ? "lead" : "developer"
+      };
     }
 
-    // 2. STEP 6: Business Mode Whitelists
+    // STEP 5: Business Mode Whitelists
     if (app === "home-find") {
       const whitelist = [
         "property_opened", "property_view", "property_viewed",
-        "search", "property_search", "property_filter_change",
         "property_contact_start", "property_contact_submit",
         "buyer_request", "seller_request",
+        "search", "property_search", "property_filter_change",
         "download_started", "guide_download",
         "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received",
         "session_start", "session_end"
       ];
       if (whitelist.includes(eventType)) {
-        return { allowed: true, reason: "Matched home-find business whitelist" };
+        return {
+          allowed: true,
+          reason: "Matched home-find business whitelist",
+          template: isLeadEvent ? "lead" : "business"
+        };
       }
       if (eventType === "app_start") {
         const priorEvents = sessionEvents.filter(e => e.id !== event.id);
         if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session" };
+          return { allowed: true, reason: "First app_start in session", template: "business" };
         }
-        return { allowed: false, reason: "app_start not first in session" };
+        return { allowed: false, reason: "app_start not first in session", template: "business" };
       }
-      return { allowed: false, reason: "Event not in home-find business whitelist" };
+      return { allowed: false, reason: "Event not in home-find business whitelist", template: "business" };
     }
 
     if (app === "insurance") {
       const whitelist = [
         "insurance_quote_start", "quote_started", "insurance_quote_submit",
         "insurance_form_start", "insurance_form_submit", "insurance_form_abandon", "form_abandoned",
-        "contact_request", "consultation_request", "callback_request",
+        "callback_request", "contact_request", "consultation_request",
         "guide_download", "download_started",
         "ai_opened", "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received",
         "session_start", "session_end"
       ];
       if (whitelist.includes(eventType)) {
-        return { allowed: true, reason: "Matched insurance business whitelist" };
+        return {
+          allowed: true,
+          reason: "Matched insurance business whitelist",
+          template: isLeadEvent ? "lead" : "business"
+        };
       }
       if (eventType === "app_start") {
         const priorEvents = sessionEvents.filter(e => e.id !== event.id);
         if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session" };
+          return { allowed: true, reason: "First app_start in session", template: "business" };
         }
-        return { allowed: false, reason: "app_start not first in session" };
+        return { allowed: false, reason: "app_start not first in session", template: "business" };
       }
-      return { allowed: false, reason: "Event not in insurance business whitelist" };
+      return { allowed: false, reason: "Event not in insurance business whitelist", template: "business" };
     }
 
     if (app === "aix-os") {
@@ -207,30 +231,34 @@ export class TelegramNotificationService {
         "session_start", "session_end"
       ];
       if (whitelist.includes(eventType)) {
-        return { allowed: true, reason: "Matched aix-os business whitelist" };
+        return {
+          allowed: true,
+          reason: "Matched aix-os business whitelist",
+          template: isLeadEvent ? "lead" : "business"
+        };
       }
       if (eventType === "app_start") {
         const priorEvents = sessionEvents.filter(e => e.id !== event.id);
         if (priorEvents.length === 0) {
-          return { allowed: true, reason: "First app_start in session" };
+          return { allowed: true, reason: "First app_start in session", template: "business" };
         }
-        return { allowed: false, reason: "app_start not first in session" };
+        return { allowed: false, reason: "app_start not first in session", template: "business" };
       }
-      return { allowed: false, reason: "Event not in aix-os business whitelist" };
+      return { allowed: false, reason: "Event not in aix-os business whitelist", template: "business" };
     }
 
-    return { allowed: false, reason: `Unknown application: ${app}` };
+    return { allowed: false, reason: `Unknown application: ${app}`, template: "business" };
   }
 
   /**
-   * Enqueues and delivers a notification in real-time.
+   * STEP 6: Enqueues and delivers a notification in real-time.
    */
   public async enqueue(event: any): Promise<void> {
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
     const eventId = event.id || Math.random().toString(36).substring(2, 15);
 
-    // STEP 8: Diagnostic Chain Logging - PIPELINE ENTRY
+    // STEP 9: Diagnostic Chain Logging - PIPELINE ENTRY
     console.log(`PIPELINE ENTRY
 application: ${app}
 event: ${eventType}`);
@@ -240,7 +268,7 @@ event: ${eventType}`);
     console.log(`BUSINESS MODE
 mode: ${mode}`);
 
-    // Fetch prior session events to check entry conditions if needed
+    // Fetch prior session events if needed
     let sessionEvents: any[] = [];
     try {
       if (event.session_id) {
@@ -253,7 +281,7 @@ mode: ${mode}`);
       }
     } catch (e) {}
 
-    // STEP 3 & 7: Mandatory Filter Gatekeeper
+    // STEP 3 & 4: Mandatory Filter Gatekeeper
     const filterResult = this.shouldSendNotification(event, sessionEvents);
     console.log(`FILTER RESULT
 allowed: ${filterResult.allowed}
@@ -267,7 +295,7 @@ reason: ${filterResult.reason}`);
       return; // STOP: No DB insert, no formatting, no Telegram call
     }
 
-    // Database-First Notification Log Creation
+    // Database-First Notification Log Creation (Allowed Events Only)
     const { error: insertError } = await supabaseAdmin
       .from("notification_delivery_log")
       .insert({
@@ -311,8 +339,6 @@ event_id: ${eventId}`);
     let buyIntent = 0;
     let sellIntent = 0;
     let insIntent = 0;
-    let luxuryScore = 0;
-    let opportunityScore = 0;
 
     try {
       if (event.visitor_id) {
@@ -327,8 +353,6 @@ event_id: ${eventId}`);
           buyIntent = profile.learning?.adaptiveScores?.buyingIntent || profile.predictions?.intents?.buying_intent?.confidence || profile.buying_intent || 0;
           sellIntent = profile.learning?.adaptiveScores?.sellingIntent || profile.predictions?.intents?.selling_intent?.confidence || profile.selling_intent || 0;
           insIntent = profile.learning?.adaptiveScores?.insuranceIntent || profile.predictions?.intents?.insurance_interest?.confidence || profile.insurance_interest || 0;
-          luxuryScore = profile.learning?.adaptiveScores?.luxuryPreference || (profile.luxury_preference ? 85 : 0);
-          opportunityScore = profile.decisions?.opportunityRank || 0;
           
           if (app === "home-find") {
             if (buyIntent > 0 || sellIntent > 0) {
@@ -356,7 +380,7 @@ event_id: ${eventId}`);
         await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
       }
 
-      const formattedMessage = this.formatTelegramMessage(event, visitorStatus, intentScore, sessionEvents, profile);
+      const formattedMessage = this.formatTelegramMessage(event, visitorStatus, intentScore, sessionEvents, profile, filterResult.template);
       await this.sendTelegramNotification(eventId, formattedMessage, app, eventType, 0);
       this.lastSendTime = Date.now();
     });
@@ -367,11 +391,9 @@ event_id: ${eventId}`);
     visitorStatus: string,
     intentScore: string,
     sessionEvents: any[] = [],
-    profile: any = null
+    profile: any = null,
+    template: "business" | "developer" | "lead" = "business"
   ): string {
-    const config = NotificationConfigManager.getConfig();
-    const isBusinessMode = config.notification_mode !== "developer";
-
     const app = this.normalizeApp(event.application || "aix-os");
     const eventType = this.normalizeEventType(event.event_type || "unknown");
     const visitor = event.visitor_id || "unknown";
@@ -382,8 +404,7 @@ event_id: ${eventId}`);
     const payload = event.payload || {};
     const metadata = event.metadata || {};
 
-    if (!isBusinessMode) {
-      // Developer Mode raw format
+    if (template === "developer") {
       let detailsStr = "None";
       const detailsObj: Record<string, any> = { ...payload, ...metadata };
       if (Object.keys(detailsObj).length > 0) {
@@ -413,6 +434,23 @@ ${page}
 
 Details:
 ${detailsStr}`;
+    }
+
+    if (template === "lead" || (eventType === "contact_request" && payload.name)) {
+      const name = payload.name || "N/A";
+      const phone = payload.phone || "N/A";
+      const email = payload.email || "N/A";
+      const service = payload.service || app;
+      const message = payload.message || "—";
+      return `🧠 AiX OS™ Lead
+
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Service: ${service}
+Message: ${message}
+Page: ${page}
+Time: ${timestamp}`;
     }
 
     // Business Mode Formatting
@@ -520,7 +558,7 @@ ${isReturning ? "Returning" : "First Visit"}`;
   }
 
   /**
-   * STEP 2: The ONE and ONLY function in the repository that calls api.telegram.org
+   * STEP 2: The ONE and ONLY PRIVATE function in the repository calling api.telegram.org
    */
   private async sendTelegramNotification(
     eventId: string,
@@ -552,7 +590,7 @@ body: ${errMsg}`);
     }
 
     try {
-      // STEP 8: Diagnostic Chain Logging
+      // STEP 9: Diagnostic Chain Logging
       console.log(`TELEGRAM REQUEST
 event_id: ${eventId}
 application: ${application}
@@ -640,7 +678,7 @@ event_id: ${eventId}`);
   }
 
   /**
-   * STEP 4: Immutable Retry Logic
+   * STEP 7: Immutable Retry Logic
    * Evaluates shouldSendNotification() before any retry attempt.
    * Updates blocked events to telegram_status='cancelled' and error='filtered_business_mode'.
    */
@@ -667,7 +705,7 @@ event_id: ${eventId}`);
 
         if (!event) continue;
 
-        // STEP 4: Mandatory Retry Filter Check
+        // STEP 7: Mandatory Retry Filter Check
         const filterCheck = this.shouldSendNotification(event);
         console.log(`RETRY EVENT
 event_id: ${log.event_id}
@@ -677,7 +715,7 @@ allowed: ${filterCheck.allowed}
 reason: ${filterCheck.reason}`);
 
         if (!filterCheck.allowed) {
-          // Cancel blocked retries in DB and stop
+          // STEP 7: Update cancelled state in DB and stop
           await supabaseAdmin
             .from("notification_delivery_log")
             .update({
@@ -697,7 +735,7 @@ reason: ${filterCheck.reason}`);
             await new Promise((resolve) => setTimeout(resolve, 1000 - elapsed));
           }
 
-          const formattedMessage = this.formatTelegramMessage(event, "Returning Visitor", "", [], null);
+          const formattedMessage = this.formatTelegramMessage(event, "Returning Visitor", "", [], null, filterCheck.template);
           await this.sendTelegramNotification(event.id, formattedMessage, log.application, log.event_type, log.attempts);
           this.lastSendTime = Date.now();
         });
