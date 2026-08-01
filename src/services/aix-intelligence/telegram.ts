@@ -32,26 +32,15 @@ const HARD_BLOCKLIST = [
   "page_leave",
   "session_start",
   "session_end",
-  "route_change",
-  "internal_navigation",
-  "heartbeat",
-  "scroll_depth",
   "scroll_milestone",
   "scroll",
-  "mousemove",
   "mouse_move",
-  "resize",
-  "focus",
-  "blur",
-  "visibility_change",
-  "sdk_initialized",
-  "component_loaded",
+  "click_tracking",
+  "route_change",
+  "heartbeat",
   "performance_metric",
-  "performance",
-  "navigation",
-  "debug",
-  "trace",
-  "unknown",
+  "sdk_health",
+  "debug_event",
   "governance_warning"
 ];
 
@@ -141,12 +130,12 @@ export class TelegramNotificationService {
     // Application‑specific business whitelists
     if (app === "home-find") {
       const whitelist = [
-        "property_opened",
-        "property_viewed",
         "property_contact_submit",
         "buyer_request",
         "seller_request",
         "guide_download",
+        "property_opened",
+        "property_viewed",
         "ai_prompt_sent"
       ];
       if (whitelist.includes(eventType)) {
@@ -168,12 +157,11 @@ export class TelegramNotificationService {
 
     if (app === "insurance") {
       const whitelist = [
-        "insurance_quote_start", "quote_started", "insurance_quote_submit",
-        "insurance_form_start", "insurance_form_submit", "insurance_form_abandon", "form_abandoned",
-        "callback_request", "contact_request", "consultation_request",
-        "guide_download", "download_started",
-        "ai_opened", "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received",
-        "session_start", "session_end"
+        "insurance_quote_submit",
+        "callback_request",
+        "contact_request",
+        "consultation_request",
+        "guide_download"
       ];
       if (whitelist.includes(eventType)) {
         return {
@@ -194,12 +182,8 @@ export class TelegramNotificationService {
 
     if (app === "aix-os") {
       const whitelist = [
-        "ai_interaction", "ai_interactions", "ai_prompt_started", "ai_prompt_sent", "ai_prompt_received",
-        "decision_generated", "decision_created", "decision_updated",
-        "learning_score_changed", "learning_updated", "learning_update",
-        "opportunity_detected", "high_intent_detected",
-        "dashboard_action", "dashboard_actions", "knowledge_query", "contact_request",
-        "session_start", "session_end"
+        "ai_prompt_sent",
+        "ai_response_received"
       ];
       if (whitelist.includes(eventType)) {
         return {
