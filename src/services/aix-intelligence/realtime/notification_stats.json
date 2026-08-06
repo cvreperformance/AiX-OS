@@ -1,7 +1,7 @@
 {
   "total": 0,
-  "sent": 190,
+  "sent": 220,
   "failed": 67,
-  "latency_ms": 821,
-  "last_notification_time": "2026-08-06T23:09:07.611Z"
+  "latency_ms": 730,
+  "last_notification_time": "2026-08-06T23:31:42.599Z"
 }

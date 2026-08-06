@@ -46,6 +46,12 @@ export const organizationSchema: JsonLd = {
     "See market changes faster and make better decisions. Understand if a property is worth the asking price before buying.",
   sameAs: [
     "https://cristianvaduva.com",
+    "https://homefind.cristianvaduva.com",
+    "https://insurance.cristianvaduva.com",
+    "https://credite.cristianvaduva.com",
+    "https://subventii.cristianvaduva.com",
+    "https://aixmedia.cristianvaduva.com",
+    "https://health.cristianvaduva.com",
     "https://os.aixluxury.com",
     "https://www.linkedin.com/in/cristianvăduva",
     "https://www.facebook.com/CristianVaduvaCV",

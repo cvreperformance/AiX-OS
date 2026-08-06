@@ -1,16 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #e0e0e0;
-  --gold: #c9a962;
-  --gold-light: #e8d5a3;
-  --card: #1a1a1a;
-  --border: #333333;
-  --bg-gradient: linear-gradient(145deg, #0a0a0a, #1a1a1a);
-  --font-dm-sans: "DM Sans", system-ui, sans-serif;
-  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --background: #050505;
+  --foreground: #F5F5F7;
+  --gold: #C9A227;
+  --gold-light: #E5C358;
+  --card: #0B0B0D;
+  --border: rgba(255, 255, 255, 0.1);
+  --bg-gradient: linear-gradient(145deg, #050505, #0B0B0D);
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-jetbrains: "JetBrains Mono", monospace;
 }
 
 @theme inline {
@@ -20,19 +21,20 @@
   --color-gold-light: var(--gold-light);
   --color-card: var(--card);
   --color-border: var(--border);
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
+  --font-mono: var(--font-jetbrains);
   
-  /* Refined Premium Accent Colors - Dark Futuristic Orange */
-  --color-amber-300: #f98b47;
-  --color-amber-400: #f37121;
-  --color-amber-500: #d65a18;
-  --color-amber-600: #b2430b;
+  /* Restrained Champagne Gold Palette (#C9A227) */
+  --color-amber-300: #E5C358;
+  --color-amber-400: #D8B337;
+  --color-amber-500: #C9A227;
+  --color-amber-600: #A8841A;
   
-  --color-yellow-300: #f98b47;
-  --color-yellow-400: #f37121;
-  --color-yellow-500: #d65a18;
-  --color-yellow-600: #b2430b;
+  --color-yellow-300: #E5C358;
+  --color-yellow-400: #D8B337;
+  --color-yellow-500: #C9A227;
+  --color-yellow-600: #A8841A;
 }
 
 * { box-sizing: border-box; }

@@ -37,6 +37,8 @@ export interface NewsArticle {
   score_explanation?: string;
   investment_insight?: string;
   source_url?: string;
+  source?: string;
+  country?: string;
   status: string;
   published_at?: string;
 }
