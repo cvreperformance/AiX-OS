@@ -1,14 +1,14 @@
-# AiX OS YouTube Video Intelligence Library Module
+# AiX OS Public YouTube Video Intelligence Media Platform
 
 ## Overview
 
-The **Video Intelligence Module** (`/workspace/videos`) provides authenticated AiX OS users with a dark luxury media center featuring curated intelligence briefings across Real Estate, Markets, Investments, Business Intelligence, Education, Executive Interviews, and AI Technology.
+The **Public Video Intelligence Media Platform** (`/videos`) provides all public visitors of AiX OS with a dark luxury media center featuring curated intelligence briefings across Real Estate, Markets, Investments, Business Intelligence, Education, Executive Interviews, and AI Technology.
 
 ---
 
 ## Architecture & Data Layer
 
-- **Route**: `/workspace/videos` (Protected under existing `/workspace` authentication via `src/proxy.ts`).
+- **Public Route**: `/videos` (Accessible to all visitors without authentication requirement).
 - **Data Source**: `src/data/videos.ts` (Local TypeScript object array; zero database table or Supabase storage dependencies).
 - **Extensibility**: Standardized `Video` interface with `id`, `title`, `description`, `youtubeId`, `category`, `publishedDate`, `duration`, `featured`, `tags`, `author`, and `views`.
 
@@ -46,19 +46,13 @@ The **Video Intelligence Module** (`/workspace/videos`) provides authenticated A
 
 ## SEO & GEO Optimization
 
-- **Metadata**: Standard Next.js `metadata` title, description, canonical link (`/workspace/videos`), and OpenGraph tags.
-- **Structured Data**: Injects `VideoObject` JSON-LD schema for search engines and AI engines (ChatGPT, Perplexity, Gemini, Google AI Overview).
+- **Metadata**: Next.js `metadata` title (`AiX OS Intelligence Media | Videos`), description, canonical link (`https://os.cristianvaduva.com/videos`), and OpenGraph tags.
+- **Structured Data**: Injects Schema.org JSON-LD graph (`WebPage`, `CollectionPage`, `BreadcrumbList`, `VideoObject`) for search engines and AI engines (ChatGPT, Perplexity, Gemini, Google AI Overview).
 
 ---
 
-## Security & Route Rules
+## Security & Privacy Rules
 
-- Access restricted to authenticated workspace sessions via `src/proxy.ts`.
-- No sensitive client data sent in iframe parameters; uses `youtube-nocookie.com` embed domains with strict sandbox permissions (`accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture`).
-
----
-
-## Future Roadmap (Database & AI Expansion)
-
-1. **Supabase Migration**: Replace `INITIAL_VIDEOS` with a Supabase `videos` table or DataHub table.
-2. **AI Video Intelligence Pipeline**: Automated speech-to-text transcription via Whisper, auto-generating summary bullet points, key takeaways, and vector embeddings for semantic search in AiX Agent Center.
+- Public route `/videos` is fully unauthenticated.
+- Embed `<iframe>` parameters use `youtube-nocookie.com` domains with strict sandbox permissions (`accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture`).
+- CSP headers in `next.config.ts` allow `img.youtube.com` and `youtube-nocookie.com`.

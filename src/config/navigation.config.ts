@@ -139,6 +139,7 @@ export const navigationCategories: NavigationCategory[] = [
 export const mainNavLinks = [
   { href: "/", label: "Acasă", labelEn: "Home" },
   { key: "services", label: "Servicii", labelEn: "Services", isPillar: true },
+  { href: "/videos", label: "Videos", labelEn: "Videos" },
   { href: "/ecosystem", label: "Ecosistem", labelEn: "Ecosystem" },
   { href: "/private-deal-room", label: "Cameră Privată", labelEn: "Deal Room" },
   { href: "/dashboard", label: "Dashboard", labelEn: "Dashboard" },

@@ -72,7 +72,6 @@ export default function WorkspaceLayout({
             { name: '—', href: '#', disabled: true },
             { name: 'Action Center', href: '/workspace/actions' },
             { name: 'Market Radar', href: '/workspace/radar' },
-            { name: 'Video Intelligence', href: '/workspace/videos' },
             { name: 'Companies', href: '/workspace/companies' },
             { name: 'Agent Center', href: '/workspace/agents' },
             { name: '—', href: '#', disabled: true },
