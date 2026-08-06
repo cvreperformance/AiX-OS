@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { PageHeader } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
-import { Building, Plus, MoreVertical, Edit2, Trash2, Eye } from "lucide-react";
+import { Building, Plus, MoreVertical, Edit2, Trash2, Eye, Video } from "lucide-react";
 
 export default function PropertiesDashboardPage() {
   const { language } = useLanguage();
@@ -111,8 +111,15 @@ export default function PropertiesDashboardPage() {
                     <Building className="w-8 h-8 text-zinc-300" />
                   </div>
                 )}
-                <div className="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-md rounded-md text-[10px] font-bold uppercase tracking-wider text-zinc-800">
-                  {property.status}
+                <div className="absolute top-3 left-3 flex items-center gap-2">
+                  <div className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-md text-[10px] font-bold uppercase tracking-wider text-zinc-800">
+                    {property.status}
+                  </div>
+                  {property.video_url && (
+                    <div className="px-2 py-1 bg-amber-500 text-black font-mono font-bold rounded-md text-[9px] uppercase flex items-center gap-1 shadow-md">
+                      <Video className="w-3 h-3" /> 4K Tour
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">

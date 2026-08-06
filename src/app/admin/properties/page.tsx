@@ -10,6 +10,7 @@ export default function AdminPropertiesPage() {
     ...p,
     price: formatPrice(p.price, p.currency),
     aix_score: p.aix_score?.toFixed(1) ?? "—",
+    video_tour: p.video_url ? `✓ ${p.video_provider || "Video"}` : "—",
   }));
 
   return (
@@ -22,6 +23,7 @@ export default function AdminPropertiesPage() {
         { key: "location", label: "Locație" },
         { key: "price", label: "Preț" },
         { key: "aix_score", label: "AiX Score" },
+        { key: "video_tour", label: "Tur Video" },
         { key: "status", label: "Status" },
       ]}
       data={rows as unknown as Record<string, unknown>[]}

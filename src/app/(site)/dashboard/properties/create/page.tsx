@@ -7,7 +7,8 @@ import { PageHeader } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
 import { ImageUploader } from "@/components/dashboard/ImageUploader";
 import { ListingAITools } from "@/components/dashboard/ListingAITools";
-import { ArrowLeft, ArrowRight, Save, CheckCircle2, Bot, Wand2 } from "lucide-react";
+import { parsePropertyVideoUrl } from "@/components/properties/PropertyVideoPlayer";
+import { ArrowLeft, ArrowRight, Save, CheckCircle2, Bot, Wand2, Video as VideoIcon } from "lucide-react";
 
 export default function CreatePropertyWizard() {
   const { language } = useLanguage();
@@ -36,6 +37,8 @@ export default function CreatePropertyWizard() {
     year_built: "",
     features: [] as string[],
     gallery: [] as string[],
+    video_url: "",
+    video_thumbnail: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -65,6 +68,8 @@ export default function CreatePropertyWizard() {
       return;
     }
 
+    const parsedVideo = parsePropertyVideoUrl(formData.video_url);
+
     const payload = {
       owner_id: user.id,
       title: formData.title,
@@ -88,10 +93,13 @@ export default function CreatePropertyWizard() {
       features: formData.features,
       gallery: formData.gallery,
       cover_image: formData.gallery.length > 0 ? formData.gallery[0] : null,
+      video_url: formData.video_url || null,
+      video_provider: parsedVideo.provider !== 'unknown' ? parsedVideo.provider : null,
+      video_thumbnail: formData.video_thumbnail || parsedVideo.defaultThumbnail || null,
       published_at: publish ? new Date().toISOString() : null
     };
 
-    const { data, error } = await supabase.from("properties").insert(payload).select().single();
+    const { error } = await supabase.from("properties").insert(payload).select().single();
 
     setLoading(false);
     if (!error) {
@@ -226,9 +234,49 @@ export default function CreatePropertyWizard() {
         )}
 
         {step === 4 && (
-          <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-zinc-900">{language === "ro" ? "Galerie Foto" : "Photo Gallery"}</h3>
-            <ImageUploader onImagesChange={(urls) => setFormData(prev => ({ ...prev, gallery: urls }))} />
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-lg font-semibold text-zinc-900 mb-4">{language === "ro" ? "Galerie Foto" : "Photo Gallery"}</h3>
+              <ImageUploader onImagesChange={(urls) => setFormData(prev => ({ ...prev, gallery: urls }))} />
+            </div>
+
+            <div className="pt-6 border-t border-zinc-200 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-zinc-900 flex items-center gap-2">
+                  <VideoIcon className="w-5 h-5 text-amber-500" />
+                  {language === "ro" ? "Tur Video 4K (Opțional)" : "4K Video Tour (Optional)"}
+                </h3>
+                <span className="text-xs font-mono text-zinc-400">YouTube & Vimeo Supported</span>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-700 mb-1">
+                    {language === "ro" ? "Link Video (YouTube sau Vimeo)" : "Video URL (YouTube or Vimeo)"}
+                  </label>
+                  <input
+                    name="video_url"
+                    value={formData.video_url}
+                    onChange={handleInputChange}
+                    placeholder="https://youtube.com/watch?v=... sau https://vimeo.com/..."
+                    className="w-full p-3 rounded-xl border border-zinc-200 bg-zinc-50 text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+
+                {formData.video_url && (
+                  <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-xs flex items-center justify-between font-mono">
+                    <span className="text-zinc-600">
+                      Detected Provider: <strong className="text-zinc-900 uppercase">{parsePropertyVideoUrl(formData.video_url).provider}</strong>
+                    </span>
+                    {parsePropertyVideoUrl(formData.video_url).provider !== 'unknown' ? (
+                      <span className="text-emerald-600 font-bold">✓ Valid Video Tour URL</span>
+                    ) : (
+                      <span className="text-amber-600">⚠️ Enter a valid YouTube or Vimeo URL</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 

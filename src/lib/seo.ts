@@ -138,13 +138,18 @@ export async function buildPropertySchema(property: {
   area_sqm?: number | null;
   image_url?: string | null;
   slug: string;
+  video_url?: string | null;
+  video_provider?: string | null;
+  video_thumbnail?: string | null;
 }): Promise<JsonLd> {
-  return {
+  const propertyCanonicalUrl = await canonical(`/proprietati/${property.slug}`);
+
+  const schema: JsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     name: property.title,
     description: property.description ?? property.title,
-    url: await canonical(`/proprietati/${property.slug}`),
+    url: propertyCanonicalUrl,
     image: property.image_url ? [property.image_url] : undefined,
     offers: {
       "@type": "Offer",
@@ -162,4 +167,18 @@ export async function buildPropertySchema(property: {
       ? { "@type": "QuantitativeValue", value: property.area_sqm, unitCode: "MTK" }
       : undefined,
   };
+
+  if (property.video_url) {
+    schema.subjectOf = {
+      "@type": "VideoObject",
+      name: `${property.title} — Virtual Video Tour`,
+      description: property.description ?? property.title,
+      thumbnailUrl: property.video_thumbnail ? [property.video_thumbnail] : undefined,
+      embedUrl: property.video_url,
+      contentUrl: property.video_url,
+      uploadDate: "2026-08-01T08:00:00+00:00",
+    };
+  }
+
+  return schema;
 }

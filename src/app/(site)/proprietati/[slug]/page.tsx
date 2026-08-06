@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, Ruler, BedDouble, Bath, Building2 } from "lucide-react";
 import { PropertyGallery } from "@/components/ui/PropertyGallery";
+import { PropertyVideoPlayer } from "@/components/properties/PropertyVideoPlayer";
 import { ScoreCard } from "@/components/ui";
 import { getProperty } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
@@ -63,13 +64,23 @@ export default async function PropertyDetailPage({ params }: Props) {
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Gallery — auto-discovers images from Supabase storage folder */}
-          <PropertyGallery
-            images={galleryImages}
-            alt={property.title}
-            storageFolder={slug}
-            propertyType={property.property_type}
-          />
+          <div className="space-y-6">
+            <PropertyGallery
+              images={galleryImages}
+              alt={property.title}
+              storageFolder={slug}
+              propertyType={property.property_type}
+            />
+
+            {property.video_url && (
+              <PropertyVideoPlayer
+                videoUrl={property.video_url}
+                videoProvider={property.video_provider}
+                videoThumbnail={property.video_thumbnail}
+                propertyTitle={property.title}
+              />
+            )}
+          </div>
 
           <div className="space-y-6">
             <div>

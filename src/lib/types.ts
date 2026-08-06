@@ -19,6 +19,9 @@ export interface Property {
   features?: string[];
   status: string;
   featured?: boolean;
+  video_url?: string;
+  video_provider?: "youtube" | "vimeo" | string;
+  video_thumbnail?: string;
   created_at?: string;
 }
 
