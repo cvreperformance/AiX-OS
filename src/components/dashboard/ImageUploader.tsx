@@ -50,19 +50,33 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
     setImages(prev => [...prev, ...newImages]);
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      console.error("[ImageUploader] No authenticated user found for storage upload.");
+      return;
+    }
+
+    const STORAGE_BUCKET = "property-images";
 
     for (const img of newImages) {
-      const fileExt = img.file.name.split('.').pop();
-      const fileName = `${user.id}/${Math.random()}.${fileExt}`;
+      const fileExt = img.file.name.split('.').pop() || 'jpg';
+      const fileName = `${user.id}/${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
 
-      const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'proprietati';
+      console.log("[ImageUploader] Upload Payload Debug:", {
+        bucket: STORAGE_BUCKET,
+        fileName,
+        userId: user.id,
+        fileSize: img.file.size,
+        fileType: img.file.type
+      });
+
       const { data, error } = await supabase.storage
         .from(STORAGE_BUCKET)
         .upload(fileName, img.file, {
           cacheControl: '3600',
           upsert: false
         });
+
+      console.log("[ImageUploader] Upload Response Debug:", { data, error });
 
       if (!error && data) {
         const { data: { publicUrl } } = supabase.storage
@@ -76,9 +90,9 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
           return p;
         }));
       } else {
-        // Handle error by removing the failed image
-        console.error("Image upload failed:", error);
-        alert(language === "ro" ? `Încărcarea a eșuat: ${error.message}` : `Upload failed: ${error.message}`);
+        const errorMessage = error ? (error as { message?: string }).message || "Upload error" : "Upload failed";
+        console.error("[ImageUploader] Upload failed:", error);
+        alert(language === "ro" ? `Încărcarea a eșuat: ${errorMessage}` : `Upload failed: ${errorMessage}`);
         setImages(prev => prev.filter(p => p.id !== img.id));
       }
     }
