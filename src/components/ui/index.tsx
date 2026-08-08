@@ -17,19 +17,20 @@ export {
 
 interface NewsCardProps {
   article: {
-    slug: string;
+    slug?: string;
     title: string;
     summary: string;
     category: string;
-    image_url?: string;
+    image_url?: string | null;
     aix_score?: number;
-    published_at?: string;
+    publishedAt?: string;
+    published_at?: string; // keep for backward compatibility
   };
 }
 
 export function NewsCard({ article }: NewsCardProps) {
-  const date = article.published_at
-    ? new Date(article.published_at).toLocaleDateString("ro-RO", {
+  const date = article.publishedAt
+    ? new Date(article.publishedAt).toLocaleDateString("ro-RO", {
         day: "numeric",
         month: "short",
         year: "numeric",

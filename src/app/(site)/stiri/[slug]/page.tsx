@@ -30,8 +30,8 @@ export default async function NewsDetailPage({ params }: Props) {
   const article = await getNewsArticle(slug);
   if (!article) notFound();
 
-  const date = article.published_at
-    ? new Date(article.published_at).toLocaleDateString("ro-RO", {
+  const date = article.publishedAt
+    ? new Date(article.publishedAt).toLocaleDateString("ro-RO", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -79,14 +79,16 @@ export default async function NewsDetailPage({ params }: Props) {
           )}
         </div>
 
-        <ScoreCard
-          score={article.aix_score}
-          explanation={article.score_explanation}
-          insight={article.investment_insight}
-        />
+        {article.aix_score !== undefined && (
+          <ScoreCard
+            score={article.aix_score}
+            explanation={article.score_explanation}
+            insight={article.investment_insight}
+          />
+        )}
 
         <footer className="border-t border-zinc-200 pt-6 text-xs text-zinc-600">
-          Powered by AiX OS™ Market Pulse · {article.source_url ? "Sursa externă" : "AiX OS™ Intelligence"}
+          Powered by AiX OS™ Market Pulse · {article.sourceUrl ? "Sursa externă" : "AiX OS™ Intelligence"}
         </footer>
       </article>
     </div>

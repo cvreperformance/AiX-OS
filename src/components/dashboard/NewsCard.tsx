@@ -8,8 +8,8 @@ import { NewsArticle } from '@/lib/types';
  * Clicking the card navigates to the article detail page.
  */
 export default function NewsCard({ article }: { article: NewsArticle }) {
-  const published = article.published_at
-    ? new Date(article.published_at).toLocaleDateString(undefined, {
+  const published = article.publishedAt
+    ? new Date(article.publishedAt).toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'short',
         day: 'numeric',

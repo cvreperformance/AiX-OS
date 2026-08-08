@@ -41,6 +41,7 @@ export interface NewsArticle {
   country?: string;
   status: string;
   published_at?: string;
+  publishedAt?: string; // forward compatible
 }
 
 export interface Developer {

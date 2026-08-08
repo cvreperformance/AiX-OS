@@ -18,11 +18,12 @@ import {
   BadgeCheck
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { NewsArticle } from "@/lib/types";
+import { Article } from "@/services/aix-intelligence/types";
+import { isRealEstateArticle } from "@/services/aix-intelligence/validation";
 
 interface HomeClientPageProps {
   featuredProperties: any[];
-  featuredNews: NewsArticle[];
+  featuredNews: Article[];
   stats?: {
     propertiesScanned?: number;
     marketSignals?: number;
@@ -34,6 +35,7 @@ interface HomeClientPageProps {
     marketUpdates?: number;
   };
 }
+
 
 export default function HomeClientPage({
   featuredNews = [],
@@ -138,6 +140,9 @@ export default function HomeClientPage({
           (n) => n.category === selectedCategory || n.country === selectedCategory
         );
 
+  // Apply real‑estate validation filter
+  const realEstateNews = filteredNews.filter(isRealEstateArticle);
+
   return (
     <div className="bg-[#050505] text-[#F5F5F7] min-h-screen font-sans selection:bg-amber-500/30 selection:text-white">
       {/* Bloomberg Style Live Intelligence Ticker Header */}
@@ -164,10 +169,7 @@ export default function HomeClientPage({
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-zinc-400">
-            <span className="flex items-center gap-1.5 text-zinc-300">
-              <BadgeCheck className="w-3.5 h-3.5 text-amber-400" />
-              Verified Institutional Ecosystem
-            </span>
+
           </div>
         </div>
       </div>
@@ -380,14 +382,14 @@ export default function HomeClientPage({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-800/80 pb-8">
             <div className="space-y-3">
               <span className="text-xs font-mono uppercase tracking-widest text-amber-400">
-                Institutional News Feed
+                European Real Estate Intelligence
               </span>
               <h2 className="font-display text-3xl sm:text-4xl text-[#F5F5F7]">
                 European Real Estate Intelligence
               </h2>
             </div>
             <p className="text-sm text-[#A1A1A6] max-w-md font-light">
-              Curated market reporting from official institutional sources including Knight Frank, Savills, JLL, CBRE, Bloomberg, and Eurostat.
+              Verified property and housing intelligence from Romania and European markets.
             </p>
           </div>
 
@@ -410,45 +412,49 @@ export default function HomeClientPage({
 
           {/* News Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredNews.map((article) => (
-              <article
-                key={article.id}
-                className="rounded-3xl bg-[#0B0B0D] border border-zinc-800/80 p-6 space-y-4 hover:border-amber-500/40 transition-all flex flex-col justify-between group"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                      {article.source || "Institutional Source"}
-                    </span>
-                    <span className="text-zinc-500">{article.category}</span>
+            {realEstateNews.length === 0 ? (
+              <p className="text-center text-[#A1A1A6]">No verified real estate intelligence is currently available.</p>
+            ) : (
+              realEstateNews.map((article) => (
+                <article
+                  key={article.id}
+                  className="rounded-3xl bg-[#0B0B0D] border border-zinc-800/80 p-6 space-y-4 hover:border-amber-500/40 transition-all flex flex-col justify-between group"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        {article.source}
+                      </span>
+                      <span className="text-zinc-500">{article.category}</span>
+                    </div>
+
+                    <h3 className="font-display text-xl sm:text-2xl text-[#F5F5F7] group-hover:text-amber-400 transition-colors leading-snug">
+                      {article.title}
+                    </h3>
+
+                    <p className="text-sm text-[#A1A1A6] font-light leading-relaxed">
+                      {article.summary}
+                    </p>
                   </div>
 
-                  <h3 className="font-display text-xl sm:text-2xl text-[#F5F5F7] group-hover:text-amber-400 transition-colors leading-snug">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-sm text-[#A1A1A6] font-light leading-relaxed">
-                    {article.summary}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs font-mono">
-                  <span className="text-zinc-500">
-                    {article.published_at ? new Date(article.published_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent"}
-                  </span>
-                  {article.source_url && (
-                    <a
-                      href={article.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-amber-400 hover:underline inline-flex items-center gap-1"
-                    >
-                      Official Source <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
+                  <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs font-mono">
+                    <span className="text-zinc-500">
+                      {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent"}
+                    </span>
+                    {article.articleUrl && (
+                      <a
+                        href={article.articleUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-amber-400 hover:underline inline-flex items-center gap-1"
+                      >
+                        READ ORIGINAL <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))
+            )}
           </div>
         </div>
       </section>

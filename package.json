@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "fetch-real-estate": "tsx scripts/fetch-real-estate.ts",
+    "audit-real-estate-feed": "tsx scripts/audit-real-estate-feed.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
@@ -32,6 +34,7 @@
     "playwright": "^1.62.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.11",
     "typescript": "^5",
     "vitest": "^4.1.10",
     "ws": "^8.21.0"

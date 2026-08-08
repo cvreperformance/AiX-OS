@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
-
+import { Article } from "@/services/aix-intelligence/types";
+import { isRealEstateArticle } from "@/services/aix-intelligence/validation";
+import { deriveSourceFromUrl } from "@/services/aix-intelligence/source";
 import { enrichProperties, debugPropertyImages } from "@/lib/storage";
 import type {
   Agency,
@@ -99,80 +101,77 @@ export async function getFeaturedProperties() {
 
 // ===================== NEWS =====================
 
-const INSTITUTIONAL_NEWS: NewsArticle[] = [
-  {
-    id: "news-1",
-    slug: "knight-frank-european-luxury-report-2026",
-    title: "European Prime Residential Index: CEE Capital Yield Expansion",
-    summary: "Knight Frank Research analyzes prime residential capital flows across Central & Eastern Europe, indicating steady demand in Bucharest prime districts.",
-    category: "Luxury",
-    source: "Knight Frank Research",
-    country: "Europe",
-    source_url: "https://www.knightfrank.com/research",
-    image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
-    status: "published",
-    published_at: "2026-08-01T10:00:00Z"
-  },
-  {
-    id: "news-2",
-    slug: "savills-romania-commercial-real-estate-q2",
-    title: "Savills Intelligence: Commercial Investment Volumes & Yield Adjustments",
-    summary: "Institutional investment in CEE logistics and prime office space reflects shifting ECB interest rate baselines.",
-    category: "Commercial",
-    source: "Savills World Research",
-    country: "Romania",
-    source_url: "https://www.savills.com/research",
-    image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
-    status: "published",
-    published_at: "2026-07-28T14:30:00Z"
-  },
-  {
-    id: "news-3",
-    slug: "bloomberg-ecb-rate-cuts-property-impact",
-    title: "Bloomberg Markets: Eurozone Mortgage Rates & Capital Allocation Trends",
-    summary: "Analysis of ECB policy rate stabilization and its immediate impact on European real estate debt financing.",
-    category: "Interest Rates",
-    source: "Bloomberg Real Estate",
-    country: "Europe",
-    source_url: "https://www.bloomberg.com/real-estate",
-    image_url: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1200&auto=format&fit=crop",
-    status: "published",
-    published_at: "2026-07-25T09:15:00Z"
-  },
-  {
-    id: "news-4",
-    slug: "eurostat-housing-price-index-cee",
-    title: "Eurostat Housing Data: Construction Costs & Supply Pipeline Analysis",
-    summary: "Official European Commission housing price metrics indicate structural supply constraints across major metropolitan hubs.",
-    category: "Construction",
-    source: "Eurostat Statistics",
-    country: "Europe",
-    source_url: "https://ec.europa.eu/eurostat",
-    image_url: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?q=80&w=1200&auto=format&fit=crop",
-    status: "published",
-    published_at: "2026-07-20T11:00:00Z"
-  }
-];
+const INSTITUTIONAL_NEWS: NewsArticle[] = [];
 
-export async function getNews(): Promise<NewsArticle[]> {
-  const data = await fetchFromSupabase<NewsArticle>("news", "published_at", false, {
-    column: "status",
-    value: "published",
-  });
-  if (data && data.length > 0) return data;
-  return INSTITUTIONAL_NEWS;
+export async function getNews(): Promise<Article[]> {
+  const supabase = getSupabase();
+  let articles: Article[] = [];
+  if (supabase) {
+    const { data } = await supabase.from("news").select("*");
+    if (data) {
+      articles = data.map((n: any) => ({
+        id: n.id,
+        title: n.title,
+        summary: n.summary,
+        source: deriveSourceFromUrl(n.source_url ?? ""),
+        sourceUrl: n.source_url ?? "",
+        articleUrl: n.source_url ?? "",
+        publishedAt: n.published_at ?? "",
+        country: n.country ?? "",
+        category: n.category,
+        image_url: n.image_url,
+      }));
+    }
+  }
+  // Filter, sort newest, limit 6
+  const filtered = articles
+    .filter(isRealEstateArticle)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .slice(0, 6);
+  return filtered as Article[];
 }
 
-export async function getNewsArticle(slug: string): Promise<NewsArticle | null> {
+export async function getNewsArticle(slug: string): Promise<Article | null> {
   const supabase = getSupabase();
   if (supabase) {
     const { data } = await supabase.from("news").select("*").eq("slug", slug).maybeSingle();
-    if (data) return data as NewsArticle;
+    if (data) {
+      const article = data as any;
+      const mapped: Article = {
+        id: article.id,
+        title: article.title,
+        summary: article.summary,
+        source: deriveSourceFromUrl(article.source_url || ""),
+        sourceUrl: article.source_url ?? "",
+        articleUrl: article.source_url ?? "",
+        publishedAt: article.published_at ?? "",
+        country: article.country ?? "",
+        category: article.category,
+        image_url: article.image_url,
+      };
+      return isRealEstateArticle(mapped) ? mapped : null;
+    }
   }
-  return INSTITUTIONAL_NEWS.find(n => n.slug === slug) || null;
+  const fallback = INSTITUTIONAL_NEWS.find((n) => n.slug === slug);
+  if (!fallback) return null;
+  const mapped: Article = {
+    id: fallback.id,
+    title: fallback.title,
+    source: deriveSourceFromUrl(fallback.source_url ?? ""),
+    sourceUrl: fallback.source_url ?? "",
+    articleUrl: fallback.source_url ?? "",
+    publishedAt: fallback.published_at ?? "",
+    country: fallback.country ?? "",
+    category: fallback.category,
+    summary: fallback.summary,
+    image_url: fallback.image_url,
+  };
+  return isRealEstateArticle(mapped) ? mapped : null;
 }
 
-export async function getFeaturedNews(limit = 4): Promise<NewsArticle[]> {
+
+
+export async function getFeaturedNews(limit = 4): Promise<Article[]> {
   const all = await getNews();
   return all.slice(0, limit);
 }
