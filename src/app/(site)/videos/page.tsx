@@ -83,7 +83,7 @@ export default async function PublicVideosPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-zinc-100 py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-black text-zinc-100 py-12 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       {/* Inject Schema.org JSON-LD Graph for Google Search, AI Overviews, Gemini & Perplexity */}
       <script
         type="application/ld+json"
@@ -92,7 +92,7 @@ export default async function PublicVideosPage() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto space-y-10 w-full flex flex-col items-center">
+      <div className="w-full mx-auto space-y-10 flex flex-col items-center px-4 sm:px-6 lg:px-8">
         {/* Public Hero Header */}
         <header className="space-y-4 border-b border-zinc-800/80 pb-10">
           <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ export default async function PublicVideosPage() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-transparent bg-clip-text gradient-gold tracking-tight leading-none">
+          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-display text-transparent bg-clip-text gradient-gold tracking-tight leading-none text-center break-words">
             AiX OS Intelligence Media
           </h1>
 

@@ -19,7 +19,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video, onSelectVideo }) =>
   return (
     <article
       onClick={() => onSelectVideo(video)}
-      className="group relative flex flex-col bg-zinc-900/60 border border-zinc-800/80 hover:border-amber-500/40 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/5 hover:-translate-y-1 cursor-pointer"
+      className="group relative flex flex-col w-full min-w-0 max-w-full bg-zinc-900/60 border border-zinc-800/80 hover:border-amber-500/40 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/5 hover:-translate-y-1 cursor-pointer"
     >
       {/* Thumbnail Container */}
       <div className="relative aspect-video w-full overflow-hidden bg-zinc-950">

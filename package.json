@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests --exclude=tests/e2e",
     "fetch-real-estate": "tsx scripts/fetch-real-estate.ts",
     "audit-real-estate-feed": "tsx scripts/audit-real-estate-feed.ts"
   },

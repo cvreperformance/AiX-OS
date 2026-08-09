@@ -80,14 +80,14 @@ export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVide
       {/* Video Modal Player Dialog */}
       {activeModalVideo && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
           onClick={() => setActiveModalVideo(null)}
         >
           <div 
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-video-title"
-            className="relative w-full max-w-4xl bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl"
+            className="relative w-full max-w-full min-w-0 bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
