@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { VideoContainer } from '@/components/videos/VideoContainer';
-import { INITIAL_VIDEOS, getYouTubeThumbnail } from '@/data/videos';
+import { getYouTubeThumbnail, fetchChannelVideos } from '@/data/videos';
 
 export const metadata: Metadata = {
   title: 'AiX OS Intelligence Media | Videos',
@@ -23,7 +23,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PublicVideosPage() {
+export default async function PublicVideosPage() {
+  // Fetch videos for schema generation
+  const videos = await fetchChannelVideos();
   // Generate Schema.org JSON-LD graph (WebPage, CollectionPage, BreadcrumbList, VideoObjects)
   const jsonLdGraph = {
     '@context': 'https://schema.org',
@@ -64,7 +66,7 @@ export default function PublicVideosPage() {
           },
         ],
       },
-      ...INITIAL_VIDEOS.map((video) => ({
+      ...videos.map((video) => ({
         '@type': 'VideoObject',
         name: video.title,
         description: video.description,
@@ -110,7 +112,7 @@ export default function PublicVideosPage() {
         </header>
 
         {/* Main Video Intelligence Component */}
-        <VideoContainer />
+        <VideoContainer videos={videos} />
       </div>
     </main>
   );

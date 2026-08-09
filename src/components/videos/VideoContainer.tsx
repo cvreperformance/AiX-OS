@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { Video, INITIAL_VIDEOS } from '@/data/videos';
+import { Video } from '@/data/videos';
 import { FeaturedVideo } from './FeaturedVideo';
 import { VideoCategoryFilter } from './VideoCategoryFilter';
 import { VideoGrid } from './VideoGrid';
 import { VideoPlayer } from './VideoPlayer';
 import { X, Calendar, Clock } from 'lucide-react';
 
-export const VideoContainer: React.FC = () => {
-  const [videos] = useState<Video[]>(INITIAL_VIDEOS);
+export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVideos}) => {
+  const [videos, setVideos] = useState<Video[]>(initialVideos);
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalVideo, setActiveModalVideo] = useState<Video | null>(null);
@@ -28,6 +28,7 @@ export const VideoContainer: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeModalVideo]);
+  // Videos are provided from server via props; no client fetch needed
 
   // Find default featured video
   const featuredVideo = useMemo(() => {

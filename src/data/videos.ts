@@ -1,3 +1,5 @@
+import { parseStringPromise } from 'xml2js';
+// Types for xml2js are provided via tsconfig include
 export type VideoCategory =
   | "Real Estate Intelligence"
   | "Market Intelligence"
@@ -8,7 +10,8 @@ export type VideoCategory =
   | "AI Technology";
 
 export interface Video {
-  id: string;
+  id: string; // videoId (YouTube video ID)
+  videoId: string; // alias for id for clarity
   title: string;
   description: string;
   youtubeId: string;
@@ -20,6 +23,11 @@ export interface Video {
   tags?: string[];
   author?: string;
   views?: string;
+  // Required fields for strict validation
+  channelId: string;
+  channelTitle: string;
+  youtubeUrl: string;
+  embedUrl: string;
 }
 
 export const VIDEO_CATEGORIES: VideoCategory[] = [
@@ -32,112 +40,136 @@ export const VIDEO_CATEGORIES: VideoCategory[] = [
   "AI Technology"
 ];
 
-export const INITIAL_VIDEOS: Video[] = [
-  {
-    id: "vid-re-01",
-    title: "Global Real Estate Trends 2026: Institutional Capital Allocation & Asset Valuation",
-    description: "In-depth briefing on institutional capital movement, prime yield shifts, and emerging commercial & residential real estate opportunities across high-growth markets.",
-    youtubeId: "dQw4w9WgXcQ",
-    category: "Real Estate Intelligence",
-    publishedDate: "2026-08-01",
-    duration: "18:45",
-    featured: true,
-    author: "Cristian Vaduva",
-    tags: ["Real Estate", "Yields", "Institutional", "Valuation"],
-    views: "14.2K"
-  },
-  {
-    id: "vid-re-02",
-    title: "Luxury Residential Market Analytics & High-Net-Worth Portfolio Structuring",
-    description: "Detailed analysis of luxury residential market dynamics, buyer velocity, financing strategies, and wealth preservation mechanisms.",
-    youtubeId: "L_LUpnjgPso",
-    category: "Real Estate Intelligence",
-    publishedDate: "2026-07-28",
-    duration: "24:12",
-    featured: false,
-    author: "Cristian Vaduva",
-    tags: ["Luxury Real Estate", "HNW", "Portfolio", "Analytics"],
-    views: "9.8K"
-  },
-  {
-    id: "vid-mk-01",
-    title: "Macroeconomic Liquidity & Central Bank Interest Rate Outlook",
-    description: "Strategic breakdown of global central bank interest rate policies, inflation indicators, and sovereign bond market yield curve signals.",
-    youtubeId: "V_J1bH4yFNo",
-    category: "Market Intelligence",
-    publishedDate: "2026-08-04",
-    duration: "15:30",
-    featured: false,
-    author: "AiX Market Intelligence Desk",
-    tags: ["Macroeconomics", "Interest Rates", "Liquidity", "Markets"],
-    views: "22.5K"
-  },
-  {
-    id: "vid-inv-01",
-    title: "Private Equity & Direct Asset Investment Frameworks",
-    description: "Frameworks for evaluating risk-adjusted returns in private equity, co-investment structures, and direct asset acquisition strategies.",
-    youtubeId: "tgbNymZ7vqY",
-    category: "Investment Intelligence",
-    publishedDate: "2026-07-25",
-    duration: "21:05",
-    featured: false,
-    author: "AiX Capital Research",
-    tags: ["Private Equity", "Asset Allocation", "Risk Modeling"],
-    views: "11.4K"
-  },
-  {
-    id: "vid-biz-01",
-    title: "Enterprise AI Operating Systems: Transforming Corporate Workflows",
-    description: "How modern AI agentic operating systems scale operational leverage, automate decision engines, and optimize capital efficiency.",
-    youtubeId: "3JZ_D3ELwOQ",
-    category: "Business Intelligence",
-    publishedDate: "2026-07-30",
-    duration: "29:40",
-    featured: false,
-    author: "Cristian Vaduva",
-    tags: ["Enterprise AI", "Automation", "Workflow OS", "Business Architecture"],
-    views: "31.1K"
-  },
-  {
-    id: "vid-edu-01",
-    title: "Financial Education: Underwriting Mortgage & Commercial Debt Instruments",
-    description: "Masterclass on debt structuring, interest coverage ratios, loan-to-value covenants, and debt service optimization.",
-    youtubeId: "J---aiyznGQ",
-    category: "Education",
-    publishedDate: "2026-07-15",
-    duration: "34:15",
-    featured: false,
-    author: "AiX Education Series",
-    tags: ["Underwriting", "Debt Structuring", "Mortgages", "Finance"],
-    views: "18.9K"
-  },
-  {
-    id: "vid-int-01",
-    title: "Executive Interview: The Future of PropTech & AI-Driven Asset Management",
-    description: "Exclusive conversation with leading real estate technology founders on smart asset monitoring, predictive maintenance, and AI valuations.",
-    youtubeId: "9bZkp7q19f0",
-    category: "Interviews",
-    publishedDate: "2026-07-20",
-    duration: "42:00",
-    featured: false,
-    author: "Cristian Vaduva Spotlight",
-    tags: ["Interview", "PropTech", "AI Asset Management", "Leadership"],
-    views: "27.3K"
-  },
-  {
-    id: "vid-ai-01",
-    title: "Autonomous AI Agents in Real-Time Market Scanning & Signal Detection",
-    description: "Technical deep-dive into multi-agent systems performing real-time lead capture, data normalization, and predictive sentiment scoring.",
-    youtubeId: "fJ9rUzIMcZQ",
-    category: "AI Technology",
-    publishedDate: "2026-08-05",
-    duration: "26:50",
-    featured: false,
-    author: "AiX Engineering",
-    tags: ["AI Agents", "Autonomous Systems", "Signal Detection", "LLMs"],
-    views: "45.0K"
+// Hardcoded YouTube channel ID for @CristianVaduvaCV
+const YOUTUBE_CHANNEL_ID = 'UCN2nPu7isc_06exwPOHYC1Q';
+
+// Simple resolver returning the hardcoded ID
+function resolveChannelId(): string {
+  return YOUTUBE_CHANNEL_ID;
+}
+export async function fetchChannelVideos(): Promise<Video[]> {
+  // Resolve channel ID first (already resolved above)
+  const channelId = await resolveChannelId();
+  if (!channelId) {
+    console.warn('[AiX OS] Unable to resolve YouTube channel ID – video section will be empty.');
+    return [] as Video[];
   }
-];
+
+  const videoMap = new Map<string, Video>();
+
+  // 1. Fetch official YouTube RSS feed
+  const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+  try {
+    const res = await fetch(feedUrl);
+    if (res.ok) {
+      const xml = await res.text();
+      const parsed = await parseStringPromise(xml);
+      const entries = parsed.feed?.entry ?? [];
+      entries.forEach((entry: any) => {
+        const youtubeId = entry['yt:videoId']?.[0] ?? '';
+        const entryChannelId = entry['yt:channelId']?.[0] ?? '';
+        // Strict channel validation
+        if (entryChannelId !== channelId || !youtubeId) return;
+        const title = entry.title?.[0] ?? 'Untitled video';
+        const description = entry['media:group']?.[0]?.['media:description']?.[0] ?? '';
+        const published = entry.published?.[0] ?? '';
+        const channelTitle = entry['author']?.[0]?.['name']?.[0] ?? '';
+        videoMap.set(youtubeId, {
+          id: youtubeId,
+          videoId: youtubeId,
+          title,
+          description,
+          youtubeId,
+          category: "Real Estate Intelligence",
+          publishedDate: published,
+          thumbnail: getYouTubeThumbnail(youtubeId, "hq"),
+          channelId: entryChannelId,
+          channelTitle: channelTitle,
+          youtubeUrl: `https://www.youtube.com/watch?v=${youtubeId}`,
+          embedUrl: `https://www.youtube.com/embed/${youtubeId}`
+        });
+      });
+    }
+  } catch (e) {
+    console.error('[AiX OS] Error fetching YouTube RSS feed:', e);
+  }
+
+  // 2. Scrape channel videos page for any missing videos (fallback)
+  try {
+    const pageUrl = `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}/videos`;
+    const pageRes = await fetch(pageUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      },
+    });
+    if (pageRes.ok) {
+      const html = await pageRes.text();
+      const startIdx = html.indexOf('ytInitialData = ');
+      if (startIdx !== -1) {
+        const jsonStart = startIdx + 'ytInitialData = '.length;
+        let braceCount = 0;
+        let jsonEnd = jsonStart;
+        for (let i = jsonStart; i < html.length; i++) {
+          if (html[i] === '{') braceCount++;
+          else if (html[i] === '}') {
+            braceCount--;
+            if (braceCount === 0) {
+              jsonEnd = i + 1;
+              break;
+            }
+          }
+        }
+        const data = JSON.parse(html.substring(jsonStart, jsonEnd));
+        const findLockups = (node: any) => {
+          if (!node || typeof node !== 'object') return;
+          if (node.lockupViewModel) {
+            const lvm = node.lockupViewModel;
+            if (lvm.contentType === 'LOCKUP_CONTENT_TYPE_VIDEO' && lvm.contentId) {
+              const youtubeId = lvm.contentId;
+              const title = lvm.metadata?.lockupMetadataViewModel?.title?.content || 'Untitled video';
+              if (youtubeId && !videoMap.has(youtubeId)) {
+                videoMap.set(youtubeId, {
+                  id: youtubeId,
+                  videoId: youtubeId,
+                  title,
+                  description: '',
+                  youtubeId,
+                  category: "Real Estate Intelligence",
+                  publishedDate: '',
+                  thumbnail: getYouTubeThumbnail(youtubeId, "hq"),
+                  channelId: channelId,
+                  channelTitle: '',
+                  youtubeUrl: `https://www.youtube.com/watch?v=${youtubeId}`,
+                  embedUrl: `https://www.youtube.com/embed/${youtubeId}`
+                });
+              }
+            }
+          }
+          for (const k of Object.keys(node)) {
+            findLockups(node[k]);
+          }
+        };
+        findLockups(data);
+      }
+    }
+  } catch (e) {
+    console.error('[AiX OS] Error scraping channel videos page:', e);
+  }
+
+  const videos = Array.from(videoMap.values());
+  // Sort newest first
+  videos.sort((a, b) => {
+    if (a.publishedDate && b.publishedDate) {
+      return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+    }
+    return 0;
+  });
+
+  // Limit to max 24 videos (or all if fewer than 12)
+  const maxVideos = Math.max(12, Math.min(24, videos.length));
+  return videos.slice(0, maxVideos);
+}
+
 
 export function getYouTubeThumbnail(youtubeId: string, quality: "maxres" | "hq" = "maxres"): string {
   if (quality === "maxres") {
