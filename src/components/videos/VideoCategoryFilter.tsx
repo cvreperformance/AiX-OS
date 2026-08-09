@@ -53,36 +53,38 @@ export const VideoCategoryFilter: React.FC<VideoCategoryFilterProps> = ({
       </div>
 
       {/* Category Pills Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 scrollbar-thin scrollbar-hide">
-        <button
-          type="button"
-          onClick={() => onSelectCategory('ALL')}
-          className={`px-4 py-2 rounded-xl text-xs font-medium font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
-            selectedCategory === 'ALL'
-              ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 font-semibold'
-              : 'bg-zinc-900/60 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80'
-          }`}
-        >
-          All Briefings
-        </button>
+      <div className="w-full max-w-full min-w-0 overflow-x-auto scrollbar-thin scrollbar-hide">
+        <div className="flex items-center gap-2 pb-2 pt-1 min-w-0 w-max">
+          <button
+            type="button"
+            onClick={() => onSelectCategory('ALL')}
+            className={`shrink-0 px-4 py-2 rounded-xl text-xs font-medium font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              selectedCategory === 'ALL'
+                ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 font-semibold'
+                : 'bg-zinc-900/60 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80'
+            }`}
+          >
+            All Briefings
+          </button>
 
-        {VIDEO_CATEGORIES.map((cat: VideoCategory) => {
-          const isActive = selectedCategory === cat;
-          return (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => onSelectCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-medium font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                isActive
-                  ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 font-semibold'
-                  : 'bg-zinc-900/60 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80'
-              }`}
-            >
-              {cat}
-            </button>
-          );
-        })}
+          {VIDEO_CATEGORIES.map((cat: VideoCategory) => {
+            const isActive = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => onSelectCategory(cat)}
+                className={`shrink-0 px-4 py-2 rounded-xl text-xs font-medium font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 font-semibold'
+                    : 'bg-zinc-900/60 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80'
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
