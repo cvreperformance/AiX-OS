@@ -30,8 +30,8 @@ export function MegaMenu({ onClose, onMouseEnter }: MegaMenuProps) {
 
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[900px] max-w-[90vw] rounded-[32px] bg-[rgba(12,12,12,.92)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.4)] z-[99999] transition-opacity duration-200 ease-out opacity-0 translate-y-2"
-      style={{ opacity: 1, transform: "translateY(0)" }}
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[min(900px,calc(100vw-32px))] max-w-[calc(100vw-32px)] max-h-[calc(100vh-100px)] overflow-y-auto overflow-x-hidden rounded-[32px] bg-[rgba(12,12,12,.92)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.4)] z-[99999] transition-opacity duration-200 ease-out flex flex-col"
+      style={{ opacity: 1, transform: "translate(-50%, 0)" }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
