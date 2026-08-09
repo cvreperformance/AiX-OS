@@ -55,12 +55,30 @@ export function Header() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const [headerBottomState, setHeaderBottomState] = useState<number>(84);
   const gestureProgressRef = useRef(0);
   const gestureStartYRef = useRef(0);
   const gestureMovedRef = useRef(false);
   const gestureModeRef = useRef<"open" | "close" | null>(null);
   const gesturePointerIdRef = useRef<number | null>(null);
   const gestureRafRef = useRef<number | null>(null);
+
+  const updateHeaderBottom = () => {
+    if (headerRef.current) {
+      setHeaderBottomState(headerRef.current.getBoundingClientRect().bottom);
+    }
+  };
+
+  useEffect(() => {
+    updateHeaderBottom();
+    window.addEventListener("resize", updateHeaderBottom);
+    window.addEventListener("scroll", updateHeaderBottom, { passive: true });
+    return () => {
+      window.removeEventListener("resize", updateHeaderBottom);
+      window.removeEventListener("scroll", updateHeaderBottom);
+    };
+  }, [activeDropdown, scrolled]);
 
   const openMenu = () => {
     setOpen(true);
@@ -266,6 +284,7 @@ export function Header() {
 
       {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
+        ref={headerRef}
         className="sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300"
       >
         <div className="mx-auto flex min-h-[72px] max-w-full md:max-w-6xl items-center justify-between py-2 sm:px-6">
@@ -322,6 +341,7 @@ export function Header() {
                           clearTimeout(dropdownTimeoutRef.current);
                           dropdownTimeoutRef.current = null;
                         }
+                        updateHeaderBottom();
                         setActiveDropdown('services');
                       }}
                       onMouseLeave={() => {
@@ -351,6 +371,7 @@ export function Header() {
 
         {activeDropdown === 'services' && (
           <MegaMenu
+            headerBottom={headerBottomState}
             onClose={() => setActiveDropdown(null)}
             onMouseEnter={() => {
               if (dropdownTimeoutRef.current) {

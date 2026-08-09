@@ -27,35 +27,41 @@ test.describe('Desktop Services Dropdown UI Audit', () => {
       await expect(megaMenu).toBeVisible();
       const box = await megaMenu.boundingBox();
 
-      // Verify bounding box fits inside viewport and is visually centered
-      const measurements = await page.evaluate(() => {
-        const menu = document.getElementById('services-mega-menu');
-        if (!menu) return null;
-        const rect = menu.getBoundingClientRect();
-        const computed = window.getComputedStyle(menu);
-        return {
-          left: rect.left,
-          top: rect.top,
-          width: rect.width,
-          height: rect.height,
-          right: rect.right,
-          bottom: rect.bottom,
-          maxHeight: computed.maxHeight,
-          position: computed.position,
-          transform: computed.transform,
-        };
-      });
+      const headerBottom = 84;
 
-      if (box && measurements) {
-        expect(box.x).toBeGreaterThanOrEqual(0);
-        expect(box.x + box.width).toBeLessThanOrEqual(vp.width + 5);
-        const menuCenter = box.x + box.width / 2;
-        const vpCenter = vp.width / 2;
-        const centerDiff = Math.abs(menuCenter - vpCenter);
+      if (box) {
+        // 1. Horizontal Centering
+        const horizontalCenter = box.x + box.width / 2;
+        const viewportHorizontalCenter = vp.width / 2;
+        const horizontalDiff = Math.abs(horizontalCenter - viewportHorizontalCenter);
 
-        console.log(`[MEASUREMENT ${vp.width}x${vp.height}] LEFT: ${box.x.toFixed(1)}px | RIGHT: ${(box.x + box.width).toFixed(1)}px | CENTER: ${menuCenter.toFixed(1)}px | VIEWPORT CENTER: ${vpCenter.toFixed(1)}px | CENTER DIFF: ${centerDiff.toFixed(1)}px | HEIGHT: ${measurements.height.toFixed(1)}px | MAXHEIGHT: ${measurements.maxHeight}`);
+        // 2. Vertical Centering in Available Area
+        const availableTop = headerBottom;
+        const availableBottom = vp.height;
+        const availableCenter = availableTop + (availableBottom - availableTop) / 2;
 
-        expect(centerDiff).toBeLessThanOrEqual(2);
+        const verticalCenter = box.y + box.height / 2;
+        const verticalDiff = Math.abs(verticalCenter - availableCenter);
+
+        console.log(`\n=== VIEWPORT ${vp.width}x${vp.height} ===`);
+        console.log(`WIDTH: ${box.width.toFixed(1)}px`);
+        console.log(`HORIZONTAL CENTER: ${horizontalDiff <= 2 ? 'PASS' : 'FAIL'} (DIFF: ${horizontalDiff.toFixed(1)}px)`);
+        console.log(`VERTICAL CENTER: ${verticalDiff <= 2 ? 'PASS' : 'FAIL'} (DIFF: ${verticalDiff.toFixed(1)}px)`);
+        console.log(`TOP: ${box.y.toFixed(1)}px | BOTTOM: ${(box.y + box.height).toFixed(1)}px | HEADER BOTTOM: ${headerBottom.toFixed(1)}px | VP HEIGHT: ${vp.height}px`);
+
+        const availableHeight = availableBottom - availableTop;
+        const fitsVertically = box.height <= availableHeight - 30;
+
+        console.log(`FITS VERTICALLY: ${fitsVertically ? 'YES' : 'NO (CLAMPED)'}`);
+
+        expect(horizontalDiff).toBeLessThanOrEqual(2);
+
+        if (fitsVertically) {
+          expect(verticalDiff).toBeLessThanOrEqual(2);
+        } else {
+          expect(box.y).toBeGreaterThanOrEqual(headerBottom + 15);
+          expect(box.y + box.height).toBeLessThanOrEqual(vp.height - 15);
+        }
       }
 
       // Verify no horizontal document overflow
