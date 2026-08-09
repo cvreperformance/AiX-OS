@@ -13,8 +13,7 @@ export const FeaturedVideo: React.FC<FeaturedVideoProps> = ({ video }) => {
   return (
     <section aria-label="Featured Intelligence Video" className="mb-12">
       <div className="relative rounded-3xl bg-gradient-to-b from-zinc-900/90 via-zinc-900/60 to-zinc-950/80 border border-zinc-800/80 p-6 md:p-8 backdrop-blur-xl overflow-hidden shadow-2xl">
-        {/* Subtle Ambient Glow */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
 
         {/* Section Header Badge */}
         <div className="flex items-center justify-between gap-4 mb-6">

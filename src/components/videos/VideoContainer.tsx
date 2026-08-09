@@ -14,6 +14,11 @@ export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVide
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalVideo, setActiveModalVideo] = useState<Video | null>(null);
 
+  // Determine featured video
+  const featuredVideo = useMemo(() => {
+    return videos.find((v) => v.featured) || videos[0];
+  }, [videos]);
+
   // Close modal on Escape key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -28,12 +33,6 @@ export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVide
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeModalVideo]);
-  // Videos are provided from server via props; no client fetch needed
-
-  // Find default featured video
-  const featuredVideo = useMemo(() => {
-    return videos.find((v) => v.featured) || videos[0];
-  }, [videos]);
 
   // Filtered video list
   const filteredVideos = useMemo(() => {
@@ -56,7 +55,7 @@ export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVide
   }, [videos, selectedCategory, searchQuery]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full max-w-full min-w-0 box-border">
       {/* Featured Video Section */}
       {featuredVideo && (
         <FeaturedVideo video={featuredVideo} />
@@ -80,7 +79,7 @@ export const VideoContainer: React.FC<{videos: Video[]}> = ({videos: initialVide
       {/* Video Modal Player Dialog */}
       {activeModalVideo && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-0 bg-black/80 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
           onClick={() => setActiveModalVideo(null)}
         >
           <div 

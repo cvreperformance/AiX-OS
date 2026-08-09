@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import { usePathname } from "next/navigation";
 import {
@@ -213,7 +214,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   return (
     <>
       {/* ─── PRIMARY GLASS PANEL SERVICE HUB (TOP NAV REPLACEMENT) ───────── */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4 lg:pt-6">
+      <div className="mx-auto max-w-full md:max-w-6xl sm:px-6 pt-4 lg:pt-6">
         {/* Full Flat Grid Header - Visible on desktop at the top */}
         <div className={`hidden lg:block rounded-3xl border border-zinc-200 bg-white/75 backdrop-blur-xl p-6 sm:p-7 shadow-2xl relative transition-all duration-300 ${
           scrolled ? "opacity-0 -translate-y-4 pointer-events-none absolute" : "opacity-100 translate-y-0"
@@ -268,7 +269,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
       <header
         className={`sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${ scrolled || activeDropdown === 'services' ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"}`}
       >
-        <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between px-4 py-2 sm:px-6">
+        <div className="mx-auto flex min-h-[72px] max-w-full md:max-w-6xl items-center justify-between py-2 sm:px-6">
           <Link href="/" className="flex flex-col items-start group">
             <div className="flex items-center gap-1.5 min-h-8">
               <Brain className="h-4.5 w-4.5 text-amber-500 mr-1 animate-pulse" />
@@ -363,7 +364,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
         {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
         {showDeskDropdown && scrolled && (
           <div
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[1500px] rounded-[32px] bg-[#0B0B0B] border border-zinc-800 shadow-[0_40px_120px_rgba(0,0,0,.65)] z-[9999]"
+            className="absolute top-full left-0 mt-4 max-w-[90vw] w-full rounded-[32px] bg-[rgba(12,12,12,.92)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.4)] z-[99999] transition-opacity duration-200 ease-out opacity-0 translate-y-2"
             onMouseLeave={() => setShowDeskDropdown(false)}
           >
             {navigationCategories.map((cat) => {
@@ -444,7 +445,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
         aria-hidden={!menuVisible}
       >
         <div
-          className={`absolute inset-0 bg-white/75 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-white/75 backdrop-blur-sm transition-opacity duration-300 pointer-events-none ${
             menuVisible ? "opacity-100" : "opacity-0"
           }`}
           onClick={closeMenu}
@@ -452,7 +453,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
         />
 
         <div
-          className={`absolute inset-x-0 bottom-0 w-full max-w-[100vw] flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute inset-x-0 bottom-0 w-full max-w-full flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
             menuVisible ? "translate-y-0" : "translate-y-full"
           }`}
           style={{
@@ -509,7 +510,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
           </div>
 
           {/* Mobile Categories - identical structures to desktop categories */}
-          <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 overscroll-contain">
+          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1.5 overscroll-contain">
             <Link
                   href="/"
                   onClick={closeMenu}
@@ -520,16 +521,13 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
                   <Home className="h-4.5 w-4.5 flex-shrink-0" />
                   {t("nav.home")}
                 </Link>
-                <Link
-                  href="/videos"
-                  onClick={closeMenu}
-                  className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                    pathname === "/videos" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
-                  }`}
-                >
-                  <LayoutGrid className="h-4.5 w-4.5 flex-shrink-0" />
-                  {t("nav.videos")}
-                </Link>
+                  {/* Video navigation button for mobile drawer */}
+                  <Link href="/videos" className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                      pathname === "/videos" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
+                    }`}>
+                          <LayoutGrid className="h-4.5 w-4.5 flex-shrink-0" />
+                          VIDEO
+                        </Link>
 
             <div className="pt-2 pb-1">
               <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
@@ -581,7 +579,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
                           <Link
                             key={sub.id}
                             href={sub.href}
-                            onClick={closeMenu}
+     
                             className="flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-100/40 border border-transparent"
                           >
                             <div className="mt-0.5 p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600">
@@ -615,7 +613,7 @@ export function Footer() {
   
   return (
     <footer className="border-t border-zinc-200 bg-white mt-auto pb-0">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+      <div className="w-full max-w-full lg:max-w-screen-xl mx-auto space-y-10 flex flex-col items-start sm:px-0 lg:px-8 box-border">
         
         {/* Minimized bottom indicators */}
         <div className="space-y-1">

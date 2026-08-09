@@ -83,7 +83,8 @@ export default async function PublicVideosPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-zinc-100 py-12 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+    
+    <main className="min-h-screen w-full min-w-0 max-w-full box-border bg-black text-zinc-100 py-12 px-0 sm:px-4 lg:px-8">
       {/* Inject Schema.org JSON-LD Graph for Google Search, AI Overviews, Gemini & Perplexity */}
       <script
         type="application/ld+json"
@@ -92,7 +93,7 @@ export default async function PublicVideosPage() {
         }}
       />
 
-      <div className="w-full mx-auto space-y-10 flex flex-col items-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-full min-w-0 box-border mx-auto px-0 sm:px-4 lg:max-w-screen-xl lg:px-8 space-y-10 flex flex-col items-start">
         {/* Public Hero Header */}
         <header className="space-y-4 border-b border-zinc-800/80 pb-10">
           <div className="flex items-center gap-2">

@@ -101,7 +101,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }}
         />
       </head>
-      <body className="min-h-full antialiased bg-black text-zinc-100" suppressHydrationWarning>
+      <body className="min-h-full antialiased bg-black text-zinc-100 overflow-x-hidden" suppressHydrationWarning>
         <SystemBackgroundLayer />
         <Suspense fallback={null}>
           <AiXTelemetryProvider />
