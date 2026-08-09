@@ -52,10 +52,9 @@ export function Header() {
   const [gestureDragging, setGestureDragging] = useState(false);
   const [gestureProgress, setGestureProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
-  const [showDeskDropdown, setShowDeskDropdown] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const gestureProgressRef = useRef(0);
   const gestureStartYRef = useRef(0);
   const gestureMovedRef = useRef(false);
@@ -96,7 +95,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
       setGestureProgress(0);
       gestureProgressRef.current = 0;
       gestureModeRef.current = null;
-      setShowDeskDropdown(false);
+      setActiveDropdown(null);
       setExpandedCategory(null);
     }, 0);
     return () => window.clearTimeout(timer);
@@ -267,7 +266,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
       {/* ─── STICKY HEADER TRIGGER (SHOWS ONLY ON SCROLL) ───────────────── */}
       <header
-        className={`sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300 ${ scrolled || activeDropdown === 'services' ? "translate-y-0 opacity-100" : "lg:-translate-y-20 lg:opacity-0 lg:pointer-events-none lg:absolute"}`}
+        className="sticky top-0 z-[300] border-b border-zinc-200 bg-white/90 backdrop-blur-xl shadow-2xl transition-all duration-300"
       >
         <div className="mx-auto flex min-h-[72px] max-w-full md:max-w-6xl items-center justify-between py-2 sm:px-6">
           <Link href="/" className="flex flex-col items-start group">
@@ -361,40 +360,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
           </div>
         </div>
 
-        {/* ─── SCROLLED OVERLAY SYSTEM DESK DROP-DOWN ───────────────────── */}
-        {showDeskDropdown && scrolled && (
-          <div
-            className="absolute top-full left-0 mt-4 max-w-[90vw] w-full rounded-[32px] bg-[rgba(12,12,12,.92)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.4)] z-[99999] transition-opacity duration-200 ease-out opacity-0 translate-y-2"
-            onMouseLeave={() => setShowDeskDropdown(false)}
-          >
-            {navigationCategories.map((cat) => {
-              const Icon = cat.icon;
-              const title = language === "ro" ? cat.title : cat.titleEn;
-              return (
-                <div key={cat.id} className="space-y-4">
-                  <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
-                    <Icon className={`h-4.5 w-4.5 ${cat.color}`} />
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-600 font-mono">
-                      {title}
-                    </h4>
-                  </div>
-                  <ul className="space-y-2.5">
-                    {cat.items.map((item) => (
-                      <li key={item.id}>
-                        <Link
-                          href={item.href}
-                          className="text-xs text-zinc-400 hover:text-amber-400 hover:pl-0.5 transition-all block font-medium"
-                        >
-                          {language === "ro" ? item.label : item.labelEn}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        )}
+
       </header>
 
       {/* ─────────────────────────────────────────
