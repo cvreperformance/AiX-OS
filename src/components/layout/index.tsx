@@ -439,7 +439,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
       <div
         id="mobile-menu"
         className={`xl:hidden fixed inset-0 z-[400] overflow-hidden transition-all duration-300 ease-out ${
-          menuVisible ? "pointer-events-auto" : "pointer-events-none"
+          menuVisible ? "pointer-events-auto" : "pointer-events-none hidden"
         }`}
         aria-hidden={!menuVisible}
       >
