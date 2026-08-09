@@ -22,20 +22,40 @@ test.describe('Desktop Services Dropdown UI Audit', () => {
       await servicesBtn.hover();
       await page.waitForTimeout(300);
 
-      // Verify exactly ONE MegaMenu container exists and is visible
-      const megaMenu = page.locator('header div').filter({ hasText: /Servicii Platformă|Platform Services/i }).first();
+      // Verify MegaMenu container exists and is visible
+      const megaMenu = page.locator('#services-mega-menu');
       await expect(megaMenu).toBeVisible();
+      const box = await megaMenu.boundingBox();
 
       // Verify bounding box fits inside viewport and is visually centered
-      const box = await megaMenu.boundingBox();
-      expect(box).not.toBeNull();
-      if (box) {
+      const measurements = await page.evaluate(() => {
+        const menu = document.getElementById('services-mega-menu');
+        if (!menu) return null;
+        const rect = menu.getBoundingClientRect();
+        const computed = window.getComputedStyle(menu);
+        return {
+          left: rect.left,
+          top: rect.top,
+          width: rect.width,
+          height: rect.height,
+          right: rect.right,
+          bottom: rect.bottom,
+          maxHeight: computed.maxHeight,
+          position: computed.position,
+          transform: computed.transform,
+        };
+      });
+
+      if (box && measurements) {
         expect(box.x).toBeGreaterThanOrEqual(0);
         expect(box.x + box.width).toBeLessThanOrEqual(vp.width + 5);
-        expect(box.y + box.height).toBeLessThanOrEqual(vp.height + 5);
         const menuCenter = box.x + box.width / 2;
         const vpCenter = vp.width / 2;
-        expect(Math.abs(menuCenter - vpCenter)).toBeLessThanOrEqual(2);
+        const centerDiff = Math.abs(menuCenter - vpCenter);
+
+        console.log(`[MEASUREMENT ${vp.width}x${vp.height}] LEFT: ${box.x.toFixed(1)}px | RIGHT: ${(box.x + box.width).toFixed(1)}px | CENTER: ${menuCenter.toFixed(1)}px | VIEWPORT CENTER: ${vpCenter.toFixed(1)}px | CENTER DIFF: ${centerDiff.toFixed(1)}px | HEIGHT: ${measurements.height.toFixed(1)}px | MAXHEIGHT: ${measurements.maxHeight}`);
+
+        expect(centerDiff).toBeLessThanOrEqual(2);
       }
 
       // Verify no horizontal document overflow

@@ -333,17 +333,6 @@ export function Header() {
                       <button className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full text-zinc-600 hover:text-amber-400">
                         {language === 'ro' ? link.label : link.labelEn}
                       </button>
-                      {isActive && (
-                      <MegaMenu
-                        onClose={() => setActiveDropdown(null)}
-                        onMouseEnter={() => {
-                          if (dropdownTimeoutRef.current) {
-                            clearTimeout(dropdownTimeoutRef.current);
-                            dropdownTimeoutRef.current = null;
-                          }
-                        }}
-                      />
-                    )}
                     </div>
                   ) : (
                     <Link href={link.href ?? '#'} className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-zinc-600 hover:text-amber-400">
@@ -360,7 +349,17 @@ export function Header() {
           </div>
         </div>
 
-
+        {activeDropdown === 'services' && (
+          <MegaMenu
+            onClose={() => setActiveDropdown(null)}
+            onMouseEnter={() => {
+              if (dropdownTimeoutRef.current) {
+                clearTimeout(dropdownTimeoutRef.current);
+                dropdownTimeoutRef.current = null;
+              }
+            }}
+          />
+        )}
       </header>
 
       {/* ─────────────────────────────────────────
