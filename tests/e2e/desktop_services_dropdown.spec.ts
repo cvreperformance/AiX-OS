@@ -26,12 +26,16 @@ test.describe('Desktop Services Dropdown UI Audit', () => {
       const megaMenu = page.locator('header div').filter({ hasText: /Servicii Platformă|Platform Services/i }).first();
       await expect(megaMenu).toBeVisible();
 
-      // Verify bounding box fits inside viewport
+      // Verify bounding box fits inside viewport and is visually centered
       const box = await megaMenu.boundingBox();
       expect(box).not.toBeNull();
       if (box) {
         expect(box.x).toBeGreaterThanOrEqual(0);
         expect(box.x + box.width).toBeLessThanOrEqual(vp.width + 5);
+        expect(box.y + box.height).toBeLessThanOrEqual(vp.height + 5);
+        const menuCenter = box.x + box.width / 2;
+        const vpCenter = vp.width / 2;
+        expect(Math.abs(menuCenter - vpCenter)).toBeLessThanOrEqual(80);
       }
 
       // Verify no horizontal document overflow
