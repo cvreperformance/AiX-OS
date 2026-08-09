@@ -35,7 +35,7 @@ test.describe('Desktop Services Dropdown UI Audit', () => {
         expect(box.y + box.height).toBeLessThanOrEqual(vp.height + 5);
         const menuCenter = box.x + box.width / 2;
         const vpCenter = vp.width / 2;
-        expect(Math.abs(menuCenter - vpCenter)).toBeLessThanOrEqual(80);
+        expect(Math.abs(menuCenter - vpCenter)).toBeLessThanOrEqual(2);
       }
 
       // Verify no horizontal document overflow

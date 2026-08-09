@@ -23,15 +23,15 @@ test.describe('Videos page responsive UI', () => {
       await page.waitForURL('**/videos', { timeout: 10000 });
       await expect(page).toHaveURL(/\/videos/);
 
-      // Ensure modal is not open initially
-      await expect(page.locator('[role="dialog"]').first()).not.toBeVisible();
+      // Ensure video modal is not open initially
+      await expect(page.locator('[aria-labelledby="modal-video-title"]')).not.toBeVisible();
 
       // Click first video card to open modal
       const firstCard = page.locator('article').first();
       await firstCard.click();
-      await page.waitForSelector('[role="dialog"]', { state: 'visible' });
+      await page.waitForSelector('[aria-labelledby="modal-video-title"]', { state: 'visible' });
 
-      const modal = page.locator('[role="dialog"]');
+      const modal = page.locator('[aria-labelledby="modal-video-title"]');
       await expect(modal).toBeVisible();
 
       // Verify no horizontal overflow
