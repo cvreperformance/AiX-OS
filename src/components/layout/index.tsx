@@ -511,15 +511,25 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
           {/* Mobile Categories - identical structures to desktop categories */}
           <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1.5 overscroll-contain">
             <Link
-              href="/"
-              onClick={closeMenu}
-              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
-              }`}
-            >
-              <Home className="h-4.5 w-4.5 flex-shrink-0" />
-              {t("nav.home")}
-            </Link>
+                  href="/"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                    pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
+                  }`}
+                >
+                  <Home className="h-4.5 w-4.5 flex-shrink-0" />
+                  {t("nav.home")}
+                </Link>
+                <Link
+                  href="/videos"
+                  onClick={closeMenu}
+                  className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                    pathname === "/videos" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
+                  }`}
+                >
+                  <LayoutGrid className="h-4.5 w-4.5 flex-shrink-0" />
+                  {t("nav.videos")}
+                </Link>
 
             <div className="pt-2 pb-1">
               <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">
