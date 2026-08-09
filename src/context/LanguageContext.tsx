@@ -15,7 +15,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const TRANSLATIONS: Record<Language, Record<string, any>> = {
   ro: {
     "nav.home": "Acasă",
-    "nav.videos": "Videoclipuri",
+    "nav.videos": "VIDEO",
     "nav.services": "Servicii Platformă",
     "nav.allServices": "Toate Serviciile",
     "nav.about": "Despre",
@@ -62,7 +62,7 @@ const TRANSLATIONS: Record<Language, Record<string, any>> = {
     "nav.contact": "Contact",
     "nav.join": "Join AiX",
     "nav.call": "Call Now",
-    "nav.videos": "Videos",
+    "nav.videos": "VIDEO",
     "nav.whatsapp": "WhatsApp",
     "nav.cta": "Request Access",
     

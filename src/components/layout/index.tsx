@@ -452,7 +452,7 @@ const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
         />
 
         <div
-          className={`absolute inset-x-0 bottom-0 flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute inset-x-0 bottom-0 w-full max-w-[100vw] flex max-h-[82dvh] flex-col overflow-hidden rounded-t-[28px] border-t border-zinc-200 bg-white shadow-2xl transition-transform duration-300 ease-out ${
             menuVisible ? "translate-y-0" : "translate-y-full"
           }`}
           style={{
