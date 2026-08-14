@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Upload, X, Check, Image as ImageIcon, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { storageConfig } from "@/lib/storage/config";
 
 interface ImageUploaderProps {
   onImagesChange: (urls: string[]) => void;
@@ -50,21 +51,21 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
     setImages(prev => [...prev, ...newImages]);
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      console.error("[ImageUploader] No authenticated user found for storage upload.");
-      return;
-    }
+    const userId = user?.id || "anonymous";
 
-    const STORAGE_BUCKET = "property-images";
+    const STORAGE_BUCKET = storageConfig.bucket;
 
     for (const img of newImages) {
-      const fileExt = img.file.name.split('.').pop() || 'jpg';
-      const fileName = `${user.id}/${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
+      const rawExt = img.file.name.split('.').pop() || 'jpg';
+      const fileExt = rawExt.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+      const timeStamp = Date.now();
+      const randomStr = Math.random().toString(36).substring(2, 9);
+      const fileName = `properties/${userId}/${timeStamp}-${randomStr}.${fileExt}`;
 
       console.log("[ImageUploader] Upload Payload Debug:", {
         bucket: STORAGE_BUCKET,
         fileName,
-        userId: user.id,
+        userId,
         fileSize: img.file.size,
         fileType: img.file.type
       });
