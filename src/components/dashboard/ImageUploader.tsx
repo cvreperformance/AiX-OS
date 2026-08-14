@@ -51,7 +51,15 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
     setImages(prev => [...prev, ...newImages]);
 
     const { data: { user } } = await supabase.auth.getUser();
-    const userId = user?.id || "anonymous";
+    if (!user) {
+      const msg = language === "ro" 
+        ? "Încărcarea a eșuat: Trebuie să fii autentificat pentru a încărca imagini." 
+        : "Upload failed: You must be logged in to upload images.";
+      console.error("[ImageUploader] No authenticated user found for storage upload.");
+      alert(msg);
+      setImages(prev => prev.filter(p => !newImages.some(n => n.id === p.id)));
+      return;
+    }
 
     const STORAGE_BUCKET = storageConfig.bucket;
 
@@ -60,12 +68,12 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
       const fileExt = rawExt.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
       const timeStamp = Date.now();
       const randomStr = Math.random().toString(36).substring(2, 9);
-      const fileName = `properties/${userId}/${timeStamp}-${randomStr}.${fileExt}`;
+      const fileName = `properties/${user.id}/${timeStamp}-${randomStr}.${fileExt}`;
 
       console.log("[ImageUploader] Upload Payload Debug:", {
         bucket: STORAGE_BUCKET,
         fileName,
-        userId,
+        userId: user.id,
         fileSize: img.file.size,
         fileType: img.file.type
       });
