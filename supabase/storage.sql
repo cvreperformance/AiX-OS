@@ -1,48 +1,73 @@
--- AiX OS — Supabase Storage Setup
--- Run in Supabase SQL Editor AFTER creating the bucket in Dashboard
+-- AiX OS — Supabase Storage Setup (Bucket: proprietati)
 
--- 1. Create bucket in Dashboard: Storage → New bucket
---    Name: Proprietati (or proprietati — update NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET to match)
---    Public bucket: YES
+-- 1. Create or update bucket in Supabase
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('proprietati', 'proprietati', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
 
--- 2. Public read policy for property images
-insert into storage.buckets (id, name, public)
-values ('proprietati', 'proprietati', true)
-on conflict (id) do update set public = true;
+-- 2. Drop existing policies to prevent conflict errors
+DROP POLICY IF EXISTS "Public read property images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated upload property images" ON storage.objects;
+DROP POLICY IF EXISTS "Owner or admin update property images" ON storage.objects;
+DROP POLICY IF EXISTS "Owner or admin delete property images" ON storage.objects;
+DROP POLICY IF EXISTS "Proprietati public read" ON storage.objects;
+DROP POLICY IF EXISTS "Proprietati authenticated upload" ON storage.objects;
+DROP POLICY IF EXISTS "Proprietati user update own" ON storage.objects;
+DROP POLICY IF EXISTS "Proprietati user delete own" ON storage.objects;
 
--- Allow public read
-create policy "Public read property images"
-  on storage.objects for select
-  using ( bucket_id = 'proprietati' );
+-- 3. Public read policy for property images
+CREATE POLICY "Proprietati public read"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'proprietati');
 
--- Allow any authenticated user to upload property images
-create policy "Authenticated upload property images"
-  on storage.objects for insert
-  with check (
+-- 4. Authenticated upload policy (scoped to user's own directory)
+CREATE POLICY "Proprietati authenticated upload"
+  ON storage.objects FOR INSERT
+  WITH CHECK (
     bucket_id = 'proprietati'
-    and auth.role() = 'authenticated'
+    AND auth.role() = 'authenticated'
+    AND auth.uid() IS NOT NULL
+    AND (
+      (storage.foldername(name))[1] = auth.uid()::text
+      OR
+      ((storage.foldername(name))[1] = 'properties' AND (storage.foldername(name))[2] = auth.uid()::text)
+    )
   );
 
-create policy "Owner or admin update property images"
-  on storage.objects for update
-  using (
+-- 5. Owner update policy
+CREATE POLICY "Proprietati user update own"
+  ON storage.objects FOR UPDATE
+  USING (
     bucket_id = 'proprietati'
-    and (auth.uid() = owner or auth.role() = 'admin')
+    AND auth.role() = 'authenticated'
+    AND auth.uid() IS NOT NULL
+    AND (
+      (storage.foldername(name))[1] = auth.uid()::text
+      OR
+      ((storage.foldername(name))[1] = 'properties' AND (storage.foldername(name))[2] = auth.uid()::text)
+    )
+  )
+  WITH CHECK (
+    bucket_id = 'proprietati'
+    AND auth.role() = 'authenticated'
+    AND auth.uid() IS NOT NULL
+    AND (
+      (storage.foldername(name))[1] = auth.uid()::text
+      OR
+      ((storage.foldername(name))[1] = 'properties' AND (storage.foldername(name))[2] = auth.uid()::text)
+    )
   );
 
-create policy "Owner or admin delete property images"
-  on storage.objects for delete
-  using (
+-- 6. Owner delete policy
+CREATE POLICY "Proprietati user delete own"
+  ON storage.objects FOR DELETE
+  USING (
     bucket_id = 'proprietati'
-    and (auth.uid() = owner or auth.role() = 'admin')
+    AND auth.role() = 'authenticated'
+    AND auth.uid() IS NOT NULL
+    AND (
+      (storage.foldername(name))[1] = auth.uid()::text
+      OR
+      ((storage.foldername(name))[1] = 'properties' AND (storage.foldername(name))[2] = auth.uid()::text)
+    )
   );
-
--- 3. Gallery format in properties table (jsonb):
---    ["slug/photo1.jpg", "slug/photo2.jpg"]
---    OR store paths relative to bucket root without bucket prefix
-
--- 4. Example update after upload:
--- update properties
--- set gallery = '["penthouse-floreasca/hero.jpg", "penthouse-floreasca/living.jpg"]'::jsonb,
---     image_url = 'penthouse-floreasca/hero.jpg'
--- where slug = 'penthouse-floreasca';
