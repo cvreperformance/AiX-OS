@@ -53,8 +53,8 @@ export function ImageUploader({ onImagesChange, maxImages = 15 }: ImageUploaderP
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       const msg = language === "ro" 
-        ? "Încărcarea a eșuat: Trebuie să fii autentificat pentru a încărca imagini." 
-        : "Upload failed: You must be logged in to upload images.";
+        ? "Sesiunea a expirat. Te rugăm să te autentifici din nou." 
+        : "Session expired. Please log in again.";
       console.error("[ImageUploader] No authenticated user found for storage upload.");
       alert(msg);
       setImages(prev => prev.filter(p => !newImages.some(n => n.id === p.id)));
