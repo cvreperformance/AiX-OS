@@ -1,27 +1,57 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { login } from "../actions";
+import { createClient } from "@/lib/supabase/client";
 import { Brain, Home, ArrowRight, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    setLoading(true);
+
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    startTransition(async () => {
-      const res = await login(formData);
-      if (res?.error) {
-        setError(res.error);
-        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "failure", details: { email, error: res.error } } }));
-      } else {
-        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "success", details: { email } } }));
+    const email = (formData.get("email") as string)?.trim();
+    const password = formData.get("password") as string;
+
+    if (!email || !password) {
+      setError("Please fill in email and password.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const supabase = createClient();
+      const { data: clientData, error: clientErr } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (clientErr) {
+        setError(clientErr.message);
+        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "failure", details: { email, error: clientErr.message } } }));
+        setLoading(false);
+        return;
       }
-    });
+
+      window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "success", details: { email } } }));
+
+      // Also trigger Server Action for cookie synchronization
+      await login(formData).catch(() => {});
+
+      router.push("/dashboard/properties");
+      router.refresh();
+    } catch (err: any) {
+      setError(err?.message || "An unexpected error occurred during login.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,7 +78,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6 relative" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 relative" method="POST" onSubmit={handleSubmit}>
           {error && (
             <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
               {error}
@@ -97,10 +127,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={isPending}
+            disabled={loading}
             className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-zinc-900 bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-amber-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isPending ? (
+            {loading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
               <span className="flex items-center gap-2">

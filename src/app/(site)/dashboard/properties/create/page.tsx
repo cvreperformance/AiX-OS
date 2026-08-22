@@ -47,6 +47,7 @@ export default function CreatePropertyWizard() {
   };
 
   const handleSave = async (publish: boolean) => {
+    if (loading) return;
     setLoading(true);
 
     if (publish) {
@@ -64,9 +65,12 @@ export default function CreatePropertyWizard() {
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
+      alert(language === "ro" ? "Autentificare necesară. Vă rugăm să vă conectați pentru a publica proprietatea." : "Authentication required. Please log in to publish property.");
       setLoading(false);
+      router.push("/login");
       return;
     }
+
 
     const parsedVideo = parsePropertyVideoUrl(formData.video_url);
 
