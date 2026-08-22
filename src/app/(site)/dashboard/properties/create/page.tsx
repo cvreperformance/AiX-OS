@@ -70,13 +70,18 @@ export default function CreatePropertyWizard() {
 
     const parsedVideo = parsePropertyVideoUrl(formData.video_url);
 
+    const slugBase = (formData.title || "property").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const generatedSlug = `${slugBase || "property"}-${Math.random().toString(36).substring(2, 8)}`;
+
     const payload = {
       owner_id: user.id,
+      slug: generatedSlug,
       title: formData.title,
       description: formData.description,
       category: formData.category,
       listing_type: formData.listing_type,
       status: publish ? "Published" : "Draft",
+
       price: Number(formData.price) || 0,
       currency: formData.currency,
       country: formData.country,

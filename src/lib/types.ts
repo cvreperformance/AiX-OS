@@ -1,17 +1,29 @@
 export interface Property {
   id: string;
+  owner_id?: string;
   slug: string;
   title: string;
   description: string;
+  category?: string;
+  listing_type?: string;
   price: number;
   currency: string;
+  country?: string;
   location: string;
   city: string;
+  district?: string;
+  neighborhood?: string;
+  address?: string;
   property_type: string;
+  built_area?: number;
+  usable_area?: number;
+  rooms?: number;
   bedrooms?: number;
   bathrooms?: number;
+  year_built?: number;
   area_sqm?: number;
   image_url?: string;
+  cover_image?: string;
   gallery?: string[];
   aix_score?: number;
   score_explanation?: string;
@@ -23,7 +35,9 @@ export interface Property {
   video_provider?: "youtube" | "vimeo" | string;
   video_thumbnail?: string;
   created_at?: string;
+  published_at?: string;
 }
+
 
 export interface NewsArticle {
   id: string;
