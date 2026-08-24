@@ -10,6 +10,7 @@ import { formatPrice } from "@/lib/format";
 import { buildPropertySchema } from "@/lib/seo";
 import { brandContent } from "@/lib/content/brand";
 import { createClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { OwnerManagementBar } from "@/components/properties/OwnerManagementBar";
 
 interface Props {
