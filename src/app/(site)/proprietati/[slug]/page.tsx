@@ -9,7 +9,8 @@ import { getProperty } from "@/lib/data";
 import { formatPrice } from "@/lib/format";
 import { buildPropertySchema } from "@/lib/seo";
 import { brandContent } from "@/lib/content/brand";
-
+import { createClient } from "@/lib/supabase/server";
+import { OwnerManagementBar } from "@/components/properties/OwnerManagementBar";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -39,6 +40,26 @@ export default async function PropertyDetailPage({ params }: Props) {
 
   if (!property) notFound();
 
+  // Server-side authentication and ownership check
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let isOwnerOrAdmin = false;
+  if (user && property) {
+    if (property.owner_id && property.owner_id === user.id) {
+      isOwnerOrAdmin = true;
+    } else {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (profile?.role === "admin" || profile?.role === "superadmin") {
+        isOwnerOrAdmin = true;
+      }
+    }
+  }
+
   const jsonLd = await buildPropertySchema(property);
 
   const galleryImages =
@@ -54,6 +75,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <OwnerManagementBar property={property} isOwnerOrAdmin={isOwnerOrAdmin} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
         <Link
           href="/proprietati"

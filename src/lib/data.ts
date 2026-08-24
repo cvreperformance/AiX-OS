@@ -107,12 +107,18 @@ export async function getProperty(slug: string): Promise<
   if (supabase) {
     const { data, error } = await supabase
       .from("properties")
-      .select("id, slug, title, description, price, currency, city, location:neighborhood, property_type:category, area_sqm:usable_area, image_url, status, created_at, gallery, features, video_url, video_provider, video_thumbnail")
+      .select("*")
       .eq("slug", slug)
       .maybeSingle();
 
     if (data && !error) {
-      const [enriched] = enrichProperties([data as Property]);
+      const normalized = {
+        ...data,
+        location: data.neighborhood || data.location || data.city || "",
+        property_type: data.category || data.property_type || "Residential",
+        area_sqm: data.usable_area ?? data.built_area ?? data.area_sqm ?? 0,
+      };
+      const [enriched] = enrichProperties([normalized as Property]);
       debugPropertyImages(enriched);
       return enriched;
     }
