@@ -16,7 +16,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     console.log('[1/5] Logging in as owner (testadmin.aixos@gmail.com)...');
     await page.goto(`${baseUrl}/login`, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
-    const submitBtn = page.locator('button[type="submit"][data-hydrated="true"]');
+    const submitBtn = page.locator('button[type="submit"]').first();
     await submitBtn.waitFor({ state: 'visible', timeout: 60000 });
 
     await page.fill('input[name="email"]', 'testadmin.aixos@gmail.com');
