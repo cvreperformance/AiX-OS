@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { login } from "../actions";
 import { createClient } from "@/lib/supabase/client";
@@ -9,7 +9,12 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -150,6 +155,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
+              data-hydrated={hydrated ? "true" : "false"}
               className="w-full py-3.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm rounded-2xl shadow-lg shadow-zinc-900/10 hover:shadow-zinc-900/20 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
             >
               {loading ? (

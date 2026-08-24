@@ -19,20 +19,25 @@ test.describe('Real Existing Property Management Verification', () => {
     console.log('[1/7] Logging in with account testadmin.aixos@gmail.com...');
     await page.goto(`${baseUrl}/login`, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
+    const submitBtn = page.locator('button[type="submit"][data-hydrated="true"]');
+    await submitBtn.waitFor({ state: 'visible', timeout: 60000 });
+
     const emailInput = page.locator('input[name="email"]');
     const passwordInput = page.locator('input[name="password"]');
-    const submitBtn = page.locator('button[type="submit"]');
 
-    await emailInput.waitFor({ state: 'visible', timeout: 30000 });
     await emailInput.fill('testadmin.aixos@gmail.com');
     await passwordInput.fill('TestAdmin123456!');
 
     // Submit form and wait for redirect away from /login
-    await Promise.all([
-      expect(page).not.toHaveURL(/\/login/, { timeout: 60000 }),
-      submitBtn.click()
-    ]);
+    await submitBtn.click({ noWaitAfter: true });
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 60000 });
     console.log('[1/7] Login PASSED — now at:', page.url());
+
+    // 2. Navigate to /dashboard/properties and locate real property
+    console.log('[2/7] Navigating to /dashboard/properties and locating real property...');
+    if (!page.url().includes('/dashboard/properties')) {
+      await page.goto(`${baseUrl}/dashboard/properties`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    }
 
 
     const propertyHeading = page.locator(`h3:has-text("${realPropertyTitle}")`);
