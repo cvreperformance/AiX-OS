@@ -49,7 +49,7 @@ export default async function PropertyDetailPage({ params }: Props) {
     if (property.owner_id && property.owner_id === user.id) {
       isOwnerOrAdmin = true;
     } else {
-      const { data: profile } = await supabase
+      const { data: profile } = await supabaseAdmin
         .from("profiles")
         .select("role")
         .eq("id", user.id)

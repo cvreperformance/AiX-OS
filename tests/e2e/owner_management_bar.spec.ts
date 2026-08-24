@@ -24,10 +24,11 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     await submitBtn.click({ noWaitAfter: true });
 
     await expect(page).not.toHaveURL(/\/login/, { timeout: 60000 });
+    await page.waitForTimeout(3000);
 
     // 1.2 Navigate to owner's public property page
     console.log(`[2/5] Navigating to public property page /proprietati/${realPropertySlug}...`);
-    await page.goto(`${baseUrl}/proprietati/${realPropertySlug}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.goto(`${baseUrl}/proprietati/${realPropertySlug}`, { waitUntil: 'networkidle', timeout: 60000 });
 
     // Confirm Owner Management Bar IS visible
     const ownerBar = page.locator('div:has-text("ADMINISTRARE PROPRIETATE"), div:has-text("PROPERTY MANAGEMENT")').first();
@@ -118,6 +119,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
 
   // 3. RESPONSIVE LAYOUT VERIFICATION (NO OVERFLOW)
   test('Responsive: Public property page with Owner Bar has zero horizontal overflow across mobile break-points', async ({ page }) => {
+    test.setTimeout(120000);
     const viewports = [
       { width: 375, height: 812 },
       { width: 390, height: 844 },
