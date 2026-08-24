@@ -2,6 +2,8 @@ import { getFeaturedProperties, getFeaturedNews, getEcosystemStats } from "@/lib
 import HomeClientPage from "./HomeClientPage";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "AiX OS™ — See market changes faster and make better decisions",
   description:
