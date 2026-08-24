@@ -3,10 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { login } from "../actions";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,17 +27,45 @@ export default function LoginPage() {
     }
 
     try {
-      const res = await login(formData);
-      if (res && res.error) {
-        setError(res.error);
-        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "failure", details: { email, error: res.error } } }));
+      const supabase = createClient();
+      const { data: authData, error: clientAuthError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (clientAuthError) {
+        setError(clientAuthError.message);
+        window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "failure", details: { email, error: clientAuthError.message } } }));
         setLoading(false);
         return;
       }
+
       window.dispatchEvent(new CustomEvent("aix:auth", { detail: { status: "success", details: { email } } }));
+
+      try {
+        await login(formData);
+      } catch (err: any) {
+        if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
+          return;
+        }
+      }
+
+      if (authData?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", authData.user.id)
+          .single();
+
+        if (profile?.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard/properties");
+        }
+        router.refresh();
+      }
     } catch (err: any) {
       if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
-        // Next.js redirect in progress
         return;
       }
       setError(err?.message || "An unexpected error occurred during login.");
