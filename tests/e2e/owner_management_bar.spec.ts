@@ -31,7 +31,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     await page.goto(`${baseUrl}/proprietati/${realPropertySlug}`, { waitUntil: 'networkidle', timeout: 60000 });
 
     // Confirm Owner Management Bar IS visible
-    const ownerBar = page.locator('div:has-text("ADMINISTRARE PROPRIETATE"), div:has-text("PROPERTY MANAGEMENT")').first();
+    const ownerBar = page.locator('div:has-text("Administrare Proprietate"), div:has-text("Property Management")').first();
     await expect(ownerBar).toBeVisible({ timeout: 30000 });
 
     // Confirm buttons exist
@@ -91,7 +91,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     await visitorPage.goto(`${baseUrl}/proprietati/${realPropertySlug}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
     // Confirm Management Bar is NOT visible
-    const ownerBar = visitorPage.locator('div:has-text("ADMINISTRARE PROPRIETATE"), div:has-text("PROPERTY MANAGEMENT")');
+    const ownerBar = visitorPage.locator('div:has-text("Administrare Proprietate"), div:has-text("Property Management")');
     await expect(ownerBar).toBeHidden();
 
     // Confirm Edit & Delete buttons are NOT present
