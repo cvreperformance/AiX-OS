@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run --passWithNoTests --exclude=tests/e2e",
+    "test:e2e": "playwright test",
+    "test:e2e:local": "playwright test --config=playwright.local.config.ts",
+    "test:e2e:prod": "playwright test --config=playwright.prod.config.ts",
     "fetch-real-estate": "tsx scripts/fetch-real-estate.ts",
     "audit-real-estate-feed": "tsx scripts/audit-real-estate-feed.ts"
   },

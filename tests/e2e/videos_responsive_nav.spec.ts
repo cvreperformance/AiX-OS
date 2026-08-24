@@ -17,10 +17,10 @@ test.describe('Videos page responsive UI', () => {
       const menuButton = page.locator('button[aria-label="Main Menu"], button[aria-label="Meniu Principal"]');
       await page.waitForSelector('button[aria-label="Main Menu"], button[aria-label="Meniu Principal"]', { state: 'visible' });
       await menuButton.click();
-      await page.waitForTimeout(500);
-      const videoLink = page.locator('#mobile-menu a[href="/videos"]');
+      await expect(page.locator('#mobile-menu')).toBeVisible();
+      const videoLink = page.locator('#mobile-menu a[href="/videos"]').first();
+      await expect(videoLink).toBeVisible();
       await videoLink.click();
-      await page.waitForURL('**/videos', { timeout: 10000 });
       await expect(page).toHaveURL(/\/videos/);
 
       // Ensure video modal is not open initially

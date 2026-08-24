@@ -142,11 +142,16 @@ export function MegaMenu({ onClose, onMouseEnter, headerBottom: propHeaderBottom
   return createPortal(
     <div
       id="services-mega-menu"
-      className="fixed left-1/2 -translate-x-1/2 z-[99999] pointer-events-auto rounded-[28px] bg-[rgba(12,12,12,.94)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.5)] flex flex-col box-border overflow-hidden transition-opacity duration-200 ease-out"
+      data-testid="platform-services-menu"
+      className="fixed z-[99999] pointer-events-auto rounded-[28px] bg-[rgba(12,12,12,.94)] backdrop-blur-[24px] border border-zinc-800 shadow-[0_20px_80px_rgba(0,0,0,0.5)] flex flex-col box-border overflow-hidden transition-opacity duration-200 ease-out"
       style={{
         top: `${headerBottom + 12}px`,
-        width: "min(960px, calc(100vw - 32px))",
-        maxWidth: "calc(100vw - 32px)",
+        left: '50%',
+        right: undefined,
+        margin: 0,
+        transform: 'translateX(-50%)',
+        width: "calc(100% - 32px)",
+        maxWidth: "calc(100% - 32px)",
         maxHeight: `calc(100vh - ${headerBottom + 28}px)`,
         boxSizing: "border-box",
         opacity: 1,
@@ -167,7 +172,7 @@ export function MegaMenu({ onClose, onMouseEnter, headerBottom: propHeaderBottom
       {/* Grid of category cards forced to 4 compact horizontal columns in 1 single row */}
       <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-5">
         <div
-          className="grid grid-cols-4 gap-4 sm:gap-5 w-full min-w-0"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 w-full min-w-0"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, minmax(0, 1fr))",

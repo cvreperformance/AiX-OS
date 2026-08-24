@@ -93,7 +93,7 @@ export default async function PublicVideosPage() {
         }}
       />
 
-      <div className="w-full max-w-full min-w-0 box-border mx-auto px-0 sm:px-4 lg:max-w-screen-xl lg:px-8 space-y-10 flex flex-col items-start">
+      <div className="w-full max-w-full min-w-0 box-border mx-auto px-0 sm:px-4 lg:max-w-screen-xl lg:px-8 space-y-10 flex flex-col items-start overflow-x-hidden">
         {/* Public Hero Header */}
         <header className="space-y-4 border-b border-zinc-800/80 pb-10">
           <div className="flex items-center gap-2">

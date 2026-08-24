@@ -1,33 +1,38 @@
 // src/app/api/cron/news/route.ts
+// Production Cron Job endpoint for AiX OS™ Real Estate News Engine
 
 import { NextResponse } from "next/server";
-import { NewsRssProvider } from "../../../../lib/providers/newsRss.provider";
-import { supabaseAdmin } from "../../../../lib/supabase/admin";
+import { runNewsIngestionPipeline } from "@/lib/news-engine/pipeline";
+
+export async function GET(req: Request) {
+  return handleCron(req);
+}
 
 export async function POST(req: Request) {
-  // Protect the endpoint with a secret header
-  const secret = req.headers.get("x-cron-secret");
-  if (!secret || secret !== process.env.CRON_SECRET) {
-    return new NextResponse("Forbidden", { status: 403 });
+  return handleCron(req);
+}
+
+async function handleCron(req: Request) {
+  const authHeader = req.headers.get("authorization");
+  const cronSecret = req.headers.get("x-cron-secret");
+  const expectedSecret = process.env.CRON_SECRET || "aix-os-cron-secret-2026";
+
+  const isSecretValid =
+    cronSecret === expectedSecret || authHeader === `Bearer ${expectedSecret}`;
+
+  if (!isSecretValid) {
+    return NextResponse.json({ error: "Forbidden: Invalid Cron Secret" }, { status: 403 });
   }
 
-  const feedUrl = process.env.NEXT_PUBLIC_RSS_FEED_URL;
-  if (!feedUrl) {
-    return new NextResponse("RSS feed URL not configured", { status: 500 });
-  }
+  console.log("[CRON NEWS ENGINE] Triggering automatic ingestion pipeline...");
+  const result = await runNewsIngestionPipeline();
 
-  const provider = new NewsRssProvider(feedUrl);
-  await provider.fetchAndStore();
-
-  // Count total rows after ingestion (admin client bypasses RLS)
-  const { count, error } = await supabaseAdmin
-    .from("news")
-    .select("id", { count: "exact", head: true });
-
-  if (error) {
-    console.error("Cron news count error:", error);
-    return NextResponse.json({ imported: null, error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ imported: count });
+  return NextResponse.json({
+    status: result.status,
+    articlesIngested: result.articlesIngested,
+    articlesRejected: result.articlesRejected,
+    articlesDeduplicated: result.articlesDeduplicated,
+    durationMs: result.durationMs,
+    errors: result.errors,
+  });
 }

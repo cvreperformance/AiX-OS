@@ -10,14 +10,9 @@ import { headers } from 'next/headers';
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
-  let redirectUrl = "/workspace/today";
+  let redirectUrl = "/dashboard/properties";
   
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    if (!supabaseUrl || !supabaseUrl.startsWith("http")) {
-      return { error: "Server configuration error: Supabase URL is missing or invalid." };
-    }
-
     const supabase = await createClient();
 
     const data = {
@@ -68,13 +63,7 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    if (!supabaseUrl || !supabaseUrl.startsWith("http")) {
-      return { error: "Server configuration error: Supabase URL is missing or invalid." };
-    }
-
     const supabase = await createClient();
-
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
 
     const data = {
@@ -90,23 +79,22 @@ export async function signup(formData: FormData) {
 
     const { error } = await supabase.auth.signUp(data);
 
-  // If sign‑up succeeded, dispatch a Telegram alert (non‑blocking)
-  if (!error) {
-    try {
-      await sendTelegramAlert({
-        service: 'User Registration',
-        page: '/register',
-        name: data.options?.data?.full_name ?? 'N/A',
-        phone: 'N/A',
-        email: data.email,
-        message: undefined,
-        source: 'website',
-        created_at: new Date().toISOString(),
-      });
-    } catch (e) {
-      console.warn('[AiX] Telegram notification failed for registration:', e);
+    if (!error) {
+      try {
+        await sendTelegramAlert({
+          service: 'User Registration',
+          page: '/register',
+          name: data.options?.data?.full_name ?? 'N/A',
+          phone: 'N/A',
+          email: data.email,
+          message: undefined,
+          source: 'website',
+          created_at: new Date().toISOString(),
+        });
+      } catch (e) {
+        console.warn('[AiX] Telegram notification failed for registration:', e);
+      }
     }
-  }
 
     if (error) {
       const msg = error.message.toLowerCase();
@@ -152,17 +140,14 @@ export async function forgotPassword(formData: FormData) {
   const hdr = await headers();
   const ip = hdr.get('x-forwarded-for') ?? 'unknown';
 
-  // Generic response to avoid revealing account existence or reasons for denial
   const genericSuccess = { success: "If an account exists, password reset instructions will be sent." };
 
-  // Rate limiting check
   const rateLimit = checkRateLimit(ip);
   if (!rateLimit.allowed) {
     await logPasswordResetAttempt({ ip, email, success: false, reason: rateLimit.reason ?? 'rate_limit' });
     return genericSuccess;
   }
 
-  // Verify Turnstile token
   if (!turnstileToken || !(await verifyTurnstile(turnstileToken))) {
     await logPasswordResetAttempt({ ip, email, success: false, reason: 'turnstile_failed' });
     return genericSuccess;
@@ -173,7 +158,6 @@ export async function forgotPassword(formData: FormData) {
     return { error: "Email and Personal Access Code are required." };
   }
 
-  // Fetch user profile by email
   const { data: profile, error: fetchError } = await supabase
     .from("profiles")
     .select("id, approval_status, personal_access_code_hash")
@@ -181,18 +165,15 @@ export async function forgotPassword(formData: FormData) {
     .single();
 
   if (fetchError) {
-    // Do not disclose whether email exists
     await logPasswordResetAttempt({ ip, email, success: false, reason: 'email_not_found' });
     return genericSuccess;
   }
 
-  // Check account active (approved)
   if (profile?.approval_status !== "approved") {
     await logPasswordResetAttempt({ ip, email, success: false, reason: 'inactive_account' });
     return { error: "Your account is currently inactive. Please contact support." };
   }
 
-  // Verify personal access code using bcryptjs
   const bcrypt = (await import("bcryptjs")).default;
   const isCodeValid = await bcrypt.compare(personalAccessCode, profile?.personal_access_code_hash || "");
   if (!isCodeValid) {
@@ -200,7 +181,6 @@ export async function forgotPassword(formData: FormData) {
     return { error: "Invalid access code." };
   }
 
-  // All checks passed, trigger Supabase password reset email
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://os.cristianvaduva.com";
   const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${siteUrl}/reset-password`,
@@ -211,7 +191,6 @@ export async function forgotPassword(formData: FormData) {
     return { error: resetError.message };
   }
 
-  // Log successful attempt
   await logPasswordResetAttempt({ ip, email, success: true, reason: 'success' });
   return genericSuccess;
 }

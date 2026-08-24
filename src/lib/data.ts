@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client";
+import { RealEstateNewsArticle } from "@/lib/news-engine/types";
 import { Article } from "@/services/aix-intelligence/types";
 import { isRealEstateArticle } from "@/services/aix-intelligence/validation";
 import { deriveSourceFromUrl } from "@/services/aix-intelligence/source";
@@ -11,6 +12,32 @@ import type {
   Opportunity,
   Property,
 } from "@/lib/types";
+
+export async function getRelatedArticles(
+  category: string,
+  excludeSlug: string,
+  limit = 6
+): Promise<RealEstateNewsArticle[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("real_estate_news")
+    .select("*")
+    .eq("category", category)
+    .eq("is_published", true)
+    .neq("slug", excludeSlug)
+    .order("published_at", { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error("[AiX OS] getRelatedArticles error:", error.message);
+    return [];
+  }
+  return data as RealEstateNewsArticle[];
+
+}
+
+
+
 
 function getSupabase() {
   try {
@@ -107,54 +134,60 @@ export async function getNews(): Promise<Article[]> {
   const supabase = getSupabase();
   let articles: Article[] = [];
   if (supabase) {
-    const { data } = await supabase.from("news").select("*");
+    let { data } = await supabase.from("real_estate_news").select("*").eq("is_published", true).order("published_at", { ascending: false }).limit(20);
+    if (!data || data.length === 0) {
+      const { data: legacy } = await supabase.from("news").select("*").order("published_at", { ascending: false }).limit(20);
+      data = legacy;
+    }
     if (data) {
       articles = data.map((n: any) => ({
         id: n.id,
         title: n.title,
-        summary: n.summary,
-        source: deriveSourceFromUrl(n.source_url ?? ""),
+        summary: n.summary || n.excerpt,
+        source: n.source_name || deriveSourceFromUrl(n.source_url ?? ""),
         sourceUrl: n.source_url ?? "",
         articleUrl: n.source_url ?? "",
         publishedAt: n.published_at ?? "",
-        country: n.country ?? "",
+        country: n.country ?? "Romania",
         category: n.category,
         image_url: n.image_url,
+        slug: n.slug,
+        aix_score: n.aix_score || 8.0,
       }));
     }
   }
-  // Filter, sort newest, limit 6
-  const filtered = articles
-    .filter(isRealEstateArticle)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 6);
-  return filtered as Article[];
+  return articles as Article[];
 }
 
 export async function getNewsArticle(slug: string): Promise<Article | null> {
   const supabase = getSupabase();
   if (supabase) {
-    const { data } = await supabase.from("news").select("*").eq("slug", slug).maybeSingle();
+    let { data } = await supabase.from("real_estate_news").select("*").eq("slug", slug).maybeSingle();
+    if (!data) {
+      const { data: legacy } = await supabase.from("news").select("*").eq("slug", slug).maybeSingle();
+      data = legacy;
+    }
     if (data) {
       const article = data as any;
-      const mapped: Article = {
+      return {
         id: article.id,
         title: article.title,
-        summary: article.summary,
-        source: deriveSourceFromUrl(article.source_url || ""),
+        summary: article.summary || article.excerpt,
+        source: article.source_name || deriveSourceFromUrl(article.source_url || ""),
         sourceUrl: article.source_url ?? "",
         articleUrl: article.source_url ?? "",
         publishedAt: article.published_at ?? "",
-        country: article.country ?? "",
+        country: article.country ?? "Romania",
         category: article.category,
         image_url: article.image_url,
-      };
-      return isRealEstateArticle(mapped) ? mapped : null;
+        slug: article.slug,
+        aix_score: article.aix_score || 8.0,
+      } as Article;
     }
   }
   const fallback = INSTITUTIONAL_NEWS.find((n) => n.slug === slug);
   if (!fallback) return null;
-  const mapped: Article = {
+  return {
     id: fallback.id,
     title: fallback.title,
     source: deriveSourceFromUrl(fallback.source_url ?? ""),
@@ -165,8 +198,7 @@ export async function getNewsArticle(slug: string): Promise<Article | null> {
     category: fallback.category,
     summary: fallback.summary,
     image_url: fallback.image_url,
-  };
-  return isRealEstateArticle(mapped) ? mapped : null;
+  } as Article;
 }
 
 

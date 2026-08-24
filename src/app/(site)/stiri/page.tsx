@@ -1,201 +1,51 @@
 import type { Metadata } from "next";
-import { getNews } from "@/lib/data";
-import { NewsCard, PageHeader } from "@/components/ui";
-import { getRomanianMarketPulse } from "@/lib/market";
-import Link from "next/link";
+import { NewsClientFeed } from "./NewsClientFeed";
+import { RealEstateNewsArticle } from "@/lib/news-engine/types";
+import { supabasePublic } from "@/lib/supabase/client";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Market Pulse | AiX OS™ — Analize și evoluții imobiliare în timp real",
-  description: "Urmărește tendințele pieței imobiliare din România și global. Analize de ROBOR, IRCC, inflație, prețuri medii pe metru pătrat și randamente.",
+  title: "Real Estate Market Intelligence Feed | AiX OS™ Știri Imobiliare",
+  description: "Monitorizare automată și analize sintetizate în timp real pentru piața imobiliară din România. RESIDENȚIAL, LUXURY, COMMERȚ, BIROURI, INDUSTRIAL.",
 };
 
-// Fallback news if data source is empty
-const FALLBACK_NEWS = [
-  {
-    id: "f1",
-    slug: "apartamente-vechi-mai-scumpe-noi",
-    title: "Apartamentele vechi — 27% mai scumpe decât cele noi în București",
-    summary: "AiX Summary: Un fenomen atipic în piața românească, unde TVA-ul crescut pe construcții noi și cererea pentru zone centrale au împins prețurile la apartamentele vechi peste cele noi. Această anomalie creează oportunități de arbitraj.",
-    category: "Real Estate",
-    image_url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-    aix_score: 9.0,
-    publishedAt: "2026-06-28T09:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-  {
-    id: "f2",
-    slug: "robor-3m-scade-iulie-2026",
-    title: "ROBOR 3M coboară la 6.85% — Cel mai mic nivel din 2024",
-    summary: "AiX Summary: Indicele de referință continuă tendința descendentă, aliniandu-se la politica BNR și BCE. Se anticipează o reducere suplimentară în Q3 2026, ceea ce va ieftini creditele variabile.",
-    category: "Finance",
-    image_url: "https://images.unsplash.com/photo-1554224311-9b9459a08667?w=800&q=80",
-    aix_score: 7.5,
-    publishedAt: "2026-06-27T11:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-  {
-    id: "f3",
-    slug: "piata-luxury-bucuresti-q2-2026",
-    title: "Segmentul luxury București: +12% YoY — Supply record în Q3",
-    summary: "AiX Summary: Cererea în segmentul €500K+ rămâne extrem de puternică. Zonele Floreasca, Herăstrău și Primăverii atrag capital semnificativ din partea investitorilor HNWI.",
-    category: "Luxury",
-    image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    aix_score: 8.2,
-    publishedAt: "2026-06-25T09:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-  {
-    id: "f4",
-    slug: "dubai-real-estate-record-2026",
-    title: "Dubai înregistrează cel mai mare volum de tranzacții din istorie în H1 2026",
-    summary: "AiX Summary: Piața imobiliară din Dubai a atins 186 miliarde AED în tranzacții în prima jumătate a anului. Investitorii globali continuă să aloce capital aici datorită politicilor pro-business și lipsei taxelor.",
-    category: "Investments",
-    image_url: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
-    aix_score: 8.8,
-    publishedAt: "2026-06-24T14:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-  {
-    id: "f5",
-    slug: "convergenta-preturi-romania-ue",
-    title: "România converge spre media UE — Prețuri imobiliare sub 50% din medie",
-    summary: "AiX Summary: Prețurile pe metru pătrat în România sunt la jumătate din media europeană. Evaluăm că acest decalaj se va închide treptat în următorul deceniu, pe măsură ce PIB-ul pe cap de locuitor crește.",
-    category: "Markets",
-    image_url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-    aix_score: 8.6,
-    publishedAt: "2026-06-22T10:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-  {
-    id: "f6",
-    slug: "pnrr-impact-imobiliar-romania",
-    title: "PNRR: Investițiile în infrastructură stimulează prețurile în 15 zone",
-    summary: "AiX Summary: Fondurile europene acționează ca un catalizator major pentru dezvoltarea imobiliară în zonele de infrastructură nouă, generând o apreciere medie semnificativă.",
-    category: "Construction",
-    image_url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&q=80",
-    aix_score: 7.8,
-    publishedAt: "2026-06-20T09:00:00Z",
-    source: "",
-    sourceUrl: "",
-    articleUrl: "",
-    country: "",
-  },
-];
+async function getLiveNewsArticles(): Promise<RealEstateNewsArticle[]> {
+  try {
+    const { data, error } = await supabasePublic
+      .from("real_estate_news")
+      .select("*")
+      .eq("is_published", true)
+      .order("published_at", { ascending: false })
+      .limit(30);
 
-const CATEGORIES = ["Toate", "Real Estate", "Finance", "Markets", "Insurance", "AI", "Luxury", "Construction", "Investments"];
+    if (error) {
+      console.error("Supabase news query error:", error);
+      return [];
+    }
 
-export default async function StiriPage() {
-  let articles = await getNews();
-  if (!articles || articles.length === 0) articles = FALLBACK_NEWS as typeof articles;
+    return (data || []) as RealEstateNewsArticle[];
+  } catch (error) {
+    console.error("Error fetching live news articles:", error);
+    return [];
+  }
+}
 
-  const pulse = getRomanianMarketPulse();
+export default async function NewsFeedPage() {
+  const articles = await getLiveNewsArticles();
 
-  return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
-      <PageHeader
-        badge="Market Pulse"
-        title="Știri & Analize Imobiliare"
-        subtitle="Intelligence în timp real pentru piața imobiliară din România, EU și global. Fiecare articol este evaluat cu AiX Score."
-      />
+  const avgScore = articles.length > 0
+    ? articles.reduce((acc, curr) => acc + (curr.aix_score || 8.0), 0) / articles.length
+    : 8.4;
 
-      {/* Market Sentiment Bar */}
-      <div className="mb-10 rounded-2xl border border-zinc-200 bg-zinc-50/40 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="text-3xl">{pulse.emoji}</div>
-          <div>
-            <p className="text-xs uppercase tracking-widest text-zinc-400 mb-0.5">Sentiment Piață RO — Iun 2026</p>
-            <p className={`text-xl font-semibold ${pulse.color}`}>{pulse.label}</p>
-            <p className="text-sm text-zinc-400 mt-0.5 max-w-xl">{pulse.description}</p>
-          </div>
-        </div>
-        <div className="flex-shrink-0">
-          <div className="relative h-16 w-16">
-            <svg viewBox="0 0 36 36" className="h-16 w-16 -rotate-90">
-              <circle cx="18" cy="18" r="15.9" fill="none" stroke="#27272a" strokeWidth="3" />
-              <circle
-                cx="18" cy="18" r="15.9" fill="none"
-                stroke="currentColor"
-                className={pulse.color}
-                strokeWidth="3"
-                strokeDasharray={`${pulse.score} ${100 - pulse.score}`}
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-zinc-900">
-              {pulse.score}
-            </span>
-          </div>
-          <p className="text-xs text-zinc-600 text-center mt-1">/ 100</p>
-        </div>
-      </div>
+  const marketPulse = {
+    label: "STABILITATE & CREȘTERE TEMPERATĂ",
+    score: Number(avgScore.toFixed(1)),
+    description: "Activitate susținută pe segmentul rezidențial de lux și cerere crescută pentru birouri clasa A.",
+    emoji: "📈",
+    color: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+  };
 
-      {/* Category filter (visual only — server component) */}
-      <div className="mb-8 flex gap-2 flex-wrap">
-        {CATEGORIES.map((cat) => (
-          <span
-            key={cat}
-            className={`rounded-full px-4 py-1.5 text-xs border transition-colors ${
-              cat === "Toate"
-                ? "border-amber-500/50 bg-amber-500/10 text-amber-400"
-                : "border-zinc-200 text-zinc-400 hover:border-zinc-600 hover:text-zinc-600"
-            }`}
-          >
-            {cat}
-          </span>
-        ))}
-      </div>
-
-      {/* Articles grid */}
-      {articles.length === 0 ? (
-        <div className="text-center py-24">
-          <p className="text-zinc-400 text-lg">Nu există știri disponibile momentan.</p>
-          <p className="text-zinc-600 text-sm mt-2">Revino în curând sau urmărește canalul Telegram.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <NewsCard key={article.id} article={article} />
-          ))}
-        </div>
-      )}
-
-      {/* Market insight banner */}
-      <div className="mt-16 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-amber-500/80 mb-2">AiX OS™ Intelligence</p>
-            <p className="text-zinc-900 font-light text-lg leading-relaxed max-w-2xl">
-              Apartamentele vechi din București sunt cu{" "}
-              <span className="text-amber-400 font-medium">27% mai scumpe</span>{" "}
-              decât cele noi — fenomen unic în Europa cauzat de TVA 21%.
-            </p>
-            <p className="text-zinc-400 text-sm mt-2">
-              Sursa: Storia/OLX Mar 2026 · Imobiliare.ro · Compilat de Cristian Văduva — AiXLuxury.com
-            </p>
-          </div>
-          <Link
-            href="/market"
-            className="flex-shrink-0 rounded-full border border-amber-500/30 bg-amber-500/10 px-6 py-3 text-sm text-amber-400 hover:bg-amber-500/20 transition-all whitespace-nowrap"
-          >
-            Indicatori Piață →
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+  return <NewsClientFeed initialArticles={articles} marketPulse={marketPulse} />;
 }

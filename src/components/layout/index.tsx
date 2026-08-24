@@ -66,7 +66,8 @@ export function Header() {
 
   const updateHeaderBottom = () => {
     if (headerRef.current) {
-      setHeaderBottomState(headerRef.current.getBoundingClientRect().bottom);
+      const rect = headerRef.current.getBoundingClientRect();
+      setHeaderBottomState(scrolled ? rect.bottom : rect.height);
     }
   };
 
@@ -334,8 +335,14 @@ export function Header() {
               return (
                 <li key={link.key || link.href} className="relative">
                   {isPillar ? (
-                    <div
-                      className="relative"
+                    <button
+                      className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full text-zinc-600 hover:text-amber-400"
+                      data-testid="platform-services-trigger"
+                      aria-expanded={isActive}
+                      onClick={() => {
+                        updateHeaderBottom();
+                        setActiveDropdown('services');
+                      }}
                       onMouseEnter={() => {
                         if (dropdownTimeoutRef.current) {
                           clearTimeout(dropdownTimeoutRef.current);
@@ -347,13 +354,11 @@ export function Header() {
                       onMouseLeave={() => {
                         dropdownTimeoutRef.current = setTimeout(() => {
                           setActiveDropdown((current) => (current === 'services' ? null : current));
-                        }, 250);
+                        }, 1200);
                       }}
                     >
-                      <button className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-full text-zinc-600 hover:text-amber-400">
-                        {language === 'ro' ? link.label : link.labelEn}
-                      </button>
-                    </div>
+                      {language === 'ro' ? link.label : link.labelEn}
+                    </button>
                   ) : (
                     <Link href={link.href ?? '#'} className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-zinc-600 hover:text-amber-400">
                       {language === 'ro' ? link.label : link.labelEn}
@@ -379,6 +384,7 @@ export function Header() {
                 dropdownTimeoutRef.current = null;
               }
             }}
+            data-testid="platform-services-menu"
           />
         )}
       </header>
@@ -498,22 +504,24 @@ export function Header() {
           {/* Mobile Categories - identical structures to desktop categories */}
           <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1.5 overscroll-contain">
             <Link
-                  href="/"
-                  onClick={closeMenu}
-                  className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                    pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
-                  }`}
-                >
-                  <Home className="h-4.5 w-4.5 flex-shrink-0" />
-                  {t("nav.home")}
-                </Link>
-                  {/* Video navigation button for mobile drawer */}
-                  <Link href="/videos" className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
-                      pathname === "/videos" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
-                    }`}>
-                          <LayoutGrid className="h-4.5 w-4.5 flex-shrink-0" />
-                          VIDEO
-                        </Link>
+              href="/"
+              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                pathname === "/" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
+              }`}
+            >
+              <Home className="h-4.5 w-4.5 flex-shrink-0" />
+              {t("nav.home")}
+            </Link>
+            {/* Video navigation button for mobile drawer */}
+            <Link
+              href="/videos"
+              className={`flex items-center gap-3 px-3 py-3.5 rounded-xl text-[12.5px] font-semibold transition-all active:scale-98 ${
+                pathname === "/videos" ? "bg-amber-500/10 text-amber-400" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/40"
+              }`}
+            >
+              <LayoutGrid className="h-4.5 w-4.5 flex-shrink-0" />
+              VIDEO
+            </Link>
 
             <div className="pt-2 pb-1">
               <p className="px-3 text-[9.5px] uppercase tracking-[0.2em] text-zinc-550 font-bold">

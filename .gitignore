@@ -12,6 +12,16 @@
 
 # testing
 /coverage
+test-results/
+screenshots/
+scratch/
+temp-env.txt
+e2e_audit_report.md
+scripts/final_production_acceptance.mjs
+scripts/forensic_acceptance_test.mjs
+scripts/playwright_news_engine_test.mjs
+scripts/playwright_persistence_test.mjs
+scripts/playwright_real_browser_test.mjs
 
 # next.js
 /.next/

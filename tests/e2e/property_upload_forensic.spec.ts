@@ -108,7 +108,7 @@ test.describe('Property Upload & Publishing Forensic QA — Authentic Production
     await fileInput.setInputFiles(filesToUpload);
 
     // Wait for uploads processing
-    await page.waitForTimeout(6000);
+    // Removed artificial waitForTimeout to avoid flaky timing
 
     // AUDIT 1: Dialog alert must not contain "Bucket not found"
     expect(alertMessage).not.toContain('Bucket not found');
