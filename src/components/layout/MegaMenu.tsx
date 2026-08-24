@@ -128,6 +128,7 @@ export function MegaMenu({ onClose, onMouseEnter, headerBottom: propHeaderBottom
         { label: "Research Center", labelEn: "Research Center", href: "/research" },
         { label: "Technology", labelEn: "Technology", href: "/technology" },
         { label: "Intelligence Newsroom", labelEn: "Intelligence Newsroom", href: "/newsroom" },
+        { label: "Real Estate News", labelEn: "Real Estate News", href: "/stiri" },
         { label: "Sistem AI & Agenti", labelEn: "AI System & Agents", href: "/ai" },
         { label: "Document Intelligence", labelEn: "Document Intelligence", href: "/document-intelligence" },
         { label: "Cybersecurity", labelEn: "Cybersecurity", href: "/cybersecurity" },
