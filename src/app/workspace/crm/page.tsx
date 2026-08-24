@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { RevenueFeedService } from '@/modules/revenue-feed/services/revenue-feed.service';
 
 export default async function CRMHomePage() {
