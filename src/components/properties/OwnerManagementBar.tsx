@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   Edit,
   Camera,
   Trash2,
-  Eye,
   EyeOff,
-  CheckCircle2,
-  Clock,
-  Archive,
   Shield,
   Loader2,
   X,
@@ -32,7 +27,6 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
   const { language } = useLanguage();
   const router = useRouter();
 
-  const [previewMode, setPreviewMode] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<string>(property?.status || "Published");
   const [statusLoading, setStatusLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -82,7 +76,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
         alert(`Error updating status: ${data.error || "Failed"}`);
       }
     } catch (e: any) {
-      alert(`Error updating status: ${e.message}`);
+      alert(`Error updating status: ${e?.message || "Failed"}`);
     } finally {
       setStatusLoading(false);
     }
@@ -128,11 +122,14 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
       if (res.ok && data.success) {
         setShowQuickEditModal(false);
         router.refresh();
+        if (typeof window !== "undefined") {
+          window.location.reload();
+        }
       } else {
         alert(`Error saving edits: ${data.error || "Failed"}`);
       }
     } catch (err: any) {
-      alert(`Error saving edits: ${err.message}`);
+      alert(`Error saving edits: ${err?.message || "Failed"}`);
     } finally {
       setQuickSaving(false);
     }
@@ -172,31 +169,26 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        router.push("/dashboard/properties");
+        setShowDeleteModal(false);
+        if (typeof window !== "undefined") {
+          window.location.href = "/dashboard/properties";
+        }
       } else {
         alert(`Error deleting property: ${data.error || "Failed"}`);
         setIsDeleting(false);
       }
     } catch (err: any) {
-      alert(`Error deleting property: ${err.message}`);
+      alert(`Error deleting property: ${err?.message || "Failed"}`);
       setIsDeleting(false);
     }
   };
 
-  // Visitor Preview Active floating toggle button
-  if (previewMode) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50 animate-bounce">
-        <button
-          onClick={() => setPreviewMode(false)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-zinc-900/90 hover:bg-zinc-950 text-amber-400 text-xs font-semibold shadow-2xl border border-amber-500/40 backdrop-blur-xl transition-all"
-        >
-          <Shield className="w-4 h-4 text-amber-400" />
-          <span>{language === "ro" ? "Mod Owner Activ — Ieși din Vizitator" : "Owner Mode Active — Exit Preview"}</span>
-        </button>
-      </div>
-    );
-  }
+  const handleVisitorPreview = () => {
+    if (typeof window !== "undefined") {
+      const url = `/proprietati/${property.slug || property.id}?visitor=true`;
+      window.open(url, "_blank");
+    }
+  };
 
   const initialImages = Array.isArray(property.gallery) && property.gallery.length > 0
     ? property.gallery
@@ -204,29 +196,33 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
   return (
     <>
-      {/* Top Sticky Management Bar */}
-      <div className="sticky top-0 z-40 w-full bg-zinc-950/95 border-b border-amber-500/20 shadow-2xl backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      {/* Top Sticky Management Bar - SOLID PREMIUM DARK LUXURY (NO GLASSMORPHISM) */}
+      <div
+        data-testid="owner-management-bar"
+        className="sticky top-0 z-40 w-full bg-[#0f0f11] border-b border-zinc-800 shadow-xl"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
           {/* Title / Badge */}
           <div className="flex items-center gap-3">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-medium tracking-wide">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold tracking-wide">
               <Shield className="w-3.5 h-3.5" />
               <span className="uppercase">{language === "ro" ? "Administrare Proprietate" : "Property Management"}</span>
             </div>
-            <span className="text-zinc-400 text-xs truncate max-w-[200px] sm:max-w-[300px] hidden md:inline">
+            <span className="text-zinc-300 text-xs truncate max-w-[200px] sm:max-w-[300px] hidden md:inline font-medium">
               {property.title}
             </span>
           </div>
 
-          {/* Quick Actions */}
+          {/* Actions */}
           <div className="flex items-center flex-wrap gap-2 text-xs">
             {/* Status Dropdown */}
             <div className="relative">
               <select
+                data-testid="owner-status"
                 value={currentStatus}
                 disabled={statusLoading}
                 onChange={(e) => handleStatusChange(e.target.value)}
-                className="appearance-none bg-zinc-900 border border-zinc-700/60 rounded-xl px-3 py-1.5 pr-7 text-xs text-zinc-200 focus:outline-none focus:border-amber-500/50 cursor-pointer disabled:opacity-50"
+                className="appearance-none bg-[#18181b] border border-zinc-700/60 rounded-lg px-3 py-1.5 pr-7 text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50 cursor-pointer disabled:opacity-50 font-medium"
               >
                 <option value="Published">{language === "ro" ? "🟢 Publicat" : "🟢 Published"}</option>
                 <option value="Draft">{language === "ro" ? "🟡 Ciornă" : "🟡 Draft"}</option>
@@ -238,53 +234,58 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
               <ChevronDown className="w-3.5 h-3.5 text-zinc-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
 
-            {/* Manage Photos Button */}
+            {/* Edit Button */}
             <button
-              onClick={() => setShowPhotosModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/60 text-zinc-200 transition-colors"
-              title={language === "ro" ? "Gestionare poze" : "Manage photos"}
+              data-testid="owner-edit"
+              onClick={() => setShowWizardModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold transition-colors shadow-sm cursor-pointer"
+              title={language === "ro" ? "Editează proprietatea" : "Edit property"}
             >
-              <Camera className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">{language === "ro" ? "Poze" : "Photos"}</span>
+              <Edit className="w-3.5 h-3.5" />
+              <span>{language === "ro" ? "Editează" : "Edit"}</span>
             </button>
 
-            {/* Quick Edit Content Button */}
+            {/* Quick Content Edit Button */}
             <button
+              data-testid="owner-content"
               onClick={() => setShowQuickEditModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/60 text-zinc-200 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181b] hover:bg-zinc-800 border border-zinc-700/60 text-zinc-200 transition-colors cursor-pointer"
               title={language === "ro" ? "Editare rapidă conținut" : "Quick edit content"}
             >
               <FileText className="w-3.5 h-3.5 text-amber-400" />
               <span className="hidden sm:inline">{language === "ro" ? "Conținut" : "Content"}</span>
             </button>
 
-            {/* Full Edit Wizard Link / Modal */}
+            {/* Photos Button */}
             <button
-              onClick={() => setShowWizardModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/90 hover:bg-amber-400 text-black font-semibold transition-all shadow-sm"
-              title={language === "ro" ? "Wizard editare completă" : "Full edit wizard"}
+              data-testid="owner-photos"
+              onClick={() => setShowPhotosModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181b] hover:bg-zinc-800 border border-zinc-700/60 text-zinc-200 transition-colors cursor-pointer"
+              title={language === "ro" ? "Gestionare poze" : "Manage photos"}
             >
-              <Edit className="w-3.5 h-3.5" />
-              <span>{language === "ro" ? "Editează" : "Edit"}</span>
+              <Camera className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">{language === "ro" ? "Poze" : "Photos"}</span>
             </button>
 
             {/* Delete Button */}
             <button
+              data-testid="owner-delete"
               onClick={() => setShowDeleteModal(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-400 transition-colors cursor-pointer"
               title={language === "ro" ? "Șterge proprietatea" : "Delete property"}
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{language === "ro" ? "Șterge" : "Delete"}</span>
             </button>
 
-            {/* View as Visitor Toggle */}
+            {/* Preview / Visitor Button */}
             <button
-              onClick={() => setPreviewMode(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/60 text-zinc-400 hover:text-zinc-200 transition-colors"
+              data-testid="owner-preview"
+              onClick={handleVisitorPreview}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181b] hover:bg-zinc-800 border border-zinc-700/60 text-zinc-300 hover:text-zinc-100 transition-colors cursor-pointer"
               title={language === "ro" ? "Vezi ca vizitator" : "View as Visitor"}
             >
-              <EyeOff className="w-3.5 h-3.5" />
+              <EyeOff className="w-3.5 h-3.5 text-zinc-400" />
               <span className="hidden md:inline">{language === "ro" ? "Vizitator" : "Visitor"}</span>
             </button>
           </div>
@@ -293,11 +294,11 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
       {/* MODAL 1: Photos Management Modal */}
       {showPhotosModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-4xl bg-zinc-950 border border-zinc-800 rounded-3xl p-6 space-y-6 shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-4xl bg-[#0f0f11] border border-zinc-800 rounded-2xl p-6 space-y-6 shadow-2xl relative">
             <button
               onClick={() => setShowPhotosModal(false)}
-              className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-xl bg-zinc-900 border border-zinc-800"
+              className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-lg bg-[#18181b] border border-zinc-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -322,8 +323,14 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
             <div className="flex justify-end pt-4 border-t border-zinc-800">
               <button
-                onClick={() => setShowPhotosModal(false)}
-                className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-all"
+                onClick={() => {
+                  setShowPhotosModal(false);
+                  router.refresh();
+                  if (typeof window !== "undefined") {
+                    window.location.reload();
+                  }
+                }}
+                className="px-6 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold text-xs transition-colors cursor-pointer"
               >
                 {language === "ro" ? "Gata / Închide" : "Done / Close"}
               </button>
@@ -334,11 +341,11 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
       {/* MODAL 2: Quick Content Edit Modal */}
       {showQuickEditModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-3xl bg-zinc-950 border border-zinc-800 rounded-3xl p-6 space-y-6 shadow-2xl relative my-8">
+        <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-3xl bg-[#0f0f11] border border-zinc-800 rounded-2xl p-6 space-y-6 shadow-2xl relative my-8">
             <button
               onClick={() => setShowQuickEditModal(false)}
-              className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-xl bg-zinc-900 border border-zinc-800"
+              className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-lg bg-[#18181b] border border-zinc-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -365,7 +372,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     value={quickForm.title}
                     onChange={(e) => setQuickForm({ ...quickForm, title: e.target.value })}
                     required
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -375,9 +382,9 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <input
                     type="number"
                     value={quickForm.price}
-                    onChange={(e) => setQuickForm({ ...quickForm, price: e.target.value })}
+                    onChange={(e) => setQuickForm({ ...quickForm, price: Number(e.target.value) })}
                     required
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
                 <div className="space-y-1">
@@ -385,7 +392,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <select
                     value={quickForm.currency}
                     onChange={(e) => setQuickForm({ ...quickForm, currency: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   >
                     <option value="EUR">EUR (€)</option>
                     <option value="USD">USD ($)</option>
@@ -399,7 +406,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <select
                     value={quickForm.category}
                     onChange={(e) => setQuickForm({ ...quickForm, category: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   >
                     <option value="Residential">Residential</option>
                     <option value="Commercial">Commercial</option>
@@ -415,7 +422,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <select
                     value={quickForm.listing_type}
                     onChange={(e) => setQuickForm({ ...quickForm, listing_type: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   >
                     <option value="sale">Vânzare / Sale</option>
                     <option value="rent">Închiriere / Rent</option>
@@ -429,7 +436,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     type="text"
                     value={quickForm.city}
                     onChange={(e) => setQuickForm({ ...quickForm, city: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
                 <div className="space-y-1">
@@ -438,7 +445,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     type="text"
                     value={quickForm.neighborhood}
                     onChange={(e) => setQuickForm({ ...quickForm, neighborhood: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -448,8 +455,8 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <input
                     type="number"
                     value={quickForm.usable_area}
-                    onChange={(e) => setQuickForm({ ...quickForm, usable_area: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    onChange={(e) => setQuickForm({ ...quickForm, usable_area: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
                 <div className="space-y-1">
@@ -457,8 +464,8 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <input
                     type="number"
                     value={quickForm.rooms}
-                    onChange={(e) => setQuickForm({ ...quickForm, rooms: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    onChange={(e) => setQuickForm({ ...quickForm, rooms: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -468,8 +475,8 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <input
                     type="number"
                     value={quickForm.bedrooms}
-                    onChange={(e) => setQuickForm({ ...quickForm, bedrooms: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    onChange={(e) => setQuickForm({ ...quickForm, bedrooms: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
                 <div className="space-y-1">
@@ -477,8 +484,8 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                   <input
                     type="number"
                     value={quickForm.bathrooms}
-                    onChange={(e) => setQuickForm({ ...quickForm, bathrooms: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    onChange={(e) => setQuickForm({ ...quickForm, bathrooms: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -490,7 +497,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     value={quickForm.featuresStr}
                     onChange={(e) => setQuickForm({ ...quickForm, featuresStr: e.target.value })}
                     placeholder="Piscina, Parcare, Vedere la mare, Terasa"
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -502,7 +509,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     value={quickForm.video_url}
                     onChange={(e) => setQuickForm({ ...quickForm, video_url: e.target.value })}
                     placeholder="https://www.youtube.com/watch?v=..."
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50"
                   />
                 </div>
 
@@ -513,7 +520,7 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                     rows={4}
                     value={quickForm.description}
                     onChange={(e) => setQuickForm({ ...quickForm, description: e.target.value })}
-                    className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-zinc-100 focus:outline-none focus:border-amber-500/50 resize-y"
+                    className="w-full px-3 py-2 bg-[#18181b] border border-zinc-800 rounded-lg text-xs text-zinc-100 focus:outline-none focus:border-amber-500/50 resize-y"
                   />
                 </div>
               </div>
@@ -522,14 +529,14 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
                 <button
                   type="button"
                   onClick={() => setShowQuickEditModal(false)}
-                  className="px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-medium"
+                  className="px-4 py-2 rounded-lg bg-[#18181b] border border-zinc-800 text-zinc-300 hover:text-white text-xs font-medium cursor-pointer"
                 >
                   {language === "ro" ? "Renunță" : "Cancel"}
                 </button>
                 <button
                   type="submit"
                   disabled={quickSaving}
-                  className="px-6 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs transition-all disabled:opacity-50 flex items-center gap-2"
+                  className="px-6 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold text-xs transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                 >
                   {quickSaving ? (
                     <>
@@ -551,14 +558,14 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
       {/* MODAL 3: Full Wizard Edit Modal */}
       {showWizardModal && (
-        <div className="fixed inset-0 z-50 bg-zinc-950 overflow-y-auto">
-          <div className="sticky top-0 z-50 bg-zinc-900 border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-[#0f0f11] overflow-y-auto">
+          <div className="sticky top-0 z-50 bg-[#18181b] border-b border-zinc-800 px-6 py-4 flex items-center justify-between shadow-md">
             <span className="text-sm font-semibold text-amber-400">
               {language === "ro" ? "Wizard Editare Proprietate" : "Property Edit Wizard"} — {property.title}
             </span>
             <button
               onClick={() => setShowWizardModal(false)}
-              className="p-2 rounded-xl bg-zinc-800 text-zinc-300 hover:text-white"
+              className="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -581,6 +588,9 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
               onSuccess={() => {
                 setShowWizardModal(false);
                 router.refresh();
+                if (typeof window !== "undefined") {
+                  window.location.reload();
+                }
               }}
             />
           </div>
@@ -589,9 +599,9 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
       {/* MODAL 4: Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-zinc-950 border border-rose-500/30 rounded-3xl p-6 space-y-5 shadow-2xl text-center relative">
-            <div className="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-500 flex items-center justify-center mx-auto">
+        <div data-testid="owner-delete-modal" className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#0f0f11] border border-rose-500/30 rounded-2xl p-6 space-y-5 shadow-2xl text-center relative">
+            <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 flex items-center justify-center mx-auto">
               <Trash2 className="w-6 h-6" />
             </div>
 
@@ -608,16 +618,18 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
 
             <div className="flex items-center justify-center gap-3 pt-2">
               <button
+                data-testid="owner-cancel-delete"
                 disabled={isDeleting}
                 onClick={() => setShowDeleteModal(false)}
-                className="px-5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-semibold"
+                className="px-5 py-2.5 rounded-lg bg-[#18181b] border border-zinc-800 text-zinc-300 hover:text-white text-xs font-semibold cursor-pointer"
               >
                 {language === "ro" ? "Anulează" : "Cancel"}
               </button>
               <button
+                data-testid="owner-confirm-delete"
                 disabled={isDeleting}
                 onClick={handleDelete}
-                className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-rose-600/20 disabled:opacity-50"
+                className="px-5 py-2.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-rose-600/20 disabled:opacity-50 cursor-pointer"
               >
                 {isDeleting ? (
                   <>
@@ -638,3 +650,4 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
     </>
   );
 }
+
