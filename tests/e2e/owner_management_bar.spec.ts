@@ -30,6 +30,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     const domain = new URL(baseUrl).hostname;
     const sessionStr = JSON.stringify(authData.session);
 
+    const isHttps = baseUrl.startsWith('https');
     await page.context().addCookies([
       {
         name: 'sb-fcpsafjgjnecdlyqfcid-auth-token',
@@ -37,7 +38,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
         domain: domain.startsWith('localhost') ? 'localhost' : domain,
         path: '/',
         httpOnly: false,
-        secure: false,
+        secure: isHttps,
         sameSite: 'Lax',
       },
     ]);
@@ -199,6 +200,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
 
     // Set session cookies
     const domain = new URL(baseUrl).hostname;
+    const isHttps = baseUrl.startsWith('https');
     await page.context().addCookies([
       {
         name: 'sb-fcpsafjgjnecdlyqfcid-auth-token',
@@ -206,7 +208,7 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
         domain: domain.startsWith('localhost') ? 'localhost' : domain,
         path: '/',
         httpOnly: false,
-        secure: false,
+        secure: isHttps,
         sameSite: 'Lax',
       },
     ]);
