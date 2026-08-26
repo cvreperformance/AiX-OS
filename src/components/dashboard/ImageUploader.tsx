@@ -12,7 +12,7 @@ interface ImageUploaderProps {
   maxImages?: number;
 }
 
-export function ImageUploader({ initialImages = [], onImagesChange, maxImages = 15 }: ImageUploaderProps) {
+export function ImageUploader({ initialImages = [], onImagesChange, maxImages = 20 }: ImageUploaderProps) {
   const { language } = useLanguage();
   const [images, setImages] = useState<{ id: string; url: string; file?: File; uploading?: boolean }[]>(() => {
     return initialImages.map(url => ({
@@ -61,10 +61,17 @@ export function ImageUploader({ initialImages = [], onImagesChange, maxImages = 
   };
 
   const handleFiles = async (files: File[]) => {
+    if (images.length >= maxImages || images.length + files.length > maxImages) {
+      alert(language === "ro" ? `Maxim ${maxImages} fotografii per proprietate.` : `Maximum ${maxImages} photos per property.`);
+    }
+
     const remainingSlots = Math.max(0, maxImages - images.length);
     if (remainingSlots <= 0) return;
 
-    const newImages = files.slice(0, remainingSlots).map(file => ({
+    const filesToUpload = files.slice(0, remainingSlots);
+    if (filesToUpload.length === 0) return;
+
+    const newImages = filesToUpload.map(file => ({
       id: Math.random().toString(36).substring(7),
       url: URL.createObjectURL(file),
       file,
@@ -172,6 +179,11 @@ export function ImageUploader({ initialImages = [], onImagesChange, maxImages = 
         <p className="text-sm font-semibold text-zinc-900">
           {language === "ro" ? "Trage imaginile aici sau apasă pentru a încărca" : "Drag images here or click to upload"}
         </p>
+        <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full">
+          <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400" data-testid="photo-counter">
+            {images.length} / {maxImages} {language === "ro" ? "fotografii" : "photos"}
+          </span>
+        </div>
         <p className="text-xs text-zinc-500 mt-1">
           {language === "ro" ? `Maxim ${maxImages} imagini (JPG, PNG, WebP). Prima imagine este coperta.` : `Max ${maxImages} images (JPG, PNG, WebP). First image is cover.`}
         </p>
@@ -222,6 +234,7 @@ export function ImageUploader({ initialImages = [], onImagesChange, maxImages = 
 
                     <button
                       type="button"
+                      data-testid="remove-photo-btn"
                       onClick={() => removeImage(img.id)}
                       title={language === "ro" ? "Șterge imaginea" : "Delete image"}
                       className="p-1 bg-rose-500 hover:bg-rose-600 text-white rounded-md transition-colors"

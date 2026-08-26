@@ -304,14 +304,19 @@ export function OwnerManagementBar({ property, isOwnerOrAdmin }: OwnerManagement
             </button>
 
             <div className="space-y-1">
-              <h3 className="text-xl font-bold text-zinc-100 flex items-center gap-2">
-                <Camera className="w-5 h-5 text-amber-400" />
-                <span>{language === "ro" ? "Gestionare Galerie Foto" : "Manage Photo Gallery"}</span>
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-zinc-100 flex items-center gap-2">
+                  <Camera className="w-5 h-5 text-amber-400" />
+                  <span>{language === "ro" ? "Gestionare Galerie Foto" : "Manage Photo Gallery"}</span>
+                </h3>
+                <span className="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-mono font-bold text-amber-400" data-testid="owner-photos-counter">
+                  {initialImages.length} / 20 {language === "ro" ? "fotografii" : "photos"}
+                </span>
+              </div>
               <p className="text-xs text-zinc-400">
                 {language === "ro"
-                  ? "Adaugă poze noi, schimbă ordinea, setează poza de copertă sau șterge imaginile nedorite."
-                  : "Upload new photos, reorder, set cover image, or remove unwanted images."}
+                  ? "Adaugă poze noi (maxim 20), schimbă ordinea, setează poza de copertă sau șterge imaginile nedorite."
+                  : "Upload new photos (max 20), reorder, set cover image, or remove unwanted images."}
               </p>
             </div>
 

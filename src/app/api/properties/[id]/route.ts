@@ -97,6 +97,11 @@ export async function PATCH(req: Request, { params }: RouteParams) {
 
     const body = await req.json();
 
+    // Validate max 20 photos per property
+    if (body.gallery && Array.isArray(body.gallery) && body.gallery.length > 20) {
+      return NextResponse.json({ error: "Maximum 20 photos per property." }, { status: 400 });
+    }
+
     // Prevent changing owner_id unless admin
     if (body.owner_id && !isAdmin) {
       delete body.owner_id;

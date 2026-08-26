@@ -81,20 +81,18 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     const initialStatus = await statusSelect.inputValue();
     const targetStatus = initialStatus === 'Draft' ? 'Published' : 'Draft';
 
-    const patchDraftPromise = page.waitForResponse(
-      (resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200
-    );
-    await statusSelect.selectOption(targetStatus);
-    await patchDraftPromise;
+    await Promise.all([
+      page.waitForResponse((resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200),
+      statusSelect.selectOption(targetStatus),
+    ]);
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('[data-testid="owner-status"]')).toHaveValue(targetStatus);
 
-    const patchPubPromise = page.waitForResponse(
-      (resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200
-    );
-    await page.locator('[data-testid="owner-status"]').selectOption(initialStatus);
-    await patchPubPromise;
+    await Promise.all([
+      page.waitForResponse((resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200),
+      page.locator('[data-testid="owner-status"]').selectOption(initialStatus),
+    ]);
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('[data-testid="owner-status"]')).toHaveValue(initialStatus);
@@ -109,11 +107,10 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     await priceInput.fill('996000');
 
     const saveBtn = quickModal.locator('button[type="submit"]');
-    const savePatchPromise1 = page.waitForResponse(
-      (resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200
-    );
-    await saveBtn.click();
-    await savePatchPromise1;
+    await Promise.all([
+      page.waitForResponse((resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200),
+      saveBtn.click(),
+    ]);
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded' });
 
@@ -133,11 +130,10 @@ test.describe('Owner Management Bar — Live End-to-End Verification & Security'
     console.log('[6/6] Restoring original price (1300)...');
     await contentBtn.click();
     await priceInput.fill('1300');
-    const savePatchPromise2 = page.waitForResponse(
-      (resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200
-    );
-    await saveBtn.click();
-    await savePatchPromise2;
+    await Promise.all([
+      page.waitForResponse((resp) => resp.url().includes('/api/properties/') && resp.request().method() === 'PATCH' && resp.status() === 200),
+      saveBtn.click(),
+    ]);
     await page.waitForTimeout(500);
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('body')).toContainText(/1[\s\u00A0\u202F.,]?300/);

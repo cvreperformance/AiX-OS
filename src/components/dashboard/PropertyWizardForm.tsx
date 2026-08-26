@@ -107,6 +107,11 @@ export function PropertyWizardForm({
         setLoading(false);
         return;
       }
+      if (formData.gallery.length > 20) {
+        alert(language === "ro" ? "Maxim 20 fotografii per proprietate." : "Maximum 20 photos per property.");
+        setLoading(false);
+        return;
+      }
     }
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -485,6 +490,7 @@ export function PropertyWizardForm({
               <ImageUploader
                 initialImages={formData.gallery}
                 onImagesChange={(urls) => setFormData(prev => ({ ...prev, gallery: urls }))}
+                maxImages={20}
               />
             </div>
 
