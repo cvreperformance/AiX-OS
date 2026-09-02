@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     canonical: "https://os.cristianvaduva.com/proprietati",
   },
   openGraph: {
-    title: "Property & Investment Hub | AiX OS™",
+    title: "Property & Investment Hub",
     description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
     url: "https://os.cristianvaduva.com/proprietati",
     siteName: "AiX OS™",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Property & Investment Hub | AiX OS™",
+    title: "Property & Investment Hub",
     description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
   },
 };

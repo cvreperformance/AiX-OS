@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     canonical: "https://os.cristianvaduva.com/technology",
   },
   openGraph: {
-    title: "Technology & Developer Hub | AiX OS™",
+    title: "Technology & Developer Hub",
     description:
       "Explore recommended developer tools, automation stacks, open source applications, cybersecurity practices, and AI resources.",
     url: "https://os.cristianvaduva.com/technology",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Technology & Developer Hub | AiX OS™",
+    title: "Technology & Developer Hub",
     description:
       "Explore recommended developer tools, automation stacks, open source applications, cybersecurity practices, and AI resources.",
   },

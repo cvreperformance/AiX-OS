@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     canonical: "https://os.cristianvaduva.com/sitemap",
   },
   openGraph: {
-    title: "Harta Site-ului (Sitemap) | AiX OS™",
+    title: "Harta Site-ului (Sitemap)",
     description: "Harta completă a sistemului decizional AiX OS™.",
     url: "https://os.cristianvaduva.com/sitemap",
     siteName: "AiX OS™",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Harta Site-ului (Sitemap) | AiX OS™",
+    title: "Harta Site-ului (Sitemap)",
     description: "Harta completă a sistemului decizional AiX OS™.",
   },
 };
