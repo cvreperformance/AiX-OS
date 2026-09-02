@@ -7,8 +7,23 @@ import Link from "next/link";
 import { Filter, TrendingUp, MapPin, Globe, Building2, ArrowRight, BarChart3, Gem, Star, Lock, Clock, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Property & Investment Hub | AiX OS™",
+  title: "Property & Investment Hub",
   description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
+  alternates: {
+    canonical: "https://os.cristianvaduva.com/proprietati",
+  },
+  openGraph: {
+    title: "Property & Investment Hub | AiX OS™",
+    description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
+    url: "https://os.cristianvaduva.com/proprietati",
+    siteName: "AiX OS™",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Property & Investment Hub | AiX OS™",
+    description: "Imobiliare Premium, Investiții Globale și Oportunități Exclusive Evaluate cu AiX Score.",
+  },
 };
 
 const PROPERTY_TYPES = ["Toate", "Penthouse", "Vilă", "Apartament", "Studio"];
