@@ -11,11 +11,11 @@ export default function SitemapClientPage() {
 
   const corePages = [
     { href: "/", label: language === "ro" ? "Acasă" : "Home", icon: Home },
+    { href: "/proprietati", label: language === "ro" ? "Proprietăți" : "Properties", icon: Settings },
+    { href: "/stiri", label: "Market Pulse", icon: Shield },
+    { href: "/services", label: language === "ro" ? "Servicii" : "Services", icon: User },
+    { href: "/technology", label: language === "ro" ? "Tehnologie" : "Technology", icon: Brain },
     { href: "/contact", label: language === "ro" ? "Contact" : "Contact", icon: Phone },
-    { href: "/brain", label: "AiX Brain™", icon: Brain },
-    { href: "/dashboard", label: "Dashboard", icon: Settings },
-    { href: "/admin", label: "Admin (Auth Required)", icon: Shield },
-    { href: "/login", label: language === "ro" ? "Autentificare" : "Login", icon: User },
   ];
 
   return (

@@ -51,7 +51,7 @@ export default function TechnologyClient() {
         : "Recommended open-source projects advocating data ownership, zero-knowledge sync, and digital sovereignty.",
       icon: Code,
       category: "Open Source",
-      link: "https://example.com/technology",
+      link: "https://github.com/topics/open-source",
     },
     {
       title: language === "ro" ? "Hardware & Inovație" : "Hardware & Smart Devices",

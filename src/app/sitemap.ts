@@ -1,38 +1,97 @@
 import { MetadataRoute } from "next";
-import { ALL_SERVICES_REGISTRY } from "@/config/services.config";
+import { ALL_SERVICES_REGISTRY } from "../config/services.config";
+import { getProperties } from "../lib/data";
 
-import { headers } from "next/headers";
+export const revalidate = 3600; // Revalidate sitemap hourly
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  let baseUrl = "https://os.cristianvaduva.com";
+  const baseUrl = "https://os.cristianvaduva.com";
+
+  // 1. Core static public routes
+  const staticPublicRoutes = [
+    "",
+    "/proprietati",
+    "/stiri",
+    "/technology",
+    "/sitemap",
+    "/services",
+    "/buyer",
+    "/seller",
+    "/insurance",
+    "/anti-teapa",
+    "/valuation",
+    "/aix-score",
+    "/ai",
+    "/market",
+    "/convenience",
+    "/compare",
+    "/company-search",
+    "/document-intelligence",
+    "/private-wealth",
+    "/home-find",
+    "/videos",
+    "/newsroom",
+    "/yachts",
+    "/private-jets",
+    "/cars",
+    "/concierge",
+    "/privacy",
+    "/cookie-policy",
+    "/cybersecurity",
+    "/romania-property-report",
+    "/despre",
+    "/contact",
+    "/join",
+    "/dezvoltatori",
+    "/agentii",
+    "/research",
+    "/ecosystem",
+    "/learning",
+  ];
+
+  // 2. Service registry public internal routes
+  const serviceRoutes = ALL_SERVICES_REGISTRY
+    .filter((s) => !s.external && s.href && s.href.startsWith("/"))
+    .map((s) => s.href);
+
+  // 3. Dynamic public property routes
+  let propertyRoutes: string[] = [];
   try {
-    const headersList = await headers();
-    const host = headersList.get("host") || headersList.get("x-forwarded-host");
-    if (host) {
-      const protocol = host.includes("localhost") || host.includes("127.0.0.1") ? "http" : "https";
-      baseUrl = `${protocol}://${host}`;
-    }
-  } catch (e) {
-    // ignore outside request context
+    const properties = await getProperties();
+    propertyRoutes = properties
+      .filter((p) => p.slug && p.status === "Published")
+      .map((p) => `/proprietati/${p.slug}`);
+  } catch (err) {
+    console.error("[sitemap] Failed to fetch dynamic properties:", err);
   }
 
-  // Get unique internal routes from service registry
-  const internalRoutes = Array.from(
-    new Set(
-      ALL_SERVICES_REGISTRY.filter((s) => !s.external && s.href.startsWith("/"))
-        .map((s) => s.href)
-    )
-  );
+  // Combine and deduplicate
+  const combined = Array.from(new Set([...staticPublicRoutes, ...serviceRoutes, ...propertyRoutes]));
 
-  // Add the root path
-  const allPaths = ["", ...internalRoutes];
+  // Strict Exclusion list for private/internal/admin/auth/API routes
+  const excludedPatterns = [
+    /^\/admin(\/.*)?$/,
+    /^\/dashboard(\/.*)?$/,
+    /^\/workspace(\/.*)?$/,
+    /^\/api(\/.*)?$/,
+    /^\/login(\/.*)?$/,
+    /^\/forgot-password(\/.*)?$/,
+    /^\/reset-password(\/.*)?$/,
+    /^\/brain(\/.*)?$/,
+    /example\.com/,
+    /localhost/,
+  ];
 
-  const routes = allPaths.map((route) => ({
+  const validPublicRoutes = combined.filter((route) => {
+    return !excludedPatterns.some((pattern) => pattern.test(route));
+  });
+
+  const now = new Date();
+
+  return validPublicRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: route === "" ? 1.0 : 0.8,
+    lastModified: now,
+    changeFrequency: route === "" ? ("daily" as const) : ("weekly" as const),
+    priority: route === "" ? 1.0 : route.startsWith("/proprietati/") ? 0.8 : 0.7,
   }));
-
-  return routes;
 }

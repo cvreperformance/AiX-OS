@@ -286,7 +286,7 @@ export default function JoinPage() {
                         if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                       }}
                       className={`w-full bg-zinc-50/50 border ${fieldErrors.email ? 'border-red-500' : 'border-zinc-200'} rounded-xl py-3 pl-12 pr-4 text-sm text-zinc-900 placeholder-zinc-650 focus:border-amber-500/50 focus:outline-none transition-colors`} 
-                      placeholder="name@example.com"
+                      placeholder="nume@domeniu.ro"
                     />
                   </div>
                   {fieldErrors.email && <p className="text-red-500 text-[10px] mt-0.5">{fieldErrors.email}</p>}
